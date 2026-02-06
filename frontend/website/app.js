@@ -1,0 +1,36 @@
+// Main App Entry Point
+import { ChatWidget } from './components/ChatWidget.js';
+import { Navbar } from './components/NavBar.js';
+import { Forms } from './components/Forms.js';
+import { Animations } from './components/Animations.js';
+import { Gallery } from './components/Gallery.js';
+import { Members } from './components/Members.js';
+
+// Initialize all components when DOM is ready
+document.addEventListener('DOMContentLoaded', () => {
+    // Initialize Navbar
+    const navbar = new Navbar();
+    
+    // Initialize Forms (volunteer, donation, newsletter)
+    const forms = new Forms();
+    
+    // Initialize Animations (scroll effects)
+    const animations = new Animations();
+    
+    // Initialize Gallery (3D carousel with lightbox)
+    const gallery = new Gallery();
+    
+    // Initialize Members (team showcase with pagination)
+    const members = new Members();
+    
+    // Initialize Chat Widget
+    const chatWidget = new ChatWidget({
+        apiUrl: 'https://volunteerwebsite-production.up.railway.app/api/chat',
+        logoPath: 'assets/images/logo.png',
+        botName: 'EM Bot',
+        botDescription: 'Trợ lý tình nguyện',
+        autoOpen: true // Auto open chat on page load
+    });
+    
+    console.log('All components initialized successfully!');
+});

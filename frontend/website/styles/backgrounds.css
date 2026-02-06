@@ -1,0 +1,240 @@
+/* ===================================
+   BACKGROUND IMAGES FOR SECTIONS
+   =================================== */
+
+/* Hero Section with Background Image */
+.hero {
+    position: relative;
+    overflow: hidden;
+}
+
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('../assets/images/backgrounds/hero-bg.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0.3;
+    z-index: 0;
+}
+
+.hero-container {
+    position: relative;
+    z-index: 1;
+}
+
+/* Mission Section with Background (Optional) */
+.mission-section {
+    position: relative;
+    overflow: hidden;
+}
+
+.mission-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('../assets/images/backgrounds/mission-bg.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0.08;
+    z-index: 0;
+}
+
+.mission-section .container {
+    position: relative;
+    z-index: 1;
+}
+
+/* Impact Section with Background (Optional) */
+.impact-section {
+    position: relative;
+    overflow: hidden;
+}
+
+.impact-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('../assets/images/backgrounds/impact-bg.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0.1;
+    z-index: 0;
+}
+
+.impact-section .container {
+    position: relative;
+    z-index: 1;
+}
+
+/* Members Section with Background (Optional) */
+.members-section {
+    position: relative;
+    overflow: hidden;
+}
+
+.members-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('../assets/images/backgrounds/members-bg.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0.08;
+    z-index: 0;
+}
+
+.members-section .container {
+    position: relative;
+    z-index: 1;
+}
+
+/* Activities Section with Background (Optional) */
+.activities-section {
+    position: relative;
+    overflow: hidden;
+}
+
+.activities-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('../assets/images/backgrounds/activities-bg.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0.08;
+    z-index: 0;
+}
+
+.activities-section .container {
+    position: relative;
+    z-index: 1;
+}
+
+/* Donation Section with Background (Optional) */
+.donation-section {
+    position: relative;
+    overflow: hidden;
+}
+
+.donation-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('../assets/images/backgrounds/donation-bg.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0.1;
+    z-index: 0;
+}
+
+.donation-section .container {
+    position: relative;
+    z-index: 1;
+}
+
+/* Testimonials Section with Background (Optional) */
+.testimonials-section {
+    position: relative;
+    overflow: hidden;
+}
+
+.testimonials-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('../assets/images/backgrounds/testimonials-bg.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0.08;
+    z-index: 0;
+}
+
+.testimonials-section .container {
+    position: relative;
+    z-index: 1;
+}
+
+/* Gallery Section with Background (Optional) */
+.gallery-section {
+    position: relative;
+    overflow: hidden;
+}
+
+.gallery-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('../assets/images/backgrounds/gallery-bg.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0.08;
+    z-index: 0;
+}
+
+.gallery-section .container {
+    position: relative;
+    z-index: 1;
+}
+
+/* 
+   USAGE NOTES:
+   
+   1. Đặt ảnh background vào: assets/images/backgrounds/
+   
+   2. Tên file ảnh:
+      - hero-bg.jpg (cho Hero Section)
+      - mission-bg.jpg (cho Mission Section)
+      - impact-bg.jpg (cho Impact Section)
+      - members-bg.jpg (cho Members Section)
+      - activities-bg.jpg (cho Activities Section)
+      - donation-bg.jpg (cho Donation Section)
+      - testimonials-bg.jpg (cho Testimonials Section)
+      - gallery-bg.jpg (cho Gallery Section)
+   
+   3. Điều chỉnh opacity:
+      - Hero: 0.15 (15% - nhìn thấy rõ hơn)
+      - Các section khác: 0.08-0.1 (8-10% - mờ hơn)
+      
+   4. Nếu không muốn background cho section nào:
+      - Xóa hoặc comment phần CSS của section đó
+      - Hoặc xóa file ảnh tương ứng (sẽ không hiển thị gì)
+   
+   5. Nếu muốn thay đổi opacity:
+      - Sửa giá trị opacity trong ::before
+      - Giá trị cao hơn = ảnh rõ hơn
+      - Giá trị thấp hơn = ảnh mờ hơn
+*/

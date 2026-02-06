@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dự Án Tình Nguyện - Kết Nối Yêu Thương</title>
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Marked.js for Markdown parsing -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="styles/variables.css">
+    <link rel="stylesheet" href="styles/backgrounds.css">
+    <link rel="stylesheet" href="styles/navbar.css">
+    <link rel="stylesheet" href="styles/sections.css">
+    <link rel="stylesheet" href="styles/forms.css">
+    <link rel="stylesheet" href="styles/footer.css">
+    <link rel="stylesheet" href="styles/gallery.css">
+    <link rel="stylesheet" href="styles/members.css">
+    <link rel="stylesheet" href="styles/chatWidget.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <div id="navbarContainer"></div>
+
+    <div class="page-wrapper">
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-container">
+                <h1 class="hero-title">DỰ ÁN CHO EM</h1>
+                <p class="hero-subtitle">
+                    <strong>Hành trình mang yêu thương đến những em nhỏ vùng khó khăn!</strong>
+                    <br> 
+                </p>
+                <div class="hero-cta">
+                    <a href="#tinh-nguyen" class="btn btn-primary">Đăng Ký Tình Nguyện</a>
+                    <a href="#quyen-gop" class="btn btn-secondary">Quyên Góp Ngay</a>
+                    <a href="#hoat-dong" class="btn btn-outline">Tìm Hiểu Thêm</a>
+                </div>
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <span class="stat-number">20+</span>
+                        <span class="stat-label">Tình Nguyện Viên</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">2+</span>
+                        <span class="stat-label">Dự Án Hoàn Thành</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">200+</span>
+                        <span class="stat-label">Người Được Hỗ Trợ</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">2+</span>
+                        <span class="stat-label">Đối Tác</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- Members Section -->
+        <section id="thanh-vien" class="members-section">
+            <div class="container">
+                <h2 class="section-title">Chúng Mình Là Ai?</h2>
+                <p class="section-subtitle">
+                    <strong>Chúng mình là một nhóm những người trẻ mang trong mình khát khao san sẻ yêu thương, trao gửi tri thức đến những em nhỏ có hoàn cảnh khó khăn trên khắp đất nước.</strong> 
+                </p>
+                
+                <!-- Members Grid -->
+                <div class="members-grid">
+                    <!-- Members will be loaded dynamically by Members.js -->
+                </div>
+                
+                <!-- Navigation -->
+                <div class="members-navigation">
+                    <button class="members-nav-btn" id="membersPrevBtn" aria-label="Previous">‹</button>
+                    <span class="members-page-info" id="membersPageInfo">1 / 1</span>
+                    <button class="members-nav-btn" id="membersNextBtn" aria-label="Next">›</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Mission Section -->
+        <section id="gioi-thieu" class="mission-section">
+            <div class="container">
+                <h2 class="section-title">Sứ Mệnh Của Chúng Mình</h2>
+                <p class="section-subtitle">
+                    Cái tên <strong>DỰ ÁN CHO EM</strong> không chỉ nói về các em nhỏ mà còn mang ý nghĩa đặc biệt -  một hành trình truyền tải kiến thức, mang đến những buổi học và hoạt động ý nghĩa, giúp các em nhỏ có thêm cơ hội tiếp cận với giáo dục, đặc biệt là tiếng Anh.
+                    <br>Với niềm tin rằng tri thức có thể thay đổi cuộc đời, chúng mình muốn mang những buổi học bổ ích, những câu chuyện truyền cảm hứng, và quan trọng nhất là sự quan tâm thật lòng đến các em nhỏ ở khắp mọi miền tổ quốc.
+                </p>
+                <div class="mission-content">
+                    <div class="mission-card fade-in">
+                        <div class="mission-icon">🎯</div>
+                        <h3>Tri Thức</h3>
+                        <p>
+                            Giáo dục là chìa khóa mở ra tương lai - Mỗi buổi học không chỉ là những con chữ, mà còn là cơ hội để các em tự tin hơn, dám ước mơ và dám theo đuổi.
+                        </p>
+                    </div>
+                    <div class="mission-card fade-in">
+                        <div class="mission-icon">🤝</div>
+                        <h3>Truyền Cảm Hứng</h3>
+                        <p>
+                            Ai cũng có thể trở thành người truyền cảm hứng - Không cần phải là giáo viên, chuyên gia, chỉ cần một trái tim sẵn sàng chia sẻ, bạn cũng có thể mang đến sự thay đổi cho các em nhỏ.
+                        </p>
+                    </div>
+                    <div class="mission-card fade-in">
+                        <div class="mission-icon">💡</div>
+                        <h3>Cho Đi</h3>
+                        <p>
+                            Hành trình này không chỉ dành cho các em - mà còn dành cho chúng ta - Khi cho đi, chúng mình cũng nhận lại rất nhiều: niềm vui, sự trưởng thành và những bài học ý nghĩa từ chính các em.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Impact Section -->
+        <section class="impact-section">
+            <div class="container">
+                <h2 class="section-title">Thành Quả Của Chúng Mình</h2>
+                <p class="section-subtitle">
+                    Những con số minh chứng cho hiệu quả của các hoạt động tình nguyện
+                </p>
+                <div class="impact-grid">
+                    <div class="impact-card">
+                        <span class="impact-number">2+</span>
+                        <span class="impact-label">Chuyến Đi Tình Nguyện</span>
+                    </div>
+                    <div class="impact-card">
+                        <span class="impact-number">60+</span>
+                        <span class="impact-label">Suất Học Bổng</span>
+                    </div>
+                    <div class="impact-card">
+                        <span class="impact-number">200+</span>
+                        <span class="impact-label">Phần Quà Trao Tặng</span>
+                    </div>
+                    <div class="impact-card">
+                        <span class="impact-number">24+</span>
+                        <span class="impact-label">Giờ Học Vui Vẻ</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Activities Section -->
+        <section id="hoat-dong" class="activities-section">
+            <div class="container">
+                <h2 class="section-title">Hoạt Động Nổi Bật</h2>
+                <p class="section-subtitle">
+                    Các chương trình và hoạt động đang triển khai và sắp diễn ra
+                </p>
+                <div class="activities-grid">
+                    <div class="activity-card">
+                        <div class="activity-image">
+                            <img src="assets/images/projects/backan.jpg" 
+                                alt="Thắp Sáng Ước Mơ"
+                                onerror="this.src='assets/images/projects/default.jpg'">
+                        </div>
+                        <div class="activity-content">
+                            <h3 class="activity-title">Hành Trình Đầu Tiên</h3>
+                            <div class="activity-meta">
+                                <span>📍 Bắc Kạn</span>
+                                <span>📅 15-16/03/2025</span>
+                            </div>
+                            <p class="activity-description">
+                                Trong chuyến đi đầu tiên của EM, chúng mình đã mang đến - và cũng mang về thật nhiều điều. Đó là những nụ cười rạng rỡ của các em, là những ánh mắt háo hức trong từng tiết học, những cái nắm tay đầy yêu thương. Và hơn hết, là sự biết ơn từ tận đáy lòng với tất cả những ai đã đồng hành cùng dự án
+                            </p>
+                            <a href="#tinh-nguyen" class="btn btn-primary">Tham Gia</a>
+                        </div>
+                    </div>
+                    <div class="activity-card">
+                        <div class="activity-image">
+                            <img src="assets/images/projects/yty.jpg" 
+                                alt="Khám Bệnh Từ Thiện"
+                                onerror="this.src='assets/images/projects/default.jpg'">
+                        </div>
+                        <div class="activity-content">
+                            <h3 class="activity-title">Noel Cho Em</h3>
+                            <div class="activity-meta">
+                                <span>📍 Lào Cai</span>
+                                <span>📅 5-7/12/2025</span>
+                            </div>
+                            <p class="activity-description">
+                                Giáng sinh luôn là mùa của những điều ấm áp, những lời chúc nhỏ bé và những điều ước được trao đi bằng tất cả sự chân thành.
+                                Và trong dự án lần này, chúng mình muốn trở thành “ông già Noel” đặc biệt - mang đến cho các em không chỉ quà tặng, mà cả niềm vui, sự tò mò, tiếng cười và những kỷ niệm đẹp đầu đời.
+                            </p>
+                            <a href="#tinh-nguyen" class="btn btn-primary">Tham Gia</a>
+                        </div>
+                    </div>
+                    <div class="activity-card">
+                        <div class="activity-image">
+                            <img src="assets/images/projects/dienbien.jpg" 
+                                alt="Mái Ấm Tình Thương"
+                                onerror="this.src='assets/images/projects/default.jpg'">
+                        </div>
+                        <div class="activity-content">
+                            <h3 class="activity-title">Sự Kiện Sắp Diễn Ra</h3>
+                            <div class="activity-meta">
+                                <span>📍 Điện Biên</span>
+                                <span>📅 ??/??/2026</span>
+                            </div>
+                            <p class="activity-description">
+                                Đang Cập Nhật...
+                            </p>
+                            <a href="#tinh-nguyen" class="btn btn-primary">Tham Gia</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Volunteer Section -->
+        <section id="tinh-nguyen" class="volunteer-section">
+            <div class="container">
+                <h2 class="section-title">Bạn sẵn sàng dành một phần tuổi trẻ để tạo nên điều ý nghĩa?</h2>
+                <p class="section-subtitle">
+                    <strong>Chúng mình đang tìm kiếm những người đồng đội mới - những bạn trẻ nhiệt huyết, sẵn sàng đồng hành cùng dự án trong các hoạt động tổ chức, hỗ trợ và lan tỏa yêu thương đến các em.</strong>
+                </p>
+                <div class="volunteer-content">
+                    <div class="volunteer-info">
+                        <h3>Bạn sẽ nhận được gì khi tham gia?</h3>
+                        <p>
+                            Trở thành tình nguyện viên không chỉ giúp bạn đóng góp cho cộng đồng 
+                            mà còn mang lại nhiều giá trị cho bản thân.
+                        </p>
+                        <ul class="volunteer-benefits">
+                            <li>Trải nghiệm một hành trình ý nghĩa, kết nối với cộng đồng.</li>
+                            <li>Mở rộng mạng lưới quan hệ xã hội</li>
+                            <li>Cơ hội làm việc nhóm, rèn kỹ năng tổ chức, quản lý thời gian.</li>
+                            <li>Được gặp gỡ những con người giàu năng lượng, đầy cảm hứng.</li>
+                            <li>Cơ hội phát triển bản thân và nghề nghiệp</li>
+                            <li>Tích lũy thêm những kỷ niệm tuổi trẻ đáng nhớ.</li>
+                        </ul>
+                        <a href="#gioi-thieu" class="btn btn-secondary";">Xem Thêm Về Chúng Tôi</a>
+                    </div>
+                    <div class="volunteer-form">
+                        <h2 style="margin-bottom: var(--space-20); color: var(--color-text); text-align: center;">Đăng Ký Ngay</h2>
+                        <div style="text-align: center; padding: var(--space-48) var(--space-24);">
+                            <div style="margin-bottom: var(--space-24);">
+                                <img src="assets/images/volunteer-registration.png" 
+                                    alt="Đăng ký tình nguyện" 
+                                    style="max-width: 300px; width: 100%; opacity: 0.8; border-radius: 10px; border-style: solid; border-width: 2px; border-color: black;"
+                                    onerror="this.style.display='none'">
+                            </div>
+                            <p style="color: black; margin-bottom: var(--space-24); line-height: 1.6;">
+                                <br> Hãy để tuổi trẻ của bạn được ghi dấu ở một hành trình đầy yêu thương cùng Dự án Cho Em nhé.
+                            </p>
+                            <a href="https://forms.gle/1uepUDGaWpRv8qoRA" 
+                            target="_blank" 
+                            class="btn btn-primary" 
+                            style="padding: var(--space-16) var(--space-48); font-size: 18px;">
+                                📝 Điền Form Đăng Ký
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Donation Section -->
+        <section id="quyen-gop" class="donation-section">
+            <div class="container">
+                <h2 class="section-title" style="color: var(--color-text);">Quyên Góp Ủng Hộ</h2>
+                <p class="section-subtitle" style="color: var(--color-text-secondary);">
+                    Mỗi đóng góp của bạn đều tạo nên sự khác biệt lớn cho cộng đồng. Hãy cùng chúng mình viết tiếp câu chuyện đẹp này bằng cách chung tay đóng góp cho các dự án sắp tới của EM.
+                </p>
+                
+                <div class="donation-cards-wrapper">
+                    <!-- Card Chuyển Khoản -->
+                    <div class="donation-card donation-card-transfer">
+                        <div class="donation-card-header">
+                            <span class="donation-card-icon">🏦</span>
+                            <h3>Ủng Hộ Qua Chuyển Khoản</h3>
+                        </div>
+                        <div class="donation-card-content">
+                            <div class="bank-info">
+                                <div class="bank-info-item">
+                                    <span class="bank-label">STK thiện nguyện:</span>
+                                    <span class="bank-value">9999 5521 44</span>
+                                </div>
+                                <div class="bank-info-item">
+                                    <span class="bank-label">Ngân hàng:</span>
+                                    <span class="bank-value">Techcombank</span>
+                                </div>
+                                <div class="bank-info-item">
+                                    <span class="bank-label">Nội dung ủng hộ:</span>
+                                    <span class="bank-value highlight">Tên + Ủng hộ dự án Trăng cho Em</span>
+                                </div>
+                                <div class="bank-info-item">
+                                    <span class="bank-label">Chủ tài khoản:</span>
+                                    <span class="bank-value">DAO VIET THANH</span>
+                                </div>
+                            </div>
+                            <div class="qr-code-wrapper">
+                                <img src="assets/images/qr.jpg" alt="QR Code Chuyển Khoản" class="qr-code-image" id="qrTrigger">
+                                <p class="qr-caption">Quét mã QR để chuyển khoản nhanh<br><small>(Click để phóng to)</small></p>
+                            </div>
+                        </div>
+                        <div class="donation-disclaimer">
+                            <em>Một "hóa đơn" có thể nhỏ bé, là một cuốn vở mới tinh, hay hộp bút màu cho em vẽ tiếp ước mơ, hay chiếc lồng đèn nhỏ sáng rực nơi góc bàn. Hãy quét mã QR và "thanh toán giấc mơ", để Trung Thu nơi lưng chừng núi thêm tròn đầy, để con đường học chữ của các em sáng hơn dưới ánh trăng và tình thương!</em>
+                        </div>
+                    </div>
+                    
+                    <!-- Card Ủng Hộ Vật Chất -->
+                    <div class="donation-card donation-card-materials">
+                        <div class="donation-card-header">
+                            <span class="donation-card-icon">🎁</span>
+                            <h3>Ủng Hộ Vật Chất</h3>
+                        </div>
+                        <div class="donation-card-content">
+                            <p class="materials-description"><strong>Ngoài việc ủng hộ tài chính, bạn có thể ủng hộ đồ dùng học tập và đồ ăn cho các bé bằng các vật phẩm sau:</strong></p>
+                            <div class="materials-grid">
+                                <div class="material-item">
+                                    <div class="material-image-wrapper">
+                                        <img src="assets/images/book.jpg" alt="Sách vở" class="material-image">
+                                    </div>
+                                    <span class="material-name">Sách vở</span>
+                                </div>
+                                <div class="material-item">
+                                    <div class="material-image-wrapper">
+                                        <img src="assets/images/pen.jpg" alt="Bút" class="material-image">
+                                    </div>
+                                    <span class="material-name">Bút chì</span>
+                                </div>
+                                <div class="material-item">
+                                    <div class="material-image-wrapper">
+                                        <img src="assets/images/pen2.jpg" alt="Bút mực" class="material-image">
+                                    </div>
+                                    <span class="material-name">Bút mực</span>
+                                </div>
+                                <div class="material-item">
+                                    <div class="material-image-wrapper">
+                                        <img src="assets/images/ruler.jpg" alt="Thước" class="material-image">
+                                    </div>
+                                    <span class="material-name">Thước</span>
+                                </div>
+                                <div class="material-item">
+                                    <div class="material-image-wrapper">
+                                        <img src="assets/images/food.jpg" alt="Đồ ăn" class="material-image">
+                                    </div>
+                                    <span class="material-name">Đồ ăn</span>
+                                </div>
+                                <div class="material-item">
+                                    <div class="material-image-wrapper">
+                                        <img src="assets/images/drink.jpg" alt="Nước uống" class="material-image">
+                                    </div>
+                                    <span class="material-name">Nước uống</span>
+                                </div>
+                            </div>
+                            <p class="materials-contact">Liên hệ: <a href="tel:0123456789">0123 456 789</a> để được hướng dẫn gửi đồ ủng hộ</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Testimonials Section -->
+        <section class="testimonials-section">
+            <div class="container">
+                <h2 class="section-title">Câu Chuyện Tình Nguyện</h2>
+                <p class="section-subtitle">
+                    Chia sẻ từ các tình nguyện viên đã tham gia dự án
+                </p>
+                <div class="testimonials-grid">
+                    <div class="testimonial-card">
+                        <p class="testimonial-text">
+                            "Tham gia hoạt động tình nguyện đã thay đổi cuộc đời tôi. 
+                            Tôi đã học được nhiều điều ý nghĩa và tìm thấy mục đích sống của mình."
+                        </p>
+                        <div class="testimonial-author">
+                            <div class="author-avatar">AN</div>
+                            <div class="author-info">
+                                <div class="author-name">Đào Việt Thanh</div>
+                                <div class="author-role">Tình Nguyện Viên</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-card">
+                        <p class="testimonial-text">
+                            "Các anh chị đã giúp gia đình tôi vượt qua khó khăn. 
+                            Con tôi giờ có thể đi học và có cuộc sống tốt hơn."
+                        </p>
+                        <div class="testimonial-author">
+                            <div class="author-avatar">HM</div>
+                            <div class="author-info">
+                                <div class="author-name">Đào Quý Dương</div>
+                                <div class="author-role">Tình Nguyện Viên</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-card">
+                        <p class="testimonial-text">
+                            "Môi trường làm việc tuyệt vời, mọi người đều nhiệt tình và tận tâm. 
+                            Tôi rất tự hào được là một phần của đội ngũ này."
+                        </p>
+                        <div class="testimonial-author">
+                            <div class="author-avatar">MB</div>
+                            <div class="author-info">
+                                <div class="author-name">Minh Thư</div>
+                                <div class="author-role">Tình Nguyện Viên</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Gallery Section -->
+        <section class="gallery-section">
+            <div class="container">
+                <h2 class="section-title">Khoảnh Khắc Ý Nghĩa</h2>
+                <p class="section-subtitle">
+                    Hãy cùng dừng lại một chút để ngắm nhìn những thước phim, nước ảnh đầy cảm xúc từ các chuyến đi tình nguyện của chúng mình.
+                </p>
+                
+                <!-- 3D Carousel -->
+                <div class="gallery-carousel">
+                    <div class="carousel-container" id="carouselContainer">
+                        <!-- Images will be loaded dynamically -->
+                    </div>
+                    
+                    <!-- Navigation -->
+                    <button class="carousel-btn prev" id="prevBtn" aria-label="Previous">‹</button>
+                    <button class="carousel-btn next" id="nextBtn" aria-label="Next">›</button>
+                    
+                    <!-- Controls -->
+                    <div class="carousel-controls">
+                        <button class="control-btn" id="playPauseBtn" aria-label="Play/Pause">
+                            <span class="play-icon">▶</span>
+                            <span class="pause-icon" style="display: none;">❚❚</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Lightbox -->
+        <div class="lightbox" id="lightbox">
+            <button class="lightbox-close" id="lightboxClose" aria-label="Close">✕</button>
+            <button class="lightbox-prev" id="lightboxPrev" aria-label="Previous">‹</button>
+            <button class="lightbox-next" id="lightboxNext" aria-label="Next">›</button>
+            <img class="lightbox-image" id="lightboxImage" src="" alt="Gallery image">
+            <div class="lightbox-caption" id="lightboxCaption"></div>
+        </div>
+
+
+        <!-- Partners Section -->
+        <section class="partners-section"> 
+            <div class="container">
+                <h2 class="section-title">Những Nhà Tài Trợ Của Dự Án Cho Em</h2>
+                <p class="section-subtitle">
+                    EM xin cảm ơn sự đồng hành của các nhà tài trợ - người bạn đồng hành tận tâm sẽ cùng chúng mình vững bước trên hành trình mang đến những giá trị tốt đẹp cho cộng đồng!
+                </p>
+                <div class="partners-grid">
+                    <div class="partner-card">
+                        <div class="partner-logo">
+                            <img src="assets/images/sponsors/ieltshieuminh.jpg" alt="IELTS Hieu Minh" />
+                        </div>
+                        <p class="partner-desc">IELTS Hieu Minh<br>IELTS Hiếu Minh hướng đến xây dựng các lớp học đơn giản mà hiệu quả, kỷ luật nhưng vẫn vui vẻ, luôn sẵn sàng đồng hành với các bạn trên con đường chinh phục IELTS.
+                        <br>👉 Kể từ tháng 9/2025, IELTS Hiếu Minh chính thức trở thành đối tác đăng ký thi của cả hai đơn vị đồng sở hữu kỳ thi IELTS - BC và IDP.</p>
+                    </div>
+                    <div class="partner-card">
+                        <div class="partner-logo">
+                            <img src="assets/images/sponsors/placeholder.jpg" alt="Nhà tài trợ 2" />
+                        </div>
+                        <p class="partner-desc">Nhà tài trợ 2<br>Đang cập nhật...</p>
+                    </div>  
+                    <div class="partner-card">
+                        <div class="partner-logo">
+                            <img src="assets/images/sponsors/placeholder.jpg" alt="Nhà tài trợ 3" />
+                        </div>
+                        <p class="partner-desc">Nhà tài trợ 3<br>Đang cập nhật...</p>
+                    </div>  
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer id="lien-he" class="footer">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Về Chúng Tôi</h4>
+                    <p>
+                        Dự án tình nguyện cam kết mang lại những thay đổi tích cực 
+                        cho cộng đồng thông qua các hoạt động ý nghĩa và bền vững.
+                    </p>
+                    <div class="social-links">
+                        <a href="https://www.facebook.com/info.duanchoem" target="_blank" class="social-link" aria-label="Facebook">
+                            <img src="assets/images/facebook.png" alt="Facebook">
+                        </a>
+                        <a href="https://www.tiktok.com/@hanhtrinh.choem?lang=en" target="_blank" class="social-link" aria-label="TikTok">
+                            <img src="assets/images/tiktok.png" alt="TikTok">
+                        </a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>Liên Hệ</h4>
+                    <p>📞 Hotline: 0123 456 789</p>
+                    <p>✉️ Email: info.duanem@gmail.com</p>
+                    <p>⏰ Thứ 2 - Chủ Nhật: 8:00 - 22:00</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Liên Kết Nhanh</h4>
+                    <a href="#gioi-thieu">Giới Thiệu</a>
+                    <a href="#hoat-dong">Hoạt Động</a>
+                    <a href="#tinh-nguyen">Tình Nguyện</a>
+                    <a href="#quyen-gop">Quyên Góp</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 EM Volunteer Project. All rights reserved.</p>
+            </div>
+        </footer>
+    </div>
+
+
+    <!-- QR Code Lightbox (Full Page Overlay) -->
+    <div class="qr-lightbox" id="qrLightbox">
+        <div class="qr-lightbox-content">
+            <button class="qr-lightbox-close" id="qrLightboxClose" aria-label="Đóng">✕</button>
+            <img src="assets/images/qr.jpg" alt="QR Code Chuyển Khoản" class="qr-lightbox-image">
+            <div class="qr-lightbox-info">
+                <h3>Quét mã để chuyển khoản</h3>
+                <p><strong>STK:</strong> 9999 5521 44</p>
+                <p><strong>Ngân hàng:</strong> Techcombank</p>
+                <p><strong>Chủ TK:</strong> DAO VIET THANH</p>
+                <p class="qr-lightbox-note">Nội dung: <em>Tên + Ủng hộ dự án Trăng cho Em</em></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chat Widget Container -->
+    <div id="chatWidgetContainer"></div>
+
+    <!-- Scripts -->
+    <script type="module" src="app.js"></script>
+    
+    <!-- QR Lightbox Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const qrTrigger = document.getElementById('qrTrigger');
+            const qrLightbox = document.getElementById('qrLightbox');
+            const qrLightboxClose = document.getElementById('qrLightboxClose');
+            
+            // Open lightbox
+            if (qrTrigger) {
+                qrTrigger.addEventListener('click', function() {
+                    qrLightbox.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                });
+            }
+            
+            // Close lightbox - button
+            if (qrLightboxClose) {
+                qrLightboxClose.addEventListener('click', function() {
+                    qrLightbox.classList.remove('active');
+                    document.body.style.overflow = '';
+                });
+            }
+            
+            // Close lightbox - click outside
+            if (qrLightbox) {
+                qrLightbox.addEventListener('click', function(e) {
+                    if (e.target === qrLightbox) {
+                        qrLightbox.classList.remove('active');
+                        document.body.style.overflow = '';
+                    }
+                });
+            }
+            
+            // Close lightbox - ESC key
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && qrLightbox.classList.contains('active')) {
+                    qrLightbox.classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

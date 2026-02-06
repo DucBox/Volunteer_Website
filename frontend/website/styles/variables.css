@@ -1,0 +1,131 @@
+/* CSS Variables - Design Tokens */
+:root {
+    /* Colors - Base */
+    --color-white: rgba(255, 255, 255, 1);
+    --color-cream-50: rgba(252, 252, 249, 1);
+    --color-cream-100: rgba(255, 255, 253, 1);
+    --color-gray-200: rgba(245, 245, 245, 1);
+    --color-gray-300: rgba(167, 169, 169, 1);
+    --color-slate-500: rgba(98, 108, 113, 1);
+    --color-brown-600: rgba(94, 82, 64, 1);
+    --color-charcoal-700: rgba(31, 33, 33, 1);
+    --color-charcoal-800: rgba(38, 40, 40, 1);
+    --color-teal-300: rgba(50, 184, 198, 1);
+    --color-teal-500: rgba(33, 128, 141, 1);
+    --color-teal-600: rgba(29, 116, 128, 1);
+    --color-teal-700: rgba(26, 104, 115, 1);
+    --color-orange-400: rgba(230, 129, 97, 1);
+    --color-orange-500: rgba(168, 75, 47, 1);
+    
+    --color-brown-600-rgb: 94, 82, 64;
+    --color-teal-500-rgb: 33, 128, 141;
+    
+    /* Warm & Humanitarian Color Palette */
+    --color-primary: #E67E50;
+    --color-primary-hover: #D66B3D;
+    --color-primary-active: #C45A2A;
+    --color-secondary: #4A9B8E;
+    --color-secondary-hover: #3D857A;
+    --color-accent: #F4A460;
+    --color-warm-bg: #FFF8F0;
+    --color-warm-light: #FFF5E6;
+    
+    /* Semantic Colors */
+    --color-background: var(--color-cream-50);
+    --color-surface: var(--color-cream-100);
+    --color-text: var(--color-charcoal-700);
+    --color-text-secondary: var(--color-slate-500);
+    --color-border: rgba(var(--color-brown-600-rgb), 0.2);
+    --color-card-border: rgba(var(--color-brown-600-rgb), 0.12);
+    
+    /* Typography */
+    --font-family-base: 'Segoe UI', 'Arial', sans-serif;
+    
+    /* Spacing */
+    --space-8: 8px;
+    --space-12: 12px;
+    --space-16: 16px;
+    --space-20: 20px;
+    --space-24: 24px;
+    --space-32: 32px;
+    --space-48: 48px;
+    --space-64: 64px;
+    
+    /* Border Radius */
+    --radius-base: 8px;
+    --radius-md: 10px;
+    --radius-lg: 12px;
+    
+    /* Shadows */
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --color-background: var(--color-charcoal-700);
+        --color-surface: var(--color-charcoal-800);
+        --color-text: var(--color-gray-200);
+        --color-text-secondary: rgba(167, 169, 169, 0.7);
+        --color-warm-bg: rgba(230, 126, 80, 0.1);
+        --color-warm-light: rgba(230, 126, 80, 0.05);
+    }
+}
+
+/* Global Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-family-base);
+    line-height: 1.6;
+    color: var(--color-text);
+    background-color: var(--color-background);
+    overflow-x: hidden;
+}
+
+/* Accessibility */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}
+
+:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+}
+
+/* Container */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 var(--space-24);
+}
+
+/* Common Animations */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in {
+    animation: fadeInUp 0.6s ease-out;
+}

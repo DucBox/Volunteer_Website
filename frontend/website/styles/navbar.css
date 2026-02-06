@@ -1,0 +1,157 @@
+/* Navbar Styles */
+.navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    background-color: rgb(239, 238, 244);
+    box-shadow: var(--shadow-sm);
+    border-bottom: 1px solid var(--color-card-border);
+}
+
+.page-wrapper {
+  padding-top: 60px; /* Chiều cao navbar, test và chỉnh */
+}
+
+
+.nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: var(--space-16) var(--space-24);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--color-primary);
+    display: flex;
+    align-items: center;
+    gap: var(--space-12);
+    text-decoration: none;
+}
+
+.logo-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 10%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    object-fit: contain;
+}
+
+.nav-menu {
+    display: flex;
+    gap: var(--space-32);
+    list-style: none;
+    align-items: center;
+}
+
+.nav-link {
+    color: var(--color-text);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s;
+    position: relative;
+}
+
+.nav-link:hover {
+    color: var(--color-primary);
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: var(--color-primary);
+    transition: width 0.3s;
+}
+
+.nav-link:hover::after {
+    width: 100%;
+}
+
+/* Quyên góp giống link, nhưng đậm hơn một chút */
+.btn-donate-nav {
+    color: var(--color-text);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s;
+    position: relative;
+}
+
+.btn-donate-nav:hover {
+    color: var(--color-primary-hover);
+}
+
+
+.btn-donate-nav::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: var(--color-primary);
+    transition: width 0.3s;
+}
+
+.btn-donate-nav:hover::after {
+    width: 100%;
+}
+
+/* Mobile Menu Toggle */
+.menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: var(--color-text);
+}
+
+/* Navbar Scroll Effect */
+.navbar.scrolled {
+    box-shadow: var(--shadow-md);  /* shadow đậm hơn khi scroll [web:42][web:48] */
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .menu-toggle {
+        display: block;
+    }
+
+    .nav-menu {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background-color: var(--color-surface);
+        flex-direction: column;
+        padding: var(--space-20);
+        box-shadow: var(--shadow-md);
+    }
+
+    .nav-menu.active {
+        display: flex;
+    }
+
+    .nav-menu li {
+        width: 100%;
+        text-align: center;
+    }
+
+    .btn-donate-nav {
+        display: block;
+        width: 100%;
+        text-align: center;
+    }
+}
