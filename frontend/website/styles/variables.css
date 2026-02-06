@@ -62,7 +62,7 @@
     --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
 }
 
-/* Dark Mode Support */
+/* Dark Mode Support
 @media (prefers-color-scheme: dark) {
     :root {
         --color-background: var(--color-charcoal-700);
@@ -72,7 +72,7 @@
         --color-warm-bg: rgba(230, 126, 80, 0.1);
         --color-warm-light: rgba(230, 126, 80, 0.05);
     }
-}
+} */
 
 /* Global Reset */
 * {
