@@ -46,7 +46,7 @@ export class Members {
                 quote: 'Tuổi trẻ vất vả một chút.'
             },
             {
-                image: 'assets/images/members/thảo.jpg',
+                image: 'assets/images/members/thao.jpg',
                 role: 'Co-Founder',
                 name: 'Tạ Thanh Thảo',
                 info: 'Cựu Sinh viên khoa Tiếng Anh, trường ĐHSP Hà Nội. Đồng sáng lập và chịu trách nhiệm về các hoạt động trong công tác hậu cần.',
