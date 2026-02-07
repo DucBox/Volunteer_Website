@@ -1,12 +1,14 @@
-// ChatWidget Component
+// components/ChatWidget.js
+
 export class ChatWidget {
     constructor(config = {}) {
         this.config = {
             apiUrl: config.apiUrl || 'https://volunteerwebsite-production.up.railway.app/api/chat',
-            logoPath: config.logoPath || 'assets/images/logo.jpg',
+            logoPath: config.logoPath || 'assets/images/logo.png',
             botName: config.botName || 'EM Bot',
             botDescription: config.botDescription || 'Trợ lý tình nguyện',
-            autoOpen: config.autoOpen !== undefined ? config.autoOpen : true
+            autoOpen: config.autoOpen !== undefined ? config.autoOpen : true,
+            maxHistoryPairs: config.maxHistoryPairs || 5  // Giới hạn 5 cặp hội thoại (10 messages)
         };
         
         this.isOpen = false;
@@ -19,6 +21,12 @@ export class ChatWidget {
     init() {
         this.render();
         this.attachEventListeners();
+        
+        // Add welcome message (marked as system message)
+        this.addMessage('assistant', 
+            'Xin chào! Tôi là ' + this.config.botName + '. Tôi có thể giúp bạn tìm hiểu về dự án tình nguyện. Bạn cần hỏi gì không?',
+            true  // isWelcome flag
+        );
         
         // Auto open on first visit
         if (this.config.autoOpen) {
@@ -54,16 +62,7 @@ export class ChatWidget {
                     
                     <!-- Messages -->
                     <div class="chat-messages" id="chatMessages">
-                        <!-- Welcome message -->
-                        <div class="chat-message assistant">
-                            <div class="message-avatar">🤖</div>
-                            <div class="message-wrapper">
-                                <div class="message-content">
-                                    Xin chào! Tôi là ${this.config.botName}. Tôi có thể giúp bạn tìm hiểu về dự án tình nguyện. Bạn cần hỏi gì không?
-                                </div>
-                                <div class="message-time">${this.getCurrentTime()}</div>
-                            </div>
-                        </div>
+                        <!-- Messages will be added dynamically -->
                     </div>
                     
                     <!-- Input -->
@@ -134,13 +133,50 @@ export class ChatWidget {
         this.isOpen = false;
     }
     
+    /**
+     * Build formatted prompt with history
+     */
+    buildFormattedPrompt(currentQuestion) {
+        let formattedPrompt = "";
+        
+        // Filter chat history (exclude welcome message)
+        const chatHistory = this.messages.filter(
+            msg => !msg.isWelcome
+        );
+        
+        // Add history if exists
+        if (chatHistory.length > 0) {
+            formattedPrompt += "[LỊCH SỬ HỘI THOẠI]\n";
+            
+            // Get last N pairs (maxHistoryPairs * 2 messages)
+            const maxMessages = this.config.maxHistoryPairs * 2;
+            const recentHistory = chatHistory.slice(-maxMessages);
+            
+            for (const msg of recentHistory) {
+                if (msg.role === 'user') {
+                    formattedPrompt += `Người dùng: ${msg.content}\n`;
+                } else if (msg.role === 'assistant') {
+                    formattedPrompt += `AI Bot: ${msg.content}\n`;
+                }
+            }
+            
+            formattedPrompt += "\n";
+        }
+        
+        // Add current question
+        formattedPrompt += "[CÂU HỎI HIỆN TẠI]\n";
+        formattedPrompt += currentQuestion;
+        
+        return formattedPrompt;
+    }
+    
     async sendMessage() {
         const input = document.getElementById('chatInput');
         const question = input?.value.trim();
         
         if (!question || this.isTyping) return;
         
-        // Add user message
+        // Add user message to UI
         this.addMessage('user', question);
         input.value = '';
         input.style.height = 'auto';
@@ -149,12 +185,24 @@ export class ChatWidget {
         this.showTypingIndicator();
         
         try {
+            // Build formatted prompt with history
+            const formattedPrompt = this.buildFormattedPrompt(question);
+            
+            console.log('[ChatWidget] Sending request:', {
+                question: question,
+                formatted_prompt_preview: formattedPrompt.substring(0, 200) + '...'
+            });
+            
+            // Send to backend
             const response = await fetch(this.config.apiUrl, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ question })
+                body: JSON.stringify({ 
+                    question: question,  // Raw question for embedding
+                    formatted_prompt: formattedPrompt  // Full prompt with history
+                })
             });
             
             const data = await response.json();
@@ -170,11 +218,11 @@ export class ChatWidget {
         } catch (error) {
             this.hideTypingIndicator();
             this.addMessage('assistant', 'Xin lỗi, không thể kết nối đến server. Vui lòng thử lại sau.');
-            console.error('Chat error:', error);
+            console.error('[ChatWidget] Error:', error);
         }
     }
     
-    addMessage(role, content) {
+    addMessage(role, content, isWelcome = false) {
         const messagesContainer = document.getElementById('chatMessages');
         if (!messagesContainer) return;
         
@@ -199,7 +247,15 @@ export class ChatWidget {
         messagesContainer.appendChild(messageDiv);
         this.scrollToBottom();
         
-        this.messages.push({ role, content, timestamp: new Date() });
+        // Store in history (with metadata)
+        this.messages.push({ 
+            role, 
+            content, 
+            isWelcome,
+            timestamp: new Date() 
+        });
+        
+        console.log('[ChatWidget] Message added. Total messages:', this.messages.length);
     }
     
     showTypingIndicator() {

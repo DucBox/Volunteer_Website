@@ -31,13 +31,14 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initialize Scroll To Top button ✅ THÊM MỚI
     const scrollToTop = new ScrollToTop();
     
-    // Initialize Chat Widget
+    // Initialize Chat Widget with history support
     const chatWidget = new ChatWidget({
         apiUrl: 'https://volunteerwebsite-production.up.railway.app/api/chat',
         logoPath: 'assets/images/logo.jpg',
         botName: 'EM Bot',
         botDescription: 'Trợ lý tình nguyện',
-        autoOpen: true
+        autoOpen: true,
+        maxHistoryPairs: 5  // Giới hạn 5 cặp (10 messages)
     });
     
     console.log('All components initialized successfully!');
