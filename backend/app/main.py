@@ -17,10 +17,8 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "https://volunteer-website-self.vercel.app",  # Production
-        "http://localhost:8000",                       # Local dev
-        "http://localhost:3000",                       # Local dev alternative
-        "http://127.0.0.1:8000",   
-        "http://127.0.0.1:5500",                       # Local dev
+        "https://admin-dashboard-em-lilac.vercel.app/",                      
+        # "http://127.0.0.1:8000",                     # Local testing
     ],
     allow_credentials=True,
     allow_methods=["GET", "POST", "PUT", "DELETE"],
