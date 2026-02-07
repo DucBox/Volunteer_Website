@@ -55,6 +55,29 @@ class VectorStoreService:
         
         return list(seen.values())
 
+    def get_document_chunks(self, doc_id: str) -> list[dict]:
+        """Lấy tất cả chunks của 1 document, sorted by chunk_index"""
+        results = self.collection.get(
+            where={"doc_id": doc_id},
+            include=["documents", "metadatas"]
+        )
+        
+        if not results["ids"]:
+            return []
+        
+        # Ghép data và sort theo chunk_index
+        chunks = []
+        for doc, meta in zip(results["documents"], results["metadatas"]):
+            chunks.append({
+                "text": doc,
+                "chunk_index": meta["chunk_index"]
+            })
+        
+        # Sort theo thứ tự chunk_index
+        chunks.sort(key=lambda x: x["chunk_index"])
+        
+        return chunks
+
     def count(self) -> int:
         """Total chunks in store"""
         return self.collection.count()

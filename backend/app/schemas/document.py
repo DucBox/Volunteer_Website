@@ -16,3 +16,9 @@ class DocumentInfo(BaseModel):
 class DeleteResponse(BaseModel):
     message: str
     doc_id: str
+    
+    
+class DocumentContent(BaseModel):
+    doc_id: str
+    content: str
+    total_chunks: int

@@ -2,7 +2,7 @@ import os
 import shutil
 from fastapi import APIRouter, UploadFile, File, Form, HTTPException
 from app.services.rag_engine import RAGEngine
-from app.schemas.document import IngestResponse, DocumentInfo, DeleteResponse
+from app.schemas.document import IngestResponse, DocumentInfo, DeleteResponse, DocumentContent
 
 router = APIRouter(prefix="/api/documents", tags=["Documents"])
 
@@ -29,6 +29,24 @@ async def upload_document(
         raise HTTPException(status_code=400, detail=str(e))
     finally:
         os.remove(file_path)
+    
+
+@router.get("/{doc_id}/content", response_model=DocumentContent)
+async def get_document_content(doc_id: str):
+    """Lấy full content của document từ chunks"""
+    chunks = rag.vector_store.get_document_chunks(doc_id)
+    
+    if not chunks:
+        raise HTTPException(status_code=404, detail="Document not found")
+    
+    # Ghép tất cả chunks lại
+    full_text = "\n\n".join([chunk["text"] for chunk in chunks])
+    
+    return {
+        "doc_id": doc_id,
+        "content": full_text,
+        "total_chunks": len(chunks)
+    }
 
 
 @router.get("", response_model=list[DocumentInfo])
