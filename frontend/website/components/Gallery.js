@@ -32,7 +32,7 @@ export class Gallery {
         const extensions = ['jpg'];
         
         // Thử từ 1 đến 50 file với các extension khác nhau
-        for (let i = 1; i <= 50; i++) {
+        for (let i = 1; i <= 10; i++) {
             for (const ext of extensions) {
                 possibleFiles.push(`${i}.${ext}`);
             }

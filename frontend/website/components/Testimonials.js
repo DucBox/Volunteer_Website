@@ -35,10 +35,10 @@ export class Testimonials {
         console.log('[Testimonials] Đang tải ảnh từ feelings/...');
         
         const possibleFiles = [];
-        const extensions = ['jpg', 'jpeg', 'png', 'webp'];
+        const extensions = ['jpg'];
         
         // Thử từ 1 đến 30 file
-        for (let i = 1; i <= 30; i++) {
+        for (let i = 1; i <= 10; i++) {
             for (const ext of extensions) {
                 possibleFiles.push(`${i}.${ext}`);
             }
