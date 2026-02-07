@@ -3,7 +3,7 @@ from pydantic import BaseModel
 
 class ChatRequest(BaseModel):
     question: str
-    top_k: int = 5
+    top_k: int = 20
 
 
 class SourceChunk(BaseModel):
