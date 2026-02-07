@@ -87,8 +87,9 @@
 /* Carousel Navigation Buttons */
 .carousel-btn {
     position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
+    bottom: -60px;
+    /* top: 50%; */
+    /* transform: translateY(-50%); */
     width: 50px;
     height: 50px;
     background: rgba(255, 255, 255, 0.9);
@@ -103,19 +104,23 @@
     align-items: center;
     justify-content: center;
     box-shadow: var(--shadow-md);
+    margin-bottom: var(--space-24);
+    border: 2px solid var(--color-border);
 }
 
 .carousel-btn:hover {
     background: white;
-    transform: translateY(-50%) scale(1.1);
+    transform: scale(1.1);
 }
 
 .carousel-btn.prev {
-    left: 20px;
+    /* left: 20px; */
+    left: calc(50% - 100px);
 }
 
 .carousel-btn.next {
-    right: 20px;
+    /* right: 20px; */
+    right: calc(50% - 100px);
 }
 
 /* Carousel Controls */
@@ -126,6 +131,7 @@
     transform: translateX(-50%);
     display: flex;
     gap: var(--space-16);
+    margin-bottom: var(--space-24);
 }
 
 .control-btn {
