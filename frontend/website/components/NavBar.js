@@ -18,7 +18,7 @@ export class Navbar {
             <nav class="navbar">
                 <div class="nav-container">
                     <a href="#" class="logo">
-                        <img src="assets/images/logo-no-bg.png" alt="Logo" class="logo-icon" style="object-fit: cover;">
+                        <img src="assets/images/logo-no-bg.jpg" alt="Logo" class="logo-icon" style="object-fit: cover;">
                         <span>Educational Missions - Dự Án Cho EM</span>
                     </a>
                     <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">

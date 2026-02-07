@@ -3,7 +3,7 @@ export class ChatWidget {
     constructor(config = {}) {
         this.config = {
             apiUrl: config.apiUrl || 'https://volunteerwebsite-production.up.railway.app/api/chat',
-            logoPath: config.logoPath || 'assets/images/logo.png',
+            logoPath: config.logoPath || 'assets/images/logo.jpg',
             botName: config.botName || 'EM Bot',
             botDescription: config.botDescription || 'Trợ lý tình nguyện',
             autoOpen: config.autoOpen !== undefined ? config.autoOpen : true

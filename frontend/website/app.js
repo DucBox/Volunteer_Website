@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initialize Chat Widget
     const chatWidget = new ChatWidget({
         apiUrl: 'https://volunteerwebsite-production.up.railway.app/api/chat',
-        logoPath: 'assets/images/logo.png',
+        logoPath: 'assets/images/logo.jpg',
         botName: 'EM Bot',
         botDescription: 'Trợ lý tình nguyện',
         autoOpen: true

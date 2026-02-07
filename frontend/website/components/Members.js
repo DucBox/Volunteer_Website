@@ -54,7 +54,7 @@ export class Members {
                 quote: 'The more you give, the more you receive.'
             },
             {
-                image: 'assets/images/members/thư.png',
+                image: 'assets/images/members/thư.jpg',
                 role: 'Co-Founder',
                 name: 'Nguyễn Minh Thư',
                 info: 'Cựu Sinh viên Học viện Tài chính. Tình nguyện viên tích cực với niềm đam mê giúp đỡ trẻ em vùng cao.',
