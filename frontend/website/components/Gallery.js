@@ -29,7 +29,7 @@ export class Gallery {
         
         // Thử load các file ảnh phổ biến (1-20)
         const possibleFiles = [];
-        const extensions = ['jpg', 'jpeg', 'png', 'webp', 'gif'];
+        const extensions = ['jpg'];
         
         // Thử từ 1 đến 50 file với các extension khác nhau
         for (let i = 1; i <= 50; i++) {

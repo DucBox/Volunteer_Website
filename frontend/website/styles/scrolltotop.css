@@ -1,0 +1,90 @@
+/* ===================================
+   SCROLL TO TOP BUTTON
+   Theme: Sky Blue
+   Position: Bottom Left
+   =================================== */
+
+.scroll-to-top {
+    position: fixed;
+    bottom: 30px;
+    left: 30px; /* ✅ CHANGED: Right → Left */
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(135deg, #42a5f5, #64b5f6);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 16px rgba(66, 165, 245, 0.4);
+    z-index: 9998; /* Below chat widget (9999) */
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(100px);
+    transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+
+/* Visible state */
+.scroll-to-top.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+/* Hover effect */
+.scroll-to-top:hover {
+    transform: translateY(-5px) scale(1.1);
+    box-shadow: 
+        0 6px 24px rgba(66, 165, 245, 0.6),
+        0 0 20px rgba(66, 165, 245, 0.4);
+}
+
+/* Active (click) effect */
+.scroll-to-top:active {
+    transform: translateY(-2px) scale(1.05);
+}
+
+/* Pulse animation when visible */
+.scroll-to-top.visible {
+    animation: pulseGlow 2s ease-in-out infinite;
+}
+
+@keyframes pulseGlow {
+    0%, 100% {
+        box-shadow: 0 4px 16px rgba(66, 165, 245, 0.4);
+    }
+    50% {
+        box-shadow: 0 6px 24px rgba(66, 165, 245, 0.6),
+                    0 0 20px rgba(66, 165, 245, 0.5);
+    }
+}
+
+/* SVG icon */
+.scroll-to-top svg {
+    width: 24px;
+    height: 24px;
+    transition: transform 0.3s ease;
+}
+
+.scroll-to-top:hover svg {
+    transform: translateY(-3px);
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+    .scroll-to-top {
+        bottom: 20px;
+        left: 20px; /* ✅ CHANGED: Right → Left */
+        width: 45px;
+        height: 45px;
+    }
+    
+    .scroll-to-top svg {
+        width: 20px;
+        height: 20px;
+    }
+}
+
+/* No need to adjust for chat widget since it's on the right side */
