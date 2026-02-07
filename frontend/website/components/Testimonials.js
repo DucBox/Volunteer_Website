@@ -1,6 +1,6 @@
 /**
- * Testimonials Component - FIXED VERSION
- * Proper pixel-based carousel sliding
+ * Testimonials Component - ALWAYS 3 CARDS
+ * Cards scale responsively but always show 3 at a time
  */
 
 export class Testimonials {
@@ -11,6 +11,7 @@ export class Testimonials {
         this.isPlaying = true;
         this.slideSpeed = 4000;
         this.feelingsPath = 'assets/images/feelings/';
+        this.cardsPerView = 2; 
         
         this.init();
     }
@@ -35,9 +36,9 @@ export class Testimonials {
         console.log('[Testimonials] Đang tải ảnh từ feelings/...');
         
         const possibleFiles = [];
-        const extensions = ['jpg'];
+        const extensions = ['jpg', 'jpeg', 'png'];
         
-        for (let i = 1; i <= 10; i++) {
+        for (let i = 1; i <= 20; i++) {
             for (const ext of extensions) {
                 possibleFiles.push(`${i}.${ext}`);
             }
@@ -121,8 +122,8 @@ export class Testimonials {
         const dotsContainer = document.getElementById('testimonialsDots');
         if (!dotsContainer) return;
         
-        const cardsPerView = this.getCardsPerView();
-        const totalPages = Math.ceil(this.images.length / cardsPerView);
+        // ✅ Always 3 cards per view
+        const totalPages = Math.ceil(this.images.length / this.cardsPerView);
         
         dotsContainer.innerHTML = Array.from({ length: totalPages }, (_, i) => 
             `<button class="testimonial-dot" data-page="${i}"></button>`
@@ -130,7 +131,7 @@ export class Testimonials {
         
         dotsContainer.querySelectorAll('.testimonial-dot').forEach((dot, index) => {
             dot.addEventListener('click', () => {
-                this.currentIndex = index * cardsPerView;
+                this.currentIndex = index * this.cardsPerView;
                 this.updateCarousel();
                 this.resetAutoSlide();
             });
@@ -139,19 +140,19 @@ export class Testimonials {
     
     updateActiveDot() {
         const dots = document.querySelectorAll('.testimonial-dot');
-        const cardsPerView = this.getCardsPerView();
-        const currentPage = Math.floor(this.currentIndex / cardsPerView);
+        const currentPage = Math.floor(this.currentIndex / this.cardsPerView);
         
         dots.forEach((dot, index) => {
             dot.classList.toggle('active', index === currentPage);
         });
     }
     
-    getCardsPerView() {
+    getGapSize() {
+        // Return gap size based on screen width
         const width = window.innerWidth;
-        if (width <= 768) return 1;
-        if (width <= 1024) return 2;
-        return 3;
+        if (width <= 480) return 8;
+        if (width <= 768) return 16;
+        return 32;
     }
     
     setupResponsive() {
@@ -159,13 +160,12 @@ export class Testimonials {
         window.addEventListener('resize', () => {
             clearTimeout(resizeTimer);
             resizeTimer = setTimeout(() => {
-                this.renderDots();
                 this.updateCarousel(); // ✅ Recalculate on resize
             }, 250);
         });
     }
     
-    // ✅ FIXED: Pixel-based calculation instead of percentage
+    // ✅ FIXED: Pixel-based calculation, always 3 cards
     updateCarousel() {
         const track = document.getElementById('testimonialsTrack');
         if (!track) return;
@@ -173,9 +173,9 @@ export class Testimonials {
         // Get carousel width
         const carousel = track.parentElement;
         const carouselWidth = carousel.offsetWidth;
-        const gap = 32; // Match CSS gap value
+        const gap = this.getGapSize();
         
-        const cardsPerView = this.getCardsPerView();
+        const cardsPerView = this.cardsPerView;
         
         // Calculate exact card width
         const totalGaps = (cardsPerView - 1) * gap;
@@ -183,12 +183,15 @@ export class Testimonials {
         
         // ✅ Transform = -(cardWidth + gap) * currentIndex
         const slideDistance = cardWidth + gap;
-        const translateX = -(slideDistance * this.currentIndex);
         
+        const totalCardsWidth = (cardWidth * this.cardsPerView) + (gap * (this.cardsPerView - 1));
+        const centerOffset = (carouselWidth - totalCardsWidth) / 2;
+
+        const translateX = centerOffset - (slideDistance * this.currentIndex);
         track.style.transform = `translateX(${translateX}px)`;
         this.updateActiveDot();
         
-        console.log(`[Testimonials] Slide ${this.currentIndex}: translateX(${translateX}px), cardWidth=${cardWidth.toFixed(1)}px`);
+        console.log(`[Testimonials] Slide ${this.currentIndex}: translateX(${translateX}px), cardWidth=${cardWidth.toFixed(1)}px, gap=${gap}px`);
     }
     
     startAutoSlide() {
@@ -235,26 +238,25 @@ export class Testimonials {
     }
     
     nextSlide() {
-        const cardsPerView = this.getCardsPerView();
-        const maxIndex = this.images.length - cardsPerView;
+        // ✅ Always move by 3 cards
+        const maxIndex = this.images.length - this.cardsPerView;
         
         if (this.currentIndex >= maxIndex) {
             this.currentIndex = 0; // Loop back
         } else {
-            this.currentIndex += cardsPerView;
+            this.currentIndex += this.cardsPerView;
         }
         
         this.updateCarousel();
     }
     
     prevSlide() {
-        const cardsPerView = this.getCardsPerView();
-        
+        // ✅ Always move by 3 cards
         if (this.currentIndex <= 0) {
-            const maxIndex = this.images.length - cardsPerView;
+            const maxIndex = this.images.length - this.cardsPerView;
             this.currentIndex = Math.max(0, maxIndex);
         } else {
-            this.currentIndex -= cardsPerView;
+            this.currentIndex -= this.cardsPerView;
         }
         
         this.updateCarousel();
