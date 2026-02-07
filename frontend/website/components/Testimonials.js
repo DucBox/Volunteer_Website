@@ -1,6 +1,6 @@
 /**
- * Testimonials Component - Feelings Gallery
- * Auto-slide carousel with neon effects
+ * Testimonials Component - FIXED VERSION
+ * Proper pixel-based carousel sliding
  */
 
 export class Testimonials {
@@ -9,7 +9,7 @@ export class Testimonials {
         this.currentIndex = 0;
         this.autoSlideInterval = null;
         this.isPlaying = true;
-        this.slideSpeed = 4000; // 4 seconds
+        this.slideSpeed = 4000;
         this.feelingsPath = 'assets/images/feelings/';
         
         this.init();
@@ -37,7 +37,6 @@ export class Testimonials {
         const possibleFiles = [];
         const extensions = ['jpg'];
         
-        // Thử từ 1 đến 30 file
         for (let i = 1; i <= 10; i++) {
             for (const ext of extensions) {
                 possibleFiles.push(`${i}.${ext}`);
@@ -57,7 +56,7 @@ export class Testimonials {
                     console.log(`[Testimonials] ✓ Tìm thấy: ${file}`);
                 }
             } catch (err) {
-                // Bỏ qua file không tồn tại
+                // Skip
             }
             
             if (validImages.length >= 20) break;
@@ -81,13 +80,9 @@ export class Testimonials {
         const container = document.querySelector('.testimonials-section .container');
         if (!container) return;
         
-        // Clear existing content
         const existingGrid = container.querySelector('.testimonials-grid');
-        if (existingGrid) {
-            existingGrid.remove();
-        }
+        if (existingGrid) existingGrid.remove();
         
-        // Create new structure
         const wrapper = document.createElement('div');
         wrapper.className = 'testimonials-carousel-wrapper';
         wrapper.innerHTML = `
@@ -118,7 +113,6 @@ export class Testimonials {
         
         container.appendChild(wrapper);
         
-        // Render dots
         this.renderDots();
         this.updateActiveDot();
     }
@@ -134,7 +128,6 @@ export class Testimonials {
             `<button class="testimonial-dot" data-page="${i}"></button>`
         ).join('');
         
-        // Attach dot click handlers
         dotsContainer.querySelectorAll('.testimonial-dot').forEach((dot, index) => {
             dot.addEventListener('click', () => {
                 this.currentIndex = index * cardsPerView;
@@ -167,24 +160,35 @@ export class Testimonials {
             clearTimeout(resizeTimer);
             resizeTimer = setTimeout(() => {
                 this.renderDots();
-                this.updateCarousel();
+                this.updateCarousel(); // ✅ Recalculate on resize
             }, 250);
         });
     }
     
+    // ✅ FIXED: Pixel-based calculation instead of percentage
     updateCarousel() {
         const track = document.getElementById('testimonialsTrack');
         if (!track) return;
         
+        // Get carousel width
+        const carousel = track.parentElement;
+        const carouselWidth = carousel.offsetWidth;
+        const gap = 32; // Match CSS gap value
+        
         const cardsPerView = this.getCardsPerView();
         
-        // Calculate offset based on card + margin width
-        // Each card takes: (100% / cardsPerView) of container width
-        const cardPercentage = 100 / cardsPerView;
-        const offset = -(this.currentIndex * cardPercentage);
+        // Calculate exact card width
+        const totalGaps = (cardsPerView - 1) * gap;
+        const cardWidth = (carouselWidth - totalGaps) / cardsPerView;
         
-        track.style.transform = `translateX(${offset}%)`;
+        // ✅ Transform = -(cardWidth + gap) * currentIndex
+        const slideDistance = cardWidth + gap;
+        const translateX = -(slideDistance * this.currentIndex);
+        
+        track.style.transform = `translateX(${translateX}px)`;
         this.updateActiveDot();
+        
+        console.log(`[Testimonials] Slide ${this.currentIndex}: translateX(${translateX}px), cardWidth=${cardWidth.toFixed(1)}px`);
     }
     
     startAutoSlide() {
@@ -257,7 +261,6 @@ export class Testimonials {
     }
     
     openLightbox(index) {
-        // Reuse lightbox from Gallery or create new one
         const lightboxHTML = `
             <div class="testimonials-lightbox active" id="testimonialsLightbox">
                 <button class="lightbox-close" id="testimonialsLightboxClose">✕</button>
@@ -267,7 +270,6 @@ export class Testimonials {
             </div>
         `;
         
-        // Remove existing lightbox if any
         const existing = document.getElementById('testimonialsLightbox');
         if (existing) existing.remove();
         
@@ -327,7 +329,6 @@ export class Testimonials {
     }
     
     attachEventListeners() {
-        // Navigation buttons
         const prevBtn = document.getElementById('testimonialsPrev');
         const nextBtn = document.getElementById('testimonialsNext');
         const playPauseBtn = document.getElementById('testimonialsPlayPause');
@@ -346,7 +347,6 @@ export class Testimonials {
             this.toggleAutoSlide();
         });
         
-        // Card click to open lightbox
         document.querySelectorAll('.testimonial-card-new').forEach((card) => {
             card.addEventListener('click', () => {
                 const index = parseInt(card.dataset.index);
@@ -355,7 +355,6 @@ export class Testimonials {
             });
         });
         
-        // Pause on hover
         const track = document.getElementById('testimonialsTrack');
         track?.addEventListener('mouseenter', () => {
             if (this.isPlaying) this.stopAutoSlide();
