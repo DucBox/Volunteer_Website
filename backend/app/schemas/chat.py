@@ -6,8 +6,6 @@ class ChatRequest(BaseModel):
     formatted_prompt: Optional[str] = None 
     top_k: int = 10
 
-
-
 class SourceChunk(BaseModel):
     id: str
     text: str
