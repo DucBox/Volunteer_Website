@@ -9,7 +9,7 @@ class LLMService:
         self.model = settings.LLM_MODEL
         self.current_date = datetime.now()
 
-    def generate(self, prompt: str, context: str = "") -> str:
+    def generate(self, prompt: str, context: str = "", formatted_prompt: str = None) -> str:
         """Generate response with optional context"""
         current_date_str = self.current_date.strftime("%d/%m/%Y")
         system_prompt = f'''

@@ -1,3 +1,7 @@
+import sys
+import os
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 from app.services.rag_engine import RAGEngine
 
 rag = RAGEngine()
@@ -5,7 +9,7 @@ rag = RAGEngine()
 # 1. Ingest document
 print("=== INGEST ===")
 result = rag.ingest(
-    file_path="path/to/your/document.pdf",  # Thay bằng file thật
+    file_path="/workspace/backend/data/data_test/test.pdf",  # Thay bằng file thật
     doc_name="Giới thiệu dự án XYZ"
 )
 print(f"Doc ID: {result['doc_id']}")
@@ -20,9 +24,10 @@ for doc in docs:
 
 # 3. Query
 print("\n=== QUERY ===")
-response = rag.query("Dự án này về gì?")
+response = rag.query("tài liệu này về gì?")
 print(f"Answer: {response['answer']}")
 print(f"Sources: {len(response['sources'])} chunks")
+print(f"Number of sources: {len(response['sources'])}")
 
 # 4. Delete
 print("\n=== DELETE ===")

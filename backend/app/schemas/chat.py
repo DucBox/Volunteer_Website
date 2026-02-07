@@ -2,8 +2,10 @@ from pydantic import BaseModel
 
 
 class ChatRequest(BaseModel):
-    question: str
-    top_k: int = 20
+    question: str  
+    formatted_prompt: Optional[str] = None 
+    top_k: int = 10
+
 
 
 class SourceChunk(BaseModel):

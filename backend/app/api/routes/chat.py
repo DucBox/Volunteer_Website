@@ -15,5 +15,5 @@ rag = RAGEngine()
 @router.post("", response_model=ChatResponse)
 @limiter.limit("20/minute")  # 20 requests per minute per IP
 async def chat(request: Request, chat_request: ChatRequest):
-    result = rag.query(question=chat_request.question, top_k=chat_request.top_k)
+    result = rag.query(question=chat_request.question, top_k=chat_request.top_k, formatted_prompt=chat_request.formatted_prompt)
     return result

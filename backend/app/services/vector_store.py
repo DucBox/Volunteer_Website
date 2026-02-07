@@ -19,7 +19,7 @@ class VectorStoreService:
             metadatas=[metadata]
         )
 
-    def search(self, query: str, top_k: int = 5) -> list[dict]:
+    def search(self, query: str, top_k: int = 10) -> list[dict]:
         """Search similar chunks"""
         query_vector = self.embedding_service.embed(query)
         results = self.collection.query(

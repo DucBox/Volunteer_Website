@@ -39,15 +39,12 @@ class RAGEngine:
         return {"doc_id": doc_id, "doc_name": doc_name, "chunks": len(chunks)}
 
     def list_documents(self) -> list[dict]:
-        """List all documents"""
         return self.vector_store.list_documents()
 
     def delete_document(self, doc_id: str):
-        """Delete document by doc_id"""
         self.vector_store.delete_by_doc_id(doc_id)
 
-    def query(self, question: str, top_k: int = 5) -> dict:
-        """Query: search → build context → generate"""
+    def query(self, question: str, top_k: int = 10, formatted_prompt: str = None) -> dict:
         # Retrieve
         results = self.vector_store.search(question, top_k=top_k)
 
@@ -55,7 +52,7 @@ class RAGEngine:
         context = "\n\n".join([r["text"] for r in results])
 
         # Generate
-        answer = self.llm.generate(prompt=question, context=context)
+        answer = self.llm.generate(prompt=question, context=context, formatted_prompt=formatted_prompt)
 
         return {
             "answer": answer,
