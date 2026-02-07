@@ -55,20 +55,21 @@ class LLMService:
             💬 Trả lời ngắn gọn, hữu ích, luôn kết thúc bằng CTA (call-to-action).
             Nếu không biết, hãy thẳng thắn nói "Mình không chắc về điều đó, nhưng bạn có thể tham khảo trang Facebook của Dự Án Cho EM để biết thêm chi tiết nhé!"
             '''.strip()    
-            if formatted_prompt:
-                # Có history → Dùng formatted_prompt + thêm context
-                if context:
-                    user_content = f"{formatted_prompt}\n\n[CONTEXT TỪ TÀI LIỆU]\n{context}"
-                else:
-                    user_content = formatted_prompt
+            
+        if formatted_prompt:
+            # Có history → Dùng formatted_prompt + thêm context
+            if context:
+                user_content = f"{formatted_prompt}\n\n[CONTEXT TỪ TÀI LIỆU]\n{context}"
             else:
-                # Không có history → Dùng prompt gốc
-                if context:
-                    user_content = f"[CONTEXT]\n{context}\n\n[CÂU HỎI]\n{prompt}"
-                else:
-                    user_content = prompt
-                    
-            print(f"USER CONTENT TO LLM:\n{user_content}\n{'-'*50}")
+                user_content = formatted_prompt
+        else:
+            # Không có history → Dùng prompt gốc
+            if context:
+                user_content = f"[CONTEXT]\n{context}\n\n[CÂU HỎI]\n{prompt}"
+            else:
+                user_content = prompt
+                
+        print(f"USER CONTENT TO LLM:\n{user_content}\n{'-'*50}")
 
         response = self.client.responses.create(
             model=self.model,
