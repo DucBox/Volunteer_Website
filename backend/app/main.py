@@ -17,7 +17,7 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "https://volunteer-website-self.vercel.app",  # Production
-        "https://admin-dashboard-em-lilac.vercel.app/",                      
+        "https://admin-dashboard-em-lilac.vercel.app",                      
         # "http://127.0.0.1:8000",                     # Local testing
     ],
     allow_credentials=True,
