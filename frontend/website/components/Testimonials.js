@@ -1,6 +1,6 @@
 /**
- * Testimonials Component - ALWAYS 3 CARDS
- * Cards scale responsively but always show 3 at a time
+ * Testimonials Component - Responsive Carousel
+ * Desktop: 3 cards | Tablet: 2 cards | Mobile: 1 card
  */
 
 export class Testimonials {
@@ -11,9 +11,24 @@ export class Testimonials {
         this.isPlaying = true;
         this.slideSpeed = 4000;
         this.feelingsPath = 'assets/images/feelings/';
-        this.cardsPerView = 2; 
+        this.cardsPerView = this.getCardsPerView();
         
         this.init();
+    }
+    
+    // ✅ Responsive cards per view
+    getCardsPerView() {
+        const width = window.innerWidth;
+        if (width > 1024) return 3;  // Desktop
+        if (width > 768) return 2;   // Tablet
+        return 1;                     // Mobile
+    }
+    
+    getGapSize() {
+        const width = window.innerWidth;
+        if (width > 1024) return 32;
+        if (width > 768) return 24;
+        return 16;
     }
     
     async init() {
@@ -84,6 +99,9 @@ export class Testimonials {
         const existingGrid = container.querySelector('.testimonials-grid');
         if (existingGrid) existingGrid.remove();
         
+        const existingWrapper = container.querySelector('.testimonials-carousel-wrapper');
+        if (existingWrapper) existingWrapper.remove();
+        
         const wrapper = document.createElement('div');
         wrapper.className = 'testimonials-carousel-wrapper';
         wrapper.innerHTML = `
@@ -122,7 +140,6 @@ export class Testimonials {
         const dotsContainer = document.getElementById('testimonialsDots');
         if (!dotsContainer) return;
         
-        // ✅ Always 3 cards per view
         const totalPages = Math.ceil(this.images.length / this.cardsPerView);
         
         dotsContainer.innerHTML = Array.from({ length: totalPages }, (_, i) => 
@@ -147,51 +164,46 @@ export class Testimonials {
         });
     }
     
-    getGapSize() {
-        // Return gap size based on screen width
-        const width = window.innerWidth;
-        if (width <= 480) return 8;
-        if (width <= 768) return 16;
-        return 32;
-    }
-    
     setupResponsive() {
         let resizeTimer;
         window.addEventListener('resize', () => {
             clearTimeout(resizeTimer);
             resizeTimer = setTimeout(() => {
-                this.updateCarousel(); // ✅ Recalculate on resize
+                const newCardsPerView = this.getCardsPerView();
+                
+                // Only re-render if cardsPerView changed
+                if (newCardsPerView !== this.cardsPerView) {
+                    this.cardsPerView = newCardsPerView;
+                    this.currentIndex = 0; // Reset to first page
+                    this.renderDots();
+                }
+                
+                this.updateCarousel();
             }, 250);
         });
     }
     
-    // ✅ FIXED: Pixel-based calculation, always 3 cards
     updateCarousel() {
         const track = document.getElementById('testimonialsTrack');
         if (!track) return;
         
-        // Get carousel width
         const carousel = track.parentElement;
         const carouselWidth = carousel.offsetWidth;
         const gap = this.getGapSize();
-        
         const cardsPerView = this.cardsPerView;
         
-        // Calculate exact card width
+        // Calculate card width
         const totalGaps = (cardsPerView - 1) * gap;
         const cardWidth = (carouselWidth - totalGaps) / cardsPerView;
         
-        // ✅ Transform = -(cardWidth + gap) * currentIndex
+        // Slide distance
         const slideDistance = cardWidth + gap;
+        const translateX = -(slideDistance * this.currentIndex);
         
-        const totalCardsWidth = (cardWidth * this.cardsPerView) + (gap * (this.cardsPerView - 1));
-        const centerOffset = (carouselWidth - totalCardsWidth) / 2;
-
-        const translateX = centerOffset - (slideDistance * this.currentIndex);
         track.style.transform = `translateX(${translateX}px)`;
         this.updateActiveDot();
         
-        console.log(`[Testimonials] Slide ${this.currentIndex}: translateX(${translateX}px), cardWidth=${cardWidth.toFixed(1)}px, gap=${gap}px`);
+        console.log(`[Testimonials] Slide ${this.currentIndex}: cardsPerView=${cardsPerView}, cardWidth=${cardWidth.toFixed(1)}px`);
     }
     
     startAutoSlide() {
@@ -228,8 +240,8 @@ export class Testimonials {
     }
     
     updatePlayPauseButton() {
-        const playIcon = document.querySelector('.play-icon');
-        const pauseIcon = document.querySelector('.pause-icon');
+        const playIcon = document.querySelector('#testimonialsPlayPause .play-icon');
+        const pauseIcon = document.querySelector('#testimonialsPlayPause .pause-icon');
         
         if (playIcon && pauseIcon) {
             playIcon.style.display = this.isPlaying ? 'none' : 'block';
@@ -238,25 +250,28 @@ export class Testimonials {
     }
     
     nextSlide() {
-        // ✅ Always move by 3 cards
         const maxIndex = this.images.length - this.cardsPerView;
         
         if (this.currentIndex >= maxIndex) {
-            this.currentIndex = 0; // Loop back
+            this.currentIndex = 0;
         } else {
             this.currentIndex += this.cardsPerView;
+            // Don't exceed max
+            if (this.currentIndex > maxIndex) {
+                this.currentIndex = maxIndex;
+            }
         }
         
         this.updateCarousel();
     }
     
     prevSlide() {
-        // ✅ Always move by 3 cards
         if (this.currentIndex <= 0) {
             const maxIndex = this.images.length - this.cardsPerView;
             this.currentIndex = Math.max(0, maxIndex);
         } else {
             this.currentIndex -= this.cardsPerView;
+            if (this.currentIndex < 0) this.currentIndex = 0;
         }
         
         this.updateCarousel();
@@ -321,13 +336,18 @@ export class Testimonials {
             if (e.target === lightbox) this.closeLightbox();
         });
         
-        document.addEventListener('keydown', (e) => {
-            if (!document.getElementById('testimonialsLightbox')) return;
+        const keyHandler = (e) => {
+            if (!document.getElementById('testimonialsLightbox')) {
+                document.removeEventListener('keydown', keyHandler);
+                return;
+            }
             
             if (e.key === 'Escape') this.closeLightbox();
             if (e.key === 'ArrowLeft') prevBtn?.click();
             if (e.key === 'ArrowRight') nextBtn?.click();
-        });
+        };
+        
+        document.addEventListener('keydown', keyHandler);
     }
     
     attachEventListeners() {
