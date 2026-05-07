@@ -264,7 +264,6 @@
     color: var(--color-text-secondary);
     line-height: 1.7;
     font-size: 15px;
-    flex: 1;
 }
 
 .mission-card-back p {
@@ -278,7 +277,8 @@
     font-size: 13px;
     color: var(--color-primary);
     font-weight: 600;
-    margin-top: var(--space-16);
+    margin-top: auto;
+    padding-top: var(--space-16);
     opacity: 0.8;
     letter-spacing: 0.2px;
 }
