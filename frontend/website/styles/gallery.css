@@ -88,29 +88,27 @@
 .carousel-btn {
     position: absolute;
     bottom: -60px;
-    /* top: 50%; */
-    /* transform: translateY(-50%); */
-    width: 50px;
-    height: 50px;
-    background: rgba(255, 255, 255, 0.9);
+    width: 48px;
+    height: 48px;
+    background: var(--color-primary);
     border: none;
     border-radius: 50%;
-    font-size: 32px;
-    color: var(--color-text);
+    font-size: 24px;
+    color: #fff;
     cursor: pointer;
     z-index: 100;
-    transition: all 0.3s ease;
+    transition: all 0.25s ease;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: var(--shadow-md);
+    box-shadow: 0 4px 16px rgba(var(--color-primary-rgb), 0.32);
     margin-bottom: var(--space-24);
-    border: 2px solid var(--color-border);
+    user-select: none;
 }
-
 .carousel-btn:hover {
-    background: white;
-    transform: scale(1.1);
+    background: var(--color-primary-hover);
+    transform: scale(1.10);
+    box-shadow: 0 6px 24px rgba(var(--color-primary-rgb), 0.48);
 }
 
 .carousel-btn.prev {
@@ -135,23 +133,25 @@
 }
 
 .control-btn {
-    width: 50px;
-    height: 50px;
-    background: var(--color-surface);
-    border: 2px solid var(--color-border);
+    width: 48px;
+    height: 48px;
+    background: var(--color-primary);
+    border: none;
     border-radius: 50%;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.25s ease;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 16px;
+    color: #fff;
+    box-shadow: 0 4px 16px rgba(var(--color-primary-rgb), 0.32);
+    user-select: none;
 }
-
 .control-btn:hover {
-    background: var(--color-primary);
-    color: white;
-    border-color: var(--color-primary);
+    background: var(--color-primary-hover);
+    transform: scale(1.10);
+    box-shadow: 0 6px 24px rgba(var(--color-primary-rgb), 0.48);
 }
 
 /* Lightbox */
@@ -269,6 +269,34 @@
     font-size: 16px;
     max-width: 80%;
     text-align: center;
+}
+
+/* ===================================
+   DARK MODE
+   =================================== */
+[data-theme="dark"] .gallery-section {
+    background-color: var(--color-warm-bg);
+}
+
+[data-theme="dark"] .carousel-btn {
+    background: var(--color-surface);
+    border-color: var(--color-border);
+    color: var(--color-text);
+}
+
+[data-theme="dark"] .carousel-btn:hover {
+    background: var(--color-primary);
+    color: #fff;
+}
+
+[data-theme="dark"] .control-btn {
+    background: var(--color-surface);
+    border-color: var(--color-border);
+    color: var(--color-text);
+}
+
+[data-theme="dark"] .lightbox-caption {
+    background: rgba(0,0,0,0.85);
 }
 
 /* Error Message Styling */

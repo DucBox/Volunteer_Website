@@ -106,7 +106,9 @@
 /* Donation Section */
 .donation-section {
     padding: var(--space-64) var(--space-24);
-    background: linear-gradient(135deg, rgba(230, 126, 80, 0.15), rgba(74, 155, 142, 0.15));
+    background: linear-gradient(135deg,
+        rgba(33, 150, 243, 0.08) 0%,
+        rgba(41, 182, 246, 0.06) 100%);
 }
 
 /* New Donation Cards Layout */
@@ -409,6 +411,75 @@
 
 .materials-contact a:hover {
     text-decoration: underline;
+}
+
+/* ===================================
+   DARK MODE
+   =================================== */
+[data-theme="dark"] .volunteer-form {
+    background-color: var(--color-warm-bg);
+    border-color: var(--color-card-border);
+}
+
+[data-theme="dark"] .form-input,
+[data-theme="dark"] .form-select,
+[data-theme="dark"] .form-textarea {
+    background-color: var(--color-warm-bg);
+    border-color: var(--color-border);
+    color: var(--color-text);
+}
+
+[data-theme="dark"] .form-input::placeholder,
+[data-theme="dark"] .form-textarea::placeholder {
+    color: var(--color-text-secondary);
+}
+
+[data-theme="dark"] .donation-section {
+    background: linear-gradient(135deg,
+        rgba(33, 150, 243, 0.06) 0%,
+        rgba(41, 182, 246, 0.04) 100%);
+}
+
+[data-theme="dark"] .donation-card {
+    background: var(--color-surface);
+}
+
+[data-theme="dark"] .donation-disclaimer {
+    color: var(--color-text-secondary);
+}
+
+[data-theme="dark"] .materials-description,
+[data-theme="dark"] .materials-contact {
+    color: var(--color-text-secondary);
+}
+
+[data-theme="dark"] .material-item {
+    background: var(--color-warm-bg);
+}
+
+[data-theme="dark"] .material-image-wrapper {
+    border-color: var(--color-border);
+}
+
+[data-theme="dark"] .qr-lightbox-content {
+    background: var(--color-surface);
+}
+
+[data-theme="dark"] .qr-lightbox-close {
+    background: rgba(255,255,255,0.10);
+    color: var(--color-text);
+}
+
+[data-theme="dark"] .qr-lightbox-image {
+    background: var(--color-warm-bg);
+}
+
+[data-theme="dark"] .qr-lightbox-info h3 {
+    color: var(--color-primary);
+}
+
+[data-theme="dark"] .qr-lightbox-info p {
+    color: var(--color-text);
 }
 
 /* Legacy Donation Styles (kept for backwards compatibility) */

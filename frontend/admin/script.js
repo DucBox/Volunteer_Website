@@ -14,19 +14,79 @@ const state = {
 };
 
 // ===================================
+// ADMIN KEY AUTH
+// ===================================
+function getAdminKey() {
+    return sessionStorage.getItem('adminKey') || '';
+}
+
+function adminHeaders(extra = {}) {
+    return { 'X-Admin-Key': getAdminKey(), ...extra };
+}
+
+function showLoginOverlay() {
+    const overlay = document.getElementById('loginOverlay');
+    overlay.style.display = 'flex';
+    setTimeout(() => document.getElementById('adminKeyInput')?.focus(), 50);
+}
+
+function hideLoginOverlay() {
+    document.getElementById('loginOverlay').style.display = 'none';
+}
+
+async function submitAdminKey() {
+    const input = document.getElementById('adminKeyInput');
+    const errorEl = document.getElementById('loginError');
+    const key = input.value.trim();
+
+    if (!key) {
+        errorEl.textContent = 'Vui lòng nhập Admin Key.';
+        return;
+    }
+
+    errorEl.textContent = '';
+
+    try {
+        const res = await fetch(`${API_BASE}/documents`, {
+            headers: { 'X-Admin-Key': key }
+        });
+
+        if (res.status === 401) {
+            errorEl.textContent = 'Admin Key không đúng. Vui lòng thử lại.';
+            input.value = '';
+            input.focus();
+            return;
+        }
+
+        sessionStorage.setItem('adminKey', key);
+        hideLoginOverlay();
+        loadDocuments();
+    } catch {
+        errorEl.textContent = 'Không thể kết nối đến server.';
+    }
+}
+
+function handleUnauthorized() {
+    sessionStorage.removeItem('adminKey');
+    document.getElementById('adminKeyInput').value = '';
+    document.getElementById('loginError').textContent = 'Phiên đã hết hạn. Vui lòng đăng nhập lại.';
+    showLoginOverlay();
+}
+
+// ===================================
 // INITIALIZATION
 // ===================================
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('[Admin] Dashboard initialized');
-    
-    // Setup event listeners
     setupNavigation();
     setupUploadForm();
     setupDocumentList();
     setupChat();
-    
-    // Load initial data
-    loadDocuments();
+
+    if (getAdminKey()) {
+        loadDocuments();
+    } else {
+        showLoginOverlay();
+    }
 });
 
 // ===================================
@@ -137,8 +197,10 @@ async function uploadDocument() {
     try {
         const response = await fetch(`${API_BASE}/documents/upload`, {
             method: 'POST',
+            headers: adminHeaders(),
             body: formData
         });
+        if (response.status === 401) { handleUnauthorized(); return; }
         
         const data = await response.json();
         
@@ -186,20 +248,19 @@ function setupDocumentList() {
 }
 
 async function loadDocuments() {
-    console.log('[Documents] Loading...');
     showLoading(true);
-    
+
     try {
-        const response = await fetch(`${API_BASE}/documents`);
+        const response = await fetch(`${API_BASE}/documents`, {
+            headers: adminHeaders()
+        });
+        if (response.status === 401) { handleUnauthorized(); showLoading(false); return; }
         const data = await response.json();
-        
+
         state.documents = data;
         renderDocumentList(data);
         updateDocumentCount(data.length);
-        
-        console.log(`[Documents] Loaded ${data.length} documents`);
     } catch (error) {
-        console.error('[Documents] Error:', error);
         showStatus(
             document.getElementById('documentList'),
             'Không thể tải danh sách tài liệu!',
@@ -280,8 +341,6 @@ function filterDocuments(query) {
 }
 
 async function viewDocument(docId) {
-    console.log(`[Document] Viewing ${docId}`);
-    
     // Highlight selected document
     document.querySelectorAll('.document-item').forEach(item => {
         item.classList.remove('active');
@@ -297,7 +356,10 @@ async function viewDocument(docId) {
     `;
     
     try {
-        const response = await fetch(`${API_BASE}/documents/${docId}/content`);
+        const response = await fetch(`${API_BASE}/documents/${docId}/content`, {
+            headers: adminHeaders()
+        });
+        if (response.status === 401) { handleUnauthorized(); return; }
         const data = await response.json();
         
         if (response.ok) {
@@ -339,16 +401,16 @@ async function deleteDocument(docId) {
         return;
     }
     
-    console.log(`[Document] Deleting ${docId}`);
     showLoading(true);
     
     try {
         const response = await fetch(`${API_BASE}/documents/${docId}`, {
-            method: 'DELETE'
+            method: 'DELETE',
+            headers: adminHeaders()
         });
-        
+        if (response.status === 401) { handleUnauthorized(); showLoading(false); return; }
+
         if (response.ok) {
-            console.log(`[Document] Deleted successfully`);
             
             // If viewing deleted doc, clear viewer
             if (state.currentDocument?.doc_id === docId) {
@@ -414,8 +476,6 @@ async function sendMessage() {
     
     if (!question) return;
     
-    console.log('[Chat] Sending:', question);
-    
     // Add user message
     addChatMessage('user', question);
     input.value = '';
@@ -460,9 +520,9 @@ function addChatMessage(role, content) {
         '<i class="fas fa-robot"></i>';
     
     // Parse markdown for bot messages
-    const messageContent = role === 'bot' && typeof marked !== 'undefined' ?
-        marked.parse(content) :
-        escapeHtml(content);
+    const messageContent = role === 'bot' && typeof marked !== 'undefined'
+        ? (typeof DOMPurify !== 'undefined' ? DOMPurify.sanitize(marked.parse(content)) : escapeHtml(content))
+        : escapeHtml(content);
     
     messageDiv.innerHTML = `
         <div class="message-avatar">${icon}</div>
@@ -572,4 +632,3 @@ window.addEventListener('unhandledrejection', (e) => {
     console.error('[Unhandled Promise]', e.reason);
 });
 
-console.log('[Admin] JavaScript loaded successfully');

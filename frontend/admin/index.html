@@ -7,6 +7,9 @@
     
     <!-- Marked.js for Markdown rendering -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+    <!-- DOMPurify for XSS sanitization -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.1.6/purify.min.js" integrity="sha512-rMFGVXC0YC6AJCJ7sS8qLgV0lPaqfhqKGCJ6SnzfYsApEscbcjBFn3rdFPumSbFO9pIFMHAMcfTTDifbPuL0A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -194,6 +197,25 @@
     <div class="loading-overlay" id="loadingOverlay">
         <div class="spinner"></div>
         <p>Đang xử lý...</p>
+    </div>
+
+    <!-- Login Overlay -->
+    <div id="loginOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:9999;display:flex;align-items:center;justify-content:center;">
+        <div style="background:#fff;border-radius:12px;padding:40px 32px;max-width:400px;width:90%;box-shadow:0 20px 60px rgba(0,0,0,0.4);">
+            <div style="text-align:center;margin-bottom:24px;">
+                <i class="fas fa-shield-alt" style="font-size:48px;color:#4f46e5;"></i>
+                <h2 style="margin:12px 0 4px;font-size:20px;color:#1e293b;">Xác thực Admin</h2>
+                <p style="color:#64748b;font-size:14px;">Nhập Admin Key để tiếp tục</p>
+            </div>
+            <input type="password" id="adminKeyInput" placeholder="Admin Key..."
+                style="width:100%;padding:12px 16px;border:1.5px solid #e2e8f0;border-radius:8px;font-size:15px;box-sizing:border-box;outline:none;margin-bottom:8px;"
+                onkeydown="if(event.key==='Enter')submitAdminKey()">
+            <div id="loginError" style="color:#ef4444;font-size:13px;min-height:20px;margin-bottom:8px;"></div>
+            <button onclick="submitAdminKey()"
+                style="width:100%;padding:12px;background:#4f46e5;color:#fff;border:none;border-radius:8px;font-size:15px;font-weight:600;cursor:pointer;">
+                Đăng nhập
+            </button>
+        </div>
     </div>
 
     <!-- Custom JS -->

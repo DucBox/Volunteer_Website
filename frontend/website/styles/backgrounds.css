@@ -238,3 +238,17 @@
       - Giá trị cao hơn = ảnh rõ hơn
       - Giá trị thấp hơn = ảnh mờ hơn
 */
+
+/* Dark mode: hero giữ ảnh sáng hơn để vẫn thấy được, các section phụ giảm nhẹ */
+[data-theme="dark"] .hero::before {
+    opacity: 0.20;
+}
+
+[data-theme="dark"] .mission-section::before,
+[data-theme="dark"] .impact-section::before,
+[data-theme="dark"] .activities-section::before,
+[data-theme="dark"] .donation-section::before,
+[data-theme="dark"] .testimonials-section::before,
+[data-theme="dark"] .gallery-section::before {
+    opacity: 0.06;
+}

@@ -59,8 +59,7 @@ export class Forms {
             message: document.getElementById('message')?.value
         };
 
-        console.log('Volunteer registration:', formData);
-        alert(`Cảm ơn ${formData.name} đã đăng ký!\n\nChúng tôi sẽ liên hệ với bạn qua email ${formData.email} trong thời gian sớm nhất.`);
+        alert(`Cảm ơn ${formData.name} đã đăng ký!\n\nChúng tôi sẽ liên hệ với bạn qua email trong thời gian sớm nhất.`);
         event.target.reset();
     }
 

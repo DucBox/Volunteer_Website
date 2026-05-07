@@ -119,12 +119,8 @@ export class Testimonials {
             </div>
             
             <div class="testimonials-controls">
-                <button class="testimonials-nav-btn prev" id="testimonialsPrev">‹</button>
-                <button class="testimonials-play-pause" id="testimonialsPlayPause">
-                    <span class="play-icon" style="display: none;">▶</span>
-                    <span class="pause-icon">❚❚</span>
-                </button>
-                <button class="testimonials-nav-btn next" id="testimonialsNext">›</button>
+                <button class="testimonials-nav-btn prev" id="testimonialsPrev">&#8249;</button>
+                <button class="testimonials-nav-btn next" id="testimonialsNext">&#8250;</button>
             </div>
             
             <div class="testimonials-dots" id="testimonialsDots"></div>
@@ -353,22 +349,17 @@ export class Testimonials {
     attachEventListeners() {
         const prevBtn = document.getElementById('testimonialsPrev');
         const nextBtn = document.getElementById('testimonialsNext');
-        const playPauseBtn = document.getElementById('testimonialsPlayPause');
         
         prevBtn?.addEventListener('click', () => {
             this.prevSlide();
             this.resetAutoSlide();
         });
-        
+
         nextBtn?.addEventListener('click', () => {
             this.nextSlide();
             this.resetAutoSlide();
         });
-        
-        playPauseBtn?.addEventListener('click', () => {
-            this.toggleAutoSlide();
-        });
-        
+
         document.querySelectorAll('.testimonial-card-new').forEach((card) => {
             card.addEventListener('click', () => {
                 const index = parseInt(card.dataset.index);

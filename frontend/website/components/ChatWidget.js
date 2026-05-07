@@ -188,11 +188,6 @@ export class ChatWidget {
             // Build formatted prompt with history
             const formattedPrompt = this.buildFormattedPrompt(question);
             
-            console.log('[ChatWidget] Sending request:', {
-                question: question,
-                formatted_prompt_preview: formattedPrompt.substring(0, 200) + '...'
-            });
-            
             // Send to backend
             const response = await fetch(this.config.apiUrl, {
                 method: 'POST',
@@ -233,7 +228,7 @@ export class ChatWidget {
         
         // Parse markdown for assistant messages, escape HTML for user messages
         const messageContent = role === 'assistant' && typeof marked !== 'undefined'
-            ? marked.parse(content)
+            ? (typeof DOMPurify !== 'undefined' ? DOMPurify.sanitize(marked.parse(content)) : this.escapeHtml(content))
             : this.escapeHtml(content);
         
         messageDiv.innerHTML = `

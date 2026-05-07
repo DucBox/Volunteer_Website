@@ -4,7 +4,7 @@ from pydantic_settings import BaseSettings
 class Settings(BaseSettings):
     OPENAI_API_KEY: str
     EMBEDDING_MODEL: str = "text-embedding-3-small"
-    LLM_MODEL: str = "gpt-4o-mini"
+    LLM_MODEL: str = "gpt-5-mini"
     CHROMA_PERSIST_DIR: str = "./data/chroma_db"
     CHUNK_SIZE: int = 1000
     CHUNK_OVERLAP: int = 200

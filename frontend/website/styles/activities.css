@@ -1,0 +1,452 @@
+/* ===================================
+   ACTIVITIES SECTION — SLIDER & MODAL
+   =================================== */
+
+.act-slider-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: var(--space-48);
+}
+
+.act-slider-viewport {
+    flex: 1;
+    overflow: hidden;
+}
+
+.act-slider-track {
+    display: flex;
+    gap: 24px;
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: transform;
+}
+
+/* ---- Card ---- */
+.act-card {
+    flex: 0 0 calc(33.333% - 16px);
+    background: var(--color-surface);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+    border: 1px solid var(--color-card-border);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.act-card:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-lg);
+}
+
+.act-card-image {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+}
+
+.act-card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+    display: block;
+}
+
+.act-card:hover .act-card-image img {
+    transform: scale(1.07);
+}
+
+/* Status Badge */
+.act-status-badge {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+
+.act-status--completed  { background: rgba(34, 197, 94, 0.92);   color: #fff; }
+.act-status--upcoming   { background: rgba(59, 130, 246, 0.92);  color: #fff; }
+.act-status--planning   { background: rgba(245, 158, 11, 0.92);  color: #fff; }
+
+.act-card-body {
+    padding: var(--space-24);
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.act-card-title {
+    font-size: 19px;
+    font-weight: 700;
+    color: var(--color-text);
+    margin-bottom: var(--space-12);
+    line-height: 1.3;
+}
+
+.act-card-meta {
+    display: flex;
+    gap: var(--space-16);
+    font-size: 13px;
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-16);
+    flex-wrap: wrap;
+}
+
+.act-card-desc {
+    font-size: 14px;
+    color: var(--color-text-secondary);
+    line-height: 1.7;
+    margin-bottom: var(--space-20);
+    flex: 1;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* ---- Nav Buttons — inherits .nav-btn-shared from sections.css ---- */
+.act-slider-btn {
+    font-size: 26px;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: none;
+    background: var(--color-primary);
+    color: #fff;
+    line-height: 1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.25s ease;
+    box-shadow: 0 4px 16px rgba(var(--color-primary-rgb), 0.32);
+    user-select: none;
+    flex-shrink: 0;
+}
+.act-slider-btn:hover {
+    background: var(--color-primary-hover);
+    transform: scale(1.10);
+    box-shadow: 0 6px 24px rgba(var(--color-primary-rgb), 0.48);
+}
+.act-slider-btn:disabled {
+    opacity: 0.30;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+/* ---- Dots ---- */
+.act-dots {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: var(--space-24);
+}
+
+.act-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--color-border);
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    padding: 0;
+}
+
+.act-dot:hover {
+    background: var(--color-primary);
+    transform: scale(1.2);
+}
+
+.act-dot.active {
+    background: var(--color-primary);
+    width: 28px;
+    border-radius: 5px;
+}
+
+/* ===================================
+   ACTIVITY MODAL
+   =================================== */
+
+.act-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.72);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: 10000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-16);
+}
+
+.act-modal-overlay.active {
+    display: flex;
+    animation: actModalFadeIn 0.25s ease;
+}
+
+@keyframes actModalFadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+.act-modal-content {
+    background: var(--color-surface);
+    border-radius: 20px;
+    width: 100%;
+    max-width: 860px;
+    max-height: 90vh;
+    overflow: hidden;
+    position: relative;
+    animation: actModalSlideUp 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.4);
+    display: flex;
+    flex-direction: row;
+}
+
+@keyframes actModalSlideUp {
+    from { opacity: 0; transform: translateY(36px) scale(0.97); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Close button — absolute within modal */
+.act-modal-close {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    z-index: 20;
+    background: rgba(0, 0, 0, 0.15);
+    border: none;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    font-size: 17px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    transition: all 0.25s ease;
+}
+
+.act-modal-close:hover {
+    background: rgba(0, 0, 0, 0.35);
+    transform: rotate(90deg);
+}
+
+/* Left: image */
+.act-modal-image-wrap {
+    flex: 0 0 44%;
+    position: relative;
+    overflow: hidden;
+    border-radius: 20px 0 0 20px;
+    background: #1a1a1a;
+}
+
+.act-modal-image-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.act-modal-image-wrap .act-status-badge {
+    top: 16px;
+    left: 16px;
+}
+
+/* Right: info */
+.act-modal-info {
+    flex: 1;
+    overflow-y: auto;
+    padding: var(--space-48) var(--space-32) var(--space-32);
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-border) transparent;
+}
+
+.act-modal-title {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--color-text);
+    margin-bottom: var(--space-12);
+    line-height: 1.3;
+}
+
+.act-modal-meta {
+    margin-bottom: var(--space-20);
+}
+
+/* Stats grid */
+.modal-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin-bottom: var(--space-20);
+    background: var(--color-warm-bg);
+    border-radius: var(--radius-md);
+    padding: var(--space-16);
+}
+
+.modal-stat {
+    text-align: center;
+}
+
+.modal-stat span {
+    display: block;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--color-primary);
+    line-height: 1.2;
+}
+
+.modal-stat small {
+    font-size: 11px;
+    color: var(--color-text-secondary);
+    line-height: 1.4;
+}
+
+/* Rich content inside modal */
+.act-modal-full-desc h4 {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--color-text);
+    margin: var(--space-20) 0 var(--space-12);
+    padding-bottom: 6px;
+    border-bottom: 2px solid var(--color-warm-bg);
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+}
+
+.act-modal-full-desc ul {
+    padding-left: var(--space-20);
+    margin-bottom: var(--space-12);
+}
+
+.act-modal-full-desc li {
+    color: var(--color-text-secondary);
+    margin-bottom: 6px;
+    line-height: 1.6;
+    font-size: 14px;
+}
+
+.act-modal-full-desc p {
+    color: var(--color-text-secondary);
+    line-height: 1.7;
+    margin-bottom: var(--space-12);
+    font-size: 14px;
+}
+
+.act-modal-full-desc blockquote {
+    background: var(--color-warm-light);
+    border-left: 4px solid var(--color-primary);
+    padding: var(--space-16) var(--space-20);
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+    margin: var(--space-16) 0;
+    font-style: italic;
+    color: var(--color-text);
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+.act-modal-full-desc blockquote cite {
+    display: block;
+    margin-top: var(--space-8);
+    font-style: normal;
+    font-size: 12px;
+    color: var(--color-text-secondary);
+    font-weight: 600;
+}
+
+/* Coming soon variant */
+.modal-coming-soon {
+    text-align: center;
+    padding: var(--space-24) var(--space-16);
+    background: var(--color-warm-bg);
+    border-radius: var(--radius-lg);
+    margin-bottom: var(--space-20);
+}
+
+.coming-soon-icon { font-size: 52px; margin-bottom: var(--space-12); }
+
+.modal-coming-soon h3 {
+    font-size: 18px;
+    color: var(--color-primary);
+    margin-bottom: var(--space-8);
+    font-weight: 700;
+}
+
+.modal-coming-soon p {
+    color: var(--color-text-secondary);
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+/* ===================================
+   RESPONSIVE
+   =================================== */
+
+/* Tablet: 2 cards */
+@media (max-width: 1024px) {
+    .act-card { flex: 0 0 calc(50% - 12px); }
+}
+
+/* Mobile: 1 card, hide nav buttons */
+@media (max-width: 639px) {
+    .act-card { flex: 0 0 100%; }
+    .act-slider-btn { display: none; }
+    .act-slider-wrapper { gap: 0; }
+}
+
+/* Modal stacked on mobile */
+@media (max-width: 768px) {
+    .act-modal-content {
+        flex-direction: column;
+        max-height: 92vh;
+        overflow-y: auto;
+        border-radius: 16px;
+    }
+    .act-modal-image-wrap {
+        flex: 0 0 240px;
+        border-radius: 16px 16px 0 0;
+    }
+    .act-modal-info {
+        padding: var(--space-24) var(--space-20) var(--space-20);
+        overflow-y: visible;
+    }
+    .act-modal-title { font-size: 20px; }
+    .modal-stats { grid-template-columns: repeat(2, 1fr); }
+    .act-modal-close {
+        background: rgba(255,255,255,0.85);
+        color: #333;
+    }
+}
+
+@media (max-width: 480px) {
+    .act-modal-overlay { padding: 8px; }
+    .act-modal-content { border-radius: 12px; max-width: 100%; }
+    .act-modal-image-wrap { flex: 0 0 200px; }
+}
+
+/* ===================================
+   DARK MODE
+   =================================== */
+
+[data-theme="dark"] .act-modal-close {
+    background: rgba(255, 255, 255, 0.12);
+    color: #fff;
+}
+[data-theme="dark"] .act-modal-close:hover {
+    background: rgba(255, 255, 255, 0.22);
+}

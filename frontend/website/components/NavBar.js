@@ -5,31 +5,50 @@ export class Navbar {
     }
 
     init() {
+        this.applyStoredTheme();
         this.render();
         this.attachEventListeners();
         this.handleScroll();
+        this.trackActiveSection();
+    }
+
+    // ---- Theme: run before render to avoid flicker ----
+    applyStoredTheme() {
+        const saved = localStorage.getItem('theme');
+        const preferred = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        document.documentElement.setAttribute('data-theme', saved || preferred);
     }
 
     render() {
         const navContainer = document.getElementById('navbarContainer');
         if (!navContainer) return;
 
+        const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+
         navContainer.innerHTML = `
-            <nav class="navbar">
+            <nav class="navbar" id="mainNavbar">
                 <div class="nav-container">
-                    <a href="#" class="logo">
-                        <img src="assets/images/logo-no-bg.jpg" alt="Logo" class="logo-icon" style="object-fit: cover;">
-                        <span>Educational Missions - Dự Án Cho EM</span>
+                    <a href="#" class="logo" id="logoLink">
+                        <img src="assets/images/logo-no-bg.jpg" alt="Logo EM" class="logo-icon">
+                        <span class="logo-text">Educational Missions</span>
                     </a>
-                    <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">
+
+                    <button class="menu-toggle" id="menuToggle" aria-label="Mở menu" aria-expanded="false">
                         ☰
                     </button>
-                    <ul class="nav-menu" id="navMenu">
-                        <li><a href="#gioi-thieu" class="nav-link">Giới Thiệu</a></li>
-                        <li><a href="#hoat-dong" class="nav-link">Hoạt Động</a></li>
-                        <li><a href="#tinh-nguyen" class="nav-link">Tình Nguyện</a></li>
-                        <li><a href="#lien-he" class="nav-link">Liên Hệ</a></li>
-                        <li><a href="#quyen-gop" class="btn-donate-nav">Quyên Góp</a></li>
+
+                    <ul class="nav-menu" id="navMenu" role="menubar">
+                        <li role="none"><a href="#gioi-thieu"  class="nav-link" data-section="gioi-thieu"  role="menuitem">Giới Thiệu</a></li>
+                        <li role="none"><a href="#hoat-dong"   class="nav-link" data-section="hoat-dong"   role="menuitem">Hoạt Động</a></li>
+                        <li role="none"><a href="#tinh-nguyen" class="nav-link" data-section="tinh-nguyen" role="menuitem">Tình Nguyện</a></li>
+                        <li role="none"><a href="#lien-he"     class="nav-link" data-section="lien-he"     role="menuitem">Liên Hệ</a></li>
+                        <li role="none"><a href="#quyen-gop"   class="btn-donate-nav" data-section="quyen-gop" role="menuitem">Quyên Góp</a></li>
+                        <li role="none" style="display:flex;align-items:center;">
+                            <button class="dark-mode-toggle" id="darkModeToggle"
+                                aria-label="${isDark ? 'Chuyển sang chế độ sáng' : 'Chuyển sang chế độ tối'}">
+                                <span class="toggle-thumb">${isDark ? '☀️' : '🌙'}</span>
+                            </button>
+                        </li>
                     </ul>
                 </div>
             </nav>
@@ -38,50 +57,96 @@ export class Navbar {
 
     attachEventListeners() {
         const menuToggle = document.getElementById('menuToggle');
-        const navMenu = document.getElementById('navMenu');
+        const navMenu    = document.getElementById('navMenu');
+        const darkToggle = document.getElementById('darkModeToggle');
+        const logoLink   = document.getElementById('logoLink');
 
         // Mobile menu toggle
         menuToggle?.addEventListener('click', () => {
-            navMenu?.classList.toggle('active');
+            const isOpen = navMenu.classList.toggle('active');
+            menuToggle.setAttribute('aria-expanded', isOpen);
+            menuToggle.textContent = isOpen ? '✕' : '☰';
         });
 
-        // Smooth scroll for nav links
-        document.querySelectorAll('.nav-link, .btn-donate-nav, .logo').forEach(link => {
-            link.addEventListener('click', (e) => {
+        // Smooth scroll for all nav links
+        document.querySelectorAll('.nav-link, .btn-donate-nav').forEach(link => {
+            link.addEventListener('click', e => {
                 const href = link.getAttribute('href');
-                if (href && href.startsWith('#')) {
+                if (href?.startsWith('#')) {
                     e.preventDefault();
                     const target = document.querySelector(href);
                     if (target) {
-                        target.scrollIntoView({
-                            behavior: 'smooth',
-                            block: 'start'
-                        });
-                        // Close mobile menu
-                        navMenu?.classList.remove('active');
+                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
                     }
-                } else if (link.classList.contains('logo')) {
-                    // Logo scroll to top
-                    e.preventDefault();
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                    navMenu?.classList.remove('active');
                 }
+                navMenu?.classList.remove('active');
+                menuToggle?.setAttribute('aria-expanded', 'false');
+                menuToggle && (menuToggle.textContent = '☰');
             });
         });
+
+        // Logo → scroll to top
+        logoLink?.addEventListener('click', e => {
+            e.preventDefault();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            navMenu?.classList.remove('active');
+            menuToggle?.setAttribute('aria-expanded', 'false');
+            menuToggle && (menuToggle.textContent = '☰');
+        });
+
+        // Close mobile menu on outside click
+        document.addEventListener('click', e => {
+            if (navMenu?.classList.contains('active') &&
+                !navMenu.contains(e.target) &&
+                e.target !== menuToggle) {
+                navMenu.classList.remove('active');
+                menuToggle?.setAttribute('aria-expanded', 'false');
+                menuToggle && (menuToggle.textContent = '☰');
+            }
+        });
+
+        // Dark mode toggle
+        darkToggle?.addEventListener('click', () => this.toggleDarkMode());
     }
 
     handleScroll() {
         const navbar = document.querySelector('.navbar');
-
         window.addEventListener('scroll', () => {
-            const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+            navbar?.classList.toggle('scrolled', window.scrollY > 80);
+        }, { passive: true });
+    }
 
-            // Thêm shadow khi scroll xuống
-            if (currentScroll > 100) {
-                navbar?.classList.add('scrolled');
-            } else {
-                navbar?.classList.remove('scrolled');
-            }
+    // ---- Active nav link based on scroll position ----
+    trackActiveSection() {
+        const sectionIds = ['gioi-thieu', 'hoat-dong', 'tinh-nguyen', 'quyen-gop', 'lien-he'];
+
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (!entry.isIntersecting) return;
+                const id = entry.target.id;
+                document.querySelectorAll('.nav-link, .btn-donate-nav').forEach(link => {
+                    link.classList.toggle('active', link.dataset.section === id);
+                });
+            });
+        }, { rootMargin: '-20% 0px -65% 0px', threshold: 0 });
+
+        sectionIds.forEach(id => {
+            const el = document.getElementById(id);
+            if (el) observer.observe(el);
         });
+    }
+
+    // ---- Dark mode ----
+    toggleDarkMode() {
+        const current = document.documentElement.getAttribute('data-theme');
+        const next    = current === 'dark' ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', next);
+        localStorage.setItem('theme', next);
+
+        const toggle = document.getElementById('darkModeToggle');
+        const thumb  = toggle?.querySelector('.toggle-thumb');
+        if (thumb) thumb.textContent = next === 'dark' ? '☀️' : '🌙';
+        toggle?.setAttribute('aria-label',
+            next === 'dark' ? 'Chuyển sang chế độ sáng' : 'Chuyển sang chế độ tối');
     }
 }

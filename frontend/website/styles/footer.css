@@ -68,3 +68,12 @@
     text-align: center;
     color: var(--color-gray-300);
 }
+
+/* Dark mode — footer is already dark; just soften */
+[data-theme="dark"] .footer {
+    background-color: #0A0A0C;
+}
+
+[data-theme="dark"] .footer-section a:hover {
+    color: var(--color-primary);
+}

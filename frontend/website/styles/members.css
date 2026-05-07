@@ -1,5 +1,5 @@
 /* ===================================
-   MEMBERS SECTION STYLES
+   MEMBERS SECTION — Track-based Carousel
    =================================== */
 
 .members-section {
@@ -7,60 +7,50 @@
     background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
 }
 
-/* Members Grid - Responsive Auto Layout */
-.members-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: var(--space-32);
-    margin-top: var(--space-48);
-    margin-bottom: var(--space-48);
+/* ---- Slider layout (mirrors Activities) ---- */
+.mem-slider-wrapper {
     position: relative;
-    transition: opacity 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: var(--space-48);
 }
 
-/* Animation cho page transition */
-.members-grid.page-transitioning {
-    opacity: 0;
-    transform: translateX(-20px);
+.mem-slider-viewport {
+    flex: 1;
+    overflow: hidden;
 }
 
-.members-grid.page-transition-in {
-    animation: slideIn 0.4s ease forwards;
+.mem-slider-track {
+    display: flex;
+    gap: 24px;
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: transform;
 }
 
-@keyframes slideIn {
-    from {
-        opacity: 0;
-        transform: translateX(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateX(0);
-    }
-}
-
-/* Member Card */
-.member-card {
+/* ---- Card ---- */
+.mem-card {
+    flex: 0 0 calc(33.333% - 16px);
     background: #fff;
     border-radius: 16px;
     overflow: hidden;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-    transition: all 0.3s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
     cursor: pointer;
     display: flex;
     flex-direction: row;
-    min-height: 280px;
+    min-height: 240px;
 }
 
-.member-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 12px 40px rgba(79, 195, 247, 0.2);
+.mem-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 40px rgba(var(--color-primary-rgb), 0.18);
 }
 
-/* Member Image */
-.member-image {
-    flex: 0 0 40%;
-    background: linear-gradient(135deg, #4FC3F7, #81D4FA);
+/* Card image */
+.mem-card-image {
+    flex: 0 0 38%;
+    background: linear-gradient(135deg, var(--color-secondary), var(--color-accent));
     display: flex;
     align-items: center;
     justify-content: center;
@@ -68,115 +58,152 @@
     position: relative;
 }
 
-.member-image img {
+.mem-card-image img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    transition: transform 0.4s ease;
+    display: block;
 }
 
-.member-image-placeholder {
-    font-size: 64px;
+.mem-card:hover .mem-card-image img {
+    transform: scale(1.06);
+}
+
+.mem-card-placeholder {
+    font-size: 52px;
+    font-weight: 700;
     color: #fff;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
 }
 
-/* Member Info */
-.member-info {
+/* Card body */
+.mem-card-body {
     flex: 1;
-    padding: var(--space-24);
+    padding: var(--space-20) var(--space-20);
     display: flex;
     flex-direction: column;
     justify-content: center;
+    min-width: 0;
 }
 
-.member-role {
+.mem-role {
     display: inline-block;
-    padding: 6px 16px;
-    background: linear-gradient(135deg, #4FC3F7, #81D4FA);
+    padding: 5px 14px;
+    background: linear-gradient(135deg, var(--color-secondary), var(--color-accent));
     color: #fff;
     border-radius: 20px;
-    font-size: 12px;
-    font-weight: 600;
+    font-size: 11px;
+    font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    margin-bottom: var(--space-12);
+    margin-bottom: var(--space-8);
     width: fit-content;
 }
 
-.member-name {
-    font-size: 24px;
+.mem-name {
+    font-size: 20px;
     font-weight: 700;
-    color: var(--color-text-primary);
-    margin-bottom: var(--space-12);
+    color: var(--color-text);
+    margin-bottom: var(--space-8);
+    line-height: 1.3;
 }
 
-.member-info-text {
-    font-size: 14px;
+.mem-info {
+    font-size: 13px;
     color: var(--color-text-secondary);
     margin-bottom: var(--space-8);
     line-height: 1.6;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
-.member-hobbies {
-    font-size: 13px;
-    color: var(--color-text-tertiary);
-    margin-bottom: var(--space-12);
+.mem-hobbies {
+    font-size: 12px;
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-8);
     font-style: italic;
 }
 
-.member-quote {
-    font-size: 13px;
-    color: #4FC3F7;
+.mem-quote {
+    font-size: 12px;
+    color: var(--color-primary);
     font-style: italic;
-    padding-left: var(--space-12);
-    border-left: 3px solid #4FC3F7;
+    padding-left: var(--space-8);
+    border-left: 3px solid var(--color-primary);
     margin-top: auto;
+    line-height: 1.5;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
-/* Navigation Buttons */
-.members-navigation {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: var(--space-24);
-    margin-top: var(--space-32);
-}
-
-.members-nav-btn {
-    background: linear-gradient(135deg, #4FC3F7, #81D4FA);
-    color: #fff;
-    border: none;
+/* ---- Nav Buttons (same as Activities) ---- */
+.mem-slider-btn {
+    font-size: 26px;
     width: 48px;
     height: 48px;
     border-radius: 50%;
-    font-size: 24px;
+    border: none;
+    background: var(--color-primary);
+    color: #fff;
+    line-height: 1;
     cursor: pointer;
-    transition: all 0.3s ease;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 4px 12px rgba(79, 195, 247, 0.3);
-    margin-bottom: var(--space-16);
+    transition: all 0.25s ease;
+    box-shadow: 0 4px 16px rgba(var(--color-primary-rgb), 0.32);
+    user-select: none;
+    flex-shrink: 0;
 }
 
-.members-nav-btn:hover:not(:disabled) {
-    transform: scale(1.1);
-    box-shadow: 0 6px 20px rgba(79, 195, 247, 0.4);
+.mem-slider-btn:hover {
+    background: var(--color-primary-hover);
+    transform: scale(1.10);
+    box-shadow: 0 6px 24px rgba(var(--color-primary-rgb), 0.48);
 }
 
-.members-nav-btn:disabled {
-    opacity: 0.3;
-    cursor: not-allowed;
+/* ---- Dots (same as Activities) ---- */
+.mem-dots {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: var(--space-24);
 }
 
-.members-page-info {
-    font-size: 16px;
-    font-weight: 600;
-    color: var(--color-text-primary);
-    min-width: 120px;
-    text-align: center;
+.mem-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--color-border);
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    padding: 0;
 }
 
-/* Lightbox for Member Details */
+.mem-dot:hover {
+    background: var(--color-primary);
+    transform: scale(1.2);
+}
+
+.mem-dot.active {
+    background: var(--color-primary);
+    width: 28px;
+    border-radius: 5px;
+}
+
+/* ===================================
+   MEMBER LIGHTBOX
+   =================================== */
 .members-lightbox {
     position: fixed;
     top: 0;
@@ -188,14 +215,17 @@
     align-items: center;
     justify-content: center;
     z-index: 10000;
-    opacity: 0;
-    transition: opacity 0.3s ease;
     backdrop-filter: blur(5px);
 }
 
 .members-lightbox.active {
     display: flex;
-    opacity: 1;
+    animation: memFadeIn 0.3s ease;
+}
+
+@keyframes memFadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
 }
 
 .members-lightbox-content {
@@ -206,19 +236,13 @@
     max-height: 85vh;
     overflow-y: auto;
     position: relative;
-    animation: slideUp 0.4s ease;
+    animation: memSlideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
 }
 
-@keyframes slideUp {
-    from {
-        transform: translateY(50px);
-        opacity: 0;
-    }
-    to {
-        transform: translateY(0);
-        opacity: 1;
-    }
+@keyframes memSlideUp {
+    from { transform: translateY(50px); opacity: 0; }
+    to   { transform: translateY(0);    opacity: 1; }
 }
 
 .members-lightbox-close {
@@ -230,7 +254,7 @@
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    font-size: 24px;
+    font-size: 22px;
     cursor: pointer;
     z-index: 10;
     transition: all 0.3s ease;
@@ -247,7 +271,7 @@
 
 .lightbox-member-image {
     width: 100%;
-    max-height: 500px;
+    max-height: 420px;
     object-fit: contain;
     background: #f8f9fa;
     border-radius: 24px 24px 0 0;
@@ -260,7 +284,7 @@
 .lightbox-member-role {
     display: inline-block;
     padding: 8px 20px;
-    background: linear-gradient(135deg, #4FC3F7, #81D4FA);
+    background: linear-gradient(135deg, var(--color-secondary), var(--color-accent));
     color: #fff;
     border-radius: 24px;
     font-size: 13px;
@@ -271,18 +295,18 @@
 }
 
 .lightbox-member-name {
-    font-size: 32px;
+    font-size: 28px;
     font-weight: 700;
-    color: var(--color-text-primary);
-    margin-bottom: var(--space-24);
-}
-
-.lightbox-info-section {
+    color: var(--color-text);
     margin-bottom: var(--space-20);
 }
 
+.lightbox-info-section {
+    margin-bottom: var(--space-16);
+}
+
 .lightbox-info-label {
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 600;
     color: var(--color-text-secondary);
     text-transform: uppercase;
@@ -291,91 +315,99 @@
 }
 
 .lightbox-info-value {
-    font-size: 16px;
-    color: var(--color-text-primary);
+    font-size: 15px;
+    color: var(--color-text);
     line-height: 1.6;
 }
 
 .lightbox-member-quote {
-    background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+    background: var(--color-warm-light);
     padding: var(--space-20);
     border-radius: 12px;
-    border-left: 4px solid #4FC3F7;
-    margin-top: var(--space-24);
+    border-left: 4px solid var(--color-primary);
+    margin-top: var(--space-20);
 }
 
 .lightbox-member-quote p {
-    font-size: 16px;
+    font-size: 15px;
     font-style: italic;
-    color: #0284c7;
+    color: var(--color-primary);
     margin: 0;
 }
 
-/* Responsive Design */
+/* ===================================
+   RESPONSIVE
+   =================================== */
+@media (max-width: 1024px) {
+    .mem-card { flex: 0 0 calc(50% - 12px); }
+}
+
+@media (max-width: 639px) {
+    .mem-card { flex: 0 0 100%; }
+    .mem-slider-btn { display: none; }
+    .mem-slider-wrapper { gap: 0; }
+}
+
 @media (max-width: 768px) {
-    .members-grid {
-        grid-template-columns: 1fr;
-        gap: var(--space-24);
-    }
-    
-    .member-card {
+    .members-section { padding: var(--space-48) 0; }
+
+    .mem-card {
         flex-direction: column;
         min-height: auto;
     }
-    
-    .member-image {
-        flex: 0 0 200px;
+
+    .mem-card-image {
+        flex: 0 0 180px;
     }
-    
-    .member-info {
-        padding: var(--space-20);
-    }
-    
-    .member-name {
-        font-size: 20px;
-    }
-    
+
+    .mem-name { font-size: 18px; }
+
     .members-lightbox-content {
         width: 95%;
         max-height: 90vh;
     }
-    
-    .lightbox-member-name {
-        font-size: 26px;
-    }
-    
-    .lightbox-member-info {
-        padding: var(--space-24);
-    }
+
+    .lightbox-member-name { font-size: 22px; }
+    .lightbox-member-info { padding: var(--space-24); }
 }
 
-@media (max-width: 480px) {
-    .members-section {
-        padding: var(--space-48) 0;
-    }
-    
-    .member-image {
-        flex: 0 0 180px;
-    }
-    
-    .member-name {
-        font-size: 18px;
-    }
-    
-    .member-info-text,
-    .member-hobbies,
-    .member-quote {
-        font-size: 12px;
-    }
-    
-    .members-nav-btn {
-        width: 40px;
-        height: 40px;
-        font-size: 20px;
-    }
-    
-    .members-page-info {
-        font-size: 14px;
-        min-width: 100px;
-    }
+/* ===================================
+   DARK MODE
+   =================================== */
+[data-theme="dark"] .members-section {
+    background: var(--color-warm-bg);
+}
+
+[data-theme="dark"] .mem-card {
+    background: var(--color-surface);
+    box-shadow: var(--shadow-md);
+}
+
+[data-theme="dark"] .mem-card:hover {
+    box-shadow: 0 12px 40px rgba(var(--color-primary-rgb), 0.2);
+}
+
+[data-theme="dark"] .members-lightbox-content {
+    background: var(--color-surface);
+}
+
+[data-theme="dark"] .members-lightbox-close {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--color-text);
+}
+
+[data-theme="dark"] .members-lightbox-close:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+[data-theme="dark"] .lightbox-member-image {
+    background: var(--color-warm-bg);
+}
+
+[data-theme="dark"] .lightbox-member-name {
+    color: var(--color-text);
+}
+
+[data-theme="dark"] .lightbox-member-quote {
+    background: var(--color-warm-light);
 }

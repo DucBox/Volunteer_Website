@@ -7,10 +7,10 @@
 .scroll-to-top {
     position: fixed;
     bottom: 30px;
-    left: 30px; /* ✅ CHANGED: Right → Left */
-    width: 50px;
-    height: 50px;
-    background: linear-gradient(135deg, #42a5f5, #64b5f6);
+    left: 30px;
+    width: 48px;
+    height: 48px;
+    background: var(--color-primary);
     color: white;
     border: none;
     border-radius: 50%;
@@ -18,7 +18,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 4px 16px rgba(66, 165, 245, 0.4);
+    box-shadow: 0 4px 16px rgba(var(--color-primary-rgb), 0.35);
     z-index: 9998; /* Below chat widget (9999) */
     opacity: 0;
     visibility: hidden;
@@ -35,10 +35,9 @@
 
 /* Hover effect */
 .scroll-to-top:hover {
-    transform: translateY(-5px) scale(1.1);
-    box-shadow: 
-        0 6px 24px rgba(66, 165, 245, 0.6),
-        0 0 20px rgba(66, 165, 245, 0.4);
+    background: var(--color-primary-hover);
+    transform: translateY(-5px) scale(1.10);
+    box-shadow: 0 6px 24px rgba(var(--color-primary-rgb), 0.52);
 }
 
 /* Active (click) effect */
@@ -52,13 +51,8 @@
 }
 
 @keyframes pulseGlow {
-    0%, 100% {
-        box-shadow: 0 4px 16px rgba(66, 165, 245, 0.4);
-    }
-    50% {
-        box-shadow: 0 6px 24px rgba(66, 165, 245, 0.6),
-                    0 0 20px rgba(66, 165, 245, 0.5);
-    }
+    0%, 100% { box-shadow: 0 4px 16px rgba(var(--color-primary-rgb), 0.35); }
+    50%       { box-shadow: 0 6px 24px rgba(var(--color-primary-rgb), 0.55); }
 }
 
 /* SVG icon */
@@ -88,3 +82,5 @@
 }
 
 /* No need to adjust for chat widget since it's on the right side */
+
+/* Dark mode — inherits CSS var, no override needed */

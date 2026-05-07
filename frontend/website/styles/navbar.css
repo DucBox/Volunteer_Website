@@ -1,97 +1,86 @@
-/* Navbar Styles */
+/* ===================================
+   NAVBAR
+   =================================== */
 .navbar {
     position: fixed;
     top: 0;
     width: 100%;
     z-index: 1000;
-    background-color: rgb(239, 238, 244);
+    background-color: var(--color-surface);
     box-shadow: var(--shadow-sm);
     border-bottom: 1px solid var(--color-card-border);
+    transition: var(--transition-theme), box-shadow 0.3s ease;
+}
+
+.navbar.scrolled {
+    box-shadow: var(--shadow-md);
 }
 
 .page-wrapper {
-  padding-top: 60px; /* Chiều cao navbar, test và chỉnh */
+    padding-top: 64px;
 }
-
 
 .nav-container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: var(--space-16) var(--space-24);
+    padding: var(--space-12) var(--space-24);
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: var(--space-16);
 }
 
+/* Logo */
 .logo {
-    font-size: 24px;
+    font-size: 18px;
     font-weight: 700;
     color: var(--color-primary);
     display: flex;
     align-items: center;
     gap: var(--space-12);
     text-decoration: none;
+    flex-shrink: 0;
 }
 
 .logo-icon {
-    width: 40px;
-    height: 40px;
+    width: 38px;
+    height: 38px;
     border-radius: 10%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    object-fit: cover;
     flex-shrink: 0;
-    object-fit: contain;
 }
 
+.logo-text {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 260px;
+}
+
+/* Nav menu */
 .nav-menu {
     display: flex;
-    gap: var(--space-32);
+    gap: var(--space-28, 28px);
     list-style: none;
     align-items: center;
 }
 
-.nav-link {
-    color: var(--color-text);
-    text-decoration: none;
-    font-weight: 500;
-    transition: color 0.3s;
-    position: relative;
-}
-
-.nav-link:hover {
-    color: var(--color-primary);
-}
-
-.nav-link::after {
-    content: '';
-    position: absolute;
-    bottom: -4px;
-    left: 0;
-    width: 0;
-    height: 2px;
-    background-color: var(--color-primary);
-    transition: width 0.3s;
-}
-
-.nav-link:hover::after {
-    width: 100%;
-}
-
-/* Quyên góp giống link, nhưng đậm hơn một chút */
+.nav-link,
 .btn-donate-nav {
-    color: var(--color-text);
+    color: var(--color-text-secondary);
     text-decoration: none;
     font-weight: 500;
-    transition: color 0.3s;
+    font-size: 14px;
+    transition: color 0.25s ease;
     position: relative;
+    white-space: nowrap;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
 }
 
-.btn-donate-nav:hover {
-    color: var(--color-primary-hover);
-}
-
-
+.nav-link::after,
 .btn-donate-nav::after {
     content: '';
     position: absolute;
@@ -100,33 +89,95 @@
     width: 0;
     height: 2px;
     background-color: var(--color-primary);
-    transition: width 0.3s;
+    transition: width 0.25s ease;
 }
 
+.nav-link:hover,
+.btn-donate-nav:hover {
+    color: var(--color-primary);
+}
+
+.nav-link:hover::after,
 .btn-donate-nav:hover::after {
     width: 100%;
 }
 
-/* Mobile Menu Toggle */
+/* Active state (set by scroll observer) */
+.nav-link.active,
+.btn-donate-nav.active {
+    color: var(--color-primary);
+    font-weight: 600;
+}
+
+.nav-link.active::after,
+.btn-donate-nav.active::after {
+    width: 100%;
+}
+
+/* ===================================
+   DARK MODE TOGGLE
+   =================================== */
+.dark-mode-toggle {
+    background: var(--color-warm-bg);
+    border: 1.5px solid var(--color-border);
+    border-radius: 20px;
+    width: 52px;
+    height: 28px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    padding: 3px;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.dark-mode-toggle:hover {
+    border-color: var(--color-primary);
+}
+
+.toggle-thumb {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--color-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    flex-shrink: 0;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+
+[data-theme="dark"] .toggle-thumb {
+    transform: translateX(24px);
+}
+
+/* Mobile hamburger */
 .menu-toggle {
     display: none;
     background: none;
     border: none;
-    font-size: 24px;
+    font-size: 22px;
     cursor: pointer;
     color: var(--color-text);
+    padding: 4px;
+    line-height: 1;
 }
 
-/* Navbar Scroll Effect */
-.navbar.scrolled {
-    box-shadow: var(--shadow-md);  /* shadow đậm hơn khi scroll [web:42][web:48] */
+/* ===================================
+   MOBILE MENU
+   =================================== */
+@media (max-width: 900px) {
+    .logo-text { max-width: 180px; }
 }
 
-/* Mobile Responsive */
 @media (max-width: 768px) {
-    .menu-toggle {
-        display: block;
-    }
+    .menu-toggle { display: block; }
+
+    .logo-text { display: none; }
 
     .nav-menu {
         display: none;
@@ -136,22 +187,35 @@
         right: 0;
         background-color: var(--color-surface);
         flex-direction: column;
-        padding: var(--space-20);
+        padding: var(--space-20) var(--space-24);
         box-shadow: var(--shadow-md);
+        gap: var(--space-4, 4px);
+        border-top: 1px solid var(--color-card-border);
     }
 
-    .nav-menu.active {
-        display: flex;
-    }
+    .nav-menu.active { display: flex; }
 
     .nav-menu li {
         width: 100%;
-        text-align: center;
+        border-bottom: 1px solid var(--color-card-border);
+        padding: var(--space-12) 0;
     }
 
+    .nav-menu li:last-child { border-bottom: none; }
+
+    .nav-link,
     .btn-donate-nav {
         display: block;
         width: 100%;
-        text-align: center;
+        font-size: 15px;
+        text-align: left;
     }
+
+    .dark-mode-toggle {
+        margin: var(--space-8) 0 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .nav-container { padding: var(--space-12) var(--space-16); }
 }
