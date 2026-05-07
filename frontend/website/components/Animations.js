@@ -7,6 +7,7 @@ export class Animations {
     init() {
         setTimeout(() => this.setupScrollAnimations(), 120);
         this.setupTypewriterEffect();
+        this.setupScrollTypewriters();
     }
 
     setupTypewriterEffect() {
@@ -62,6 +63,88 @@ export class Animations {
 
         // Start typing after a short delay
         setTimeout(typeTitle, 500);
+    }
+
+    setupScrollTypewriters() {
+        const targets = document.querySelectorAll('.section-title, .section-subtitle, .section-desc');
+        
+        targets.forEach(target => {
+            // Check if it already has the class to avoid double-wrapping
+            if(target.classList.contains('typewriter-processed')) return;
+            target.classList.add('typewriter-processed');
+
+            // Wrap text nodes in spans
+            const walker = document.createTreeWalker(target, NodeFilter.SHOW_TEXT, null, false);
+            const nodesToReplace = [];
+            let node;
+            while(node = walker.nextNode()) {
+                if(node.nodeValue.trim() !== '') {
+                    nodesToReplace.push(node);
+                }
+            }
+            
+            let charIndex = 0;
+            nodesToReplace.forEach(textNode => {
+                const text = textNode.nodeValue;
+                const fragment = document.createDocumentFragment();
+                // Split by spaces but preserve them in the array
+                const words = text.split(/(\s+)/);
+                
+                words.forEach(word => {
+                    if (word.trim() === '') {
+                        // It's a space or multiple spaces
+                        const spaceSpan = document.createElement('span');
+                        spaceSpan.innerHTML = word.replace(/ /g, '&nbsp;');
+                        spaceSpan.className = 'scroll-typewriter-char';
+                        spaceSpan.style.opacity = '0';
+                        spaceSpan.style.transition = 'opacity 0.05s ease';
+                        fragment.appendChild(spaceSpan);
+                    } else {
+                        // It's a word. Wrap in inline-block to prevent breaking mid-word
+                        const wordSpan = document.createElement('span');
+                        wordSpan.style.display = 'inline-block';
+                        for(let i=0; i<word.length; i++) {
+                            const span = document.createElement('span');
+                            span.textContent = word[i];
+                            span.className = 'scroll-typewriter-char';
+                            span.style.opacity = '0';
+                            span.style.transition = 'opacity 0.05s ease';
+                            wordSpan.appendChild(span);
+                        }
+                        fragment.appendChild(wordSpan);
+                    }
+                });
+                textNode.parentNode.replaceChild(fragment, textNode);
+            });
+        });
+
+        // Observer to trigger typing
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const el = entry.target;
+                    // Only type once
+                    if(el.dataset.typed === 'true') return;
+                    el.dataset.typed = 'true';
+                    
+                    const chars = el.querySelectorAll('.scroll-typewriter-char');
+                    let current = 0;
+                    
+                    function type() {
+                        if(current < chars.length) {
+                            chars[current].style.opacity = '1';
+                            current++;
+                            // type faster for long texts
+                            const speed = chars.length > 50 ? 10 : 25;
+                            setTimeout(type, speed);
+                        }
+                    }
+                    setTimeout(type, 150); // slight delay after intersection
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+        targets.forEach(t => observer.observe(t));
     }
 
     setupScrollAnimations() {

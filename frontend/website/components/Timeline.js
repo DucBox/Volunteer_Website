@@ -95,7 +95,8 @@ export class Timeline {
         this.autoDriveFrom = 0;
         this.autoDriveTo = this.items.length - 1;
         this.isAutoDriving = false;
-        this.segmentDuration = 2800;
+        this.hasAutoStarted = false;
+        this.segmentDuration = 4000; // Slower, more cinematic auto drive
 
         this.container = null;
         this.viewport = null;
@@ -190,6 +191,26 @@ export class Timeline {
             this.layoutScene();
             this.renderFrame(false);
         });
+
+        // Tự động khởi hành khi cuộn tới Timeline
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    if (!this.isAutoDriving && !this.hasAutoStarted) {
+                        this.hasAutoStarted = true;
+                        this.startAutoDrive();
+                    }
+                } else {
+                    // Optional: pause if out of view to save performance
+                    if (this.isAutoDriving) {
+                        this.stopAutoDrive();
+                        this.hasAutoStarted = false; // Reset so it starts again when back in view
+                    }
+                }
+            });
+        }, { threshold: 0.2 });
+        
+        if (this.viewport) observer.observe(this.viewport);
     }
 
     cacheElements() {

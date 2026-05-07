@@ -934,6 +934,43 @@
     opacity: 1;
 }
 
+/* ===================================
+   IDLE WAVE FLOAT EFFECT (Phase 3.5)
+   =================================== */
+
+@keyframes floatWave {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-8px);
+    }
+}
+
+/* Apply floating to cards */
+.act-card, .mem-card, .donation-card, .mission-card-flip, .partner-card, .faq-item {
+    animation: floatWave 6s ease-in-out infinite;
+}
+
+/* Stagger delays for a "sea wave" effect */
+.act-card:nth-child(3n+1), .mem-card:nth-child(4n+1), .donation-card:nth-child(3n+1), .mission-card-flip:nth-child(3n+1), .faq-item:nth-child(odd) {
+    animation-delay: 0s;
+}
+.act-card:nth-child(3n+2), .mem-card:nth-child(4n+2), .donation-card:nth-child(3n+2), .mission-card-flip:nth-child(3n+2), .faq-item:nth-child(even) {
+    animation-delay: 1.5s;
+}
+.act-card:nth-child(3n+3), .mem-card:nth-child(4n+3), .donation-card:nth-child(3n+3), .mission-card-flip:nth-child(3n+3) {
+    animation-delay: 3s;
+}
+.mem-card:nth-child(4n+4) {
+    animation-delay: 4.5s;
+}
+
+/* Pause animation on hover so it doesn't interfere with interaction */
+.act-card:hover, .mem-card:hover, .donation-card:hover, .mission-card-flip:hover, .partner-card:hover, .faq-item:hover {
+    animation-play-state: paused;
+}
+
 /* Đảm bảo nội dung không bị đè */
 .act-card > *, .mem-card > *, .donation-card > * {
     position: relative;
