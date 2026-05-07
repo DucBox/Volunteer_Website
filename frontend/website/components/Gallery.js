@@ -12,8 +12,10 @@ export class Gallery {
 
     async init() {
         console.log('[Gallery] Khởi tạo Gallery component...');
+        this.showSkeleton();
         await this.loadImages();
-        
+        this.hideSkeleton();
+
         if (this.images.length > 0) {
             this.render3DCarousel();
             this.attachEventListeners();
@@ -22,6 +24,25 @@ export class Gallery {
         } else {
             console.error('[Gallery] ✗ Không thể khởi tạo: Không có ảnh!');
         }
+    }
+
+    showSkeleton() {
+        const carousel = document.querySelector('.gallery-carousel');
+        if (!carousel) return;
+        const skeleton = document.createElement('div');
+        skeleton.id = 'gallerySkeleton';
+        skeleton.className = 'gallery-skeleton';
+        skeleton.innerHTML = [1, 2, 3, 4, 5].map(() =>
+            `<div class="gallery-skeleton-item"></div>`
+        ).join('');
+        carousel.before(skeleton);
+        carousel.style.display = 'none';
+    }
+
+    hideSkeleton() {
+        document.getElementById('gallerySkeleton')?.remove();
+        const carousel = document.querySelector('.gallery-carousel');
+        if (carousel) carousel.style.display = '';
     }
 
     async loadImages() {
@@ -90,9 +111,10 @@ export class Gallery {
     }
 
     showErrorMessage() {
+        this.hideSkeleton();
         const container = document.getElementById('carouselContainer');
         if (!container) return;
-        
+
         container.innerHTML = `
             <div style="text-align: center; padding: 60px 20px; color: var(--color-text-secondary);">
                 <div style="font-size: 64px; margin-bottom: 20px;">📁</div>

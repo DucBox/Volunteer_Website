@@ -1,0 +1,108 @@
+/* ===================================
+   SKELETON LOADING + REVEAL ANIMATIONS
+   =================================== */
+
+/* Shimmer keyframe */
+@keyframes skeletonShimmer {
+    0%   { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+/* Shared skeleton shimmer */
+.mem-img-skeleton,
+.gallery-skeleton-item {
+    background: linear-gradient(
+        90deg,
+        #e8e8e8 25%,
+        #f2f2f2 50%,
+        #e8e8e8 75%
+    );
+    background-size: 200% 100%;
+    animation: skeletonShimmer 1.5s ease-in-out infinite;
+}
+
+[data-theme="dark"] .mem-img-skeleton,
+[data-theme="dark"] .gallery-skeleton-item {
+    background: linear-gradient(
+        90deg,
+        #1e2535 25%,
+        #2a3248 50%,
+        #1e2535 75%
+    );
+    background-size: 200% 100%;
+}
+
+/* ---- Member image skeleton ---- */
+.mem-card-image {
+    position: relative;
+}
+
+.mem-img-skeleton {
+    position: absolute;
+    inset: 0;
+    border-radius: 8px 8px 0 0;
+    z-index: 2;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+
+/* ---- Gallery skeleton ---- */
+.gallery-skeleton {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+    padding: 48px 0;
+    overflow: hidden;
+}
+
+.gallery-skeleton-item {
+    border-radius: 12px;
+    flex-shrink: 0;
+    width: 280px;
+    height: 200px;
+}
+
+@media (max-width: 768px) {
+    .gallery-skeleton-item {
+        width: 200px;
+        height: 150px;
+    }
+}
+
+/* ===================================
+   REVEAL SCROLL ANIMATIONS
+   =================================== */
+.reveal-ready {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.55s ease, transform 0.55s ease;
+}
+
+.reveal-ready.revealed {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ===================================
+   CTA BUTTON PULSE (Hero)
+   =================================== */
+@keyframes ctaPulse {
+    0%, 100% {
+        box-shadow: 0 4px 16px rgba(var(--color-primary-rgb), 0.40);
+    }
+    50% {
+        box-shadow:
+            0 4px 28px rgba(var(--color-primary-rgb), 0.65),
+            0 0 0 7px rgba(var(--color-primary-rgb), 0.12);
+    }
+}
+
+.hero-cta .btn-primary {
+    animation: ctaPulse 3s ease-in-out infinite;
+}
+
+.hero-cta .btn-primary:hover,
+.hero-cta .btn-primary:focus {
+    animation: none;
+}

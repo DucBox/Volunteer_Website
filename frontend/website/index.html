@@ -51,6 +51,10 @@
     <link rel="stylesheet" href="styles/chatWidget.css">
     <link rel="stylesheet" href="styles/scrolltotop.css">
     <link rel="stylesheet" href="styles/testimonials.css">
+    <link rel="stylesheet" href="styles/skeleton.css">
+    <link rel="stylesheet" href="styles/toast.css">
+    <link rel="stylesheet" href="styles/faq.css">
+    <link rel="stylesheet" href="styles/timeline.css">
 </head>
 <body>
     <!-- Navigation -->
@@ -180,22 +184,33 @@
                 </p>
                 <div class="impact-grid">
                     <div class="impact-card">
-                        <span class="impact-number">2+</span>
+                        <span class="impact-number" data-count="2">2+</span>
                         <span class="impact-label">Chuyến Đi Tình Nguyện</span>
                     </div>
                     <div class="impact-card">
-                        <span class="impact-number">60+</span>
+                        <span class="impact-number" data-count="60">60+</span>
                         <span class="impact-label">Suất Học Bổng</span>
                     </div>
                     <div class="impact-card">
-                        <span class="impact-number">200+</span>
+                        <span class="impact-number" data-count="200">200+</span>
                         <span class="impact-label">Phần Quà Trao Tặng</span>
                     </div>
                     <div class="impact-card">
-                        <span class="impact-number">24+</span>
+                        <span class="impact-number" data-count="24">24+</span>
                         <span class="impact-label">Giờ Học Vui Vẻ</span>
                     </div>
                 </div>
+            </div>
+        </section>
+
+        <!-- ==================== TIMELINE ==================== -->
+        <section id="hanh-trinh" class="timeline-section">
+            <div class="container">
+                <h2 class="section-title">Hành Trình Của Chúng Mình</h2>
+                <p class="section-subtitle">
+                    <strong>Từng bước chân, từng chuyến đi — cùng nhau viết nên câu chuyện yêu thương.</strong>
+                </p>
+                <div id="timelineContainer"></div>
             </div>
         </section>
 
@@ -237,6 +252,7 @@
                         <img src="assets/images/volunteer-registration.jpg"
                              alt="Đăng ký tình nguyện"
                              class="volunteer-form-img"
+                             loading="lazy"
                              onerror="this.style.display='none'">
                         <p class="volunteer-form-desc">
                             Hãy để tuổi trẻ của bạn được ghi dấu ở một hành trình đầy yêu thương cùng Dự án Cho Em nhé.
@@ -249,6 +265,17 @@
                         </a>
                     </div>
                 </div>
+            </div>
+        </section>
+
+        <!-- ==================== FAQ ==================== -->
+        <section id="faq" class="faq-section">
+            <div class="container">
+                <h2 class="section-title">Câu Hỏi Thường Gặp</h2>
+                <p class="section-subtitle">
+                    <strong>Những thắc mắc phổ biến từ các bạn tình nguyện viên tương lai.</strong>
+                </p>
+                <div id="faqContainer"></div>
             </div>
         </section>
 
@@ -309,37 +336,37 @@
                             <div class="materials-grid">
                                 <div class="material-item">
                                     <div class="material-image-wrapper">
-                                        <img src="assets/images/book.jpg"  alt="Sách vở"   class="material-image">
+                                        <img src="assets/images/book.jpg"  alt="Sách vở"   class="material-image" loading="lazy">
                                     </div>
                                     <span class="material-name">Sách vở</span>
                                 </div>
                                 <div class="material-item">
                                     <div class="material-image-wrapper">
-                                        <img src="assets/images/pen.jpg"   alt="Bút chì"   class="material-image">
+                                        <img src="assets/images/pen.jpg"   alt="Bút chì"   class="material-image" loading="lazy">
                                     </div>
                                     <span class="material-name">Bút chì</span>
                                 </div>
                                 <div class="material-item">
                                     <div class="material-image-wrapper">
-                                        <img src="assets/images/pen2.jpg"  alt="Bút mực"   class="material-image">
+                                        <img src="assets/images/pen2.jpg"  alt="Bút mực"   class="material-image" loading="lazy">
                                     </div>
                                     <span class="material-name">Bút mực</span>
                                 </div>
                                 <div class="material-item">
                                     <div class="material-image-wrapper">
-                                        <img src="assets/images/ruler.jpg" alt="Thước"     class="material-image">
+                                        <img src="assets/images/ruler.jpg" alt="Thước"     class="material-image" loading="lazy">
                                     </div>
                                     <span class="material-name">Thước</span>
                                 </div>
                                 <div class="material-item">
                                     <div class="material-image-wrapper">
-                                        <img src="assets/images/food.jpg"  alt="Đồ ăn"    class="material-image">
+                                        <img src="assets/images/food.jpg"  alt="Đồ ăn"    class="material-image" loading="lazy">
                                     </div>
                                     <span class="material-name">Đồ ăn</span>
                                 </div>
                                 <div class="material-item">
                                     <div class="material-image-wrapper">
-                                        <img src="assets/images/drink.jpg" alt="Nước uống" class="material-image">
+                                        <img src="assets/images/drink.jpg" alt="Nước uống" class="material-image" loading="lazy">
                                     </div>
                                     <span class="material-name">Nước uống</span>
                                 </div>
@@ -405,7 +432,7 @@
                     <!-- Nhà tài trợ thực -->
                     <div class="partner-card">
                         <div class="partner-logo">
-                            <img src="assets/images/sponsors/ieltshieuminh.jpg" alt="IELTS Hiếu Minh">
+                            <img src="assets/images/sponsors/ieltshieuminh.jpg" alt="IELTS Hiếu Minh" loading="lazy">
                         </div>
                         <p class="partner-desc">
                             <strong>IELTS Hiếu Minh</strong><br>
@@ -435,11 +462,11 @@
                     <div class="social-links">
                         <a href="https://www.facebook.com/info.duanchoem" target="_blank" rel="noopener noreferrer"
                            class="social-link" aria-label="Facebook">
-                            <img src="assets/images/facebook.jpg" alt="Facebook">
+                            <img src="assets/images/facebook.jpg" alt="Facebook" loading="lazy">
                         </a>
                         <a href="https://www.tiktok.com/@hanhtrinh.choem?lang=en" target="_blank" rel="noopener noreferrer"
                            class="social-link" aria-label="TikTok">
-                            <img src="assets/images/tiktok.jpg" alt="TikTok">
+                            <img src="assets/images/tiktok.jpg" alt="TikTok" loading="lazy">
                         </a>
                     </div>
                 </div>

@@ -112,8 +112,10 @@ export class Members {
         return `
             <div class="mem-card" data-index="${index}">
                 <div class="mem-card-image">
-                    <img src="${member.image}" alt="${member.name}"
-                         onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+                    <div class="mem-img-skeleton"></div>
+                    <img src="${member.image}" alt="${member.name}" loading="lazy"
+                         onload="this.previousElementSibling.style.opacity='0';setTimeout(()=>this.previousElementSibling.remove(),300)"
+                         onerror="this.previousElementSibling.remove();this.style.display='none';this.nextElementSibling.style.display='flex'">
                     <div class="mem-card-placeholder">${initials}</div>
                 </div>
                 <div class="mem-card-body">

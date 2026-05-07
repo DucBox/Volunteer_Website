@@ -1,4 +1,6 @@
 // Forms Component - Handles Volunteer Registration and Donations
+import { toast } from './Toast.js';
+
 export class Forms {
     constructor() {
         this.selectedAmount = 0;
@@ -35,53 +37,45 @@ export class Forms {
     }
 
     selectAmount(element, amount) {
-        // Remove active class from all options
         document.querySelectorAll('.amount-option').forEach(opt => {
             opt.classList.remove('active');
         });
-        // Add active class to selected option
         element.classList.add('active');
         this.selectedAmount = amount;
-        // Clear custom amount input
         const customInput = document.getElementById('customAmount');
         if (customInput) customInput.value = '';
     }
 
     handleVolunteerSubmit(event) {
         event.preventDefault();
-
-        const formData = {
-            name: document.getElementById('name')?.value,
-            email: document.getElementById('email')?.value,
-            phone: document.getElementById('phone')?.value,
-            city: document.getElementById('city')?.value,
-            interest: document.getElementById('interest')?.value,
-            message: document.getElementById('message')?.value
-        };
-
-        alert(`Cảm ơn ${formData.name} đã đăng ký!\n\nChúng tôi sẽ liên hệ với bạn qua email trong thời gian sớm nhất.`);
+        const name = document.getElementById('name')?.value?.trim();
+        toast.success(
+            `Cảm ơn <strong>${name}</strong>! Chúng mình sẽ liên hệ với bạn sớm nhất có thể. 🎉`,
+            4500
+        );
         event.target.reset();
     }
 
     handleDonation() {
-        const customInput = document.getElementById('customAmount');
+        const customInput  = document.getElementById('customAmount');
         const customAmount = customInput?.value;
-        const finalAmount = customAmount ? parseInt(customAmount) : this.selectedAmount;
+        const finalAmount  = customAmount ? parseInt(customAmount) : this.selectedAmount;
 
-        if (finalAmount <= 0) {
-            alert('Vui lòng chọn hoặc nhập số tiền quyên góp!');
+        if (!finalAmount || finalAmount <= 0) {
+            toast.warning('Vui lòng chọn hoặc nhập số tiền quyên góp!');
             return;
         }
 
-        alert(`Cảm ơn bạn đã quyên góp ${finalAmount.toLocaleString('vi-VN')} VNĐ!\n\nBạn sẽ được chuyển đến trang thanh toán...`);
-        // Redirect to payment page
-        // window.location.href = '/payment?amount=' + finalAmount;
+        toast.success(
+            `Cảm ơn bạn đã quyên góp <strong>${finalAmount.toLocaleString('vi-VN')} VNĐ</strong>! Mỗi đồng đều tạo nên sự thay đổi 💙`,
+            5000
+        );
     }
 
     handleNewsletter(event) {
         event.preventDefault();
         const email = event.target.querySelector('input[type="email"]')?.value;
-        alert(`Cảm ơn bạn đã đăng ký nhận tin!\n\nEmail ${email} đã được thêm vào danh sách.`);
+        toast.success(`Đã đăng ký nhận tin thành công! Email <strong>${email}</strong> đã được thêm vào danh sách.`);
         event.target.reset();
     }
 
@@ -93,8 +87,8 @@ export class Forms {
                 input.addEventListener('invalid', (e) => {
                     e.preventDefault();
                     input.classList.add('error');
+                    toast.error('Vui lòng điền đầy đủ thông tin bắt buộc.');
                 });
-
                 input.addEventListener('input', () => {
                     input.classList.remove('error');
                 });

@@ -1,38 +1,46 @@
-// Animations Component - Handles scroll animations and visual effects
+// Animations Component - Scroll reveal with stagger
 export class Animations {
     constructor() {
         this.init();
     }
 
     init() {
-        this.setupScrollAnimations();
+        // Slight delay to let dynamic components (Members, Activities…) finish rendering
+        setTimeout(() => this.setupScrollAnimations(), 120);
     }
 
     setupScrollAnimations() {
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
+        const SELECTORS = [
+            '.mission-card-flip',
+            '.impact-card',
+            '.mem-card',
+            '.partner-card',
+            '.donation-card',
+            '.activity-card',
+            '.timeline-item',
+            '.faq-item',
+            '.stat-item',
+        ].join(', ');
 
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
+                    entry.target.classList.add('revealed');
+                    observer.unobserve(entry.target);
                 }
             });
-        }, observerOptions);
+        }, {
+            threshold: 0.08,
+            rootMargin: '0px 0px -40px 0px',
+        });
 
-        // Observe all cards for animation
-        const animatedElements = document.querySelectorAll(
-            '.mission-card, .activity-card, .impact-card, .testimonial-card'
-        );
-
-        animatedElements.forEach(element => {
-            element.style.opacity = '0';
-            element.style.transform = 'translateY(30px)';
-            element.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-            observer.observe(element);
+        document.querySelectorAll(SELECTORS).forEach(el => {
+            // Stagger by sibling position within direct parent
+            const siblings = [...el.parentElement.children];
+            const localIdx = siblings.indexOf(el);
+            el.style.transitionDelay = `${localIdx * 0.1}s`;
+            el.classList.add('reveal-ready');
+            observer.observe(el);
         });
     }
 }
