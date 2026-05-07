@@ -91,21 +91,6 @@ export class Mission {
         this.renderModal();
         this.attachFlipEvents();
         this.attachModalEvents();
-        this.equalizeHeights();
-        window.addEventListener('resize', () => this.equalizeHeights());
-    }
-
-    equalizeHeights() {
-        const cards  = [...document.querySelectorAll('.mission-card-flip')];
-        const fronts = [...document.querySelectorAll('.mission-card-front')];
-        // Reset to natural height for measurement
-        cards.forEach(c  => c.style.height  = 'auto');
-        fronts.forEach(f => f.style.height = 'auto');
-        // Find tallest natural height
-        const maxH = Math.max(...cards.map(c => c.offsetHeight));
-        // Apply equal height to container and front face
-        cards.forEach(c  => c.style.height  = maxH + 'px');
-        fronts.forEach(f => f.style.height = maxH + 'px');
     }
 
     renderModal() {

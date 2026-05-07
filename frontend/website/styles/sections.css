@@ -179,8 +179,8 @@
 /* ---- Flip Card Container ---- */
 .mission-card-flip {
     perspective: 1200px;
+    height: 320px;
     cursor: pointer;
-    /* height equalized by JS */
 }
 
 .mission-card-inner {
@@ -198,6 +198,8 @@
 /* ---- Front & Back shared ---- */
 .mission-card-front,
 .mission-card-back {
+    position: absolute;
+    inset: 0;
     backface-visibility: hidden;
     -webkit-backface-visibility: hidden;
     border-radius: var(--radius-lg);
@@ -207,10 +209,8 @@
     border: 1px solid var(--color-card-border);
 }
 
-/* Front: relative flow so JS can measure natural height */
+/* ---- Front face ---- */
 .mission-card-front {
-    position: relative;
-    width: 100%;
     background-color: var(--color-surface);
     box-shadow: var(--shadow-sm);
     transition: box-shadow 0.3s ease;
@@ -264,6 +264,7 @@
     color: var(--color-text-secondary);
     line-height: 1.7;
     font-size: 15px;
+    flex: 1;
 }
 
 .mission-card-back p {
@@ -277,8 +278,7 @@
     font-size: 13px;
     color: var(--color-primary);
     font-weight: 600;
-    margin-top: auto;
-    padding-top: var(--space-16);
+    margin-top: var(--space-16);
     opacity: 0.8;
     letter-spacing: 0.2px;
 }
@@ -458,6 +458,7 @@
 }
 
 @media (max-width: 768px) {
+    .mission-card-flip { height: 290px; }
     .mission-modal-content { max-width: 100%; border-radius: 16px; }
     .mission-modal-header { border-radius: 16px 16px 0 0; padding: var(--space-24) var(--space-24) var(--space-40); }
     .mission-modal-body { padding: var(--space-24); }
@@ -465,6 +466,7 @@
 }
 
 @media (max-width: 480px) {
+    .mission-card-flip { height: 310px; }
     .mission-back-actions { gap: var(--space-8); }
     .mission-back-actions .btn-primary,
     .mission-flip-back { font-size: 13px; padding: 7px 14px; }
