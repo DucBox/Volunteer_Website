@@ -1,11 +1,10 @@
-// Animations Component - Scroll reveal with stagger
+// Animations Component - Scroll reveal with stagger, re-triggers every pass
 export class Animations {
     constructor() {
         this.init();
     }
 
     init() {
-        // Slight delay to let dynamic components (Members, Activities…) finish rendering
         setTimeout(() => this.setupScrollAnimations(), 120);
     }
 
@@ -26,7 +25,9 @@ export class Animations {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('revealed');
-                    observer.unobserve(entry.target);
+                } else {
+                    // Reset so next scroll-into-view re-animates
+                    entry.target.classList.remove('revealed');
                 }
             });
         }, {
@@ -35,9 +36,8 @@ export class Animations {
         });
 
         document.querySelectorAll(SELECTORS).forEach(el => {
-            // Stagger by sibling position within direct parent
-            const siblings = [...el.parentElement.children];
-            const localIdx = siblings.indexOf(el);
+            const siblings  = [...el.parentElement.children];
+            const localIdx  = siblings.indexOf(el);
             el.style.transitionDelay = `${localIdx * 0.1}s`;
             el.classList.add('reveal-ready');
             observer.observe(el);

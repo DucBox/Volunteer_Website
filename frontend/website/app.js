@@ -9,7 +9,6 @@ import { ScrollToTop }    from './components/ScrolltoTop.js';
 import { Activities }     from './components/Activities.js';
 import { Mission }        from './components/Mission.js';
 import { FAQ }            from './components/FAQ.js';
-import { ContactForm }    from './components/ContactForm.js';
 import { Timeline }       from './components/Timeline.js';
 import { ImpactCounter }  from './components/ImpactCounter.js';
 import { Animations }     from './components/Animations.js';
@@ -24,7 +23,6 @@ document.addEventListener('DOMContentLoaded', () => {
     new Activities();
     new Mission();
     new FAQ();
-    new ContactForm();
     new Timeline();
     new ImpactCounter();
     new Animations();   // last — all dynamic HTML is rendered by this point

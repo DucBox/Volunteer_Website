@@ -1,5 +1,5 @@
 /* ===================================
-   FAQ — ACCORDION + CONTACT FORM
+   FAQ — ACCORDION
    =================================== */
 
 .faq-section {
@@ -7,21 +7,15 @@
     background: linear-gradient(160deg, #f0f7ff 0%, #e8f4fd 100%);
 }
 
-/* ---- 2-column layout ---- */
-.faq-layout {
-    display: grid;
-    grid-template-columns: 1fr 400px;
-    gap: var(--space-32);
-    align-items: start;
-}
-
-/* ---- Accordion FAQ ---- */
 .faq-list {
+    max-width: 760px;
+    margin: 0 auto;
     display: flex;
     flex-direction: column;
     gap: var(--space-12);
 }
 
+/* Item */
 .faq-item {
     background: #fff;
     border-radius: var(--radius-lg, 16px);
@@ -39,6 +33,7 @@
     border-color: rgba(66, 165, 245, 0.35);
 }
 
+/* Question button */
 .faq-question {
     display: flex;
     align-items: center;
@@ -83,6 +78,7 @@
     color: #fff;
 }
 
+/* Answer panel */
 .faq-answer {
     max-height: 0;
     overflow: hidden;
@@ -103,183 +99,30 @@
     padding-top: var(--space-16);
 }
 
-/* ===================================
-   CONTACT FORM CARD
-   =================================== */
-
-.contact-form-card {
-    background: #fff;
-    border-radius: var(--radius-lg, 16px);
-    border: 1px solid var(--color-card-border, rgba(66, 165, 245, 0.15));
-    padding: var(--space-32);
-    box-shadow: 0 4px 24px rgba(66, 165, 245, 0.08);
-    position: sticky;
-    top: 88px; /* below navbar */
-}
-
-.contact-form-header {
-    text-align: center;
-    margin-bottom: var(--space-24);
-}
-
-.contact-form-icon {
-    font-size: 40px;
-    display: block;
-    margin-bottom: var(--space-12);
-}
-
-.contact-form-header h3 {
-    font-size: 20px;
-    font-weight: 700;
-    color: var(--color-text, #1a1a2e);
-    margin-bottom: var(--space-8);
-}
-
-.contact-form-header p {
-    font-size: 14px;
-    color: var(--color-text-secondary, #5a6a7e);
-    line-height: 1.6;
-}
-
-/* Fields */
-.cf-field {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    margin-bottom: var(--space-16);
-}
-
-.cf-field label {
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--color-text, #1a1a2e);
-    display: flex;
-    align-items: center;
-    gap: 4px;
-}
-
-.cf-required { color: #e53935; font-size: 13px; }
-.cf-optional { font-weight: 400; color: var(--color-text-secondary, #888); font-size: 12px; }
-
-.cf-field input,
-.cf-field textarea {
-    width: 100%;
-    padding: 10px 14px;
-    border: 1.5px solid var(--color-card-border, rgba(66, 165, 245, 0.25));
-    border-radius: 10px;
-    font-size: 14px;
-    font-family: var(--font-family, 'Be Vietnam Pro', sans-serif);
-    color: var(--color-text, #1a1a2e);
-    background: #fafcff;
-    transition: border-color 0.22s ease, box-shadow 0.22s ease;
-    resize: none;
-    outline: none;
-}
-
-.cf-field input::placeholder,
-.cf-field textarea::placeholder {
-    color: #b0bec5;
-}
-
-.cf-field input:focus,
-.cf-field textarea:focus {
-    border-color: var(--color-primary, #2196f3);
-    box-shadow: 0 0 0 3px rgba(66, 165, 245, 0.14);
-    background: #fff;
-}
-
-.cf-field input.cf-error,
-.cf-field textarea.cf-error {
-    border-color: #e53935;
-    box-shadow: 0 0 0 3px rgba(229, 57, 53, 0.1);
-}
-
-/* Submit button */
-.cf-submit {
-    width: 100%;
-    margin-top: var(--space-4);
-    justify-content: center;
-    font-size: 15px;
-    padding: 13px;
-}
-
-.cf-submit:disabled {
-    opacity: 0.65;
-    cursor: not-allowed;
-}
-
-/* ===================================
-   DARK MODE
-   =================================== */
+/* Dark mode */
 [data-theme="dark"] .faq-section {
     background: linear-gradient(160deg, #111827 0%, #1a2740 100%);
 }
 
-[data-theme="dark"] .faq-item,
-[data-theme="dark"] .contact-form-card {
+[data-theme="dark"] .faq-item {
     background: var(--color-surface, #1e2535);
     border-color: rgba(66, 165, 245, 0.18);
 }
 
-[data-theme="dark"] .faq-question-text,
-[data-theme="dark"] .contact-form-header h3,
-[data-theme="dark"] .cf-field label {
+[data-theme="dark"] .faq-question-text {
     color: var(--color-text, #e8eaf0);
 }
 
-[data-theme="dark"] .faq-answer-inner,
-[data-theme="dark"] .contact-form-header p {
+[data-theme="dark"] .faq-answer-inner {
     color: var(--color-text-secondary, #8fa3bf);
+    border-color: rgba(66, 165, 245, 0.15);
 }
 
-[data-theme="dark"] .cf-field input,
-[data-theme="dark"] .cf-field textarea {
-    background: rgba(255, 255, 255, 0.04);
-    border-color: rgba(66, 165, 245, 0.2);
-    color: var(--color-text, #e8eaf0);
-}
-
-[data-theme="dark"] .cf-field input:focus,
-[data-theme="dark"] .cf-field textarea:focus {
-    background: rgba(255, 255, 255, 0.07);
-}
-
-/* ===================================
-   RESPONSIVE
-   =================================== */
-@media (max-width: 1100px) {
-    .faq-layout {
-        grid-template-columns: 1fr 360px;
-        gap: var(--space-24);
-    }
-}
-
-@media (max-width: 900px) {
-    .faq-layout {
-        grid-template-columns: 1fr;
-    }
-    .contact-form-card {
-        position: static;
-    }
-}
-
+/* Responsive */
 @media (max-width: 768px) {
-    .faq-section {
-        padding: var(--space-48) 0;
-    }
-    .faq-question {
-        padding: var(--space-16) var(--space-20);
-    }
-    .faq-question-text {
-        font-size: 15px;
-    }
-    .faq-answer {
-        padding: 0 var(--space-20);
-    }
-    .faq-item.open .faq-answer {
-        padding-bottom: var(--space-16);
-    }
-    .contact-form-card {
-        padding: var(--space-24);
-    }
+    .faq-section { padding: var(--space-48) 0; }
+    .faq-question { padding: var(--space-16) var(--space-20); }
+    .faq-question-text { font-size: 15px; }
+    .faq-answer { padding: 0 var(--space-20); }
+    .faq-item.open .faq-answer { padding-bottom: var(--space-16); }
 }
