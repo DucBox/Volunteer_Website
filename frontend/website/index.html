@@ -35,6 +35,9 @@
     <!-- Marked.js for Markdown parsing -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
+    <!-- EmailJS (gửi form về Gmail) -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
     <!-- DOMPurify for XSS sanitization -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.1.6/purify.min.js" integrity="sha512-rMFGVXC0YC6AJCJ7sS8qLgV0lPaqfhqKGCJ6SnzfYsApEscbcjBFn3rdFPumSbFO9pIFMHAMcfTTDifbPuL0A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
@@ -268,14 +271,52 @@
             </div>
         </section>
 
-        <!-- ==================== FAQ ==================== -->
+        <!-- ==================== FAQ + CONTACT FORM ==================== -->
         <section id="faq" class="faq-section">
             <div class="container">
                 <h2 class="section-title">Câu Hỏi Thường Gặp</h2>
                 <p class="section-subtitle">
                     <strong>Những thắc mắc phổ biến từ các bạn tình nguyện viên tương lai.</strong>
                 </p>
-                <div id="faqContainer"></div>
+                <div class="faq-layout">
+                    <!-- Accordion FAQ (rendered by FAQ.js) -->
+                    <div id="faqContainer"></div>
+
+                    <!-- Contact form -->
+                    <div class="contact-form-card">
+                        <div class="contact-form-header">
+                            <span class="contact-form-icon">💌</span>
+                            <h3>Bạn còn thắc mắc khác?</h3>
+                            <p>Gửi câu hỏi trực tiếp đến chúng mình — mình sẽ phản hồi trong vòng 24h!</p>
+                        </div>
+                        <form id="contactForm" novalidate>
+                            <div class="cf-field">
+                                <label for="cf-name">Họ và tên <span class="cf-required">*</span></label>
+                                <input id="cf-name" name="from_name" type="text"
+                                       placeholder="Nguyễn Văn A" required>
+                            </div>
+                            <div class="cf-field">
+                                <label for="cf-email">Email <span class="cf-required">*</span></label>
+                                <input id="cf-email" name="from_email" type="email"
+                                       placeholder="example@gmail.com" required>
+                            </div>
+                            <div class="cf-field">
+                                <label for="cf-phone">Số điện thoại <span class="cf-optional">(không bắt buộc)</span></label>
+                                <input id="cf-phone" name="phone" type="tel"
+                                       placeholder="0912 345 678">
+                            </div>
+                            <div class="cf-field">
+                                <label for="cf-message">Câu hỏi / Thắc mắc <span class="cf-required">*</span></label>
+                                <textarea id="cf-message" name="message" rows="4"
+                                          placeholder="Bạn muốn hỏi gì, chúng mình sẵn sàng lắng nghe..." required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary cf-submit" id="cfSubmitBtn">
+                                <span class="cf-btn-text">Gửi Câu Hỏi</span>
+                                <span class="cf-btn-loading" style="display:none">Đang gửi…</span>
+                            </button>
+                        </form>
+                    </div>
+                </div>
             </div>
         </section>
 
