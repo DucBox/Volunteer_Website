@@ -12,6 +12,7 @@ import { FAQ }            from './components/FAQ.js';
 import { Timeline }       from './components/Timeline.js';
 import { ImpactCounter }  from './components/ImpactCounter.js';
 import { Animations }     from './components/Animations.js';
+import { Cursor }         from './components/Cursor.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     new Navbar();
@@ -26,6 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
     new Timeline();
     new ImpactCounter();
     new Animations();   // last — all dynamic HTML is rendered by this point
+    new Cursor();       // initialize custom cursor
 
     new ChatWidget({
         apiUrl:          'https://volunteerwebsite-production.up.railway.app/api/chat',

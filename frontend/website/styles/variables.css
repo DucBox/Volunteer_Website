@@ -38,6 +38,15 @@ html {
     --color-border:      rgba(94, 82, 64, 0.20);
     --color-card-border: rgba(94, 82, 64, 0.12);
 
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+    --gradient-text: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+
+    /* Glassmorphism */
+    --glass-bg: rgba(255, 255, 255, 0.55);
+    --glass-border: rgba(255, 255, 255, 0.3);
+    --glass-blur: blur(16px);
+
     /* Grayscale helpers */
     --color-white:         rgba(255,255,255,1);
     --color-gray-200:      rgba(245,245,245,1);
@@ -74,9 +83,10 @@ html {
     --radius-lg:   12px;
 
     /* Shadows — Light */
-    --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
-    --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.10);
-    --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.10);
+    --shadow-sm: 0 2px 8px rgba(0,0,0,0.06);
+    --shadow-md: 0 8px 16px rgba(0,0,0,0.08);
+    --shadow-lg: 0 16px 32px rgba(33, 150, 243, 0.15); /* Tinted shadow for primary brand color */
+    --shadow-glow: 0 0 20px rgba(var(--color-primary-rgb), 0.5);
 
     /* Transition for theme switching */
     --transition-theme: background-color 0.3s ease, color 0.3s ease,
@@ -101,6 +111,10 @@ html {
     --color-border:      rgba(255,255,255,0.12);
     --color-card-border: rgba(255,255,255,0.08);
 
+    /* Glassmorphism Dark */
+    --glass-bg: rgba(26, 26, 31, 0.55);
+    --glass-border: rgba(255, 255, 255, 0.08);
+
     /* Slightly brighter brand in dark */
     --color-primary:         #42A5F5;
     --color-primary-hover:   #2196F3;
@@ -112,9 +126,10 @@ html {
     --color-warm-light:  rgba(33, 150, 243, 0.08);
 
     /* Deeper shadows */
-    --shadow-sm: 0 1px 4px rgba(0,0,0,0.40);
-    --shadow-md: 0 4px 12px rgba(0,0,0,0.50);
-    --shadow-lg: 0 12px 28px rgba(0,0,0,0.55);
+    --shadow-sm: 0 2px 8px rgba(0,0,0,0.40);
+    --shadow-md: 0 8px 16px rgba(0,0,0,0.50);
+    --shadow-lg: 0 16px 32px rgba(0,0,0,0.60);
+    --shadow-glow: 0 0 24px rgba(var(--color-primary-rgb), 0.7);
 }
 
 /* ===================================
@@ -142,6 +157,10 @@ video,
 canvas,
 svg {
     max-width: 100%;
+}
+
+img[width][height] {
+    aspect-ratio: attr(width) / attr(height);
 }
 
 input,

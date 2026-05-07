@@ -6,6 +6,62 @@ export class Animations {
 
     init() {
         setTimeout(() => this.setupScrollAnimations(), 120);
+        this.setupTypewriterEffect();
+    }
+
+    setupTypewriterEffect() {
+        const title = document.querySelector('.hero-title');
+        const subtitle = document.querySelector('.hero-subtitle');
+        if (!title || !subtitle) return;
+
+        const titleText = "DỰ ÁN CHO EM";
+        const subtitleText = "Hành trình mang yêu thương đến những em nhỏ vùng khó khăn!";
+        
+        title.textContent = '';
+        subtitle.textContent = '';
+        subtitle.style.opacity = '1'; // ensure it's visible if it had opacity 0
+
+        // Create a blinking cursor element
+        const cursor = document.createElement('span');
+        cursor.textContent = '|';
+        cursor.className = 'typewriter-cursor';
+
+        // Create spans for text to avoid overwriting cursor
+        const titleTextSpan = document.createElement('span');
+        const subtitleTextSpan = document.createElement('span');
+        
+        title.appendChild(titleTextSpan);
+        subtitle.appendChild(subtitleTextSpan);
+
+        let i = 0;
+        let j = 0;
+
+        function typeSubtitle() {
+            if (j < subtitleText.length) {
+                subtitleTextSpan.textContent += subtitleText.charAt(j);
+                j++;
+                setTimeout(typeSubtitle, 30);
+            } else {
+                subtitle.appendChild(cursor);
+            }
+        }
+
+        function typeTitle() {
+            if (i < titleText.length) {
+                titleTextSpan.textContent += titleText.charAt(i);
+                title.appendChild(cursor);
+                i++;
+                setTimeout(typeTitle, 80);
+            } else {
+                // Move cursor to subtitle and start typing subtitle
+                cursor.remove();
+                subtitle.appendChild(cursor);
+                setTimeout(typeSubtitle, 300);
+            }
+        }
+
+        // Start typing after a short delay
+        setTimeout(typeTitle, 500);
     }
 
     setupScrollAnimations() {
@@ -41,6 +97,39 @@ export class Animations {
             el.style.transitionDelay = `${localIdx * 0.1}s`;
             el.classList.add('reveal-ready');
             observer.observe(el);
+
+            // Spotlight Hover Effect
+            if (el.matches('.act-card, .mem-card, .donation-card')) {
+                el.addEventListener('mousemove', (e) => {
+                    const rect = el.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    el.style.setProperty('--mouse-x', `${x}px`);
+                    el.style.setProperty('--mouse-y', `${y}px`);
+                });
+            }
+
+            // 3D Tilt Effect
+            if (el.matches('.impact-card, .donation-card, .mission-card-flip')) {
+                el.addEventListener('mousemove', (e) => {
+                    const rect = el.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    const centerX = rect.width / 2;
+                    const centerY = rect.height / 2;
+                    const rotateX = ((y - centerY) / centerY) * -8;
+                    const rotateY = ((x - centerX) / centerX) * 8;
+                    
+                    el.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+                    el.style.transition = 'transform 0.1s ease-out';
+                });
+                el.addEventListener('mouseleave', () => {
+                    el.style.transform = '';
+                    el.style.transition = 'transform 0.5s ease';
+                    // Reset inline style after transition to allow CSS hover states to work
+                    setTimeout(() => { el.style.transition = ''; }, 500);
+                });
+            }
         });
     }
 }

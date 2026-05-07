@@ -10,15 +10,15 @@
     left: 30px;
     width: 48px;
     height: 48px;
-    background: var(--color-primary);
-    color: white;
+    background: var(--color-surface, #fff);
+    color: var(--color-primary);
     border: none;
     border-radius: 50%;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 4px 16px rgba(var(--color-primary-rgb), 0.35);
+    box-shadow: 0 8px 24px rgba(var(--color-primary-rgb), 0.2);
     z-index: 9998; /* Below chat widget (9999) */
     opacity: 0;
     visibility: hidden;
@@ -35,9 +35,8 @@
 
 /* Hover effect */
 .scroll-to-top:hover {
-    background: var(--color-primary-hover);
-    transform: translateY(-5px) scale(1.10);
-    box-shadow: 0 6px 24px rgba(var(--color-primary-rgb), 0.52);
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 12px 30px rgba(var(--color-primary-rgb), 0.3);
 }
 
 /* Active (click) effect */
@@ -47,23 +46,34 @@
 
 /* Pulse animation when visible */
 .scroll-to-top.visible {
-    animation: pulseGlow 2s ease-in-out infinite;
-}
-
-@keyframes pulseGlow {
-    0%, 100% { box-shadow: 0 4px 16px rgba(var(--color-primary-rgb), 0.35); }
-    50%       { box-shadow: 0 6px 24px rgba(var(--color-primary-rgb), 0.55); }
+    animation: none; /* Removed pulse since progress ring is dynamic enough */
 }
 
 /* SVG icon */
-.scroll-to-top svg {
+.scroll-to-top .arrow-icon {
     width: 24px;
     height: 24px;
     transition: transform 0.3s ease;
+    z-index: 2;
 }
 
-.scroll-to-top:hover svg {
+.scroll-to-top:hover .arrow-icon {
     transform: translateY(-3px);
+}
+
+/* Progress Ring */
+.scroll-to-top .progress-ring {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg);
+    z-index: 1;
+}
+
+.scroll-to-top .progress-ring__circle {
+    transition: stroke-dashoffset 0.1s linear;
 }
 
 /* Mobile responsive */
@@ -75,7 +85,7 @@
         height: 45px;
     }
     
-    .scroll-to-top svg {
+    .scroll-to-top .arrow-icon {
         width: 20px;
         height: 20px;
     }

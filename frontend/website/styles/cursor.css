@@ -1,0 +1,73 @@
+/* ===================================
+   CUSTOM CURSOR (Phase 3)
+   =================================== */
+
+/* Hide default cursor on desktop */
+@media (min-width: 769px) {
+    body, a, button, .btn, .mem-card, .act-card, .donation-card, .mission-card-flip {
+        cursor: none !important;
+    }
+}
+
+.custom-cursor-dot {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 6px;
+    height: 6px;
+    background-color: var(--color-primary);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 10001;
+    transform: translate(-50%, -50%);
+    margin-top: -3px;
+    margin-left: -3px;
+    transition: opacity 0.3s ease, background-color 0.3s ease;
+}
+
+.custom-cursor-ring {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 36px;
+    height: 36px;
+    border: 2px solid rgba(var(--color-primary-rgb), 0.5);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 10000;
+    transform: translate(-50%, -50%);
+    margin-top: -18px;
+    margin-left: -18px;
+    transition: width 0.3s cubic-bezier(0.2, 0.8, 0.2, 1),
+                height 0.3s cubic-bezier(0.2, 0.8, 0.2, 1),
+                margin 0.3s cubic-bezier(0.2, 0.8, 0.2, 1),
+                border-color 0.3s ease,
+                background-color 0.3s ease,
+                opacity 0.3s ease;
+}
+
+/* Hover State */
+.custom-cursor-ring.cursor-hover {
+    width: 56px;
+    height: 56px;
+    margin-top: -28px;
+    margin-left: -28px;
+    background-color: rgba(var(--color-primary-rgb), 0.1);
+    border-color: transparent;
+    backdrop-filter: blur(2px);
+}
+
+.custom-cursor-dot.cursor-hover {
+    opacity: 0;
+}
+
+/* Dark Mode */
+[data-theme="dark"] .custom-cursor-dot {
+    background-color: #fff;
+}
+[data-theme="dark"] .custom-cursor-ring {
+    border-color: rgba(255, 255, 255, 0.4);
+}
+[data-theme="dark"] .custom-cursor-ring.cursor-hover {
+    background-color: rgba(255, 255, 255, 0.15);
+}

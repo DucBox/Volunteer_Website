@@ -6,9 +6,11 @@
     top: 0;
     width: 100%;
     z-index: 1000;
-    background-color: var(--color-surface);
+    background-color: var(--glass-bg);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
     box-shadow: var(--shadow-sm);
-    border-bottom: 1px solid var(--color-card-border);
+    border-bottom: 1px solid var(--glass-border);
     transition: var(--transition-theme), box-shadow 0.3s ease;
 }
 
@@ -206,12 +208,14 @@
         top: 100%;
         left: 0;
         right: 0;
-        background-color: var(--color-surface);
+        background-color: var(--glass-bg);
+        backdrop-filter: var(--glass-blur);
+        -webkit-backdrop-filter: var(--glass-blur);
         flex-direction: column;
         padding: var(--space-20) var(--space-24);
         box-shadow: var(--shadow-md);
         gap: var(--space-4, 4px);
-        border-top: 1px solid var(--color-card-border);
+        border-top: 1px solid var(--glass-border);
         max-height: calc(100dvh - var(--navbar-offset));
         overflow-y: auto;
     }

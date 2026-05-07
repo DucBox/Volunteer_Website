@@ -48,9 +48,12 @@
     right: clamp(12px, 4vw, 20px);
     width: min(380px, calc(100vw - 24px));
     max-height: min(600px, calc(100dvh - 120px));
-    background: white;
+    background: var(--glass-bg, rgba(255, 255, 255, 0.85));
+    backdrop-filter: var(--glass-blur, blur(12px));
+    -webkit-backdrop-filter: var(--glass-blur, blur(12px));
+    border: 1px solid var(--glass-border, rgba(255,255,255,0.4));
     border-radius: 16px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+    box-shadow: var(--shadow-lg, 0 8px 32px rgba(0, 0, 0, 0.15));
     display: flex;
     flex-direction: column;
     overflow: hidden;
@@ -68,7 +71,7 @@
 
 /* Chat Header */
 .chat-header {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: var(--gradient-primary, linear-gradient(135deg, #667eea 0%, #764ba2 100%));
     color: white;
     padding: 20px;
     display: flex;
@@ -128,7 +131,7 @@
     flex: 1;
     padding: 20px;
     overflow-y: auto;
-    background: #f8f9fa;
+    background: transparent;
     min-height: 0;
 }
 
