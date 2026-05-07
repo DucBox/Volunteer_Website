@@ -6,6 +6,7 @@ export class Gallery {
         this.isPlaying = true;
         this.autoPlayInterval = null;
         this.galleryPath = 'assets/images/gallery/';
+        this.resizeTimer = null;
         
         this.init();
     }
@@ -19,6 +20,7 @@ export class Gallery {
         if (this.images.length > 0) {
             this.render3DCarousel();
             this.attachEventListeners();
+            this.setupResponsive();
             this.startAutoPlay();
             console.log('[Gallery] ✓ Khởi tạo hoàn tất!');
         } else {
@@ -138,6 +140,7 @@ export class Gallery {
         }
 
         console.log(`[Gallery] Đang render ${this.images.length} ảnh vào 3D carousel...`);
+        container.innerHTML = '';
         
         // Tính radius động dựa trên số ảnh và kích thước màn hình
         const imageWidth = 400;
@@ -145,10 +148,7 @@ export class Gallery {
         const radiusPerImage = imageWidth * 0.8; // Khoảng cách tối thiểu giữa các ảnh
         const calculatedRadius = (this.images.length * radiusPerImage) / (2 * Math.PI);
         const radius = Math.max(minRadius, calculatedRadius);
-        
-        // Giảm radius trên mobile
-        const isMobile = window.innerWidth < 768;
-        const finalRadius = isMobile ? radius * 0.6 : radius;
+        const finalRadius = this.getResponsiveRadius(radius);
         
         console.log(`[Gallery] Radius: ${finalRadius.toFixed(0)}px (${this.images.length} ảnh)`);
         
@@ -182,6 +182,27 @@ export class Gallery {
 
         this.updateCarousel();
         console.log('[Gallery] ✓ Render 3D carousel hoàn tất!');
+    }
+
+    getResponsiveRadius(radius) {
+        if (window.innerWidth <= 480) return radius * 0.48;
+        if (window.innerWidth <= 768) return radius * 0.6;
+        if (window.innerWidth <= 1024) return radius * 0.82;
+        return radius;
+    }
+
+    rebuildCarousel() {
+        if (!this.images.length) return;
+        this.render3DCarousel();
+    }
+
+    setupResponsive() {
+        window.addEventListener('resize', () => {
+            clearTimeout(this.resizeTimer);
+            this.resizeTimer = setTimeout(() => {
+                this.rebuildCarousel();
+            }, 180);
+        });
     }
 
     updateCarousel() {

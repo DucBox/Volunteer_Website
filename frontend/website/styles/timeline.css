@@ -162,12 +162,14 @@
     font-weight: 700;
     color: var(--color-text, #1a1a2e);
     margin-bottom: var(--space-4);
+    overflow-wrap: anywhere;
 }
 
 .timeline-location {
     font-size: 13px;
     color: var(--color-text-secondary, #5a6a7e);
     margin-bottom: var(--space-12);
+    overflow-wrap: anywhere;
 }
 
 .timeline-desc {
@@ -175,6 +177,7 @@
     color: var(--color-text-secondary, #5a6a7e);
     line-height: 1.7;
     margin-bottom: var(--space-16);
+    overflow-wrap: anywhere;
 }
 
 /* Stats row */
@@ -314,6 +317,26 @@
 
 @media (max-width: 480px) {
     .timeline-card-body { padding: var(--space-16); }
+    .timeline-list::before,
+    .timeline-bus {
+        left: 20px;
+    }
+
+    .timeline-item {
+        grid-template-columns: 40px 1fr;
+        gap: 0 var(--space-12);
+    }
+
+    .timeline-dot {
+        width: 34px;
+        height: 34px;
+        font-size: 16px;
+    }
+
+    .timeline-stat {
+        flex: 1 1 calc(50% - var(--space-8));
+        min-width: 0;
+    }
 }
 
 /* ===================================

@@ -63,9 +63,14 @@ export class FAQ {
                 document.querySelectorAll('.faq-item.open').forEach(openItem => {
                     openItem.classList.remove('open');
                     openItem.querySelector('.faq-question').setAttribute('aria-expanded', 'false');
+                    openItem.style.removeProperty('--faq-answer-height');
                 });
 
                 if (!isOpen) {
+                    const answer = item.querySelector('.faq-answer-inner');
+                    if (answer) {
+                        item.style.setProperty('--faq-answer-height', `${answer.scrollHeight}px`);
+                    }
                     item.classList.add('open');
                     btn.setAttribute('aria-expanded', 'true');
                 }

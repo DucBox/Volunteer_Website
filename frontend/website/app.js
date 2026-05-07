@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
         logoPath:        'assets/images/logo.jpg',
         botName:         'EM Bot',
         botDescription:  'Trợ lý tình nguyện',
-        autoOpen:        true,
+        autoOpen:        window.innerWidth > 768,
         maxHistoryPairs: 5,
     });
 });

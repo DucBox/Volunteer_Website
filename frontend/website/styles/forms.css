@@ -139,16 +139,20 @@
     display: flex;
     align-items: center;
     gap: var(--space-12);
+    flex-wrap: wrap;
 }
 
 .donation-card-icon {
     font-size: 28px;
+    flex-shrink: 0;
 }
 
 .donation-card-header h3 {
     font-size: 20px;
     font-weight: 600;
     margin: 0;
+    min-width: 0;
+    line-height: 1.35;
 }
 
 .donation-card-content {
@@ -160,6 +164,7 @@
     display: flex;
     gap: var(--space-24);
     align-items: flex-start;
+    min-width: 0;
 }
 
 .bank-info {
@@ -183,6 +188,7 @@
     font-size: 16px;
     color: var(--color-text);
     font-weight: 600;
+    overflow-wrap: anywhere;
 }
 
 .bank-value.highlight {
@@ -230,6 +236,7 @@
     font-weight: 600;
     padding: 0 var(--space-24);
     margin-bottom: var(--space-32);
+    overflow-wrap: anywhere;
 }
 
 /* QR Lightbox Styles - Full Page Overlay (like Members Lightbox) */
@@ -351,7 +358,7 @@
 
 .materials-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
     gap: var(--space-16);
     margin-bottom: var(--space-20);
 }
@@ -401,6 +408,7 @@
     border-top: 1px solid var(--color-border);
     font-weight: 600;
     font-style: italic;
+    overflow-wrap: anywhere;
 }
 
 .materials-contact a {
@@ -540,7 +548,7 @@
 }
 
 /* Mobile Responsive */
-@media (max-width: 992px) {
+@media (max-width: 1100px) {
     .donation-cards-wrapper {
         grid-template-columns: 1fr;
     }
@@ -563,6 +571,11 @@
     .qr-code-wrapper {
         margin-top: var(--space-16);
     }
+
+    .donation-card-content,
+    .donation-card-transfer .donation-card-content {
+        padding: var(--space-20);
+    }
     
     .materials-grid {
         grid-template-columns: repeat(2, 1fr);
@@ -570,6 +583,16 @@
 }
 
 @media (max-width: 480px) {
+    .donation-card-header,
+    .donation-card-content {
+        padding: var(--space-16);
+    }
+
+    .donation-disclaimer {
+        padding: 0 var(--space-16);
+        font-size: 14px;
+    }
+
     .materials-grid {
         grid-template-columns: repeat(2, 1fr);
         gap: var(--space-12);

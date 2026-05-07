@@ -2,7 +2,11 @@
    ANTI-FOUC: set theme before paint (inline script in <head> handles this)
    =================================== */
 
-html { scroll-behavior: smooth; }
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: calc(var(--navbar-offset) + var(--space-12));
+    -webkit-text-size-adjust: 100%;
+}
 
 /* ===================================
    DESIGN TOKENS
@@ -45,15 +49,24 @@ html { scroll-behavior: smooth; }
     --font-family-base: 'Be Vietnam Pro', 'Segoe UI', Arial, sans-serif;
 
     /* Spacing */
+    --space-4:  4px;
+    --space-6:  6px;
     --space-8:  8px;
+    --space-10: 10px;
     --space-12: 12px;
     --space-16: 16px;
     --space-20: 20px;
     --space-24: 24px;
+    --space-28: 28px;
     --space-32: 32px;
+    --space-40: 40px;
     --space-48: 48px;
     --space-64: 64px;
     --space-80: 80px;
+
+    /* Layout */
+    --container-padding: clamp(16px, 4vw, 24px);
+    --navbar-offset: 72px;
 
     /* Radius */
     --radius-base: 8px;
@@ -120,6 +133,22 @@ body {
     background-color: var(--color-background);
     overflow-x: hidden;
     transition: var(--transition-theme);
+    text-rendering: optimizeLegibility;
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+    max-width: 100%;
+}
+
+input,
+button,
+textarea,
+select {
+    font: inherit;
 }
 
 /* ===================================
@@ -148,7 +177,7 @@ body {
 .container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 var(--space-24);
+    padding: 0 var(--container-padding);
 }
 
 /* ===================================
@@ -160,3 +189,9 @@ body {
 }
 
 .fade-in { animation: fadeInUp 0.6s ease-out; }
+
+@media (max-width: 480px) {
+    :root {
+        --navbar-offset: 68px;
+    }
+}

@@ -87,7 +87,7 @@
 }
 
 .faq-item.open .faq-answer {
-    max-height: 400px;
+    max-height: var(--faq-answer-height, 0px);
     padding-bottom: var(--space-20);
 }
 

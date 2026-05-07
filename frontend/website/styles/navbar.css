@@ -17,17 +17,18 @@
 }
 
 .page-wrapper {
-    padding-top: 64px;
+    padding-top: var(--navbar-offset);
 }
 
 .nav-container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: var(--space-12) var(--space-24);
+    padding: var(--space-12) var(--container-padding);
     display: flex;
     justify-content: space-between;
     align-items: center;
     gap: var(--space-16);
+    min-height: var(--navbar-offset);
 }
 
 /* Logo */
@@ -63,6 +64,7 @@
     gap: var(--space-28, 28px);
     list-style: none;
     align-items: center;
+    min-width: 0;
 }
 
 .nav-link,
@@ -191,6 +193,8 @@
         box-shadow: var(--shadow-md);
         gap: var(--space-4, 4px);
         border-top: 1px solid var(--color-card-border);
+        max-height: calc(100dvh - var(--navbar-offset));
+        overflow-y: auto;
     }
 
     .nav-menu.active { display: flex; }
@@ -218,4 +222,5 @@
 
 @media (max-width: 480px) {
     .nav-container { padding: var(--space-12) var(--space-16); }
+    .nav-menu { padding: var(--space-16); }
 }

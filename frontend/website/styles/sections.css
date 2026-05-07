@@ -12,6 +12,8 @@
     border: 2px solid transparent;
     cursor: pointer;
     letter-spacing: 0.2px;
+    text-align: center;
+    max-width: 100%;
 }
 
 /* Primary — main blue CTA */
@@ -65,22 +67,24 @@
    SECTION TITLES
    =================================== */
 .section-title {
-    font-size: 34px;
+    font-size: clamp(28px, 4vw, 34px);
     font-weight: 700;
     text-align: center;
     margin-bottom: var(--space-16);
     color: var(--color-text);
+    line-height: 1.2;
 }
 
 .section-subtitle {
     text-align: center;
     color: var(--color-text-secondary);
     margin-bottom: var(--space-48);
-    font-size: 17px;
+    font-size: clamp(15px, 2.3vw, 17px);
     max-width: 700px;
     margin-left: auto;
     margin-right: auto;
     line-height: 1.7;
+    overflow-wrap: anywhere;
 }
 
 /* ===================================
@@ -91,7 +95,7 @@
         rgba(33, 150, 243, 0.10) 0%,
         rgba(41, 182, 246, 0.08) 55%,
         rgba(144, 202, 249, 0.06) 100%);
-    padding: 96px var(--space-24) var(--space-64);
+    padding: clamp(72px, 9vw, 96px) var(--container-padding) var(--space-64);
     text-align: center;
 }
 
@@ -101,7 +105,7 @@
 }
 
 .hero-title {
-    font-size: 52px;
+    font-size: clamp(32px, 7vw, 52px);
     font-weight: 800;
     color: var(--color-text);
     margin-bottom: var(--space-16);
@@ -110,7 +114,7 @@
 }
 
 .hero-subtitle {
-    font-size: 19px;
+    font-size: clamp(16px, 2.6vw, 19px);
     color: var(--color-text-secondary);
     margin-bottom: var(--space-32);
     max-width: 680px;
@@ -128,12 +132,15 @@
     flex-wrap: wrap;
 }
 
+.hero-cta .btn {
+    min-width: min(100%, 220px);
+}
+
 .hero-stats {
-    display: flex;
-    justify-content: center;
-    gap: var(--space-48);
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(132px, 1fr));
+    gap: var(--space-24);
     margin-top: var(--space-48);
-    flex-wrap: wrap;
     padding: var(--space-32) var(--space-48);
     background: var(--color-surface);
     border-radius: var(--radius-lg);
@@ -203,7 +210,7 @@
     backface-visibility: hidden;
     -webkit-backface-visibility: hidden;
     border-radius: var(--radius-lg);
-    padding: var(--space-32);
+    padding: var(--space-24);
     display: flex;
     flex-direction: column;
     border: 1px solid var(--color-card-border);
@@ -265,6 +272,7 @@
     line-height: 1.7;
     font-size: 15px;
     flex: 1;
+    overflow-wrap: anywhere;
 }
 
 .mission-card-back p {
@@ -272,6 +280,7 @@
     line-height: 1.7;
     font-size: 14px;
     flex: 1;
+    overflow-wrap: anywhere;
 }
 
 .mission-flip-hint {
@@ -458,7 +467,7 @@
 }
 
 @media (max-width: 768px) {
-    .mission-card-flip { height: 290px; }
+    .mission-card-flip { height: 340px; }
     .mission-modal-content { max-width: 100%; border-radius: 16px; }
     .mission-modal-header { border-radius: 16px 16px 0 0; padding: var(--space-24) var(--space-24) var(--space-40); }
     .mission-modal-body { padding: var(--space-24); }
@@ -466,7 +475,7 @@
 }
 
 @media (max-width: 480px) {
-    .mission-card-flip { height: 310px; }
+    .mission-card-flip { height: 360px; }
     .mission-back-actions { gap: var(--space-8); }
     .mission-back-actions .btn-primary,
     .mission-flip-back { font-size: 13px; padding: 7px 14px; }
@@ -481,7 +490,7 @@
 
 .impact-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
     gap: var(--space-24);
     margin-top: var(--space-48);
 }
@@ -611,6 +620,10 @@
     text-align: center;
 }
 
+.volunteer-form .btn {
+    width: min(100%, 320px);
+}
+
 .volunteer-form h2 {
     margin-bottom: var(--space-20);
     color: var(--color-text);
@@ -700,6 +713,7 @@
     line-height: 1.6;
     flex-grow: 1;
     margin: 0;
+    overflow-wrap: anywhere;
 }
 
 /* CTA partner card */
@@ -718,7 +732,7 @@
 
 .partner-card-cta .partner-desc {
     font-size: 14px;
-    margin-bottom: var(--space-4);
+    margin-bottom: var(--space-8);
 }
 
 /* ===================================
@@ -761,16 +775,25 @@
 @media (max-width: 768px) {
     .hero-title   { font-size: 34px; }
     .hero-subtitle { font-size: 16px; }
-    .hero-stats   { gap: var(--space-32); padding: var(--space-24); }
+    .hero-stats   { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-20); padding: var(--space-24); }
     .stat-number  { font-size: 28px; }
     .section-title { font-size: 26px; }
+    .mission-card-flip { height: 340px; }
     .volunteer-content { grid-template-columns: 1fr; }
+    .volunteer-form { padding: var(--space-24); }
+    .partners-grid { gap: var(--space-24); }
 }
 
 @media (max-width: 480px) {
     .hero { padding: 80px var(--space-16) var(--space-48); }
     .hero-title { font-size: 28px; }
-    .hero-cta { flex-direction: column; align-items: center; }
-    .hero-stats { flex-direction: column; gap: var(--space-20); padding: var(--space-20); }
+    .btn { width: 100%; }
+    .hero-cta { flex-direction: column; align-items: stretch; }
+    .hero-stats { grid-template-columns: 1fr; gap: var(--space-20); padding: var(--space-20); }
     .stat-number { font-size: 32px; }
+    .mission-card-flip { height: 360px; }
+    .mission-card-front,
+    .mission-card-back { padding: var(--space-20); }
+    .partner-card,
+    .volunteer-form { padding: var(--space-20); }
 }

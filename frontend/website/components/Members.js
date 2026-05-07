@@ -64,7 +64,7 @@ export class Members {
     }
 
     get visibleCount() {
-        if (window.innerWidth >= 1024) return 3;
+        if (window.innerWidth > 1024) return 3;
         if (window.innerWidth >= 640)  return 2;
         return 1;
     }
