@@ -7,11 +7,10 @@ class LLMService:
     def __init__(self):
         self.client = OpenAI(api_key=settings.OPENAI_API_KEY)
         self.model = settings.LLM_MODEL
-        self.current_date = datetime.now()
 
     def generate(self, prompt: str, context: str = "", formatted_prompt: str = None) -> str:
         """Generate response with optional context"""
-        current_date_str = self.current_date.strftime("%d/%m/%Y")
+        current_date_str = datetime.now().strftime("%d/%m/%Y")
         system_prompt = f'''
             Bạn là chatbot hỗ trợ Dự Án Tình Nguyện Giáo Dục "Educational Missions - Dự Án Cho EM". 
 
@@ -34,6 +33,12 @@ class LLMService:
 
             User sẽ gửi prompt theo format:
 
+            [CONTEXT TỪ TÀI LIỆU]
+            <nội dung tài liệu liên quan nếu có>
+
+            [THỜI GIAN]
+            Ngày hiện tại: {current_date_str}
+
             [LỊCH SỬ HỘI THOẠI]
             <các câu hỏi và câu trả lời trước đó nếu có>
             Người dùng: <câu hỏi trước>
@@ -44,9 +49,7 @@ class LLMService:
 
             [CÂU HỎI HIỆN TẠI]
             <câu hỏi mới ở thời điểm này>
-            
-            [CONTEXT TỪ TÀI LIỆU]
-            <nội dung tài liệu liên quan nếu có>
+
             Hãy sử dụng thông tin từ [CONTEXT TỪ TÀI LIỆU] để trả lời câu hỏi một cách chính xác nhất.
             💬 Trả lời ngắn gọn, hữu ích, luôn kết thúc bằng CTA (call-to-action).
             Nếu không biết, hãy thẳng thắn nói "Mình không chắc về điều đó, nhưng bạn có thể tham khảo trang Facebook của Dự Án Cho EM để biết thêm chi tiết nhé!"
@@ -55,20 +58,20 @@ class LLMService:
             - Ngày hiện tại: {current_date_str}
             Hãy chú ý mốc thời gian để cung cấp thông tin chính xác nhất!
             '''.strip()   
-        
-        date_context = f"\n\n[THỜI GIAN] Ngày hiện tại: {current_date_str}" 
-            
+
         if formatted_prompt:
-            # Có history → append date vào cuối
-            user_content = formatted_prompt.rstrip() + date_context
-            if context:
-                user_content += f"\n\n[CONTEXT TỪ TÀI LIỆU]\n{context}"
+            user_content = self._build_structured_prompt(
+                current_question=prompt,
+                current_date_str=current_date_str,
+                context=context,
+                formatted_prompt=formatted_prompt
+            )
         else:
-            # Không history → thêm date vào prompt
-            if context:
-                user_content = f"[CONTEXT]\n{context}\n\n[CÂU HỎI] {prompt}{date_context}"
-            else:
-                user_content = f"[CÂU HỎI] {prompt}{date_context}"
+            user_content = self._build_structured_prompt(
+                current_question=prompt,
+                current_date_str=current_date_str,
+                context=context
+            )
                     
         response = self.client.responses.create(
             model=self.model,
@@ -78,3 +81,50 @@ class LLMService:
             ]
         )
         return response.output_text
+
+    def _build_structured_prompt(
+        self,
+        current_question: str,
+        current_date_str: str,
+        context: str = "",
+        formatted_prompt: str = None
+    ) -> str:
+        """Build user prompt in the order: context -> time -> history -> current question."""
+        history_block = ""
+        question_block = current_question.strip()
+
+        if formatted_prompt:
+            history_match = re.search(
+                r"\[LỊCH SỬ HỘI THOẠI\]\s*(.*?)\s*(?=\[CÂU HỎI HIỆN TẠI\]|$)",
+                formatted_prompt,
+                re.DOTALL
+            )
+            question_match = re.search(
+                r"\[CÂU HỎI HIỆN TẠI\]\s*(.*)$",
+                formatted_prompt,
+                re.DOTALL
+            )
+
+            if history_match:
+                history_text = history_match.group(1).strip()
+                if history_text:
+                    history_block = f"[LỊCH SỬ HỘI THOẠI]\n{history_text}"
+
+            if question_match:
+                parsed_question = question_match.group(1).strip()
+                if parsed_question:
+                    question_block = parsed_question
+
+        blocks = []
+
+        if context:
+            blocks.append(f"[CONTEXT TỪ TÀI LIỆU]\n{context.strip()}")
+
+        blocks.append(f"[THỜI GIAN]\nNgày hiện tại: {current_date_str}")
+
+        if history_block:
+            blocks.append(history_block)
+
+        blocks.append(f"[CÂU HỎI HIỆN TẠI]\n{question_block}")
+
+        return "\n\n".join(blocks)
