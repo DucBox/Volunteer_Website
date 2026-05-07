@@ -940,10 +940,10 @@
 
 @keyframes floatWave {
     0%, 100% {
-        transform: translateY(0);
+        translate: 0 0;
     }
     50% {
-        transform: translateY(-8px);
+        translate: 0 -8px;
     }
 }
 
