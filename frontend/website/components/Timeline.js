@@ -42,6 +42,9 @@ const TIMELINE_DATA = [
 
 export class Timeline {
     constructor() {
+        this.bus         = null;
+        this._rafId      = null;
+        this._scrollBound = this._onScroll.bind(this);
         this.render();
     }
 
@@ -54,8 +57,51 @@ export class Timeline {
                 ${TIMELINE_DATA.map((item, i) => this.itemHTML(item, i)).join('')}
             </ul>
         `;
+
+        // Append bus icon to the list (positioned on the spine)
+        this.bus = document.createElement('div');
+        this.bus.className = 'timeline-bus';
+        this.bus.setAttribute('aria-hidden', 'true');
+        this.bus.textContent = '🚌';
+        container.querySelector('.timeline-list').appendChild(this.bus);
+
+        this._trackBus();
     }
 
+    // ── Bus scroll tracking ──────────────────────────────────────────
+    _trackBus() {
+        window.addEventListener('scroll', this._scrollBound, { passive: true });
+        window.addEventListener('resize', this._scrollBound, { passive: true });
+        // Run once after a frame so layout is settled
+        requestAnimationFrame(() => this._onScroll());
+    }
+
+    _onScroll() {
+        if (this._rafId) return;
+        this._rafId = requestAnimationFrame(() => {
+            this._rafId = null;
+            this._moveBus();
+        });
+    }
+
+    _moveBus() {
+        const list = document.querySelector('.timeline-list');
+        if (!list || !this.bus) return;
+
+        const rect = list.getBoundingClientRect();
+        const vh   = window.innerHeight;
+
+        // progress 0: list just entered from bottom (rect.top === vh)
+        // progress 1: list just left at top     (rect.bottom === 0)
+        const raw      = (vh - rect.top) / (vh + rect.height);
+        const progress = Math.max(0, Math.min(1, raw));
+
+        // Travel range: top of list → bottom of list, offset by half bus size (14px)
+        const travelPx = list.scrollHeight - 28;
+        this.bus.style.top = `${progress * travelPx}px`;
+    }
+
+    // ── Card HTML ────────────────────────────────────────────────────
     itemHTML(item, index) {
         const imgBlock = item.image
             ? `<div class="timeline-img-wrapper">
@@ -90,11 +136,13 @@ export class Timeline {
             </div>
         `;
 
+        const dotClass = item.status === 'upcoming' ? 'timeline-dot upcoming' : 'timeline-dot';
+
         return `
             <li class="timeline-item">
                 ${index % 2 === 0
-                    ? `${card}<div class="timeline-dot ${item.status === 'upcoming' ? 'upcoming' : ''}">${item.icon}</div><div class="timeline-empty"></div>`
-                    : `<div class="timeline-empty"></div><div class="timeline-dot ${item.status === 'upcoming' ? 'upcoming' : ''}">${item.icon}</div>${card}`
+                    ? `${card}<div class="${dotClass}">${item.icon}</div><div class="timeline-empty"></div>`
+                    : `<div class="timeline-empty"></div><div class="${dotClass}">${item.icon}</div>${card}`
                 }
             </li>
         `;

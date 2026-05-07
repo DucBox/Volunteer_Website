@@ -315,3 +315,60 @@
 @media (max-width: 480px) {
     .timeline-card-body { padding: var(--space-16); }
 }
+
+/* ===================================
+   SCROLL REVEAL — Directional slide
+   Override the generic reveal-ready for timeline items
+   =================================== */
+
+/* Reset generic translateY, use directional translateX instead */
+.timeline-item.reveal-ready {
+    opacity: 0;
+    transform: translateX(-56px);
+    transition: opacity 0.62s ease, transform 0.62s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Even items: card on right → slide from right */
+.timeline-item:nth-child(even).reveal-ready {
+    transform: translateX(56px);
+}
+
+.timeline-item.reveal-ready.revealed {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* Mobile: all cards on right → all slide from right */
+@media (max-width: 768px) {
+    .timeline-item.reveal-ready,
+    .timeline-item:nth-child(odd).reveal-ready {
+        transform: translateX(36px);
+    }
+}
+
+/* ===================================
+   BUS ICON — Travels along the spine
+   =================================== */
+
+.timeline-bus {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    /* Rotate 90° so bus faces downward along the road */
+    transform: translate(-50%, -50%) rotate(90deg);
+    font-size: 28px;
+    z-index: 10;
+    pointer-events: none;
+    will-change: top;
+    filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.20));
+    /* Smooth follow: small transition so it glides, not teleports */
+    transition: top 0.08s linear;
+}
+
+/* Mobile: spine is at left: 24px */
+@media (max-width: 768px) {
+    .timeline-bus {
+        left: 24px;
+        font-size: 22px;
+    }
+}
