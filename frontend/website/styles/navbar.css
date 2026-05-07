@@ -41,6 +41,7 @@
     gap: var(--space-12);
     text-decoration: none;
     flex-shrink: 0;
+    min-width: 0;
 }
 
 .logo-icon {
@@ -179,7 +180,25 @@
 @media (max-width: 768px) {
     .menu-toggle { display: block; }
 
-    .logo-text { display: none; }
+    .nav-container {
+        gap: 10px;
+    }
+
+    .logo {
+        flex: 1 1 auto;
+        gap: 10px;
+    }
+
+    .logo-text {
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        white-space: normal;
+        overflow: hidden;
+        max-width: clamp(120px, 44vw, 180px);
+        font-size: 14px;
+        line-height: 1.05;
+    }
 
     .nav-menu {
         display: none;
@@ -223,4 +242,9 @@
 @media (max-width: 480px) {
     .nav-container { padding: var(--space-12) var(--space-16); }
     .nav-menu { padding: var(--space-16); }
+
+    .logo-text {
+        max-width: clamp(112px, 46vw, 150px);
+        font-size: 13px;
+    }
 }
