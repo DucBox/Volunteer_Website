@@ -180,7 +180,7 @@
 .mission-card-flip {
     perspective: 1200px;
     cursor: pointer;
-    height: 100%;
+    /* height equalized by JS */
 }
 
 .mission-card-inner {
@@ -207,15 +207,10 @@
     border: 1px solid var(--color-card-border);
 }
 
-/* Front: in normal flow so it drives the row height */
+/* Front: relative flow so JS can measure natural height */
 .mission-card-front {
     position: relative;
     width: 100%;
-    min-height: 300px;
-}
-
-/* ---- Front face ---- */
-.mission-card-front {
     background-color: var(--color-surface);
     box-shadow: var(--shadow-sm);
     transition: box-shadow 0.3s ease;
