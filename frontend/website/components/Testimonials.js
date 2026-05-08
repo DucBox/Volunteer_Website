@@ -286,7 +286,7 @@ export class Testimonials {
         if (existing) existing.remove();
         
         document.body.insertAdjacentHTML('beforeend', lightboxHTML);
-        document.body.style.overflow = 'hidden';
+        window._lockScroll();
         
         this.currentLightboxIndex = index;
         this.attachLightboxListeners();
@@ -296,7 +296,7 @@ export class Testimonials {
         const lightbox = document.getElementById('testimonialsLightbox');
         if (lightbox) {
             lightbox.remove();
-            document.body.style.overflow = '';
+            window._unlockScroll();
         }
     }
     
@@ -346,6 +346,11 @@ export class Testimonials {
     }
     
     attachEventListeners() {
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) this.stopAutoSlide();
+            else this.startAutoSlide();
+        });
+
         const prevBtn = document.getElementById('testimonialsPrev');
         const nextBtn = document.getElementById('testimonialsNext');
         

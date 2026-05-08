@@ -1,3 +1,14 @@
+// Scroll lock utility — prevents layout shift when opening modals
+window._lockScroll = () => {
+    const w = window.innerWidth - document.documentElement.clientWidth;
+    document.body.style.overflow = 'hidden';
+    if (w > 0) document.body.style.paddingRight = `${w}px`;
+};
+window._unlockScroll = () => {
+    document.body.style.overflow = '';
+    document.body.style.paddingRight = '';
+};
+
 // Main App Entry Point
 import { ChatWidget }     from './components/ChatWidget.js';
 import { Navbar }         from './components/NavBar.js';
@@ -15,10 +26,17 @@ import { Animations }     from './components/Animations.js';
 import { Cursor }         from './components/Cursor.js';
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Re-enable smooth scroll after browser has restored scroll position
-    requestAnimationFrame(() => requestAnimationFrame(() => {
-        document.documentElement.style.scrollBehavior = '';
-    }));
+    // Restore scroll position instantly, then reveal page
+    const savedY = parseInt(sessionStorage.getItem('_sy') || '0', 10);
+    sessionStorage.removeItem('_sy');
+    if (savedY > 0) window.scrollTo({ top: savedY, behavior: 'instant' });
+
+    requestAnimationFrame(() => {
+        document.documentElement.style.visibility = '';
+        requestAnimationFrame(() => {
+            document.documentElement.style.scrollBehavior = '';
+        });
+    });
 
     new Navbar();
     new Forms();

@@ -37,32 +37,56 @@ export class Animations {
         let i = 0;
         let j = 0;
 
-        function typeSubtitle() {
-            if (j < subtitleText.length) {
-                subtitleTextSpan.textContent += subtitleText.charAt(j);
-                j++;
-                setTimeout(typeSubtitle, 30);
-            } else {
-                subtitle.appendChild(cursor);
-            }
-        }
+        const typeSubtitle = (startNow) => {
+            const interval = 30;
+            let last = startNow;
+            const frame = (now) => {
+                if (now - last >= interval) {
+                    if (j < subtitleText.length) {
+                        subtitleTextSpan.textContent += subtitleText.charAt(j++);
+                        last = now;
+                    } else {
+                        subtitle.appendChild(cursor);
+                        return;
+                    }
+                }
+                requestAnimationFrame(frame);
+            };
+            requestAnimationFrame(frame);
+        };
 
-        function typeTitle() {
-            if (i < titleText.length) {
-                titleTextSpan.textContent += titleText.charAt(i);
-                title.appendChild(cursor);
-                i++;
-                setTimeout(typeTitle, 80);
-            } else {
-                // Move cursor to subtitle and start typing subtitle
-                cursor.remove();
-                subtitle.appendChild(cursor);
-                setTimeout(typeSubtitle, 300);
-            }
-        }
+        const typeTitle = (startNow) => {
+            const interval = 80;
+            let last = startNow;
+            const frame = (now) => {
+                if (now - last >= interval) {
+                    if (i < titleText.length) {
+                        titleTextSpan.textContent += titleText.charAt(i++);
+                        title.appendChild(cursor);
+                        last = now;
+                    } else {
+                        cursor.remove();
+                        subtitle.appendChild(cursor);
+                        const pauseStart = now;
+                        requestAnimationFrame(function waitSubtitle(ts) {
+                            if (ts - pauseStart >= 300) typeSubtitle(ts);
+                            else requestAnimationFrame(waitSubtitle);
+                        });
+                        return;
+                    }
+                }
+                requestAnimationFrame(frame);
+            };
+            requestAnimationFrame(frame);
+        };
 
-        // Start typing after a short delay
-        setTimeout(typeTitle, 500);
+        // Start typing after 500ms
+        let startTime = null;
+        requestAnimationFrame(function waitStart(now) {
+            if (startTime === null) startTime = now;
+            if (now - startTime >= 500) typeTitle(now);
+            else requestAnimationFrame(waitStart);
+        });
     }
 
     setupScrollTypewriters() {
@@ -130,16 +154,26 @@ export class Animations {
                     const chars = el.querySelectorAll('.scroll-typewriter-char');
                     let current = 0;
                     
-                    function type() {
-                        if(current < chars.length) {
-                            chars[current].style.opacity = '1';
-                            current++;
-                            // type faster for long texts
-                            const speed = chars.length > 50 ? 10 : 25;
-                            setTimeout(type, speed);
+                    const speed = chars.length > 50 ? 10 : 25;
+                    let last = null;
+                    const frame = (now) => {
+                        if (last === null) last = now;
+                        if (now - last >= speed) {
+                            if (current < chars.length) {
+                                chars[current++].style.opacity = '1';
+                                last = now;
+                            } else {
+                                return;
+                            }
                         }
-                    }
-                    setTimeout(type, 150); // slight delay after intersection
+                        requestAnimationFrame(frame);
+                    };
+                    let delayStart = null;
+                    requestAnimationFrame(function waitDelay(now) {
+                        if (delayStart === null) delayStart = now;
+                        if (now - delayStart >= 150) requestAnimationFrame(frame);
+                        else requestAnimationFrame(waitDelay);
+                    });
                 }
             });
         }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
@@ -183,33 +217,37 @@ export class Animations {
 
             // Spotlight Hover Effect
             if (el.matches('.act-card, .mem-card, .donation-card')) {
+                let spotlightRaf = null;
                 el.addEventListener('mousemove', (e) => {
-                    const rect = el.getBoundingClientRect();
-                    const x = e.clientX - rect.left;
-                    const y = e.clientY - rect.top;
-                    el.style.setProperty('--mouse-x', `${x}px`);
-                    el.style.setProperty('--mouse-y', `${y}px`);
+                    if (spotlightRaf) return;
+                    spotlightRaf = requestAnimationFrame(() => {
+                        const rect = el.getBoundingClientRect();
+                        el.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
+                        el.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
+                        spotlightRaf = null;
+                    });
                 });
             }
 
             // 3D Tilt Effect
             if (el.matches('.impact-card, .donation-card, .mission-card-flip')) {
+                let tiltRaf = null;
                 el.addEventListener('mousemove', (e) => {
-                    const rect = el.getBoundingClientRect();
-                    const x = e.clientX - rect.left;
-                    const y = e.clientY - rect.top;
-                    const centerX = rect.width / 2;
-                    const centerY = rect.height / 2;
-                    const rotateX = ((y - centerY) / centerY) * -8;
-                    const rotateY = ((x - centerX) / centerX) * 8;
-                    
-                    el.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
-                    el.style.transition = 'transform 0.1s ease-out';
+                    if (tiltRaf) return;
+                    tiltRaf = requestAnimationFrame(() => {
+                        const rect = el.getBoundingClientRect();
+                        const x = e.clientX - rect.left;
+                        const y = e.clientY - rect.top;
+                        const rotateX = ((y - rect.height / 2) / (rect.height / 2)) * -8;
+                        const rotateY = ((x - rect.width / 2) / (rect.width / 2)) * 8;
+                        el.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+                        el.style.transition = 'transform 0.1s ease-out';
+                        tiltRaf = null;
+                    });
                 });
                 el.addEventListener('mouseleave', () => {
                     el.style.transform = '';
                     el.style.transition = 'transform 0.5s ease';
-                    // Reset inline style after transition to allow CSS hover states to work
                     setTimeout(() => { el.style.transition = ''; }, 500);
                 });
             }

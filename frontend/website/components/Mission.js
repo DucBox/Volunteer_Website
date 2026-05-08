@@ -157,11 +157,11 @@ export class Mission {
         `).join('');
 
         document.getElementById('missionModal').classList.add('active');
-        document.body.style.overflow = 'hidden';
+        window._lockScroll();
     }
 
     closeModal() {
         document.getElementById('missionModal')?.classList.remove('active');
-        document.body.style.overflow = '';
+        window._unlockScroll();
     }
 }

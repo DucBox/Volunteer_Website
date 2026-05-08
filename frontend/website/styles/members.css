@@ -220,21 +220,21 @@
     width: 100%;
     height: 100%;
     background: rgba(0, 0, 0, 0.85);
-    display: none;
+    display: flex;
     align-items: center;
     justify-content: center;
     z-index: 10000;
     backdrop-filter: blur(5px);
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 
 .members-lightbox.active {
-    display: flex;
-    animation: memFadeIn 0.3s ease;
-}
-
-@keyframes memFadeIn {
-    from { opacity: 0; }
-    to   { opacity: 1; }
+    visibility: visible;
+    opacity: 1;
+    pointer-events: auto;
 }
 
 .members-lightbox-content {

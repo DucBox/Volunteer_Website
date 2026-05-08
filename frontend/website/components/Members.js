@@ -84,6 +84,11 @@ export class Members {
             this.currentIndex = Math.min(this.currentIndex, this.maxIndex);
             this.updateSlider();
         });
+
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) this.stopAuto();
+            else this.startAuto();
+        });
     }
 
     renderSlider() {
@@ -205,7 +210,7 @@ export class Members {
             }, { passive: true });
             viewport.addEventListener('touchend', e => {
                 const dx = e.changedTouches[0].clientX - this.dragStartX;
-                if (Math.abs(dx) > 40) {
+                if (Math.abs(dx) > window.innerWidth * 0.08) {
                     this.stopAuto();
                     dx < 0 ? this.next() : this.prev();
                     this.startAuto();
@@ -261,11 +266,11 @@ export class Members {
         document.getElementById('lightboxMemberQuote').textContent   = `"${member.quote}"`;
 
         document.getElementById('membersLightbox').classList.add('active');
-        document.body.style.overflow = 'hidden';
+        window._lockScroll();
     }
 
     closeLightbox() {
         document.getElementById('membersLightbox')?.classList.remove('active');
-        document.body.style.overflow = '';
+        window._unlockScroll();
     }
 }

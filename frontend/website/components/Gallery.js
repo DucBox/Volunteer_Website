@@ -22,6 +22,10 @@ export class Gallery {
             this.attachEventListeners();
             this.setupResponsive();
             this.startAutoPlay();
+            document.addEventListener('visibilitychange', () => {
+                if (document.hidden) this.stopAutoPlay();
+                else this.startAutoPlay();
+            });
             console.log('[Gallery] ✓ Khởi tạo hoàn tất!');
         } else {
             console.error('[Gallery] ✗ Không thể khởi tạo: Không có ảnh!');
@@ -107,8 +111,7 @@ export class Gallery {
             img.onerror = () => resolve(false);
             img.src = url;
             
-            // Timeout sau 2s
-            setTimeout(() => resolve(false), 2000);
+            setTimeout(() => resolve(false), 500);
         });
     }
 
@@ -280,7 +283,7 @@ export class Gallery {
         caption.textContent = currentImage.caption;
 
         lightbox.classList.add('active');
-        document.body.style.overflow = 'hidden'; // Disable scroll
+        window._lockScroll(); // Disable scroll
         
         this.stopAutoPlay(); // Pause carousel when lightbox open
     }
@@ -290,7 +293,7 @@ export class Gallery {
         if (!lightbox) return;
 
         lightbox.classList.remove('active');
-        document.body.style.overflow = ''; // Enable scroll
+        window._unlockScroll();
         
         this.startAutoPlay(); // Resume carousel
     }

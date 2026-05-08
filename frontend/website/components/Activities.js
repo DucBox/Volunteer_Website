@@ -183,6 +183,11 @@ export class Activities {
             this.updateSlider();
             this.updateNavButtons();
         });
+
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) this.stopAuto();
+            else this.startAuto();
+        });
     }
 
     // ---- Render slider ----
@@ -288,14 +293,14 @@ export class Activities {
 
         const modal = document.getElementById('activityModal');
         modal.classList.add('active');
-        document.body.style.overflow = 'hidden';
+        window._lockScroll();
 
         document.getElementById('actModalCta')?.addEventListener('click', () => this.closeModal());
     }
 
     closeModal() {
         document.getElementById('activityModal')?.classList.remove('active');
-        document.body.style.overflow = '';
+        window._unlockScroll();
     }
 
     // ---- Slider logic ----
@@ -401,7 +406,7 @@ export class Activities {
             }, { passive: true });
             viewport.addEventListener('touchend', e => {
                 const dx = e.changedTouches[0].clientX - this.dragStartX;
-                if (Math.abs(dx) > 40) {
+                if (Math.abs(dx) > window.innerWidth * 0.08) {
                     this.stopAuto();
                     dx < 0 ? this.next() : this.prev();
                     this.startAuto();

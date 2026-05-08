@@ -15,15 +15,24 @@
     <meta property="og:image"       content="assets/images/backgrounds/hero-bg.jpg">
     <meta property="og:url"         content="https://duanchoem.vn">
 
-    <!-- Anti-FOUC: set theme + suppress smooth-scroll during browser scroll restore -->
+    <!-- Anti-FOUC: theme + hide page until scroll position restored -->
     <script>
         (function () {
             var t = localStorage.getItem('theme') ||
                     (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
             document.documentElement.setAttribute('data-theme', t);
-            if ('scrollRestoration' in history) history.scrollRestoration = 'auto';
-            // Disable smooth scroll so browser restores position instantly (no flash)
+
+            // Disable browser scroll restoration — we handle it manually
+            if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+            // Kill smooth scroll so instant-scroll works before first paint
             document.documentElement.style.scrollBehavior = 'auto';
+            // Hide until we've repositioned — prevents flash to top
+            document.documentElement.style.visibility = 'hidden';
+
+            // Save position just before unload
+            window.addEventListener('beforeunload', function () {
+                sessionStorage.setItem('_sy', String(Math.round(window.scrollY)));
+            });
         })();
     </script>
 
