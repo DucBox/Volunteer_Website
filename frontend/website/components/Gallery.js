@@ -11,7 +11,8 @@ export class Gallery {
     }
 
     isMobileOrTablet() {
-        return window.innerWidth <= 1024;
+        // Touch device detection — catches iPhone + iPad mọi kích thước + Android
+        return navigator.maxTouchPoints > 0 || window.innerWidth <= 1024;
     }
 
     async init() {
