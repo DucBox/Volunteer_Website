@@ -1,7 +1,3 @@
-// Always start at top on page load/refresh
-if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
-window.scrollTo(0, 0);
-
 // Main App Entry Point
 import { ChatWidget }     from './components/ChatWidget.js';
 import { Navbar }         from './components/NavBar.js';
@@ -19,6 +15,7 @@ import { Animations }     from './components/Animations.js';
 import { Cursor }         from './components/Cursor.js';
 
 document.addEventListener('DOMContentLoaded', () => {
+    window.scrollTo(0, 0);
     new Navbar();
     new Forms();
     new Gallery();
