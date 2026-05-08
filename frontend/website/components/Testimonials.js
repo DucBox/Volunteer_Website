@@ -49,46 +49,45 @@ export class Testimonials {
     
     async loadImages() {
         console.log('[Testimonials] Đang tải ảnh từ feelings/...');
-        
-        const possibleFiles = [];
+
+        // Tạo danh sách candidates: 1.jpg, 1.jpeg, 1.png, 2.jpg, ...
         const extensions = ['jpg', 'jpeg', 'png'];
-        
+        const candidates = [];
         for (let i = 1; i <= 20; i++) {
             for (const ext of extensions) {
-                possibleFiles.push(`${i}.${ext}`);
+                candidates.push({ file: `${i}.${ext}`, index: i });
             }
         }
-        
-        const validImages = [];
-        
-        for (const file of possibleFiles) {
-            try {
-                const exists = await this.checkImageExists(`${this.feelingsPath}${file}`);
-                if (exists) {
-                    validImages.push({
-                        src: `${this.feelingsPath}${file}`,
-                        alt: `Cảm nhận ${validImages.length + 1}`
-                    });
-                    console.log(`[Testimonials] ✓ Tìm thấy: ${file}`);
-                }
-            } catch (err) {
-                // Skip
-            }
-            
-            if (validImages.length >= 20) break;
-        }
-        
+
+        // Check song song — tránh timeout tuần tự trên Chrome cold cache
+        const results = await Promise.all(
+            candidates.map(async ({ file, index }) => {
+                const src = `${this.feelingsPath}${file}`;
+                const exists = await this.checkImageExists(src);
+                if (exists) console.log(`[Testimonials] ✓ Tìm thấy: ${file}`);
+                return exists ? { src, alt: `Cảm nhận ${index}`, index } : null;
+            })
+        );
+
+        // Lấy ảnh hợp lệ, mỗi số chỉ lấy 1 (ưu tiên ext đầu tiên tìm thấy)
+        const seen = new Set();
+        const validImages = results
+            .filter(Boolean)
+            .filter(({ index }) => seen.has(index) ? false : seen.add(index))
+            .slice(0, 20)
+            .map(({ src, alt }) => ({ src, alt }));
+
         this.images = validImages;
         console.log(`[Testimonials] ✓ Đã load ${this.images.length} ảnh`);
     }
-    
+
     checkImageExists(url) {
         return new Promise((resolve) => {
             const img = new Image();
             img.onload = () => resolve(true);
             img.onerror = () => resolve(false);
             img.src = url;
-            setTimeout(() => resolve(false), 2000);
+            setTimeout(() => resolve(false), 5000);
         });
     }
     

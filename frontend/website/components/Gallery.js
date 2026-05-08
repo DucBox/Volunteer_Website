@@ -53,49 +53,23 @@ export class Gallery {
 
     async loadImages() {
         console.log('[Gallery] Đang tải ảnh từ folder gallery...');
-        
-        // Thử load các file ảnh phổ biến (1-20)
-        const possibleFiles = [];
-        const extensions = ['jpg'];
-        
-        // Thử từ 1 đến 50 file với các extension khác nhau
-        for (let i = 1; i <= 10; i++) {
-            for (const ext of extensions) {
-                possibleFiles.push(`${i}.${ext}`);
-            }
-        }
 
-        // Check từng file xem có tồn tại không
-        const validImages = [];
-        let checkCount = 0;
-        
-        for (const file of possibleFiles) {
-            try {
-                const exists = await this.checkImageExists(`${this.galleryPath}${file}`);
-                if (exists) {
-                    validImages.push({
-                        src: `${this.galleryPath}${file}`,
-                        alt: `Hình ảnh hoạt động ${validImages.length + 1}`,
-                        caption: `Khoảnh khắc tình nguyện ${validImages.length + 1}`
-                    });
-                    console.log(`[Gallery] ✓ Tìm thấy: ${file}`);
-                }
-                checkCount++;
-            } catch (err) {
-                // File không tồn tại, bỏ qua
-            }
-            
-            // Stop nếu đã tìm đủ hoặc check quá nhiều
-            if (validImages.length >= 20 || checkCount > 100) break;
-        }
+        const files = Array.from({ length: 10 }, (_, i) => `${i + 1}.jpg`);
+
+        // Check song song — tránh lỗi timeout tuần tự trên Chrome cold cache
+        const results = await Promise.all(
+            files.map(async (file, i) => {
+                const src = `${this.galleryPath}${file}`;
+                const exists = await this.checkImageExists(src);
+                if (exists) console.log(`[Gallery] ✓ Tìm thấy: ${file}`);
+                return exists ? { src, alt: `Hình ảnh hoạt động ${i + 1}`, caption: `Khoảnh khắc tình nguyện ${i + 1}` } : null;
+            })
+        );
+
+        const validImages = results.filter(Boolean);
 
         if (validImages.length === 0) {
-            console.error('[Gallery] ✗ Không tìm thấy ảnh nào trong folder gallery!');
-            console.log('[Gallery] Đường dẫn:', this.galleryPath);
-            console.log('[Gallery] Vui lòng đặt ảnh vào: assets/images/gallery/');
-            console.log('[Gallery] Tên file: 1.jpg, 2.jpg, 3.jpg, ...');
-            
-            // Hiển thị thông báo lỗi trên UI
+            console.error('[Gallery] ✗ Không tìm thấy ảnh nào!');
             this.showErrorMessage();
             return;
         }
@@ -110,8 +84,7 @@ export class Gallery {
             img.onload = () => resolve(true);
             img.onerror = () => resolve(false);
             img.src = url;
-            
-            setTimeout(() => resolve(false), 500);
+            setTimeout(() => resolve(false), 5000);
         });
     }
 
