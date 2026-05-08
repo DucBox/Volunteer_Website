@@ -363,6 +363,8 @@
         transition: all 0.2s ease;
         user-select: none;
         flex-shrink: 0;
+        -webkit-tap-highlight-color: transparent;
+        touch-action: manipulation;
     }
     .gallery-snap-btn:active {
         transform: scale(0.92);
@@ -388,11 +390,30 @@
         transition: all 0.25s ease;
         padding: 0;
         flex-shrink: 0;
+        -webkit-tap-highlight-color: transparent;
+        touch-action: manipulation;
     }
     .gallery-snap-dot.active {
         background: var(--color-primary);
         width: 22px;
         border-radius: 4px;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 1024px), (pointer: coarse) and (min-width: 768px) {
+    .gallery-snap-track {
+        gap: 20px;
+        padding: 8px 24px 16px;
+        scroll-padding-inline: 24px;
+    }
+
+    .gallery-snap-slide {
+        flex: 0 0 calc(100% - 128px);
+        aspect-ratio: 16 / 10;
+    }
+
+    .gallery-snap-nav {
+        margin-top: var(--space-16);
     }
 }
 
