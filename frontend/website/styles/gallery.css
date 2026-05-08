@@ -247,6 +247,11 @@
     color: #fff;
 }
 [data-theme="dark"] .lightbox-caption { background: rgba(0,0,0,0.85); }
+[data-theme="dark"] .gallery-snap-frame {
+    background:
+        linear-gradient(#1a2332, #1a2332) padding-box,
+        linear-gradient(135deg, rgba(66, 165, 245, 0.9), rgba(144, 202, 249, 0.9), rgba(187, 222, 251, 0.85)) border-box;
+}
 
 /* Error */
 .gallery-error {
@@ -295,6 +300,13 @@
     /* Show scroll-snap */
     .gallery-snap-wrap {
         display: block;
+        width: 100%;
+    }
+
+    .gallery-snap-viewport {
+        width: 100%;
+        overflow: hidden;
+        position: relative;
     }
 
     .gallery-snap-track {
@@ -302,33 +314,41 @@
         overflow-x: auto;
         scroll-snap-type: x mandatory;
         scroll-behavior: smooth;
-        gap: 16px;
-        padding: 8px 16px 16px;
-        /* scroll-padding must equal padding-inline-start so snap lands at slide edge */
-        scroll-padding-inline: 16px;
         scrollbar-width: none;
         -webkit-overflow-scrolling: touch;
+        gap: 0;
+        padding: 0;
+        margin: 0;
+        overscroll-behavior-x: contain;
     }
     .gallery-snap-track::-webkit-scrollbar { display: none; }
 
     .gallery-snap-slide {
-        /* flex % resolves against content-box width (screen − 2×16px padding)
-           so flex: 0 0 100% = exactly one slide per viewport with 16px side margins */
         flex: 0 0 100%;
-        aspect-ratio: 4 / 3;
+        width: 100%;
         scroll-snap-align: start;
-        border-radius: 16px;
-        overflow: hidden;
+        scroll-snap-stop: always;
+        box-sizing: border-box;
         cursor: pointer;
+        padding: 0;
+        margin: 0;
+        background: transparent;
+    }
+    .gallery-snap-slide:active .gallery-snap-frame { transform: scale(0.985); }
+
+    .gallery-snap-frame {
+        width: calc(100% - clamp(24px, 4vw, 40px));
+        margin: 0 auto;
+        aspect-ratio: 4 / 3;
+        border-radius: clamp(14px, 2vw, 20px);
+        overflow: hidden;
+        background: #fff;
         border: 1.5px solid rgba(66, 165, 245, 0.28);
         box-shadow:
             0 4px 16px rgba(66, 165, 245, 0.12),
             0 6px 20px rgba(0, 0, 0, 0.07);
-        background: #fff;
-        flex-shrink: 0;
         transition: transform 0.18s ease;
     }
-    .gallery-snap-slide:active { transform: scale(0.97); }
 
     .gallery-snap-slide img {
         width: 100%;
@@ -401,14 +421,8 @@
 }
 
 @media (min-width: 768px) and (max-width: 1024px), (pointer: coarse) and (min-width: 768px) {
-    .gallery-snap-track {
-        gap: 20px;
-        padding: 8px 24px 16px;
-        scroll-padding-inline: 24px;
-    }
-
-    .gallery-snap-slide {
-        flex: 0 0 calc(100% - 128px);
+    .gallery-snap-frame {
+        width: calc(100% - clamp(40px, 6vw, 72px));
         aspect-ratio: 16 / 10;
     }
 
