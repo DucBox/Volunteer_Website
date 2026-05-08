@@ -328,7 +328,10 @@ export class Timeline {
         if (!this.viewport) return;
 
         const now = Date.now();
-        const delta = Math.abs(event.deltaX) > Math.abs(event.deltaY) ? event.deltaX : event.deltaY;
+        // Only intercept horizontal scroll (trackpad swipe); let vertical scroll pass through
+        if (Math.abs(event.deltaY) >= Math.abs(event.deltaX)) return;
+
+        const delta = event.deltaX;
         if (Math.abs(delta) < 18 || now < this.wheelLockedUntil) return;
 
         event.preventDefault();

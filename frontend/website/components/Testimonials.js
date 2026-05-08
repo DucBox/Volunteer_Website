@@ -120,10 +120,9 @@ export class Testimonials {
             
             <div class="testimonials-controls">
                 <button class="testimonials-nav-btn prev" id="testimonialsPrev">&#8249;</button>
+                <div class="testimonials-dots" id="testimonialsDots"></div>
                 <button class="testimonials-nav-btn next" id="testimonialsNext">&#8250;</button>
             </div>
-            
-            <div class="testimonials-dots" id="testimonialsDots"></div>
         `;
         
         container.appendChild(wrapper);
