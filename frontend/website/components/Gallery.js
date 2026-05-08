@@ -3,8 +3,9 @@ export class Gallery {
     constructor() {
         this.images = [];
         this.currentIndex = 0;
-        this.isPlaying = true;
+        this.isPlaying = false;
         this.autoPlayInterval = null;
+        this.autoplayEnabled = true;
         this.galleryPath = 'assets/images/gallery/';
         this.resizeTimer = null;
         this.init();
@@ -29,14 +30,17 @@ export class Gallery {
             this.render3DCarousel();
             this.attachCarouselControls();
             this.setupResponsive();
-            this.startAutoPlay();
+            this.resumeAutoPlayIfEnabled();
         }
 
         this.attachLightboxListeners();
 
         document.addEventListener('visibilitychange', () => {
-            if (document.hidden) this.stopAutoPlay();
-            else if (!this.isMobileOrTablet()) this.startAutoPlay();
+            if (document.hidden) {
+                this.stopAutoPlay({ preservePreference: true });
+            } else if (!this.isMobileOrTablet()) {
+                this.resumeAutoPlayIfEnabled();
+            }
         });
     }
 
@@ -119,23 +123,38 @@ export class Gallery {
         dotWrap.id = 'gallerySnapDots';
         this.images.forEach((_, i) => {
             const dot = document.createElement('button');
+            dot.type = 'button';
             dot.className = `gallery-snap-dot${i === 0 ? ' active' : ''}`;
             dot.setAttribute('aria-label', `Ảnh ${i + 1}`);
-            dot.addEventListener('click', () => this.snapTo(i));
+            dot.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.currentTarget.blur();
+                this.snapTo(i);
+            });
             dotWrap.appendChild(dot);
         });
 
         const prevBtn = document.createElement('button');
+        prevBtn.type = 'button';
         prevBtn.className = 'gallery-snap-btn';
         prevBtn.innerHTML = '&#8249;';
         prevBtn.setAttribute('aria-label', 'Ảnh trước');
-        prevBtn.addEventListener('click', () => this.snapTo(Math.max(0, this.currentIndex - 1)));
+        prevBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.currentTarget.blur();
+            this.snapTo(Math.max(0, this.currentIndex - 1));
+        });
 
         const nextBtn = document.createElement('button');
+        nextBtn.type = 'button';
         nextBtn.className = 'gallery-snap-btn';
         nextBtn.innerHTML = '&#8250;';
         nextBtn.setAttribute('aria-label', 'Ảnh sau');
-        nextBtn.addEventListener('click', () => this.snapTo(Math.min(this.images.length - 1, this.currentIndex + 1)));
+        nextBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.currentTarget.blur();
+            this.snapTo(Math.min(this.images.length - 1, this.currentIndex + 1));
+        });
 
         const nav = document.createElement('div');
         nav.className = 'gallery-snap-nav';
@@ -153,9 +172,19 @@ export class Gallery {
 
     snapTo(index) {
         const track = document.getElementById('gallerySnapTrack');
-        if (!track) return;
-        track.querySelectorAll('.gallery-snap-slide')[index]
-            ?.scrollIntoView({ behavior: 'smooth', inline: 'start', block: 'nearest' });
+        const slides = track?.querySelectorAll('.gallery-snap-slide');
+        const targetSlide = slides?.[index];
+        if (!track || !targetSlide) return;
+
+        const trackStyles = window.getComputedStyle(track);
+        const paddingLeft = parseFloat(trackStyles.paddingLeft) || 0;
+        const targetLeft = Math.max(0, targetSlide.offsetLeft - paddingLeft);
+
+        track.scrollTo({
+            left: targetLeft,
+            behavior: 'smooth'
+        });
+
         this.currentIndex = index;
         this.updateSnapDots(track);
     }
@@ -203,10 +232,6 @@ export class Gallery {
         document.getElementById('prevBtn')?.addEventListener('click', () => this.prevSlide());
         document.getElementById('nextBtn')?.addEventListener('click', () => this.nextSlide());
         document.getElementById('playPauseBtn')?.addEventListener('click', () => this.toggleAutoPlay());
-
-        const container = document.getElementById('carouselContainer');
-        container?.addEventListener('mouseenter', () => { if (this.isPlaying) this.stopAutoPlay(); });
-        container?.addEventListener('mouseleave', () => { if (!this.isPlaying) this.startAutoPlay(); });
     }
 
     getResponsiveRadius(radius) {
@@ -246,15 +271,30 @@ export class Gallery {
         this.updatePlayPauseButton();
     }
 
-    stopAutoPlay() {
+    stopAutoPlay({ preservePreference = false } = {}) {
         clearInterval(this.autoPlayInterval);
         this.autoPlayInterval = null;
         this.isPlaying = false;
+        if (!preservePreference) this.autoplayEnabled = false;
         this.updatePlayPauseButton();
     }
 
+    resumeAutoPlayIfEnabled() {
+        if (!this.autoplayEnabled || this.isMobileOrTablet()) {
+            this.isPlaying = false;
+            this.updatePlayPauseButton();
+            return;
+        }
+        this.startAutoPlay();
+    }
+
     toggleAutoPlay() {
-        this.isPlaying ? this.stopAutoPlay() : this.startAutoPlay();
+        if (this.isPlaying) {
+            this.stopAutoPlay();
+        } else {
+            this.autoplayEnabled = true;
+            this.startAutoPlay();
+        }
     }
 
     updatePlayPauseButton() {
@@ -293,7 +333,7 @@ export class Gallery {
         if (caption) caption.textContent = img.caption;
         lightbox.classList.add('active');
         window._lockScroll();
-        if (!this.isMobileOrTablet()) this.stopAutoPlay();
+        if (!this.isMobileOrTablet()) this.stopAutoPlay({ preservePreference: true });
     }
 
     closeLightbox() {
@@ -301,7 +341,7 @@ export class Gallery {
         if (!lightbox) return;
         lightbox.classList.remove('active');
         window._unlockScroll();
-        if (!this.isMobileOrTablet()) this.startAutoPlay();
+        if (!this.isMobileOrTablet()) this.resumeAutoPlayIfEnabled();
     }
 
     lightboxNext() {
