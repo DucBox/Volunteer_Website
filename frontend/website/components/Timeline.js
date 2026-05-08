@@ -257,20 +257,6 @@ export class Timeline {
             this.goTo(Number(dot.dataset.index));
         });
 
-        this.track?.addEventListener('click', (event) => {
-            const item = event.target.closest('.timeline-item');
-            if (!item || this.isDragging) return;
-            this.stopAutoDrive();
-            this.goTo(Number(item.dataset.index));
-        });
-
-        this.viewport?.addEventListener('pointerdown', (event) => this.onPointerDown(event));
-        this.viewport?.addEventListener('pointermove', (event) => this.onPointerMove(event));
-        this.viewport?.addEventListener('pointerup', (event) => this.onPointerUp(event));
-        this.viewport?.addEventListener('pointercancel', (event) => this.onPointerUp(event));
-        this.viewport?.addEventListener('lostpointercapture', () => this.resetDrag());
-        this.viewport?.addEventListener('wheel', (event) => this.onWheel(event), { passive: false });
-
         window.addEventListener('resize', this.onResize, { passive: true });
     }
 
