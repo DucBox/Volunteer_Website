@@ -245,7 +245,19 @@
       - Giá trị thấp hơn = ảnh mờ hơn
 */
 
-/* Mobile: background-attachment: fixed không hoạt động trên iOS Safari */
+/* iOS Safari (iPhone + iPad mọi size) không hỗ trợ background-attachment: fixed */
+@supports (-webkit-touch-callout: none) {
+    .hero::before,
+    .mission-section::before,
+    .impact-section::before,
+    .members-section::before,
+    .activities-section::before,
+    .gallery-section::before {
+        background-attachment: scroll;
+    }
+}
+
+/* Android / non-iOS nhỏ cũng fallback */
 @media (max-width: 768px) {
     .hero::before,
     .mission-section::before,

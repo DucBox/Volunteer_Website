@@ -302,6 +302,14 @@
     }
 }
 
+/* iOS Safari (iPhone + iPad): disable backdrop-filter */
+@supports (-webkit-touch-callout: none) {
+    .testimonials-lightbox {
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+    }
+}
+
 /* Mobile: 1 card */
 @media (max-width: 768px) {
     .testimonials-lightbox,

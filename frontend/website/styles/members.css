@@ -356,6 +356,14 @@
     .mem-slider-btn { width: 40px; height: 40px; font-size: 22px; }
 }
 
+/* iOS Safari (iPhone + iPad): disable backdrop-filter */
+@supports (-webkit-touch-callout: none) {
+    .members-lightbox-content {
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+    }
+}
+
 @media (max-width: 768px) {
     .members-lightbox-content {
         backdrop-filter: none;

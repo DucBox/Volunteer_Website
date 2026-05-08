@@ -315,6 +315,14 @@
     color: var(--color-text);
 }
 
+/* iOS Safari (iPhone + iPad): disable backdrop-filter */
+@supports (-webkit-touch-callout: none) {
+    #lightbox {
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+    }
+}
+
 /* Mobile Responsive */
 @media (max-width: 768px) {
     #lightbox {

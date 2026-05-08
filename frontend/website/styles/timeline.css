@@ -779,8 +779,17 @@
     }
 }
 
-/* Mobile performance: disable expensive GPU effects */
-@media (max-width: 768px) {
+/* iOS Safari (iPhone + iPad): disable expensive GPU effects */
+@supports (-webkit-touch-callout: none) {
+    .timeline-card {
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+    }
+    .timeline-bus::before { display: none; }
+}
+
+/* Tablet / mobile: disable blur effects */
+@media (max-width: 1024px) {
     .timeline-card {
         backdrop-filter: none;
         -webkit-backdrop-filter: none;
