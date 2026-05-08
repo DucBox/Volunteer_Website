@@ -357,6 +357,11 @@
 }
 
 @media (max-width: 768px) {
+    .members-lightbox-content {
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+    }
+
     .members-section { padding: var(--space-48) 0; }
 
     .mem-card {

@@ -97,6 +97,7 @@ export class Timeline {
         this.isAutoDriving = false;
         this.hasAutoStarted = false;
         this.segmentDuration = 4000; // Slower, more cinematic auto drive
+        this.cachedPoints = null;
 
         this.container = null;
         this.viewport = null;
@@ -261,6 +262,7 @@ export class Timeline {
     }
 
     handleResize() {
+        this.cachedPoints = null;
         this.layoutScene();
         this.renderFrame(false);
     }
@@ -421,16 +423,18 @@ export class Timeline {
     }
 
     getNodePoints() {
+        if (this.cachedPoints) return this.cachedPoints;
         if (!this.scene) return [];
 
         const sceneRect = this.scene.getBoundingClientRect();
-        return [...this.scene.querySelectorAll('.timeline-stop-node')].map((node) => {
+        this.cachedPoints = [...this.scene.querySelectorAll('.timeline-stop-node')].map((node) => {
             const rect = node.getBoundingClientRect();
             return {
                 x: rect.left + rect.width / 2 - sceneRect.left,
                 y: rect.top + rect.height / 2 - sceneRect.top,
             };
         });
+        return this.cachedPoints;
     }
 
     buildSmoothPath(points) {
@@ -483,7 +487,7 @@ export class Timeline {
     applySceneOffset(offset, animate) {
         if (!this.scene) return;
         this.scene.classList.toggle('is-animated', animate);
-        this.scene.style.transform = `translateX(-${offset}px)`;
+        this.scene.style.transform = `translate3d(-${offset}px, 0, 0)`;
     }
 
     updateBackdrop(offset) {
@@ -541,9 +545,9 @@ export class Timeline {
     updateBusPosition(point) {
         if (!this.bus || !point) return;
         const offset = this.getBusVisualOffset(point.angle);
-        this.bus.style.left = `${point.x + offset.x}px`;
-        this.bus.style.top = `${point.y + offset.y}px`;
-        this.bus.style.transform = `translate(-50%, -50%) rotate(${point.angle}deg)`;
+        const x = point.x + offset.x;
+        const y = point.y + offset.y;
+        this.bus.style.transform = `translate(${x}px, ${y}px) translate(-50%, -50%) rotate(${point.angle}deg)`;
     }
 
     getBusVisualOffset(angle) {

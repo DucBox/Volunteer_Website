@@ -304,6 +304,12 @@
 
 /* Mobile: 1 card */
 @media (max-width: 768px) {
+    .testimonials-lightbox,
+    .testimonials-lightbox .lightbox-image {
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+    }
+
     .testimonials-section {
         padding: var(--space-48) 0 var(--space-16);
     }

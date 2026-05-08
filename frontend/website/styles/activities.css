@@ -418,6 +418,11 @@
 
 /* Modal stacked on mobile */
 @media (max-width: 768px) {
+    .act-modal-overlay {
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+    }
+
     .act-modal-content {
         flex-direction: column;
         max-height: calc(100dvh - 16px);

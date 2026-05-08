@@ -317,6 +317,11 @@
 
 /* Mobile Responsive */
 @media (max-width: 768px) {
+    #lightbox {
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+    }
+
     .gallery-carousel {
         height: 350px;
         margin-bottom: 72px;
