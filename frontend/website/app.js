@@ -14,15 +14,11 @@ import { ImpactCounter }  from './components/ImpactCounter.js';
 import { Animations }     from './components/Animations.js';
 import { Cursor }         from './components/Cursor.js';
 
-// Save position before reload, restore instantly on load
-window.addEventListener('beforeunload', () => {
-    sessionStorage.setItem('_sy', String(Math.round(window.scrollY)));
-});
-
 document.addEventListener('DOMContentLoaded', () => {
-    var savedY = parseInt(sessionStorage.getItem('_sy') || '0', 10);
-    sessionStorage.removeItem('_sy');
-    if (savedY > 0) window.scrollTo({ top: savedY, behavior: 'instant' });
+    // Re-enable smooth scroll after browser has restored scroll position
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+        document.documentElement.style.scrollBehavior = '';
+    }));
 
     new Navbar();
     new Forms();

@@ -15,13 +15,15 @@
     <meta property="og:image"       content="assets/images/backgrounds/hero-bg.jpg">
     <meta property="og:url"         content="https://duanchoem.vn">
 
-    <!-- Anti-FOUC + disable browser scroll restoration (we handle it manually) -->
+    <!-- Anti-FOUC: set theme + suppress smooth-scroll during browser scroll restore -->
     <script>
         (function () {
             var t = localStorage.getItem('theme') ||
                     (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
             document.documentElement.setAttribute('data-theme', t);
-            if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+            if ('scrollRestoration' in history) history.scrollRestoration = 'auto';
+            // Disable smooth scroll so browser restores position instantly (no flash)
+            document.documentElement.style.scrollBehavior = 'auto';
         })();
     </script>
 
