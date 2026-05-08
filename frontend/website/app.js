@@ -14,25 +14,7 @@ import { ImpactCounter }  from './components/ImpactCounter.js';
 import { Animations }     from './components/Animations.js';
 import { Cursor }         from './components/Cursor.js';
 
-// Save scroll position before unload so we can animate back to top on reload
-window.addEventListener('beforeunload', () => {
-    sessionStorage.setItem('_preRefreshY', Math.round(window.scrollY));
-});
-
 document.addEventListener('DOMContentLoaded', () => {
-    const savedY = parseInt(sessionStorage.getItem('_preRefreshY') || '0', 10);
-    sessionStorage.removeItem('_preRefreshY');
-
-    if (savedY > 80) {
-        // Jump to where user was (before first paint), then smooth scroll to top
-        window.scrollTo({ top: savedY, behavior: 'instant' });
-        requestAnimationFrame(() => requestAnimationFrame(() => {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }));
-    } else {
-        window.scrollTo(0, 0);
-    }
-
     new Navbar();
     new Forms();
     new Gallery();
