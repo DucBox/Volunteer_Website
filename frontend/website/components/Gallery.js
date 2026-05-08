@@ -8,6 +8,7 @@ export class Gallery {
         this.autoplayEnabled = true;
         this.galleryPath = 'assets/images/gallery/';
         this.resizeTimer = null;
+        this.snapResizeTimer = null;
         this.init();
     }
 
@@ -102,8 +103,14 @@ export class Gallery {
         const carousel = document.querySelector('.gallery-carousel');
         if (!carousel) return;
 
+        const existingWrap = carousel.querySelector('.gallery-snap-wrap');
+        existingWrap?.remove();
+
         const wrap = document.createElement('div');
         wrap.className = 'gallery-snap-wrap';
+
+        const viewport = document.createElement('div');
+        viewport.className = 'gallery-snap-viewport';
 
         const track = document.createElement('div');
         track.className = 'gallery-snap-track';
@@ -113,7 +120,11 @@ export class Gallery {
             const slide = document.createElement('div');
             slide.className = 'gallery-snap-slide';
             slide.dataset.index = index;
-            slide.innerHTML = `<img src="${image.src}" alt="${image.alt}" loading="lazy">`;
+            slide.innerHTML = `
+                <div class="gallery-snap-frame">
+                    <img src="${image.src}" alt="${image.alt}" loading="lazy">
+                </div>
+            `;
             slide.addEventListener('click', () => this.openLightbox(index));
             track.appendChild(slide);
         });
@@ -160,7 +171,8 @@ export class Gallery {
         nav.className = 'gallery-snap-nav';
         nav.append(prevBtn, dotWrap, nextBtn);
 
-        wrap.append(track, nav);
+        viewport.appendChild(track);
+        wrap.append(viewport, nav);
         carousel.prepend(wrap);
 
         let scrollTimer;
@@ -168,38 +180,45 @@ export class Gallery {
             clearTimeout(scrollTimer);
             scrollTimer = setTimeout(() => this.updateSnapDots(track), 80);
         });
-    }
 
-    snapTo(index) {
-        const track = document.getElementById('gallerySnapTrack');
-        const slides = track?.querySelectorAll('.gallery-snap-slide');
-        const targetSlide = slides?.[index];
-        if (!track || !targetSlide) return;
-
-        const trackStyles = window.getComputedStyle(track);
-        const paddingLeft = parseFloat(trackStyles.paddingLeft) || 0;
-        const targetLeft = Math.max(0, targetSlide.offsetLeft - paddingLeft);
-
-        track.scrollTo({
-            left: targetLeft,
-            behavior: 'smooth'
+        window.addEventListener('resize', () => {
+            clearTimeout(this.snapResizeTimer);
+            this.snapResizeTimer = setTimeout(() => {
+                this.snapTo(this.currentIndex, 'auto');
+            }, 120);
         });
 
-        this.currentIndex = index;
+        this.snapTo(this.currentIndex, 'auto');
+    }
+
+    snapTo(index, behavior = 'smooth') {
+        const track = document.getElementById('gallerySnapTrack');
+        const viewport = document.querySelector('.gallery-snap-viewport');
+        if (!track || !viewport) return;
+
+        const maxIndex = this.images.length - 1;
+        const safeIndex = Math.max(0, Math.min(index, maxIndex));
+        const offset = safeIndex * viewport.clientWidth;
+
+        track.scrollTo({
+            left: offset,
+            behavior
+        });
+
+        this.currentIndex = safeIndex;
         this.updateSnapDots(track);
     }
 
     updateSnapDots(track) {
-        const slides = [...track.querySelectorAll('.gallery-snap-slide')];
-        const scrollLeft = track.scrollLeft;
-        let closest = 0, minDist = Infinity;
-        slides.forEach((slide, i) => {
-            const dist = Math.abs(slide.offsetLeft - scrollLeft);
-            if (dist < minDist) { minDist = dist; closest = i; }
-        });
-        this.currentIndex = closest;
+        const viewport = document.querySelector('.gallery-snap-viewport');
+        if (!viewport) return;
+
+        const slideWidth = viewport.clientWidth || 1;
+        const closest = Math.round(track.scrollLeft / slideWidth);
+        this.currentIndex = Math.max(0, Math.min(closest, this.images.length - 1));
+
         document.querySelectorAll('#gallerySnapDots .gallery-snap-dot').forEach((dot, i) => {
-            dot.classList.toggle('active', i === closest);
+            dot.classList.toggle('active', i === this.currentIndex);
         });
     }
 
