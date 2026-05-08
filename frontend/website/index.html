@@ -15,12 +15,13 @@
     <meta property="og:image"       content="assets/images/backgrounds/hero-bg.jpg">
     <meta property="og:url"         content="https://duanchoem.vn">
 
-    <!-- Anti-FOUC: set theme before CSS paints -->
+    <!-- Anti-FOUC + disable browser scroll restoration (we handle it manually) -->
     <script>
         (function () {
             var t = localStorage.getItem('theme') ||
                     (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
             document.documentElement.setAttribute('data-theme', t);
+            if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
         })();
     </script>
 
