@@ -11,8 +11,9 @@ export class Gallery {
     }
 
     isMobileOrTablet() {
-        // Touch device detection — catches iPhone + iPad mọi kích thước + Android
-        return navigator.maxTouchPoints > 0 || window.innerWidth <= 1024;
+        // pointer:coarse = touch device (phone/iPad/Android); pointer:fine = mouse/trackpad (Mac/desktop)
+        // Falls back to width check for small windows on non-touch devices
+        return window.matchMedia('(pointer: coarse)').matches || window.innerWidth <= 1024;
     }
 
     async init() {

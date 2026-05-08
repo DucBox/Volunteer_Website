@@ -7,7 +7,7 @@
 }
 
 /* ===================================
-   3D CAROUSEL — Desktop > 1024px
+   3D CAROUSEL — Desktop (mouse/trackpad, >1024px)
    =================================== */
 .gallery-carousel {
     position: relative;
@@ -44,7 +44,6 @@
     background:
         linear-gradient(white, white) padding-box,
         linear-gradient(135deg, #42a5f5, #90caf9, #e3f2fd, #90caf9, #42a5f5) border-box;
-    background-clip: padding-box, border-box;
     box-shadow:
         0 0 20px rgba(66, 165, 245, 0.22),
         0 20px 48px rgba(0, 0, 0, 0.18),
@@ -221,7 +220,7 @@
 }
 
 /* ===================================
-   SCROLL-SNAP — hidden on desktop
+   SCROLL-SNAP — hidden on desktop by default
    =================================== */
 .gallery-snap-wrap { display: none; }
 
@@ -270,9 +269,11 @@
 }
 
 /* ===================================
-   MOBILE + TABLET ≤1024px — Scroll-snap
+   MOBILE + TABLET — Scroll-snap
+   Triggers when: ≤1024px  OR  touch primary pointer (phone/iPad/Android)
+   "pointer: coarse" = touch device; "pointer: fine" = mouse/trackpad (Mac/desktop)
    =================================== */
-@media (max-width: 1024px) {
+@media (max-width: 1024px), (pointer: coarse) {
     .gallery-section {
         padding-bottom: var(--space-48);
     }
@@ -303,6 +304,7 @@
         scroll-behavior: smooth;
         gap: 16px;
         padding: 8px 16px 16px;
+        /* scroll-padding must equal padding-inline-start so snap lands at slide edge */
         scroll-padding-inline: 16px;
         scrollbar-width: none;
         -webkit-overflow-scrolling: touch;
@@ -310,7 +312,9 @@
     .gallery-snap-track::-webkit-scrollbar { display: none; }
 
     .gallery-snap-slide {
-        flex: 0 0 calc(100% - 32px);
+        /* flex % resolves against content-box width (screen − 2×16px padding)
+           so flex: 0 0 100% = exactly one slide per viewport with 16px side margins */
+        flex: 0 0 100%;
         aspect-ratio: 4 / 3;
         scroll-snap-align: start;
         border-radius: 16px;
@@ -390,8 +394,12 @@
         width: 22px;
         border-radius: 4px;
     }
+}
 
-    /* Lightbox adjustments */
+/* ===================================
+   LIGHTBOX — small screen adjustments
+   =================================== */
+@media (max-width: 1024px) {
     .lightbox-image {
         max-width: 96%;
         max-height: calc(100dvh - 140px);
