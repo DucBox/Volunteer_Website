@@ -245,6 +245,18 @@
       - Giá trị thấp hơn = ảnh mờ hơn
 */
 
+/* Mobile: background-attachment: fixed không hoạt động trên iOS Safari */
+@media (max-width: 768px) {
+    .hero::before,
+    .mission-section::before,
+    .impact-section::before,
+    .members-section::before,
+    .activities-section::before,
+    .gallery-section::before {
+        background-attachment: scroll;
+    }
+}
+
 /* Dark mode: hero giữ ảnh sáng hơn để vẫn thấy được, các section phụ giảm nhẹ */
 [data-theme="dark"] .hero::before {
     opacity: 0.20;

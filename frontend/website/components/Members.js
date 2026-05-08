@@ -97,13 +97,15 @@ export class Members {
 
         container.innerHTML = `
             <div class="mem-slider-wrapper">
-                <button class="mem-slider-btn mem-prev" id="memPrev" aria-label="Trước">&#8249;</button>
                 <div class="mem-slider-viewport">
                     <div class="mem-slider-track" id="memTrack">${cards}</div>
                 </div>
+            </div>
+            <div class="mem-controls">
+                <button class="mem-slider-btn mem-prev" id="memPrev" aria-label="Trước">&#8249;</button>
+                <div class="mem-dots" id="memDots">${dots}</div>
                 <button class="mem-slider-btn mem-next" id="memNext" aria-label="Tiếp">&#8250;</button>
             </div>
-            <div class="mem-dots" id="memDots">${dots}</div>
         `;
     }
 

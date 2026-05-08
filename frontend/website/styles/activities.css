@@ -4,10 +4,15 @@
 
 .act-slider-wrapper {
     position: relative;
+    margin-top: var(--space-48);
+}
+
+.act-controls {
     display: flex;
     align-items: center;
-    gap: 12px;
-    margin-top: var(--space-48);
+    justify-content: center;
+    gap: 16px;
+    margin-top: var(--space-24);
 }
 
 .act-slider-viewport {
@@ -151,8 +156,8 @@
 .act-dots {
     display: flex;
     justify-content: center;
+    align-items: center;
     gap: 10px;
-    margin-top: var(--space-24);
 }
 
 .act-dot {
@@ -405,11 +410,10 @@
     .act-card { flex: 0 0 calc(50% - 12px); }
 }
 
-/* Mobile: 1 card, hide nav buttons */
+/* Mobile: 1 card */
 @media (max-width: 639px) {
     .act-card { flex: 0 0 100%; }
-    .act-slider-btn { display: none; }
-    .act-slider-wrapper { gap: 0; }
+    .act-slider-btn { width: 40px; height: 40px; font-size: 22px; }
 }
 
 /* Modal stacked on mobile */

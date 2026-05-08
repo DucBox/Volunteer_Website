@@ -10,10 +10,15 @@
 /* ---- Slider layout (mirrors Activities) ---- */
 .mem-slider-wrapper {
     position: relative;
+    margin-top: var(--space-48);
+}
+
+.mem-controls {
     display: flex;
     align-items: center;
-    gap: 12px;
-    margin-top: var(--space-48);
+    justify-content: center;
+    gap: 16px;
+    margin-top: var(--space-24);
 }
 
 .mem-slider-viewport {
@@ -179,8 +184,8 @@
 .mem-dots {
     display: flex;
     justify-content: center;
+    align-items: center;
     gap: 10px;
-    margin-top: var(--space-24);
 }
 
 .mem-dot {
@@ -348,8 +353,7 @@
 
 @media (max-width: 639px) {
     .mem-card { flex: 0 0 100%; }
-    .mem-slider-btn { display: none; }
-    .mem-slider-wrapper { gap: 0; }
+    .mem-slider-btn { width: 40px; height: 40px; font-size: 22px; }
 }
 
 @media (max-width: 768px) {

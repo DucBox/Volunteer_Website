@@ -200,13 +200,15 @@ export class Activities {
 
         container.innerHTML = `
             <div class="act-slider-wrapper">
-                <button class="act-slider-btn act-prev" id="actPrev" aria-label="Trước">&#8249;</button>
                 <div class="act-slider-viewport">
                     <div class="act-slider-track" id="actTrack">${cards}</div>
                 </div>
+            </div>
+            <div class="act-controls">
+                <button class="act-slider-btn act-prev" id="actPrev" aria-label="Trước">&#8249;</button>
+                <div class="act-dots" id="actDots">${dots}</div>
                 <button class="act-slider-btn act-next" id="actNext" aria-label="Tiếp">&#8250;</button>
             </div>
-            <div class="act-dots" id="actDots">${dots}</div>
         `;
     }
 
