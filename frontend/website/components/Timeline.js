@@ -145,8 +145,6 @@ export class Timeline {
 
                     <div class="timeline-controls">
                         <button class="timeline-start-btn" id="timelineStartBtn" aria-label="Khởi hành chuyến xe">Khởi Hành</button>
-                        <button class="timeline-control-btn" id="timelinePrev" aria-label="Đi về trạm trước">&#8249;</button>
-                        <button class="timeline-control-btn" id="timelineNext" aria-label="Đi tới trạm tiếp">&#8250;</button>
                     </div>
                 </div>
 
@@ -176,10 +174,14 @@ export class Timeline {
                     </div>
                 </div>
 
-                <div class="timeline-dots" id="timelineDots">
-                    ${this.items.map((_, index) => `
-                        <button class="timeline-dot${index === 0 ? ' active' : ''}" data-index="${index}" aria-label="Đi tới trạm ${String(index + 1).padStart(2, '0')}"></button>
-                    `).join('')}
+                <div class="timeline-nav">
+                    <button class="timeline-control-btn" id="timelinePrev" aria-label="Đi về trạm trước">&#8249;</button>
+                    <div class="timeline-dots" id="timelineDots">
+                        ${this.items.map((_, index) => `
+                            <button class="timeline-dot${index === 0 ? ' active' : ''}" data-index="${index}" aria-label="Đi tới trạm ${String(index + 1).padStart(2, '0')}"></button>
+                        `).join('')}
+                    </div>
+                    <button class="timeline-control-btn" id="timelineNext" aria-label="Đi tới trạm tiếp">&#8250;</button>
                 </div>
             </div>
         `;
