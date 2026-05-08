@@ -195,19 +195,20 @@ export class Timeline {
             this.renderFrame(false);
         });
 
-        // Tự động khởi hành khi cuộn tới Timeline
+        // Tự động khởi hành khi cuộn tới Timeline — chỉ trên desktop
+        const isMobile = () => window.innerWidth <= 768;
+
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    if (!this.isAutoDriving && !this.hasAutoStarted) {
+                    if (!isMobile() && !this.isAutoDriving && !this.hasAutoStarted) {
                         this.hasAutoStarted = true;
                         this.startAutoDrive();
                     }
                 } else {
-                    // Optional: pause if out of view to save performance
                     if (this.isAutoDriving) {
                         this.stopAutoDrive();
-                        this.hasAutoStarted = false; // Reset so it starts again when back in view
+                        this.hasAutoStarted = false;
                     }
                 }
             });
