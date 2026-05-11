@@ -66,6 +66,11 @@
     opacity: 0;
 }
 
+body.has-volunteer-book-open .custom-cursor-dot,
+body.has-volunteer-book-open .custom-cursor-ring {
+    opacity: 0 !important;
+}
+
 /* Dark Mode */
 [data-theme="dark"] .custom-cursor-dot {
     background-color: #fff;

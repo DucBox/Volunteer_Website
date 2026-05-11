@@ -173,6 +173,7 @@ export class BookExperience {
         this.pages = BOOK_PAGES;
         this.pageFlip = null;
         this.isInteractive = false;
+        this.isOpen = false;
         this.currentIndex = 0;
         this.mobileDirection = 'next';
         this.prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -192,64 +193,104 @@ export class BookExperience {
     renderShell() {
         const container = document.getElementById('volunteerBookContainer');
         if (!container) return;
+        const coverPage = this.pages.find((page) => page.variant === 'cover') || this.pages[0];
 
         container.innerHTML = `
             <div class="volunteer-book-intro">
-                <p class="volunteer-book-kicker">Section mới</p>
-                <h2 class="section-title volunteer-book-title">Volunteer Book</h2>
+                <p class="volunteer-book-kicker">Volunteer Book Experience</p>
+                <h2 class="section-title volunteer-book-title">Mở cuốn sách này như mở một hành trình thật</h2>
                 <p class="section-subtitle volunteer-book-subtitle">
-                    <strong>Một quyển sách giới thiệu hành trình volunteer theo đúng tinh thần “đọc từng chương”: mượt, có mục lục rõ ràng và giống sách hơn thay vì chỉ là một hiệu ứng lật card.</strong>
+                    <strong>Ở trạng thái bình thường, đây là một quyển sách đóng nằm giữa trang. Khi chạm vào, toàn bộ không gian chìm xuống để chỉ còn lại cuốn sách và trải nghiệm đọc tập trung.</strong>
                 </p>
             </div>
 
-            <div class="volunteer-book-shell">
-                <div class="volunteer-book-meta">
-                    <div>
-                        <span class="volunteer-book-meta-label">Trải nghiệm đọc</span>
-                        <strong class="volunteer-book-meta-value">2 trang như sách thật trên desktop, 1 trang tối ưu riêng cho mobile</strong>
-                    </div>
-                    <div>
-                        <span class="volunteer-book-meta-label">Cách khám phá</span>
-                        <strong class="volunteer-book-meta-value">Mở mục lục, lật từng chương, vuốt nhẹ hoặc dùng nút điều hướng</strong>
-                    </div>
-                    <div>
-                        <span class="volunteer-book-meta-label">Đang đọc</span>
-                        <strong class="volunteer-book-meta-value" id="volunteerBookCurrentLabel">Bìa sách</strong>
-                    </div>
-                </div>
+            <div class="volunteer-book-launchpad">
+                <button class="volunteer-book-teaser" id="volunteerBookOpen" type="button" aria-haspopup="dialog" aria-controls="volunteerBookOverlay" aria-label="Mở Volunteer Book">
+                    <span class="volunteer-book-teaser-glow" aria-hidden="true"></span>
+                    <span class="volunteer-book-teaser-stack" aria-hidden="true"></span>
+                    <span class="volunteer-book-teaser-book" aria-hidden="true">
+                        <span class="volunteer-book-teaser-spine"></span>
+                        <span class="volunteer-book-teaser-cover">
+                            <span class="volunteer-book-teaser-kicker">${coverPage.kicker}</span>
+                            <span class="volunteer-book-teaser-title">${coverPage.title}</span>
+                            <span class="volunteer-book-teaser-lead">${coverPage.lead}</span>
+                            <span class="volunteer-book-teaser-chip-row">
+                                ${coverPage.chips.map((chip) => `<span class="volunteer-book-teaser-chip">${chip}</span>`).join('')}
+                            </span>
+                            <span class="volunteer-book-teaser-mark">Dự Án Cho EM</span>
+                        </span>
+                    </span>
+                    <span class="volunteer-book-teaser-caption">
+                        <span class="volunteer-book-teaser-caption-label">Bấm để khám phá</span>
+                        <strong>Cuốn sách sẽ mở ra trong chế độ đọc tập trung</strong>
+                    </span>
+                </button>
+            </div>
 
-                <div class="volunteer-book-stage" id="volunteerBookStage" tabindex="0" aria-label="Sổ tay volunteer">
-                    <div class="volunteer-book-bookcase">
-                        <div class="volunteer-book-frame" aria-hidden="true"></div>
-                        <div class="volunteer-book-desktop-shell" id="volunteerBookDesktopShell">
-                            <div class="volunteer-book-root" id="volunteerBookRoot">
-                                ${this.pages.map((page, index) => this.renderPage(page, index)).join('')}
+            <div class="volunteer-book-overlay" id="volunteerBookOverlay" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Volunteer Book Reader">
+                <div class="volunteer-book-overlay-backdrop" data-book-close="true"></div>
+                <div class="volunteer-book-overlay-shell">
+                    <div class="volunteer-book-overlay-topbar">
+                        <div class="volunteer-book-overlay-copy">
+                            <span class="volunteer-book-overlay-kicker">Reader Mode</span>
+                            <strong>Không gian xung quanh được làm tối để chỉ còn lại cuốn sách.</strong>
+                        </div>
+                        <button class="volunteer-book-overlay-close" id="volunteerBookClose" type="button" aria-label="Đóng Volunteer Book">
+                            <span aria-hidden="true">✕</span>
+                            <span>Đóng</span>
+                        </button>
+                    </div>
+
+                    <div class="volunteer-book-shell">
+                        <div class="volunteer-book-meta">
+                            <div>
+                                <span class="volunteer-book-meta-label">Trải nghiệm đọc</span>
+                                <strong class="volunteer-book-meta-value">2 trang như sách thật trên desktop, 1 trang tối ưu riêng cho mobile</strong>
+                            </div>
+                            <div>
+                                <span class="volunteer-book-meta-label">Cách khám phá</span>
+                                <strong class="volunteer-book-meta-value">Bấm trực tiếp vào trang, vuốt nhẹ hoặc dùng phím mũi tên để lật</strong>
+                            </div>
+                            <div>
+                                <span class="volunteer-book-meta-label">Đang đọc</span>
+                                <strong class="volunteer-book-meta-value" id="volunteerBookCurrentLabel">Bìa sách</strong>
                             </div>
                         </div>
-                        <div class="volunteer-book-mobile-reader" id="volunteerBookMobileReader"></div>
-                    </div>
-                </div>
 
-                <div class="volunteer-book-footer">
-                    <button class="volunteer-book-nav-btn" id="volunteerBookPrev" aria-label="Trang trước">
-                        <span aria-hidden="true">←</span>
-                        <span>Prev</span>
-                    </button>
-
-                    <div class="volunteer-book-progress-wrap">
-                        <div class="volunteer-book-progress-head">
-                            <span class="volunteer-book-progress-label" id="volunteerBookModeLabel">2 trang</span>
-                            <span class="volunteer-book-progress-count" id="volunteerBookProgressText">Bìa / 08</span>
+                        <div class="volunteer-book-stage" id="volunteerBookStage" tabindex="0" aria-label="Sổ tay volunteer">
+                            <div class="volunteer-book-bookcase">
+                                <div class="volunteer-book-frame" aria-hidden="true"></div>
+                                <div class="volunteer-book-desktop-shell" id="volunteerBookDesktopShell">
+                                    <div class="volunteer-book-root" id="volunteerBookRoot">
+                                        ${this.pages.map((page, index) => this.renderPage(page, index)).join('')}
+                                    </div>
+                                </div>
+                                <div class="volunteer-book-mobile-reader" id="volunteerBookMobileReader"></div>
+                            </div>
                         </div>
-                        <div class="volunteer-book-progress-track" aria-hidden="true">
-                            <span class="volunteer-book-progress-fill" id="volunteerBookProgressFill"></span>
+
+                        <div class="volunteer-book-footer">
+                            <button class="volunteer-book-nav-btn" id="volunteerBookPrev" aria-label="Trang trước">
+                                <span aria-hidden="true">←</span>
+                                <span>Prev</span>
+                            </button>
+
+                            <div class="volunteer-book-progress-wrap">
+                                <div class="volunteer-book-progress-head">
+                                    <span class="volunteer-book-progress-label" id="volunteerBookModeLabel">2 trang</span>
+                                    <span class="volunteer-book-progress-count" id="volunteerBookProgressText">Bìa / 08</span>
+                                </div>
+                                <div class="volunteer-book-progress-track" aria-hidden="true">
+                                    <span class="volunteer-book-progress-fill" id="volunteerBookProgressFill"></span>
+                                </div>
+                            </div>
+
+                            <button class="volunteer-book-nav-btn" id="volunteerBookNext" aria-label="Trang tiếp theo">
+                                <span>Next</span>
+                                <span aria-hidden="true">→</span>
+                            </button>
                         </div>
                     </div>
-
-                    <button class="volunteer-book-nav-btn" id="volunteerBookNext" aria-label="Trang tiếp theo">
-                        <span>Next</span>
-                        <span aria-hidden="true">→</span>
-                    </button>
                 </div>
             </div>
         `;
@@ -257,6 +298,9 @@ export class BookExperience {
 
     cacheElements() {
         this.container = document.getElementById('volunteerBookContainer');
+        this.openBtn = document.getElementById('volunteerBookOpen');
+        this.overlay = document.getElementById('volunteerBookOverlay');
+        this.closeBtn = document.getElementById('volunteerBookClose');
         this.stage = document.getElementById('volunteerBookStage');
         this.root = document.getElementById('volunteerBookRoot');
         this.desktopShell = document.getElementById('volunteerBookDesktopShell');
@@ -270,10 +314,18 @@ export class BookExperience {
     }
 
     attachEvents() {
+        this.openBtn?.addEventListener('click', () => this.openReader());
+        this.closeBtn?.addEventListener('click', () => this.closeReader());
         this.prevBtn?.addEventListener('click', () => this.flipPrev());
         this.nextBtn?.addEventListener('click', () => this.flipNext());
 
         this.container?.addEventListener('click', (event) => {
+            if (event.target.closest('[data-book-close]')) {
+                event.preventDefault();
+                this.closeReader();
+                return;
+            }
+
             const gotoTrigger = event.target.closest('[data-book-target]');
             if (gotoTrigger) {
                 event.preventDefault();
@@ -285,12 +337,16 @@ export class BookExperience {
             if (link) {
                 event.preventDefault();
                 const target = document.querySelector(link.dataset.bookHref);
+                this.closeReader({ restoreFocus: false });
                 if (target) {
-                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    requestAnimationFrame(() => {
+                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    });
                 }
                 return;
             }
 
+            if (!this.isOpen) return;
             if (this.isMobileViewport()) return;
 
             const clickedPaper = event.target.closest('.volunteer-book-paper');
@@ -406,7 +462,13 @@ export class BookExperience {
     }
 
     onKeydown(event) {
-        if (!this.isInteractive || !this.pageFlip) return;
+        if (!this.isOpen) return;
+
+        if (event.key === 'Escape') {
+            event.preventDefault();
+            this.closeReader();
+            return;
+        }
 
         if (event.target instanceof HTMLElement) {
             const tag = event.target.tagName;
@@ -414,6 +476,21 @@ export class BookExperience {
                 return;
             }
         }
+
+        if (this.isMobileViewport()) {
+            if (event.key === 'ArrowRight') {
+                event.preventDefault();
+                this.flipNext();
+            }
+
+            if (event.key === 'ArrowLeft') {
+                event.preventDefault();
+                this.flipPrev();
+            }
+            return;
+        }
+
+        if (!this.pageFlip) return;
 
         if (event.key === 'ArrowRight') {
             event.preventDefault();
@@ -423,6 +500,43 @@ export class BookExperience {
         if (event.key === 'ArrowLeft') {
             event.preventDefault();
             this.flipPrev();
+        }
+    }
+
+    openReader() {
+        if (this.isOpen || !this.overlay) return;
+
+        this.isOpen = true;
+        this.overlay.classList.add('is-open');
+        this.overlay.setAttribute('aria-hidden', 'false');
+        document.body.classList.add('has-volunteer-book-open');
+        document.body.classList.add('native-book-cursor');
+        window._lockScroll?.();
+
+        requestAnimationFrame(() => {
+            this.isInteractive = true;
+            if (typeof this.pageFlip?.update === 'function') {
+                this.pageFlip.update();
+            }
+            this.fitPages();
+            this.renderMobileReader(false);
+            this.syncStatus();
+            this.stage?.focus();
+        });
+    }
+
+    closeReader({ restoreFocus = true } = {}) {
+        if (!this.isOpen || !this.overlay) return;
+
+        this.isOpen = false;
+        this.isInteractive = false;
+        this.overlay.classList.remove('is-open');
+        this.overlay.setAttribute('aria-hidden', 'true');
+        document.body.classList.remove('has-volunteer-book-open');
+        document.body.classList.remove('native-book-cursor');
+        window._unlockScroll?.();
+        if (restoreFocus) {
+            this.openBtn?.focus();
         }
     }
 
