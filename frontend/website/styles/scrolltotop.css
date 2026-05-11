@@ -91,6 +91,13 @@
     }
 }
 
+/* Hide when volunteer book is open */
+.has-volunteer-book-open .scroll-to-top {
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+}
+
 /* No need to adjust for chat widget since it's on the right side */
 
 /* Dark mode — inherits CSS var, no override needed */

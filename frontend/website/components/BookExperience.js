@@ -455,6 +455,32 @@ export class BookExperience {
         this.stage?.addEventListener('focusin', () => { this.isInteractive = true; });
         this.stage?.addEventListener('focusout', () => { this.isInteractive = false; });
 
+        // Mobile: swipe left/right + tap left/right half to navigate
+        let touchStartX = 0;
+        let touchStartY = 0;
+        this.mobileReader?.addEventListener('touchstart', (e) => {
+            touchStartX = e.touches[0].clientX;
+            touchStartY = e.touches[0].clientY;
+        }, { passive: true });
+
+        this.mobileReader?.addEventListener('touchend', (e) => {
+            if (!this.isMobileViewport()) return;
+            const dx = e.changedTouches[0].clientX - touchStartX;
+            const dy = e.changedTouches[0].clientY - touchStartY;
+
+            if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy) * 1.5) {
+                // Swipe gesture
+                if (dx < 0) this.flipNext();
+                else this.flipPrev();
+            } else if (Math.abs(dx) < 12 && Math.abs(dy) < 12) {
+                // Tap — use left/right half
+                const rect = this.mobileReader.getBoundingClientRect();
+                const tapX = e.changedTouches[0].clientX - rect.left;
+                if (tapX > rect.width / 2) this.flipNext();
+                else this.flipPrev();
+            }
+        }, { passive: true });
+
         document.addEventListener('keydown', this.handleKeydown);
         window.addEventListener('resize', this.handleResize, { passive: true });
     }

@@ -1122,6 +1122,32 @@ body.has-volunteer-book-open #chatWidgetContainer {
     color: #f3dfc2;
 }
 
+/* ── Mobile / touch: strip decorative hover effects ───────────────── */
+@media (pointer: coarse) {
+    .volunteer-book-teaser-sparkles,
+    .volunteer-book-teaser-rays {
+        display: none;
+    }
+
+    .volunteer-book-teaser-glow {
+        animation: volunteerBookGlow 6s ease-in-out infinite;
+        filter: blur(18px);
+    }
+
+    .volunteer-book-teaser-book {
+        transition: none;
+        filter: none;
+    }
+
+    /* Simpler open animation on touch */
+    .volunteer-book-overlay {
+        transition: clip-path 0.5s cubic-bezier(0.4, 0, 0.2, 1), visibility 0s 0.5s;
+    }
+    .volunteer-book-overlay.is-open {
+        transition: clip-path 0.5s cubic-bezier(0.4, 0, 0.2, 1), visibility 0s 0s;
+    }
+}
+
 [data-theme="dark"] .volunteer-book-page-copy,
 [data-theme="dark"] .volunteer-book-letter-copy,
 [data-theme="dark"] .volunteer-book-bullet-list,
