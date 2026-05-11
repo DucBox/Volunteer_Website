@@ -1,6 +1,6 @@
 .volunteer-book-section {
     position: relative;
-    padding: var(--space-48) 0;
+    padding: var(--space-32) 0 var(--space-24);
     background:
         radial-gradient(circle at top left, rgba(214, 179, 111, 0.18), transparent 26%),
         radial-gradient(circle at bottom right, rgba(186, 140, 74, 0.12), transparent 28%),
@@ -33,13 +33,21 @@
     background: rgba(191, 151, 98, 0.14);
 }
 
+.volunteer-book-section .section-title {
+    margin-bottom: var(--space-12);
+}
+
+.volunteer-book-section .section-subtitle {
+    margin-bottom: var(--space-24);
+}
+
 .volunteer-book-launchpad {
     position: relative;
     z-index: 1;
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: clamp(420px, 56vw, 720px);
+    min-height: clamp(340px, 44vw, 580px);
 }
 
 .volunteer-book-teaser {
@@ -67,6 +75,7 @@
     transform: translate(-50%, -50%);
     filter: blur(18px);
     animation: volunteerBookGlow 6s ease-in-out infinite;
+    transition: opacity 0.4s ease, transform 0.4s ease, background 0.4s ease;
     pointer-events: none;
 }
 
@@ -108,6 +117,7 @@
     transform: translateY(0) rotate(-2deg);
     transform-style: preserve-3d;
     animation: volunteerBookFloat 7s ease-in-out infinite;
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.4s ease;
 }
 
 .volunteer-book-teaser-spine {
@@ -222,10 +232,114 @@
     box-shadow: 0 12px 24px rgba(87, 61, 30, 0.10);
 }
 
+/* ── Hover: treasure reveal ─────────────────────────────────────── */
 .volunteer-book-teaser:hover .volunteer-book-teaser-book,
 .volunteer-book-teaser:focus-visible .volunteer-book-teaser-book {
-    transform: translateY(-8px) rotate(-2.8deg);
+    transform: translateY(-20px) rotate(-1deg) scale(1.10);
+    filter:
+        drop-shadow(0 0 20px rgba(255, 200, 80, 0.90))
+        drop-shadow(0 0 60px rgba(220, 150, 40, 0.60))
+        drop-shadow(0 20px 40px rgba(100, 60, 10, 0.40));
+    animation-play-state: paused;
 }
+
+.volunteer-book-teaser:hover .volunteer-book-teaser-glow,
+.volunteer-book-teaser:focus-visible .volunteer-book-teaser-glow {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.8);
+    background: radial-gradient(circle, rgba(255, 210, 90, 0.70) 0%, rgba(255, 170, 50, 0.32) 38%, transparent 68%);
+    filter: blur(28px);
+    animation-play-state: paused;
+}
+
+/* Rays of light */
+.volunteer-book-teaser-rays {
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    width: clamp(300px, 40vw, 520px);
+    height: clamp(300px, 40vw, 520px);
+    border-radius: 50%;
+    background: conic-gradient(
+        from 0deg,
+        transparent 0deg, rgba(255, 220, 100, 0.18) 10deg, transparent 20deg,
+        transparent 45deg, rgba(255, 210, 90, 0.12) 55deg, transparent 65deg,
+        transparent 90deg, rgba(255, 225, 110, 0.16) 100deg, transparent 110deg,
+        transparent 135deg, rgba(255, 215, 95, 0.10) 145deg, transparent 155deg,
+        transparent 180deg, rgba(255, 220, 100, 0.14) 190deg, transparent 200deg,
+        transparent 225deg, rgba(255, 210, 90, 0.10) 235deg, transparent 245deg,
+        transparent 270deg, rgba(255, 225, 110, 0.12) 280deg, transparent 290deg,
+        transparent 315deg, rgba(255, 215, 95, 0.08) 325deg, transparent 335deg
+    );
+    transform: translate(-50%, -50%) scale(0) rotate(0deg);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s ease, transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+    z-index: 0;
+}
+
+.volunteer-book-teaser:hover .volunteer-book-teaser-rays,
+.volunteer-book-teaser:focus-visible .volunteer-book-teaser-rays {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1) rotate(15deg);
+    animation: bookRaysSpin 8s linear infinite;
+}
+
+/* Sparkles */
+.volunteer-book-teaser-sparkles {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 2;
+}
+
+.volunteer-book-teaser-sparkle {
+    position: absolute;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: #ffe580;
+    box-shadow: 0 0 6px 2px rgba(255, 210, 60, 0.8);
+    opacity: 0;
+    transform: scale(0) translate(0, 0);
+}
+
+/* Position sparkles around the book */
+.volunteer-book-teaser-sparkle[data-i="0"]  { top: 12%; left: 28%; }
+.volunteer-book-teaser-sparkle[data-i="1"]  { top: 8%;  left: 55%; }
+.volunteer-book-teaser-sparkle[data-i="2"]  { top: 18%; left: 72%; }
+.volunteer-book-teaser-sparkle[data-i="3"]  { top: 42%; left: 82%; }
+.volunteer-book-teaser-sparkle[data-i="4"]  { top: 68%; left: 75%; }
+.volunteer-book-teaser-sparkle[data-i="5"]  { top: 78%; left: 52%; }
+.volunteer-book-teaser-sparkle[data-i="6"]  { top: 72%; left: 22%; }
+.volunteer-book-teaser-sparkle[data-i="7"]  { top: 48%; left: 12%; }
+.volunteer-book-teaser-sparkle[data-i="8"]  { top: 22%; left: 18%; }
+.volunteer-book-teaser-sparkle[data-i="9"]  { top: 32%; left: 65%; }
+
+.volunteer-book-teaser:hover .volunteer-book-teaser-sparkle,
+.volunteer-book-teaser:focus-visible .volunteer-book-teaser-sparkle {
+    animation: bookSparkle 1.8s ease-in-out infinite;
+}
+.volunteer-book-teaser:hover .volunteer-book-teaser-sparkle[data-i="0"],
+.volunteer-book-teaser:focus-visible .volunteer-book-teaser-sparkle[data-i="0"] { animation-delay: 0s; }
+.volunteer-book-teaser:hover .volunteer-book-teaser-sparkle[data-i="1"],
+.volunteer-book-teaser:focus-visible .volunteer-book-teaser-sparkle[data-i="1"] { animation-delay: 0.18s; }
+.volunteer-book-teaser:hover .volunteer-book-teaser-sparkle[data-i="2"],
+.volunteer-book-teaser:focus-visible .volunteer-book-teaser-sparkle[data-i="2"] { animation-delay: 0.36s; }
+.volunteer-book-teaser:hover .volunteer-book-teaser-sparkle[data-i="3"],
+.volunteer-book-teaser:focus-visible .volunteer-book-teaser-sparkle[data-i="3"] { animation-delay: 0.54s; }
+.volunteer-book-teaser:hover .volunteer-book-teaser-sparkle[data-i="4"],
+.volunteer-book-teaser:focus-visible .volunteer-book-teaser-sparkle[data-i="4"] { animation-delay: 0.72s; }
+.volunteer-book-teaser:hover .volunteer-book-teaser-sparkle[data-i="5"],
+.volunteer-book-teaser:focus-visible .volunteer-book-teaser-sparkle[data-i="5"] { animation-delay: 0.90s; }
+.volunteer-book-teaser:hover .volunteer-book-teaser-sparkle[data-i="6"],
+.volunteer-book-teaser:focus-visible .volunteer-book-teaser-sparkle[data-i="6"] { animation-delay: 1.08s; }
+.volunteer-book-teaser:hover .volunteer-book-teaser-sparkle[data-i="7"],
+.volunteer-book-teaser:focus-visible .volunteer-book-teaser-sparkle[data-i="7"] { animation-delay: 1.26s; }
+.volunteer-book-teaser:hover .volunteer-book-teaser-sparkle[data-i="8"],
+.volunteer-book-teaser:focus-visible .volunteer-book-teaser-sparkle[data-i="8"] { animation-delay: 0.27s; }
+.volunteer-book-teaser:hover .volunteer-book-teaser-sparkle[data-i="9"],
+.volunteer-book-teaser:focus-visible .volunteer-book-teaser-sparkle[data-i="9"] { animation-delay: 0.63s; }
 
 .volunteer-book-teaser:focus-visible {
     outline: 2px solid #9b6d38;
@@ -1058,6 +1172,18 @@ body.has-volunteer-book-open #chatWidgetContainer {
         opacity: 1;
         transform: translate(-50%, -50%) scale(1.08);
     }
+}
+
+@keyframes bookRaysSpin {
+    from { transform: translate(-50%, -50%) scale(1) rotate(0deg); }
+    to   { transform: translate(-50%, -50%) scale(1) rotate(360deg); }
+}
+
+@keyframes bookSparkle {
+    0%   { opacity: 0; transform: scale(0) translateY(0px); }
+    20%  { opacity: 1; transform: scale(1.2) translateY(-6px); }
+    60%  { opacity: 0.7; transform: scale(0.8) translateY(-14px); }
+    100% { opacity: 0; transform: scale(0) translateY(-22px); }
 }
 
 @media (max-width: 1024px) {

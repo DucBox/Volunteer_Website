@@ -327,6 +327,10 @@ export class BookExperience {
             <div class="volunteer-book-launchpad">
                 <button class="volunteer-book-teaser" id="volunteerBookOpen" type="button" aria-haspopup="dialog" aria-controls="volunteerBookOverlay" aria-label="Mở Volunteer Book">
                     <span class="volunteer-book-teaser-glow" aria-hidden="true"></span>
+                    <span class="volunteer-book-teaser-rays" aria-hidden="true"></span>
+                    <span class="volunteer-book-teaser-sparkles" aria-hidden="true">
+                        ${Array.from({length: 10}, (_, i) => `<span class="volunteer-book-teaser-sparkle" data-i="${i}"></span>`).join('')}
+                    </span>
                     <span class="volunteer-book-teaser-stack" aria-hidden="true"></span>
                     <span class="volunteer-book-teaser-book" aria-hidden="true">
                         <span class="volunteer-book-teaser-spine"></span>
