@@ -1122,32 +1122,48 @@ body.has-volunteer-book-open #chatWidgetContainer {
     color: #f3dfc2;
 }
 
-/* ── Mobile / touch: strip decorative hover effects ───────────────── */
+/* ── Mobile / touch: strip everything decorative ─────────────────── */
 @media (pointer: coarse) {
+    /* Kill all teaser animations and effects */
     .volunteer-book-teaser-sparkles,
-    .volunteer-book-teaser-rays {
+    .volunteer-book-teaser-rays,
+    .volunteer-book-teaser-glow,
+    .volunteer-book-teaser-stack {
         display: none;
     }
 
-    .volunteer-book-teaser-glow {
-        animation: volunteerBookGlow 6s ease-in-out infinite;
-        filter: blur(18px);
-    }
-
     .volunteer-book-teaser-book {
+        animation: none;
         transition: none;
         filter: none;
+        transform: none;
     }
 
-    /* Mobile: skip clip-path portal, use instant show */
+    /* No hover/focus visual changes */
+    .volunteer-book-teaser:hover .volunteer-book-teaser-book,
+    .volunteer-book-teaser:focus-visible .volunteer-book-teaser-book,
+    .volunteer-book-teaser.is-opening .volunteer-book-teaser-book {
+        animation: none !important;
+        transform: none !important;
+        filter: none !important;
+    }
+
+    .volunteer-book-teaser:hover .volunteer-book-teaser-glow,
+    .volunteer-book-teaser:focus-visible .volunteer-book-teaser-glow,
+    .volunteer-book-teaser:hover .volunteer-book-teaser-rays,
+    .volunteer-book-teaser:focus-visible .volunteer-book-teaser-rays {
+        display: none;
+    }
+
+    /* Skip clip-path portal — instant visibility */
     .volunteer-book-overlay {
         clip-path: none !important;
         opacity: 0;
-        transition: opacity 0.18s ease, visibility 0s 0.18s;
+        transition: opacity 0.15s ease, visibility 0s 0.15s;
     }
     .volunteer-book-overlay.is-open {
         opacity: 1;
-        transition: opacity 0.18s ease, visibility 0s 0s;
+        transition: opacity 0.15s ease, visibility 0s 0s;
     }
 }
 
