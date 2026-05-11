@@ -862,26 +862,30 @@ export class BookExperience {
             return;
         }
 
-        const foldOutClass  = direction === 'next' ? 'mobile-flip-fold-out'     : 'mobile-flip-fold-out-rev';
-        const unfoldInClass = direction === 'next' ? 'mobile-flip-unfold-in'    : 'mobile-flip-unfold-in-rev';
-        const FOLD_MS = 170; // slightly under CSS 180ms — swap at ~90° edge
+        const outClass = direction === 'next' ? 'mobile-slide-out-left' : 'mobile-slide-out-right';
+        const inClass  = direction === 'next' ? 'mobile-slide-in-right' : 'mobile-slide-in-left';
 
+        // Swap content immediately, animate new page in over old
         const current = this.mobileReader.firstElementChild;
-        if (current) {
-            current.style.willChange = 'transform, opacity';
-            current.classList.add(foldOutClass);
-        }
+        this.mobileReader.innerHTML = buildHTML();
+        const incoming = this.mobileReader.firstElementChild;
 
-        setTimeout(() => {
-            // Insert new page without animation class first, force a paint, then animate
-            this.mobileReader.innerHTML = buildHTML();
-            const incoming = this.mobileReader.firstElementChild;
-            if (incoming) {
-                incoming.style.willChange = 'transform, opacity';
-                incoming.getBoundingClientRect(); // force layout so animation starts clean
-                incoming.classList.add(unfoldInClass);
-            }
-        }, FOLD_MS);
+        if (current && incoming) {
+            // Old page: slide out on top (absolute), new page: slides in underneath then takes over
+            current.style.cssText = 'position:absolute;inset:0;z-index:1;will-change:transform,opacity;';
+            incoming.style.willChange = 'transform,opacity';
+            this.mobileReader.style.position = 'relative';
+
+            current.classList.add(outClass);
+            incoming.classList.add(inClass);
+
+            const DURATION = 260;
+            setTimeout(() => {
+                current.remove();
+                incoming.style.willChange = '';
+                this.mobileReader.style.position = '';
+            }, DURATION);
+        }
     }
 
     renderPageBody(page, isMobile) {
