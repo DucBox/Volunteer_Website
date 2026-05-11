@@ -35,9 +35,6 @@ const BOOK_CHAPTERS = [
         chips: ['Volunteer', 'Tri thức', 'Cộng đồng', 'Hành trình'],
     },
     {
-        variant: 'blank',
-    },
-    {
         eyebrow: 'Mở đầu',
         title: 'Từ ý tưởng đến chuyến đi thật',
         blocks: [
