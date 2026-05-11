@@ -51,6 +51,21 @@ export class Cursor {
                 this.cursorDot.classList.remove('cursor-hover');
             });
         });
+
+        const bookSection = document.querySelector('.volunteer-book-section');
+        if (bookSection) {
+            bookSection.addEventListener('mouseenter', () => {
+                document.body.classList.add('native-book-cursor');
+                this.cursorDot.style.opacity = '0';
+                this.cursorRing.style.opacity = '0';
+            });
+
+            bookSection.addEventListener('mouseleave', () => {
+                document.body.classList.remove('native-book-cursor');
+                this.cursorDot.style.opacity = '';
+                this.cursorRing.style.opacity = '';
+            });
+        }
     }
 
     render() {

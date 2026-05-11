@@ -7,6 +7,11 @@
     body, a, button, .btn, .mem-card, .act-card, .donation-card, .mission-card-flip {
         cursor: none !important;
     }
+
+    body.native-book-cursor,
+    body.native-book-cursor * {
+        cursor: auto !important;
+    }
 }
 
 .custom-cursor-dot {
