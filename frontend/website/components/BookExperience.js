@@ -652,13 +652,10 @@ export class BookExperience {
             }
         }
 
-        // Book "burst" animation plays first, then portal opens
-        this.openBtn.classList.add('is-opening');
         this.isOpen = true;
         this.pendingUpdate = true;
 
-        setTimeout(() => {
-            this.openBtn.classList.remove('is-opening');
+        const doOpen = () => {
             this.overlay.classList.add('is-open');
             this.overlay.setAttribute('aria-hidden', 'false');
             document.body.classList.add('has-volunteer-book-open');
@@ -672,13 +669,22 @@ export class BookExperience {
                 this.renderMobileReader();
                 this.syncStatus();
                 this.stage?.focus();
-
-                if (typeof this.pageFlip?.update === 'function') {
-                    this.pageFlip.update();
-                }
+                if (typeof this.pageFlip?.update === 'function') this.pageFlip.update();
                 this.pendingUpdate = false;
             });
-        }, 280);
+        };
+
+        if (this.isMobileViewport()) {
+            // Mobile: no pre-animation, open instantly
+            doOpen();
+        } else {
+            // Desktop: book burst → portal expand
+            this.openBtn.classList.add('is-opening');
+            setTimeout(() => {
+                this.openBtn.classList.remove('is-opening');
+                doOpen();
+            }, 280);
+        }
     }
 
     closeReader({ restoreFocus = true } = {}) {
@@ -705,7 +711,7 @@ export class BookExperience {
         if (this.isMobileViewport()) {
             if (this.mobileIndex <= 0) return;
             this.mobileIndex -= 1;
-            this.renderMobileReader();
+            this.renderMobileReader('prev');
             this.syncStatus();
             return;
         }
@@ -717,7 +723,7 @@ export class BookExperience {
         if (this.isMobileViewport()) {
             if (this.mobileIndex >= this.mobilePages.length - 1) return;
             this.mobileIndex += 1;
-            this.renderMobileReader();
+            this.renderMobileReader('next');
             this.syncStatus();
             return;
         }
@@ -837,20 +843,33 @@ export class BookExperience {
         `;
     }
 
-    renderMobileReader() {
+    renderMobileReader(direction = 'none') {
         if (!this.mobileReader) return;
 
         const page = this.mobilePages[this.mobileIndex] || this.mobilePages[0];
         const variantClass = page.variant ? ` volunteer-book-mobile-page--${page.variant}` : '';
 
-        this.mobileReader.innerHTML = `
-            <article class="volunteer-book-mobile-page${variantClass}">
-                <div class="volunteer-book-mobile-paper">
-                    ${this.renderPageBody(page, true)}
-                    ${page.numberLabel ? `<span class="volunteer-book-mobile-page-number">${page.numberLabel}</span>` : ''}
-                </div>
-            </article>
-        `;
+        const renderNew = (enterClass = '') => {
+            this.mobileReader.innerHTML = `
+                <article class="volunteer-book-mobile-page${variantClass}${enterClass}">
+                    <div class="volunteer-book-mobile-paper">
+                        ${this.renderPageBody(page, true)}
+                        ${page.numberLabel ? `<span class="volunteer-book-mobile-page-number">${page.numberLabel}</span>` : ''}
+                    </div>
+                </article>
+            `;
+        };
+
+        if (direction === 'none') { renderNew(); return; }
+
+        const exitClass  = direction === 'next' ? 'mobile-page-exit-left'  : 'mobile-page-exit-right';
+        const enterClass = direction === 'next' ? ' mobile-page-enter-right' : ' mobile-page-enter-left';
+        const oldPage = this.mobileReader.firstElementChild;
+
+        if (!oldPage) { renderNew(enterClass); return; }
+
+        oldPage.classList.add(exitClass);
+        oldPage.addEventListener('animationend', () => renderNew(enterClass), { once: true });
     }
 
     renderPageBody(page, isMobile) {
