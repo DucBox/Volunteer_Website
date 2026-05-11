@@ -265,18 +265,9 @@
 .volunteer-book-overlay-shell {
     position: relative;
     z-index: 1;
-    width: min(1380px, 100%);
+    width: min(1240px, 100%);
     height: min(100%, calc(100dvh - 32px));
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) 0;
-    align-items: stretch;
-    gap: 0;
-    transition: grid-template-columns 0.24s ease, gap 0.24s ease;
-}
-
-.volunteer-book-overlay.has-letter-visible .volunteer-book-overlay-shell {
-    grid-template-columns: minmax(0, 1fr) clamp(250px, 22vw, 320px);
-    gap: 16px;
+    display: block;
 }
 
 .volunteer-book-overlay-close {
@@ -384,9 +375,7 @@
     margin: 0 auto;
     width: 100%;
     height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    overflow: hidden;
 }
 
 .volunteer-book-desktop-shell {
@@ -413,14 +402,15 @@
 }
 
 .volunteer-book-root .stf__parent {
-    margin: 0 auto;
+    position: absolute !important;
+    top: 50%;
+    left: 50%;
+    margin: 0 !important;
     width: auto !important;
     height: auto !important;
     max-width: 100% !important;
     max-height: 100% !important;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    transform: translate(-50%, -50%) !important;
 }
 
 .volunteer-book-root .stf__wrapper,
@@ -545,8 +535,7 @@
     width: calc(100% / var(--page-scale));
 }
 
-.volunteer-book-page-eyebrow,
-.volunteer-book-letter-eyebrow {
+.volunteer-book-page-eyebrow {
     display: block;
     color: #8c6238;
     font-size: 11px;
@@ -555,8 +544,7 @@
     text-transform: uppercase;
 }
 
-.volunteer-book-page-heading,
-.volunteer-book-letter-title {
+.volunteer-book-page-heading {
     font-family: Georgia, 'Times New Roman', serif;
     color: #3d2918;
     text-wrap: balance;
@@ -567,26 +555,10 @@
     line-height: 1.08;
 }
 
-.volunteer-book-letter-title {
-    margin: 10px 0 16px;
-    font-size: clamp(28px, 2.8vw, 40px);
-    line-height: 1.02;
-}
-
-.volunteer-book-page-copy,
-.volunteer-book-letter-copy {
-    color: rgba(66, 45, 28, 0.82);
-}
-
 .volunteer-book-page-copy {
+    color: rgba(66, 45, 28, 0.82);
     font-size: 15px;
     line-height: 1.78;
-}
-
-.volunteer-book-letter-copy {
-    margin-bottom: 14px;
-    font-size: 15px;
-    line-height: 1.76;
 }
 
 .volunteer-book-bullet-list,
@@ -605,7 +577,6 @@
 .volunteer-book-stat,
 .volunteer-book-toc-item,
 .volunteer-book-quote,
-.volunteer-book-letter-quote,
 .volunteer-book-qr-card {
     border-radius: 18px;
     background: rgba(255, 255, 255, 0.58);
@@ -698,8 +669,7 @@
     line-height: 1.66;
 }
 
-.volunteer-book-quote,
-.volunteer-book-letter-quote {
+.volunteer-book-quote {
     padding: 16px 18px;
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6);
 }
@@ -708,8 +678,7 @@
     margin-top: auto;
 }
 
-.volunteer-book-quote p,
-.volunteer-book-letter-quote p {
+.volunteer-book-quote p {
     font-family: Georgia, 'Times New Roman', serif;
     color: #412b19;
 }
@@ -719,13 +688,7 @@
     line-height: 1.52;
 }
 
-.volunteer-book-letter-quote p {
-    font-size: 18px;
-    line-height: 1.5;
-}
-
-.volunteer-book-quote cite,
-.volunteer-book-letter-quote cite {
+.volunteer-book-quote cite {
     display: block;
     margin-top: 10px;
     color: rgba(66, 45, 28, 0.72);
@@ -810,6 +773,16 @@
 .volunteer-book-qr-copy span {
     font-weight: 700;
     color: #4b331f;
+}
+
+.volunteer-book-page-body--blank {
+    align-items: center;
+    justify-content: center;
+}
+
+.volunteer-book-page-blank-mark {
+    color: rgba(66, 45, 28, 0.16);
+    font-size: 18px;
 }
 
 .volunteer-book-page-number,

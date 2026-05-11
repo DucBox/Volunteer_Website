@@ -7,7 +7,7 @@ const QR_INFO = {
     note: 'Tên + Ủng hộ Dự Án Cho EM',
 };
 
-const THANK_YOU_LETTER = {
+const THANK_YOU_PAGE = {
     eyebrow: 'Thư cảm ơn',
     title: 'Cảm ơn bạn đã lật tới trang cuối',
     paragraphs: [
@@ -176,6 +176,20 @@ const DESKTOP_BOOK_PAGES = [
         },
     },
     {
+        numberLabel: '09',
+        metaTitle: 'Thư cảm ơn',
+        layout: 'compact',
+        eyebrow: THANK_YOU_PAGE.eyebrow,
+        title: THANK_YOU_PAGE.title,
+        paragraphs: THANK_YOU_PAGE.paragraphs,
+        qr: THANK_YOU_PAGE.qr,
+        quote: THANK_YOU_PAGE.quote,
+    },
+    {
+        metaTitle: 'Trang trống',
+        variant: 'blank',
+    },
+    {
         density: 'hard',
         metaTitle: 'Bìa sau',
         variant: 'back-cover',
@@ -339,6 +353,15 @@ const MOBILE_BOOK_PAGES = [
         },
     },
     {
+        numberLabel: '12',
+        metaTitle: 'Thư cảm ơn',
+        eyebrow: THANK_YOU_PAGE.eyebrow,
+        title: THANK_YOU_PAGE.title,
+        paragraphs: THANK_YOU_PAGE.paragraphs,
+        qr: THANK_YOU_PAGE.qr,
+        quote: THANK_YOU_PAGE.quote,
+    },
+    {
         metaTitle: 'Bìa sau',
         variant: 'back-cover',
         kicker: 'EM Volunteer Project',
@@ -447,26 +470,7 @@ export class BookExperience {
                             </button>
                         </div>
                     </div>
-
-                    <aside class="volunteer-book-letter" id="volunteerBookLetter" aria-hidden="true">
-                        ${this.renderLetterSheet()}
-                    </aside>
                 </div>
-            </div>
-        `;
-    }
-
-    renderLetterSheet() {
-        return `
-            <div class="volunteer-book-letter-sheet">
-                <span class="volunteer-book-letter-eyebrow">${THANK_YOU_LETTER.eyebrow}</span>
-                <h3 class="volunteer-book-letter-title">${THANK_YOU_LETTER.title}</h3>
-                ${THANK_YOU_LETTER.paragraphs.map((paragraph) => `<p class="volunteer-book-letter-copy">${paragraph}</p>`).join('')}
-                ${this.renderQrBlock(THANK_YOU_LETTER.qr, false)}
-                <blockquote class="volunteer-book-letter-quote">
-                    <p>${THANK_YOU_LETTER.quote.text}</p>
-                    <cite>${THANK_YOU_LETTER.quote.cite}</cite>
-                </blockquote>
             </div>
         `;
     }
@@ -480,7 +484,6 @@ export class BookExperience {
         this.readerViewport = document.getElementById('volunteerBookViewport');
         this.root = document.getElementById('volunteerBookRoot');
         this.mobileReader = document.getElementById('volunteerBookMobileReader');
-        this.letter = document.getElementById('volunteerBookLetter');
         this.prevBtn = document.getElementById('volunteerBookPrev');
         this.nextBtn = document.getElementById('volunteerBookNext');
         this.progressText = document.getElementById('volunteerBookProgressText');
@@ -737,14 +740,6 @@ export class BookExperience {
         this.readerViewport.style.height = `${Math.floor(height)}px`;
     }
 
-    shouldShowLetter(index) {
-        if (this.isMobileViewport()) {
-            return index >= this.mobilePages.length - 1;
-        }
-
-        return index >= this.pages.length - 2;
-    }
-
     flipPrev() {
         if (this.isMobileViewport()) {
             if (this.mobileIndex <= 0) return;
@@ -786,15 +781,6 @@ export class BookExperience {
         if (this.progressFill) {
             const progress = (activeIndex / Math.max(1, pages.length - 1)) * 100;
             this.progressFill.style.width = `${progress}%`;
-        }
-
-        if (this.overlay) {
-            this.overlay.classList.toggle('has-letter-visible', this.shouldShowLetter(activeIndex));
-        }
-
-        if (this.letter) {
-            const shouldShow = this.shouldShowLetter(activeIndex);
-            this.letter.setAttribute('aria-hidden', shouldShow ? 'false' : 'true');
         }
 
         if (this.prevBtn) {
@@ -911,6 +897,14 @@ export class BookExperience {
                         ${page.chips.map((chip) => `<span class="volunteer-book-chip">${chip}</span>`).join('')}
                     </div>
                     <div class="volunteer-book-cover-seal">See you on the next journey</div>
+                </div>
+            `;
+        }
+
+        if (page.variant === 'blank') {
+            return `
+                <div class="volunteer-book-page-body volunteer-book-page-body--blank" aria-hidden="true">
+                    <span class="volunteer-book-page-blank-mark">.</span>
                 </div>
             `;
         }
