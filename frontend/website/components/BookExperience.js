@@ -23,6 +23,9 @@ const THANK_YOU_PAGE = {
 // Unified chapter source — pagination engine splits these into physical pages at runtime
 const BOOK_CHAPTERS = [
     {
+        variant: 'blank', // index 0 (LEFT) — pushes cover to index 1 (RIGHT)
+    },
+    {
         variant: 'cover',
         density: 'hard',
         numberLabel: 'Bìa',
