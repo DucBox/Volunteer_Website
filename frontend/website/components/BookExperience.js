@@ -862,18 +862,26 @@ export class BookExperience {
             return;
         }
 
-        // Phase 1: fold current page to 90° edge (invisible mid-point)
-        const foldOutClass = direction === 'next' ? 'mobile-flip-fold-out' : 'mobile-flip-fold-out-rev';
-        const unfoldInClass = direction === 'next' ? ' mobile-flip-unfold-in' : ' mobile-flip-unfold-in-rev';
-        const FOLD_DURATION = 220; // ms — matches CSS animation duration
+        const foldOutClass  = direction === 'next' ? 'mobile-flip-fold-out'     : 'mobile-flip-fold-out-rev';
+        const unfoldInClass = direction === 'next' ? 'mobile-flip-unfold-in'    : 'mobile-flip-unfold-in-rev';
+        const FOLD_MS = 170; // slightly under CSS 180ms — swap at ~90° edge
 
         const current = this.mobileReader.firstElementChild;
-        if (current) current.classList.add(foldOutClass);
+        if (current) {
+            current.style.willChange = 'transform, opacity';
+            current.classList.add(foldOutClass);
+        }
 
-        // At the 90° point, swap content and unfold the new page
         setTimeout(() => {
-            this.mobileReader.innerHTML = buildHTML(unfoldInClass);
-        }, FOLD_DURATION);
+            // Insert new page without animation class first, force a paint, then animate
+            this.mobileReader.innerHTML = buildHTML();
+            const incoming = this.mobileReader.firstElementChild;
+            if (incoming) {
+                incoming.style.willChange = 'transform, opacity';
+                incoming.getBoundingClientRect(); // force layout so animation starts clean
+                incoming.classList.add(unfoldInClass);
+            }
+        }, FOLD_MS);
     }
 
     renderPageBody(page, isMobile) {

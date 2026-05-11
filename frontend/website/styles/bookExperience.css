@@ -1167,54 +1167,36 @@ body.has-volunteer-book-open #chatWidgetContainer {
     }
 }
 
-/* ── Mobile page flip animations (3D book-turn effect) ────────────── */
-.volunteer-book-mobile-reader {
-    perspective: 900px;
-}
-
-/* Fold away: page rotates to 90° edge (disappears at mid-point) */
-.mobile-flip-fold-out {
-    animation: mobileFoldOut 0.22s ease-in forwards;
-    transform-origin: center center;
-    backface-visibility: hidden;
-}
-.mobile-flip-fold-out-rev {
-    animation: mobileFoldOutRev 0.22s ease-in forwards;
-    transform-origin: center center;
-    backface-visibility: hidden;
-}
-
-/* Unfold in: new page starts at 90° edge and opens toward viewer */
-.mobile-flip-unfold-in {
-    animation: mobileUnfoldIn 0.24s ease-out forwards;
-    transform-origin: center center;
-    backface-visibility: hidden;
-}
+/* ── Mobile page flip animations (GPU-only: transform + opacity) ──── */
+.mobile-flip-fold-out,
+.mobile-flip-fold-out-rev,
+.mobile-flip-unfold-in,
 .mobile-flip-unfold-in-rev {
-    animation: mobileUnfoldInRev 0.24s ease-out forwards;
-    transform-origin: center center;
+    will-change: transform, opacity;
     backface-visibility: hidden;
+    transform-origin: center center;
 }
+
+.mobile-flip-fold-out     { animation: mobileFoldOut    0.18s ease-in  forwards; }
+.mobile-flip-fold-out-rev { animation: mobileFoldOutRev 0.18s ease-in  forwards; }
+.mobile-flip-unfold-in    { animation: mobileUnfoldIn   0.20s ease-out forwards; }
+.mobile-flip-unfold-in-rev{ animation: mobileUnfoldInRev 0.20s ease-out forwards; }
 
 @keyframes mobileFoldOut {
-    0%   { transform: perspective(900px) rotateY(0deg);    box-shadow: none; }
-    100% { transform: perspective(900px) rotateY(-90deg);
-           box-shadow: inset -20px 0 40px rgba(0,0,0,0.18); }
+    from { transform: perspective(1000px) rotateY(0deg);   opacity: 1; }
+    to   { transform: perspective(1000px) rotateY(-90deg); opacity: 0.4; }
 }
 @keyframes mobileFoldOutRev {
-    0%   { transform: perspective(900px) rotateY(0deg);    box-shadow: none; }
-    100% { transform: perspective(900px) rotateY(90deg);
-           box-shadow: inset 20px 0 40px rgba(0,0,0,0.18); }
+    from { transform: perspective(1000px) rotateY(0deg);  opacity: 1; }
+    to   { transform: perspective(1000px) rotateY(90deg); opacity: 0.4; }
 }
 @keyframes mobileUnfoldIn {
-    0%   { transform: perspective(900px) rotateY(90deg);
-           box-shadow: inset -20px 0 40px rgba(0,0,0,0.18); }
-    100% { transform: perspective(900px) rotateY(0deg);   box-shadow: none; }
+    from { transform: perspective(1000px) rotateY(90deg);  opacity: 0.4; }
+    to   { transform: perspective(1000px) rotateY(0deg);   opacity: 1; }
 }
 @keyframes mobileUnfoldInRev {
-    0%   { transform: perspective(900px) rotateY(-90deg);
-           box-shadow: inset 20px 0 40px rgba(0,0,0,0.18); }
-    100% { transform: perspective(900px) rotateY(0deg);   box-shadow: none; }
+    from { transform: perspective(1000px) rotateY(-90deg); opacity: 0.4; }
+    to   { transform: perspective(1000px) rotateY(0deg);   opacity: 1; }
 }
 
 [data-theme="dark"] .volunteer-book-page-copy,
