@@ -27,7 +27,6 @@ const BOOK_CHAPTERS = [
     },
     {
         variant: 'cover',
-        density: 'hard',
         numberLabel: 'Bìa',
         kicker: 'EM Volunteer Journal',
         title: 'Sổ Tay Tình Nguyện',
@@ -152,7 +151,6 @@ const BOOK_CHAPTERS = [
     },
     {
         variant: 'back-cover',
-        density: 'hard',
         kicker: 'EM Volunteer Project',
         title: 'Hẹn gặp bạn ở chương tiếp theo',
         lead: 'Mỗi người đồng hành mới sẽ giúp cuốn sách này có thêm những chương đẹp hơn ngoài đời thật.',
