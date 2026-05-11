@@ -849,27 +849,31 @@ export class BookExperience {
         const page = this.mobilePages[this.mobileIndex] || this.mobilePages[0];
         const variantClass = page.variant ? ` volunteer-book-mobile-page--${page.variant}` : '';
 
-        const renderNew = (enterClass = '') => {
-            this.mobileReader.innerHTML = `
-                <article class="volunteer-book-mobile-page${variantClass}${enterClass}">
-                    <div class="volunteer-book-mobile-paper">
-                        ${this.renderPageBody(page, true)}
-                        ${page.numberLabel ? `<span class="volunteer-book-mobile-page-number">${page.numberLabel}</span>` : ''}
-                    </div>
-                </article>
-            `;
-        };
+        const buildHTML = (extraClass = '') => `
+            <article class="volunteer-book-mobile-page${variantClass}${extraClass}">
+                <div class="volunteer-book-mobile-paper">
+                    ${this.renderPageBody(page, true)}
+                    ${page.numberLabel ? `<span class="volunteer-book-mobile-page-number">${page.numberLabel}</span>` : ''}
+                </div>
+            </article>`;
 
-        if (direction === 'none') { renderNew(); return; }
+        if (direction === 'none' || this.prefersReducedMotion.matches) {
+            this.mobileReader.innerHTML = buildHTML();
+            return;
+        }
 
-        const exitClass  = direction === 'next' ? 'mobile-page-exit-left'  : 'mobile-page-exit-right';
-        const enterClass = direction === 'next' ? ' mobile-page-enter-right' : ' mobile-page-enter-left';
-        const oldPage = this.mobileReader.firstElementChild;
+        // Phase 1: fold current page to 90° edge (invisible mid-point)
+        const foldOutClass = direction === 'next' ? 'mobile-flip-fold-out' : 'mobile-flip-fold-out-rev';
+        const unfoldInClass = direction === 'next' ? ' mobile-flip-unfold-in' : ' mobile-flip-unfold-in-rev';
+        const FOLD_DURATION = 220; // ms — matches CSS animation duration
 
-        if (!oldPage) { renderNew(enterClass); return; }
+        const current = this.mobileReader.firstElementChild;
+        if (current) current.classList.add(foldOutClass);
 
-        oldPage.classList.add(exitClass);
-        oldPage.addEventListener('animationend', () => renderNew(enterClass), { once: true });
+        // At the 90° point, swap content and unfold the new page
+        setTimeout(() => {
+            this.mobileReader.innerHTML = buildHTML(unfoldInClass);
+        }, FOLD_DURATION);
     }
 
     renderPageBody(page, isMobile) {

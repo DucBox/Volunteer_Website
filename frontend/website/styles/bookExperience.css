@@ -1151,35 +1151,54 @@ body.has-volunteer-book-open #chatWidgetContainer {
     }
 }
 
-/* ── Mobile page slide animations ─────────────────────────────────── */
-.mobile-page-exit-left {
-    animation: mobileExitLeft 0.22s ease forwards;
-}
-.mobile-page-exit-right {
-    animation: mobileExitRight 0.22s ease forwards;
-}
-.mobile-page-enter-right {
-    animation: mobileEnterRight 0.26s ease forwards;
-}
-.mobile-page-enter-left {
-    animation: mobileEnterLeft 0.26s ease forwards;
+/* ── Mobile page flip animations (3D book-turn effect) ────────────── */
+.volunteer-book-mobile-reader {
+    perspective: 900px;
 }
 
-@keyframes mobileExitLeft {
-    from { opacity: 1; transform: translateX(0) scale(1); }
-    to   { opacity: 0; transform: translateX(-28px) scale(0.97); }
+/* Fold away: page rotates to 90° edge (disappears at mid-point) */
+.mobile-flip-fold-out {
+    animation: mobileFoldOut 0.22s ease-in forwards;
+    transform-origin: center center;
+    backface-visibility: hidden;
 }
-@keyframes mobileExitRight {
-    from { opacity: 1; transform: translateX(0) scale(1); }
-    to   { opacity: 0; transform: translateX(28px) scale(0.97); }
+.mobile-flip-fold-out-rev {
+    animation: mobileFoldOutRev 0.22s ease-in forwards;
+    transform-origin: center center;
+    backface-visibility: hidden;
 }
-@keyframes mobileEnterRight {
-    from { opacity: 0; transform: translateX(28px) scale(0.97); }
-    to   { opacity: 1; transform: translateX(0) scale(1); }
+
+/* Unfold in: new page starts at 90° edge and opens toward viewer */
+.mobile-flip-unfold-in {
+    animation: mobileUnfoldIn 0.24s ease-out forwards;
+    transform-origin: center center;
+    backface-visibility: hidden;
 }
-@keyframes mobileEnterLeft {
-    from { opacity: 0; transform: translateX(-28px) scale(0.97); }
-    to   { opacity: 1; transform: translateX(0) scale(1); }
+.mobile-flip-unfold-in-rev {
+    animation: mobileUnfoldInRev 0.24s ease-out forwards;
+    transform-origin: center center;
+    backface-visibility: hidden;
+}
+
+@keyframes mobileFoldOut {
+    0%   { transform: perspective(900px) rotateY(0deg);    box-shadow: none; }
+    100% { transform: perspective(900px) rotateY(-90deg);
+           box-shadow: inset -20px 0 40px rgba(0,0,0,0.18); }
+}
+@keyframes mobileFoldOutRev {
+    0%   { transform: perspective(900px) rotateY(0deg);    box-shadow: none; }
+    100% { transform: perspective(900px) rotateY(90deg);
+           box-shadow: inset 20px 0 40px rgba(0,0,0,0.18); }
+}
+@keyframes mobileUnfoldIn {
+    0%   { transform: perspective(900px) rotateY(90deg);
+           box-shadow: inset -20px 0 40px rgba(0,0,0,0.18); }
+    100% { transform: perspective(900px) rotateY(0deg);   box-shadow: none; }
+}
+@keyframes mobileUnfoldInRev {
+    0%   { transform: perspective(900px) rotateY(-90deg);
+           box-shadow: inset 20px 0 40px rgba(0,0,0,0.18); }
+    100% { transform: perspective(900px) rotateY(0deg);   box-shadow: none; }
 }
 
 [data-theme="dark"] .volunteer-book-page-copy,
