@@ -288,7 +288,22 @@ export class BookExperience {
             const target = document.querySelector(link.dataset.bookHref);
             if (target) {
                 target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                return;
             }
+
+            if (this.isMobileViewport()) return;
+
+            const clickedPaper = event.target.closest('.volunteer-book-paper');
+            if (!clickedPaper) return;
+            if (event.target.closest('a, button, .volunteer-book-toc-item, .volunteer-book-nav-btn')) return;
+            if (!this.root) return;
+
+            const rect = this.root.getBoundingClientRect();
+            const clickX = event.clientX - rect.left;
+            const centerX = rect.width / 2;
+
+            if (clickX >= centerX) this.flipNext();
+            else this.flipPrev();
         });
 
         this.stage?.addEventListener('mouseenter', () => {
