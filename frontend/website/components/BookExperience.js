@@ -337,8 +337,8 @@ export class BookExperience {
             showCover: true,
             mobileScrollSupport: true,
             swipeDistance: 24,
-            clickEventForward: true,
-            useMouseEvents: true,
+            clickEventForward: false,
+            useMouseEvents: false,
             startZIndex: 10,
         });
 
@@ -635,11 +635,6 @@ export class BookExperience {
                         <p>${page.quote.text}</p>
                         <cite>${page.quote.cite}</cite>
                     </blockquote>
-                ` : ''}
-                ${page.cta ? `
-                    <button class="btn btn-primary volunteer-book-inline-btn" type="button" data-book-target="${page.cta.target}">
-                        ${page.cta.label}
-                    </button>
                 ` : ''}
                 ${page.ctaList?.length ? `
                     <div class="volunteer-book-cta-list">
