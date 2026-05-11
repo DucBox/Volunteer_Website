@@ -282,12 +282,12 @@ export class BookExperience {
             }
 
             const link = event.target.closest('[data-book-href]');
-            if (!link) return;
-
-            event.preventDefault();
-            const target = document.querySelector(link.dataset.bookHref);
-            if (target) {
-                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            if (link) {
+                event.preventDefault();
+                const target = document.querySelector(link.dataset.bookHref);
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
                 return;
             }
 
