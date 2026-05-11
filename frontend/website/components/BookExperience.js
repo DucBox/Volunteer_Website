@@ -22,10 +22,6 @@ const BOOK_PAGES = [
             text: 'Có những điều chỉ cần lật sang trang là thấy mình muốn đồng hành.',
             cite: '— Dự Án Cho EM',
         },
-        cta: {
-            label: 'Mở Mục Lục',
-            target: 2,
-        },
     },
     {
         numberLabel: '02',
