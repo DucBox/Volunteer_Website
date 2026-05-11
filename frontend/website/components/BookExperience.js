@@ -610,38 +610,49 @@ export class BookExperience {
     openReader() {
         if (this.isOpen || !this.overlay) return;
 
-        // Set viewport size using window estimates BEFORE overlay becomes visible
-        // so PageFlip's first render is already at the correct size, preventing jitter
+        // Pin portal origin to the book's center in the viewport
+        const rect = this.openBtn.getBoundingClientRect();
+        const cx = ((rect.left + rect.width  / 2) / window.innerWidth  * 100).toFixed(1);
+        const cy = ((rect.top  + rect.height / 2) / window.innerHeight * 100).toFixed(1);
+        this.overlay.style.setProperty('--book-cx', `${cx}%`);
+        this.overlay.style.setProperty('--book-cy', `${cy}%`);
+
+        // Pre-size viewport before overlay becomes visible
         if (!this.isMobileViewport()) {
             const dim = this.estimateViewportDimensions();
             if (this.readerViewport) {
-                this.readerViewport.style.width = `${dim.width}px`;
+                this.readerViewport.style.width  = `${dim.width}px`;
                 this.readerViewport.style.height = `${dim.height}px`;
             }
         }
 
+        // Book "burst" animation plays first, then portal opens
+        this.openBtn.classList.add('is-opening');
         this.isOpen = true;
-        this.pendingUpdate = true; // block flip clicks until dimensions are settled
-        this.overlay.classList.add('is-open');
-        this.overlay.setAttribute('aria-hidden', 'false');
-        document.body.classList.add('has-volunteer-book-open');
-        window._chatWidget?.closeChat?.();
-        window._lockScroll?.();
+        this.pendingUpdate = true;
 
-        requestAnimationFrame(() => {
-            this.isInteractive = true;
-            this.updateReaderViewport();
-            this.clampIndexes();
-            this.renderMobileReader();
-            this.syncStatus();
-            this.stage?.focus();
+        setTimeout(() => {
+            this.openBtn.classList.remove('is-opening');
+            this.overlay.classList.add('is-open');
+            this.overlay.setAttribute('aria-hidden', 'false');
+            document.body.classList.add('has-volunteer-book-open');
+            window._chatWidget?.closeChat?.();
+            window._lockScroll?.();
 
-            if (typeof this.pageFlip?.update === 'function') {
-                this.pageFlip.update();
-            }
+            requestAnimationFrame(() => {
+                this.isInteractive = true;
+                this.updateReaderViewport();
+                this.clampIndexes();
+                this.renderMobileReader();
+                this.syncStatus();
+                this.stage?.focus();
 
-            this.pendingUpdate = false;
-        });
+                if (typeof this.pageFlip?.update === 'function') {
+                    this.pageFlip.update();
+                }
+                this.pendingUpdate = false;
+            });
+        }, 280);
     }
 
     closeReader({ restoreFocus = true } = {}) {
