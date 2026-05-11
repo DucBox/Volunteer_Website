@@ -670,14 +670,21 @@ export class BookExperience {
         requestAnimationFrame(() => {
             this.isInteractive = true;
             this.updateReaderViewport();
-            if (typeof this.pageFlip?.update === 'function') {
-                this.pageFlip.update();
-            }
             this.clampIndexes();
             this.fitPages();
             this.renderMobileReader(false);
             this.syncStatus();
             this.stage?.focus();
+
+            if (typeof this.pageFlip?.update === 'function') {
+                this.pageFlip.update();
+                requestAnimationFrame(() => {
+                    this.updateReaderViewport();
+                    this.pageFlip?.update?.();
+                    this.fitPages();
+                    this.syncStatus(this.pageFlip?.getCurrentPageIndex() ?? this.currentIndex, this.pageFlip?.getOrientation?.() ?? 'landscape');
+                });
+            }
         });
     }
 
