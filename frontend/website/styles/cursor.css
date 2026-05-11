@@ -8,10 +8,6 @@
         cursor: none !important;
     }
 
-    body.native-book-cursor,
-    body.native-book-cursor * {
-        cursor: auto !important;
-    }
 }
 
 .custom-cursor-dot {
@@ -64,11 +60,6 @@
 
 .custom-cursor-dot.cursor-hover {
     opacity: 0;
-}
-
-body.has-volunteer-book-open .custom-cursor-dot,
-body.has-volunteer-book-open .custom-cursor-ring {
-    opacity: 0 !important;
 }
 
 /* Dark Mode */

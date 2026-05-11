@@ -1,4 +1,13 @@
-const BOOK_PAGES = [
+const QR_INFO = {
+    src: 'assets/images/qr.jpg',
+    alt: 'QR quyên góp cho Dự Án Cho EM',
+    bank: 'Techcombank',
+    account: '9999 5521 44',
+    owner: 'DAO VIET THANH',
+    note: 'Tên + Ủng hộ Dự Án Cho EM',
+};
+
+const DESKTOP_BOOK_PAGES = [
     {
         density: 'hard',
         numberLabel: 'Bìa',
@@ -16,7 +25,7 @@ const BOOK_PAGES = [
         title: 'Từ ý tưởng đến chuyến đi thật',
         paragraphs: [
             'Cuốn sách này gói lại những điều quan trọng nhất: volunteer là ai, sẽ làm gì, nhận lại gì và vì sao hành trình ấy đáng để bắt đầu ngay bây giờ.',
-            'Mỗi part là một trang mới để người xem có cảm giác đang bước qua từng chương của một hành trình thực tế, không chỉ lướt qua một landing page thông thường.',
+            'Mỗi phần là một chương mới, để người xem có cảm giác đang đi qua một hành trình thật thay vì chỉ lướt một landing page thông thường.',
         ],
         quote: {
             text: 'Có những điều chỉ cần lật sang trang là thấy mình muốn đồng hành.',
@@ -27,31 +36,29 @@ const BOOK_PAGES = [
         numberLabel: '02',
         metaTitle: 'Mục lục',
         eyebrow: 'Mục lục',
-        title: 'Bản đồ của cuốn sách',
-        paragraphs: [
-            'Bạn có thể đi tuần tự như đang đọc một quyển sách, hoặc nhảy thẳng đến phần mình quan tâm từ mục lục này.',
+        title: 'Cuốn sách này có gì?',
+        bullets: [
+            'Volunteer ở Dự Án Cho EM là ai.',
+            'Bạn sẽ làm gì khi tham gia.',
+            'Bạn sẽ nhận lại điều gì.',
+            'Những hành trình tiêu biểu đã đi qua.',
+            'Câu chuyện thật từ người đã đồng hành.',
+            'Một lời cảm ơn cuối sách kèm mã QR để kết nối tiếp.',
         ],
-        toc: [
-            { label: 'Volunteer là gì?', target: 3 },
-            { label: 'Bạn sẽ làm gì?', target: 4 },
-            { label: 'Bạn sẽ nhận lại gì?', target: 5 },
-            { label: 'Các hành trình tiêu biểu', target: 6 },
-            { label: 'Câu chuyện từ người thật', target: 7 },
-            { label: 'Cách tham gia cùng chúng mình', target: 8 },
-        ],
+        callout: 'Bạn không cần bấm vào mục lục. Chỉ cần lật từng trang để đi hết câu chuyện.',
     },
     {
         numberLabel: '03',
         metaTitle: 'Volunteer là gì?',
         eyebrow: 'Chương 01',
-        title: 'Volunteer ở Dự Án Cho EM là gì?',
+        title: 'Volunteer ở Dự Án Cho EM là ai?',
         paragraphs: [
-            'Volunteer ở đây không đứng ngoài câu chuyện. Volunteer là người cùng chuẩn bị, cùng tổ chức, cùng hiện diện và cùng viết nên trải nghiệm học tập có ý nghĩa cho các em nhỏ.',
-            'Mỗi bạn tham gia đều trở thành một mắt xích trong hành trình: từ khâu chuẩn bị học liệu, hậu cần, vận hành đến việc trực tiếp đồng hành cùng các em tại điểm trường.',
+            'Volunteer không đứng ngoài câu chuyện. Mỗi bạn đều là người cùng chuẩn bị, cùng tổ chức và cùng hiện diện trong trải nghiệm học tập của các em nhỏ.',
+            'Từ học liệu, hậu cần, vận hành đến việc trực tiếp đồng hành ở điểm trường, mỗi vai trò đều là một mắt xích quan trọng.',
         ],
         stats: [
             { value: '20+', label: 'Tình nguyện viên' },
-            { value: '2+', label: 'Dự án đã đi' },
+            { value: '2+', label: 'Hành trình đã đi' },
         ],
         quote: {
             text: 'Volunteer không đứng ngoài câu chuyện; volunteer là người cùng viết nên câu chuyện ấy.',
@@ -65,7 +72,7 @@ const BOOK_PAGES = [
         eyebrow: 'Chương 02',
         title: 'Bạn sẽ làm gì khi tham gia?',
         paragraphs: [
-            'Công việc không chỉ diễn ra ở điểm trường. Hành trình bắt đầu từ lúc cả team cùng lên ý tưởng, chia việc, chuẩn bị học liệu và tập dượt hoạt động.',
+            'Hành trình bắt đầu từ trước chuyến đi, kéo dài trong chuyến đi và còn tiếp tục sau đó bằng việc tổng kết, lưu trữ và giữ nhịp cộng đồng volunteer.',
         ],
         cards: [
             { title: 'Trước chuyến đi', body: 'Soạn học liệu, chuẩn bị trò chơi, hậu cần, truyền thông và gây quỹ.' },
@@ -73,10 +80,10 @@ const BOOK_PAGES = [
             { title: 'Sau chuyến đi', body: 'Tổng kết, viết recap, lưu trữ tài liệu và giữ nhịp cho cộng đồng volunteer.' },
         ],
         bullets: [
-            'Bạn thích đứng lớp: hỗ trợ bài học và hoạt náo.',
-            'Bạn thích tổ chức: phụ trách vận hành và timeline.',
-            'Bạn thích kể chuyện bằng hình ảnh: chụp ảnh, video, recap.',
-            'Bạn cẩn thận và bền bỉ: hậu cần, quà tặng, quản lý danh sách.',
+            'Hỗ trợ lớp học và hoạt náo.',
+            'Điều phối timeline và hậu cần.',
+            'Chụp ảnh, quay video, viết recap.',
+            'Quản lý quà tặng, danh sách và vận hành.',
         ],
     },
     {
@@ -86,14 +93,14 @@ const BOOK_PAGES = [
         eyebrow: 'Chương 03',
         title: 'Bạn sẽ nhận lại gì?',
         paragraphs: [
-            'Cho đi là một phần rất đẹp, nhưng đây cũng là hành trình giúp chính volunteer lớn lên rõ rệt hơn sau mỗi lần tham gia.',
-            'Giá trị nhận lại thường đến theo cách rất thật: kỹ năng tốt hơn, góc nhìn rộng hơn và những mối quan hệ có chiều sâu.',
+            'Đây không chỉ là hành trình cho đi. Nó cũng là cách volunteer lớn lên thật rõ rệt qua từng lần tham gia.',
+            'Kỹ năng, góc nhìn, tình bạn và cảm giác tuổi trẻ của mình được dùng đúng chỗ là những điều đọng lại lâu nhất.',
         ],
         bullets: [
             'Tự tin hơn khi làm việc nhóm và điều phối hoạt động.',
             'Hiểu hơn về giáo dục, cộng đồng và trách nhiệm cá nhân.',
             'Có thêm những người bạn cùng hệ giá trị.',
-            'Mang về cảm giác tuổi trẻ của mình đã được dùng cho một điều ý nghĩa.',
+            'Mang về cảm giác mình đã làm một điều có ý nghĩa.',
         ],
         quote: {
             text: 'Có chuyến đi kết thúc trên bản đồ, nhưng lại mở ra rất lâu trong lòng người đi cùng.',
@@ -118,36 +125,56 @@ const BOOK_PAGES = [
     },
     {
         numberLabel: '07',
-        metaTitle: 'Câu chuyện từ người thật',
+        metaTitle: 'Câu chuyện thật',
         layout: 'compact',
         eyebrow: 'Chương 05',
         title: 'Câu chuyện từ người thật',
         quote: {
-            text: 'Mình từng nghĩ mình chỉ đi hỗ trợ một chương trình ngắn. Nhưng sau chuyến đi, mình nhận ra điều ở lại lâu nhất là cảm giác được thuộc về một nhóm người đang thật lòng cố gắng làm điều tử tế.',
+            text: 'Mình từng nghĩ mình chỉ đi hỗ trợ một chương trình ngắn. Nhưng sau chuyến đi, điều ở lại lâu nhất là cảm giác được thuộc về một nhóm người đang thật lòng cố gắng làm điều tử tế.',
             cite: '— Một thành viên volunteer',
         },
         paragraphs: [
-            'Những câu chuyện như vậy là lý do section này nên mang hình hài của một cuốn sách: mỗi trang là một lớp cảm xúc, không chỉ là một khối thông tin.',
-            'Format “book” phù hợp với volunteer vì nó kể được một hành trình có mở đầu, cao trào và điểm chạm cảm xúc rõ ràng.',
+            'Đó là lý do section này được làm như một cuốn sách: mỗi trang là một lớp cảm xúc, không chỉ là một khối thông tin.',
+            'Format book phù hợp với volunteer vì nó kể được hành trình có mở đầu, cao trào và một điểm chạm cảm xúc rõ ràng.',
         ],
         bullets: [
             'Người xem có cảm giác đang khám phá từng chương.',
-            'Nội dung dài vẫn có nhịp đọc gọn và đẹp.',
+            'Nội dung dài vẫn giữ được nhịp đọc gọn và đẹp.',
             'Có thể mở rộng thành nhật ký chuyến đi hoặc yearbook về sau.',
         ],
     },
     {
         numberLabel: '08',
-        metaTitle: 'Tham gia cùng chúng mình',
+        metaTitle: 'Đồng hành cùng chúng mình',
         layout: 'compact',
         eyebrow: 'Chương cuối',
         title: 'Nếu bạn muốn trở thành một phần của câu chuyện này',
         paragraphs: [
             'Trang cuối không phải để kết thúc, mà để mở ra một lựa chọn rất đơn giản: bắt đầu cùng chúng mình.',
-            'Bạn có thể đọc xong cuốn sách này và dừng lại ở cảm hứng, hoặc biến cảm hứng đó thành một hành động thật.',
+            'Bạn có thể dừng lại ở cảm hứng, hoặc biến cảm hứng đó thành một hành động thật.',
         ],
         quote: {
             text: 'Một chương đẹp luôn cần thêm người viết cùng.',
+            cite: '— Dự Án Cho EM',
+        },
+        outroAction: {
+            label: 'Khám phá thêm về chúng tôi',
+            href: '#gioi-thieu',
+        },
+    },
+    {
+        numberLabel: '09',
+        metaTitle: 'Thư cảm ơn',
+        layout: 'compact',
+        variant: 'letter',
+        eyebrow: 'Thư cảm ơn',
+        title: 'Cảm ơn bạn đã lật tới trang cuối',
+        paragraphs: [
+            'Nếu bạn muốn tiếp tục đồng hành cùng Dự Án Cho EM, bạn có thể quét mã QR này để ủng hộ hoặc kết nối thêm với chúng mình.',
+        ],
+        qr: QR_INFO,
+        quote: {
+            text: 'Mỗi đóng góp nhỏ sẽ giúp cuốn sách này có thêm những chương đẹp hơn ngoài đời thật.',
             cite: '— Dự Án Cho EM',
         },
         outroAction: {
@@ -160,47 +187,198 @@ const BOOK_PAGES = [
         metaTitle: 'Bìa sau',
         variant: 'back-cover',
         kicker: 'EM Volunteer Project',
-        title: 'Cảm ơn bạn đã lật tới trang cuối',
+        title: 'Hẹn gặp bạn ở chương tiếp theo',
         lead: 'Mỗi người đồng hành mới sẽ giúp cuốn sách này có thêm những chương đẹp hơn ngoài đời thật.',
         chips: ['Lan tỏa yêu thương', 'Trao tri thức', 'Đi cùng tuổi trẻ'],
+    },
+];
+
+const MOBILE_BOOK_PAGES = [
+    {
+        numberLabel: 'Bìa',
+        metaTitle: 'Bìa sách',
+        variant: 'cover',
+        kicker: 'EM Volunteer Journal',
+        title: 'Sổ Tay Tình Nguyện',
+        lead: 'Một quyển sách nhỏ kể lại cách Dự Án Cho EM kết nối người trẻ với những hành trình tử tế.',
+        chips: ['Volunteer', 'Tri thức', 'Cộng đồng'],
+    },
+    {
+        numberLabel: '01',
+        metaTitle: 'Mở đầu',
+        eyebrow: 'Mở đầu',
+        title: 'Từ ý tưởng đến chuyến đi thật',
+        paragraphs: [
+            'Cuốn sách này gói lại những điều quan trọng nhất: volunteer là ai, sẽ làm gì, nhận lại gì và vì sao hành trình ấy đáng để bắt đầu ngay bây giờ.',
+        ],
+        quote: {
+            text: 'Có những điều chỉ cần lật sang trang là thấy mình muốn đồng hành.',
+            cite: '— Dự Án Cho EM',
+        },
+    },
+    {
+        numberLabel: '02',
+        metaTitle: 'Mục lục',
+        eyebrow: 'Mục lục',
+        title: 'Cuốn sách này có gì?',
+        bullets: [
+            'Volunteer là ai.',
+            'Bạn sẽ làm gì.',
+            'Bạn nhận lại gì.',
+            'Những hành trình tiêu biểu.',
+            'Câu chuyện từ người thật.',
+            'Thư cảm ơn + mã QR.',
+        ],
+    },
+    {
+        numberLabel: '03',
+        metaTitle: 'Volunteer là gì?',
+        eyebrow: 'Chương 01',
+        title: 'Volunteer ở Dự Án Cho EM là ai?',
+        paragraphs: [
+            'Volunteer không đứng ngoài câu chuyện. Mỗi bạn đều là người cùng chuẩn bị, cùng tổ chức và cùng hiện diện trong trải nghiệm học tập của các em nhỏ.',
+        ],
+        stats: [
+            { value: '20+', label: 'Tình nguyện viên' },
+            { value: '2+', label: 'Hành trình đã đi' },
+        ],
+    },
+    {
+        numberLabel: '04',
+        metaTitle: 'Volunteer là gì?',
+        eyebrow: 'Chương 01',
+        title: 'Vai trò trong hành trình',
+        paragraphs: [
+            'Từ học liệu, hậu cần, vận hành đến việc trực tiếp đồng hành ở điểm trường, mỗi vai trò đều là một mắt xích quan trọng.',
+        ],
+        quote: {
+            text: 'Volunteer là người cùng viết nên câu chuyện ấy.',
+            cite: '— Tinh thần dự án',
+        },
+    },
+    {
+        numberLabel: '05',
+        metaTitle: 'Bạn sẽ làm gì?',
+        eyebrow: 'Chương 02',
+        title: 'Bạn sẽ làm gì?',
+        cards: [
+            { title: 'Trước chuyến đi', body: 'Soạn học liệu, chuẩn bị trò chơi, hậu cần và truyền thông.' },
+            { title: 'Trong chuyến đi', body: 'Hỗ trợ lớp học, dẫn hoạt động và kết nối với các em.' },
+        ],
+    },
+    {
+        numberLabel: '06',
+        metaTitle: 'Bạn sẽ làm gì?',
+        eyebrow: 'Chương 02',
+        title: 'Hành trình còn tiếp tục sau đó',
+        cards: [
+            { title: 'Sau chuyến đi', body: 'Tổng kết, viết recap, lưu trữ tài liệu và giữ nhịp cộng đồng volunteer.' },
+        ],
+        bullets: [
+            'Hỗ trợ lớp học và hoạt náo.',
+            'Điều phối timeline và hậu cần.',
+            'Chụp ảnh, quay video, viết recap.',
+            'Quản lý quà tặng và vận hành.',
+        ],
+    },
+    {
+        numberLabel: '07',
+        metaTitle: 'Bạn sẽ nhận lại gì?',
+        eyebrow: 'Chương 03',
+        title: 'Bạn sẽ nhận lại gì?',
+        paragraphs: [
+            'Đây không chỉ là hành trình cho đi. Nó cũng là cách volunteer lớn lên thật rõ rệt qua từng lần tham gia.',
+        ],
+        bullets: [
+            'Tự tin hơn khi làm việc nhóm.',
+            'Hiểu hơn về giáo dục và cộng đồng.',
+            'Có thêm bạn bè cùng hệ giá trị.',
+        ],
+    },
+    {
+        numberLabel: '08',
+        metaTitle: 'Bạn sẽ nhận lại gì?',
+        eyebrow: 'Chương 03',
+        title: 'Điều đọng lại lâu nhất',
+        paragraphs: [
+            'Kỹ năng, góc nhìn, tình bạn và cảm giác tuổi trẻ của mình được dùng đúng chỗ là những điều đọng lại lâu nhất.',
+        ],
+        quote: {
+            text: 'Có chuyến đi kết thúc trên bản đồ, nhưng lại mở ra rất lâu trong lòng người đi cùng.',
+            cite: '— Một volunteer của EM',
+        },
+    },
+    {
+        numberLabel: '09',
+        metaTitle: 'Hành trình tiêu biểu',
+        eyebrow: 'Chương 04',
+        title: 'Những hành trình tiêu biểu',
+        cards: [
+            { title: 'Bắc Kạn', body: 'Những buổi học và học bổng đầu tiên đặt nền cho câu chuyện của dự án.' },
+            { title: 'Lào Cai', body: 'Một mùa Noel ấm hơn với hoạt động, quà tặng và tiếng cười rất thật.' },
+            { title: 'Điện Biên', body: 'Điểm đến tiếp theo để gọi thêm người đồng hành mới.' },
+        ],
+    },
+    {
+        numberLabel: '10',
+        metaTitle: 'Câu chuyện thật',
+        eyebrow: 'Chương 05',
+        title: 'Câu chuyện từ người thật',
+        quote: {
+            text: 'Điều ở lại lâu nhất là cảm giác được thuộc về một nhóm người đang thật lòng làm điều tử tế.',
+            cite: '— Một thành viên volunteer',
+        },
+        paragraphs: [
+            'Đó là lý do section này được làm như một cuốn sách: mỗi trang là một lớp cảm xúc, không chỉ là một khối thông tin.',
+        ],
+    },
+    {
+        numberLabel: '11',
+        metaTitle: 'Đồng hành cùng chúng mình',
+        eyebrow: 'Chương cuối',
+        title: 'Nếu bạn muốn trở thành một phần của câu chuyện này',
+        paragraphs: [
+            'Bạn có thể dừng lại ở cảm hứng, hoặc biến cảm hứng đó thành một hành động thật cùng chúng mình.',
+        ],
         outroAction: {
             label: 'Khám phá thêm về chúng tôi',
             href: '#gioi-thieu',
         },
     },
-];
-
-const BOOK_NOTES = [
     {
-        title: 'Một lời nhắn trước khi mở',
-        label: 'Lời nhắn',
-        angle: '-7deg',
-        body: 'Cuốn sách này không chỉ để đọc, mà để cảm được nhịp của một hành trình volunteer thật sự.',
+        numberLabel: '12',
+        metaTitle: 'Thư cảm ơn',
+        variant: 'letter',
+        eyebrow: 'Thư cảm ơn',
+        title: 'Cảm ơn bạn đã lật tới trang cuối',
+        paragraphs: [
+            'Nếu bạn muốn tiếp tục đồng hành cùng Dự Án Cho EM, bạn có thể quét mã QR này để ủng hộ hoặc kết nối thêm với chúng mình.',
+        ],
+        qr: QR_INFO,
+        outroAction: {
+            label: 'Khám phá thêm về chúng tôi',
+            href: '#gioi-thieu',
+        },
     },
     {
-        title: 'Cách xem nhanh nhất',
-        label: 'Gợi ý',
-        angle: '5deg',
-        body: 'Bạn có thể bấm trực tiếp vào nửa trái hoặc nửa phải trang sách, hoặc dùng phím mũi tên để lật.',
-    },
-    {
-        title: 'Điều đáng giữ lại',
-        label: 'Thông điệp',
-        angle: '-4deg',
-        body: 'Mỗi trang là một lát cắt nhỏ về con người, chuyến đi và cảm giác được đồng hành cùng nhau.',
+        metaTitle: 'Bìa sau',
+        variant: 'back-cover',
+        kicker: 'EM Volunteer Project',
+        title: 'Hẹn gặp bạn ở chương tiếp theo',
+        lead: 'Mỗi người đồng hành mới sẽ giúp cuốn sách này có thêm những chương đẹp hơn ngoài đời thật.',
+        chips: ['Lan tỏa yêu thương', 'Trao tri thức'],
     },
 ];
 
 export class BookExperience {
     constructor() {
-        this.pages = BOOK_PAGES;
-        this.notes = BOOK_NOTES;
+        this.pages = DESKTOP_BOOK_PAGES;
+        this.mobilePages = MOBILE_BOOK_PAGES;
         this.pageFlip = null;
-        this.isInteractive = false;
         this.isOpen = false;
-        this.activeNoteIndex = null;
+        this.isInteractive = false;
         this.currentIndex = 0;
-        this.mobileDirection = 'next';
+        this.mobileIndex = 0;
         this.prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
         this.handleResize = this.onResize.bind(this);
         this.handleKeydown = this.onKeydown.bind(this);
@@ -222,10 +400,6 @@ export class BookExperience {
 
         container.innerHTML = `
             <div class="volunteer-book-launchpad">
-                <div class="volunteer-book-note-rail volunteer-book-note-rail--left">
-                    ${this.notes.slice(0, 2).map((note, index) => this.renderNoteButton(note, index)).join('')}
-                </div>
-
                 <button class="volunteer-book-teaser" id="volunteerBookOpen" type="button" aria-haspopup="dialog" aria-controls="volunteerBookOverlay" aria-label="Mở Volunteer Book">
                     <span class="volunteer-book-teaser-glow" aria-hidden="true"></span>
                     <span class="volunteer-book-teaser-stack" aria-hidden="true"></span>
@@ -245,12 +419,6 @@ export class BookExperience {
                         <span class="volunteer-book-teaser-caption-label">Bấm để khám phá</span>
                     </span>
                 </button>
-
-                <div class="volunteer-book-note-rail volunteer-book-note-rail--right">
-                    ${this.notes.slice(2).map((note, index) => this.renderNoteButton(note, index + 2)).join('')}
-                </div>
-
-                <div class="volunteer-book-note-popover" id="volunteerBookNotePopover" hidden></div>
             </div>
 
             <div class="volunteer-book-overlay" id="volunteerBookOverlay" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Volunteer Book Reader">
@@ -263,6 +431,7 @@ export class BookExperience {
 
                     <div class="volunteer-book-shell">
                         <div class="volunteer-book-reader-glow" aria-hidden="true"></div>
+
                         <div class="volunteer-book-stage" id="volunteerBookStage" tabindex="0" aria-label="Sổ tay volunteer">
                             <div class="volunteer-book-bookcase">
                                 <div class="volunteer-book-frame" aria-hidden="true"></div>
@@ -282,7 +451,7 @@ export class BookExperience {
 
                             <div class="volunteer-book-progress-wrap">
                                 <div class="volunteer-book-progress-head">
-                                    <span class="volunteer-book-progress-count" id="volunteerBookProgressText">Bìa / 08</span>
+                                    <span class="volunteer-book-progress-count" id="volunteerBookProgressText">Bìa / 09</span>
                                 </div>
                                 <div class="volunteer-book-progress-track" aria-hidden="true">
                                     <span class="volunteer-book-progress-fill" id="volunteerBookProgressFill"></span>
@@ -299,55 +468,18 @@ export class BookExperience {
         `;
     }
 
-    renderNoteButton(note, index) {
-        return `
-            <button class="volunteer-book-note" type="button" data-note-index="${index}" style="--note-angle: ${note.angle};" aria-label="${note.label}">
-                <span class="volunteer-book-note-label">${note.label}</span>
-                <strong>${note.title}</strong>
-            </button>
-        `;
-    }
-
-    renderNotePopover() {
-        if (!this.notePopover) return;
-
-        if (this.activeNoteIndex === null) {
-            this.notePopover.hidden = true;
-            this.notePopover.innerHTML = '';
-            return;
-        }
-
-        const note = this.notes[this.activeNoteIndex];
-        if (!note) return;
-
-        this.notePopover.hidden = false;
-        this.notePopover.innerHTML = `
-            <div class="volunteer-book-note-card">
-                <button class="volunteer-book-note-close" type="button" data-note-close="true" aria-label="Đóng lời nhắn">✕</button>
-                <span class="volunteer-book-note-card-label">${note.label}</span>
-                <h3>${note.title}</h3>
-                <p>${note.body}</p>
-            </div>
-        `;
-    }
-
     cacheElements() {
         this.container = document.getElementById('volunteerBookContainer');
         this.openBtn = document.getElementById('volunteerBookOpen');
         this.overlay = document.getElementById('volunteerBookOverlay');
         this.closeBtn = document.getElementById('volunteerBookClose');
-        this.notePopover = document.getElementById('volunteerBookNotePopover');
         this.stage = document.getElementById('volunteerBookStage');
         this.root = document.getElementById('volunteerBookRoot');
-        this.desktopShell = document.getElementById('volunteerBookDesktopShell');
         this.mobileReader = document.getElementById('volunteerBookMobileReader');
         this.prevBtn = document.getElementById('volunteerBookPrev');
         this.nextBtn = document.getElementById('volunteerBookNext');
-        this.currentLabel = document.getElementById('volunteerBookCurrentLabel');
-        this.modeLabel = document.getElementById('volunteerBookModeLabel');
         this.progressText = document.getElementById('volunteerBookProgressText');
         this.progressFill = document.getElementById('volunteerBookProgressFill');
-        this.renderNotePopover();
     }
 
     attachEvents() {
@@ -357,22 +489,6 @@ export class BookExperience {
         this.nextBtn?.addEventListener('click', () => this.flipNext());
 
         this.container?.addEventListener('click', (event) => {
-            const noteTrigger = event.target.closest('[data-note-index]');
-            if (noteTrigger) {
-                event.preventDefault();
-                const noteIndex = Number(noteTrigger.dataset.noteIndex);
-                this.activeNoteIndex = this.activeNoteIndex === noteIndex ? null : noteIndex;
-                this.renderNotePopover();
-                return;
-            }
-
-            if (event.target.closest('[data-note-close]')) {
-                event.preventDefault();
-                this.activeNoteIndex = null;
-                this.renderNotePopover();
-                return;
-            }
-
             if (event.target.closest('[data-book-close]')) {
                 event.preventDefault();
                 this.closeReader();
@@ -392,13 +508,11 @@ export class BookExperience {
                 return;
             }
 
-            if (!this.isOpen) return;
-            if (this.isMobileViewport()) return;
+            if (!this.isOpen || this.isMobileViewport()) return;
+            if (event.target.closest('a, button, .volunteer-book-nav-btn')) return;
 
             const clickedPaper = event.target.closest('.volunteer-book-paper');
-            if (!clickedPaper) return;
-            if (event.target.closest('a, button, .volunteer-book-toc-item, .volunteer-book-nav-btn')) return;
-            if (!this.root) return;
+            if (!clickedPaper || !this.root) return;
 
             const rect = this.root.getBoundingClientRect();
             const clickX = event.clientX - rect.left;
@@ -432,7 +546,7 @@ export class BookExperience {
             this.root.classList.add('is-fallback');
             this.fitPages();
             this.renderMobileReader(false);
-            this.syncStatus(0, 'portrait');
+            this.syncStatus();
             return;
         }
 
@@ -447,8 +561,8 @@ export class BookExperience {
             minHeight: 420,
             maxHeight: 720,
             drawShadow: true,
-            maxShadowOpacity: 0.18,
-            flippingTime: this.prefersReducedMotion.matches ? 0 : 820,
+            maxShadowOpacity: 0.16,
+            flippingTime: this.prefersReducedMotion.matches ? 0 : 720,
             usePortrait: true,
             autoSize: true,
             showCover: true,
@@ -473,10 +587,6 @@ export class BookExperience {
             this.syncStatus(this.pageFlip.getCurrentPageIndex(), event.data);
         });
 
-        this.pageFlip.on('changeState', () => {
-            this.syncStatus();
-        });
-
         this.pageFlip.loadFromHTML(this.root.querySelectorAll('.volunteer-book-leaf'));
         this.renderMobileReader(false);
         this.syncStatus(0, this.pageFlip.getOrientation());
@@ -484,6 +594,14 @@ export class BookExperience {
 
     isMobileViewport() {
         return window.innerWidth <= 768;
+    }
+
+    getActivePages() {
+        return this.isMobileViewport() ? this.mobilePages : this.pages;
+    }
+
+    getActiveIndex() {
+        return this.isMobileViewport() ? this.mobileIndex : this.currentIndex;
     }
 
     fitPages() {
@@ -496,9 +614,8 @@ export class BookExperience {
             paper.style.setProperty('--page-scale', '1');
             paper.classList.remove('is-scaled');
 
-            const availableHeight = Math.max(0, paper.clientHeight - 64);
+            const availableHeight = Math.max(0, paper.clientHeight - 58);
             const naturalHeight = content.scrollHeight;
-
             if (availableHeight === 0 || naturalHeight <= availableHeight) return;
 
             const scale = Math.max(0.8, Math.min(1, availableHeight / naturalHeight));
@@ -523,21 +640,6 @@ export class BookExperience {
             }
         }
 
-        if (this.isMobileViewport()) {
-            if (event.key === 'ArrowRight') {
-                event.preventDefault();
-                this.flipNext();
-            }
-
-            if (event.key === 'ArrowLeft') {
-                event.preventDefault();
-                this.flipPrev();
-            }
-            return;
-        }
-
-        if (!this.pageFlip) return;
-
         if (event.key === 'ArrowRight') {
             event.preventDefault();
             this.flipNext();
@@ -553,12 +655,9 @@ export class BookExperience {
         if (this.isOpen || !this.overlay) return;
 
         this.isOpen = true;
-        this.activeNoteIndex = null;
-        this.renderNotePopover();
         this.overlay.classList.add('is-open');
         this.overlay.setAttribute('aria-hidden', 'false');
         document.body.classList.add('has-volunteer-book-open');
-        document.body.classList.add('native-book-cursor');
         window._chatWidget?.closeChat?.();
         window._lockScroll?.();
 
@@ -567,6 +666,7 @@ export class BookExperience {
             if (typeof this.pageFlip?.update === 'function') {
                 this.pageFlip.update();
             }
+            this.clampIndexes();
             this.fitPages();
             this.renderMobileReader(false);
             this.syncStatus();
@@ -582,20 +682,24 @@ export class BookExperience {
         this.overlay.classList.remove('is-open');
         this.overlay.setAttribute('aria-hidden', 'true');
         document.body.classList.remove('has-volunteer-book-open');
-        document.body.classList.remove('native-book-cursor');
         window._unlockScroll?.();
+
         if (restoreFocus) {
             this.openBtn?.focus();
         }
     }
 
+    clampIndexes() {
+        this.currentIndex = Math.max(0, Math.min(this.currentIndex, this.pages.length - 1));
+        this.mobileIndex = Math.max(0, Math.min(this.mobileIndex, this.mobilePages.length - 1));
+    }
+
     flipPrev() {
         if (this.isMobileViewport()) {
-            if (this.currentIndex <= 0) return;
-            this.mobileDirection = 'prev';
-            this.currentIndex -= 1;
-            this.renderMobileReader();
-            this.syncStatus(this.currentIndex, 'portrait');
+            if (this.mobileIndex <= 0) return;
+            this.mobileIndex -= 1;
+            this.renderMobileReader(false);
+            this.syncStatus();
             return;
         }
 
@@ -605,11 +709,10 @@ export class BookExperience {
 
     flipNext() {
         if (this.isMobileViewport()) {
-            if (this.currentIndex >= this.pages.length - 1) return;
-            this.mobileDirection = 'next';
-            this.currentIndex += 1;
-            this.renderMobileReader();
-            this.syncStatus(this.currentIndex, 'portrait');
+            if (this.mobileIndex >= this.mobilePages.length - 1) return;
+            this.mobileIndex += 1;
+            this.renderMobileReader(false);
+            this.syncStatus();
             return;
         }
 
@@ -617,38 +720,12 @@ export class BookExperience {
         this.pageFlip.flipNext('top');
     }
 
-    flipTo(index) {
-        const safeIndex = Math.max(0, Math.min(index, this.pages.length - 1));
-
-        if (this.isMobileViewport()) {
-            this.mobileDirection = safeIndex >= this.currentIndex ? 'next' : 'prev';
-            this.currentIndex = safeIndex;
-            this.renderMobileReader();
-            this.syncStatus(this.currentIndex, 'portrait');
-            return;
-        }
-
-        if (!this.pageFlip || Number.isNaN(index)) return;
-        if (safeIndex === this.pageFlip.getCurrentPageIndex()) return;
-
-        this.pageFlip.flip(safeIndex, 'top');
-    }
-
     syncStatus(index = null, orientation = null) {
-        const currentIndex = index ?? (this.isMobileViewport() ? this.currentIndex : this.pageFlip?.getCurrentPageIndex()) ?? 0;
-        const currentPage = this.pages[currentIndex] || this.pages[0];
+        const pages = this.getActivePages();
+        const activeIndex = index ?? this.getActiveIndex();
+        const currentPage = pages[activeIndex] || pages[0];
         const currentOrientation = orientation ?? (this.isMobileViewport() ? 'portrait' : this.pageFlip?.getOrientation?.()) ?? 'portrait';
-        const lastNumberedPage = [...this.pages].reverse().find((page) => page.numberLabel && page.numberLabel !== 'Bìa')?.numberLabel || '00';
-
-        this.currentIndex = currentIndex;
-
-        if (this.currentLabel) {
-            this.currentLabel.textContent = currentPage.metaTitle || 'Volunteer Book';
-        }
-
-        if (this.modeLabel) {
-            this.modeLabel.textContent = currentOrientation === 'landscape' ? '2 trang' : '1 trang';
-        }
+        const lastNumberedPage = [...pages].reverse().find((page) => page.numberLabel && page.numberLabel !== 'Bìa')?.numberLabel || '00';
 
         if (this.progressText) {
             const currentLabel = currentPage.numberLabel || 'Bìa';
@@ -656,30 +733,42 @@ export class BookExperience {
         }
 
         if (this.progressFill) {
-            const progress = (currentIndex / Math.max(1, this.pages.length - 1)) * 100;
+            const progress = (activeIndex / Math.max(1, pages.length - 1)) * 100;
             this.progressFill.style.width = `${progress}%`;
         }
 
         if (this.prevBtn) {
-            this.prevBtn.disabled = currentIndex <= 0;
+            this.prevBtn.disabled = activeIndex <= 0;
         }
 
         if (this.nextBtn) {
-            this.nextBtn.disabled = currentIndex >= this.pages.length - 1;
+            this.nextBtn.disabled = activeIndex >= pages.length - 1;
+        }
+
+        if (!this.isMobileViewport() && currentOrientation === 'portrait') {
+            this.stage?.setAttribute('data-book-mode', 'portrait');
+        } else {
+            this.stage?.setAttribute('data-book-mode', 'landscape');
         }
     }
 
     onResize() {
+        this.clampIndexes();
+
         if (this.isMobileViewport()) {
             this.renderMobileReader(false);
-            this.syncStatus(this.currentIndex, 'portrait');
+            this.syncStatus();
             return;
         }
 
-        if (this.pageFlip && this.pageFlip.getCurrentPageIndex() !== this.currentIndex) {
-            this.pageFlip.turnToPage(this.currentIndex);
+        if (this.pageFlip) {
+            if (this.pageFlip.getCurrentPageIndex() !== this.currentIndex) {
+                this.pageFlip.turnToPage(this.currentIndex);
+            }
+            this.pageFlip.update();
         }
 
+        this.fitPages();
         this.syncStatus(this.pageFlip?.getCurrentPageIndex() ?? this.currentIndex, this.pageFlip?.getOrientation?.() ?? 'landscape');
     }
 
@@ -691,27 +780,24 @@ export class BookExperience {
         return `
             <article class="volunteer-book-leaf${variantClass}${layoutClass}"${densityAttr} data-page-index="${index}">
                 <div class="volunteer-book-paper">
-                    ${this.renderPageBody(page)}
+                    ${this.renderPageBody(page, false)}
                     ${page.numberLabel ? `<span class="volunteer-book-page-number">${page.numberLabel}</span>` : ''}
                 </div>
             </article>
         `;
     }
 
-    renderMobileReader(animate = true) {
+    renderMobileReader() {
         if (!this.mobileReader) return;
 
-        const page = this.pages[this.currentIndex] || this.pages[0];
+        const page = this.mobilePages[this.mobileIndex] || this.mobilePages[0];
         const variantClass = page.variant ? ` volunteer-book-mobile-page--${page.variant}` : '';
         const layoutClass = page.layout ? ` volunteer-book-mobile-page--${page.layout}` : '';
-        const animationClass = animate && !this.prefersReducedMotion.matches
-            ? ` is-entering is-${this.mobileDirection}`
-            : '';
 
         this.mobileReader.innerHTML = `
-            <article class="volunteer-book-mobile-page${variantClass}${layoutClass}${animationClass}">
+            <article class="volunteer-book-mobile-page${variantClass}${layoutClass}">
                 <div class="volunteer-book-mobile-paper">
-                    ${this.renderPageBody(page)}
+                    ${this.renderPageBody(page, true)}
                     ${page.numberLabel ? `<span class="volunteer-book-mobile-page-number">${page.numberLabel}</span>` : ''}
                 </div>
             </article>
@@ -728,17 +814,16 @@ export class BookExperience {
         paper.style.setProperty('--mobile-page-scale', '1');
         paper.classList.remove('is-scaled');
 
-        const availableHeight = Math.max(0, paper.clientHeight - 64);
+        const availableHeight = Math.max(0, paper.clientHeight - 56);
         const naturalHeight = content.scrollHeight;
-
         if (availableHeight === 0 || naturalHeight <= availableHeight) return;
 
-        const scale = Math.max(0.82, Math.min(1, availableHeight / naturalHeight));
+        const scale = Math.max(0.84, Math.min(1, availableHeight / naturalHeight));
         paper.style.setProperty('--mobile-page-scale', scale.toFixed(3));
         paper.classList.add('is-scaled');
     }
 
-    renderPageBody(page) {
+    renderPageBody(page, isMobile) {
         if (page.variant === 'cover') {
             return `
                 <div class="volunteer-book-cover">
@@ -762,11 +847,6 @@ export class BookExperience {
                     <div class="volunteer-book-chip-row">
                         ${page.chips.map((chip) => `<span class="volunteer-book-chip">${chip}</span>`).join('')}
                     </div>
-                    ${page.outroAction ? `
-                        <a href="${page.outroAction.href}" class="btn btn-primary volunteer-book-outro-link" data-book-href="${page.outroAction.href}">
-                            ${page.outroAction.label}
-                        </a>
-                    ` : ''}
                     <div class="volunteer-book-cover-seal">See you on the next journey</div>
                 </div>
             `;
@@ -802,17 +882,8 @@ export class BookExperience {
                         ${page.bullets.map((item) => `<li>${item}</li>`).join('')}
                     </ul>
                 ` : ''}
-                ${page.toc?.length ? `
-                    <div class="volunteer-book-toc">
-                        ${page.toc.map((item, itemIndex) => `
-                            <div class="volunteer-book-toc-item" aria-label="${item.label}">
-                                <span>${String(itemIndex + 1).padStart(2, '0')}</span>
-                                <strong>${item.label}</strong>
-                            </div>
-                        `).join('')}
-                    </div>
-                ` : ''}
                 ${page.callout ? `<div class="volunteer-book-callout">${page.callout}</div>` : ''}
+                ${page.qr ? this.renderQrBlock(page.qr, isMobile) : ''}
                 ${page.quote ? `
                     <blockquote class="volunteer-book-quote">
                         <p>${page.quote.text}</p>
@@ -826,6 +897,21 @@ export class BookExperience {
                         </a>
                     </div>
                 ` : ''}
+            </div>
+        `;
+    }
+
+    renderQrBlock(qr, isMobile) {
+        return `
+            <div class="volunteer-book-qr-card${isMobile ? ' is-mobile' : ''}">
+                <img class="volunteer-book-qr-image" src="${qr.src}" alt="${qr.alt}">
+                <div class="volunteer-book-qr-copy">
+                    <strong>Quét mã để đồng hành</strong>
+                    <p><span>STK:</span> ${qr.account}</p>
+                    <p><span>Ngân hàng:</span> ${qr.bank}</p>
+                    <p><span>Chủ TK:</span> ${qr.owner}</p>
+                    <p><span>Nội dung:</span> ${qr.note}</p>
+                </div>
             </div>
         `;
     }
