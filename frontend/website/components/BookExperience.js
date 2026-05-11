@@ -146,15 +146,13 @@ const BOOK_PAGES = [
             'Trang cuối không phải để kết thúc, mà để mở ra một lựa chọn rất đơn giản: bắt đầu cùng chúng mình.',
             'Bạn có thể đọc xong cuốn sách này và dừng lại ở cảm hứng, hoặc biến cảm hứng đó thành một hành động thật.',
         ],
-        chips: ['Đăng ký tình nguyện', 'Quyên góp', 'Theo dõi hành trình'],
-        ctaList: [
-            { label: 'Đăng Ký Tình Nguyện', href: '#tinh-nguyen', style: 'primary' },
-            { label: 'Quyên Góp Ngay', href: '#quyen-gop', style: 'secondary' },
-            { label: 'Xem Hành Trình', href: '#hanh-trinh', style: 'ghost' },
-        ],
         quote: {
             text: 'Một chương đẹp luôn cần thêm người viết cùng.',
             cite: '— Dự Án Cho EM',
+        },
+        outroAction: {
+            label: 'Khám phá thêm về chúng tôi',
+            href: '#gioi-thieu',
         },
     },
     {
@@ -165,15 +163,42 @@ const BOOK_PAGES = [
         title: 'Cảm ơn bạn đã lật tới trang cuối',
         lead: 'Mỗi người đồng hành mới sẽ giúp cuốn sách này có thêm những chương đẹp hơn ngoài đời thật.',
         chips: ['Lan tỏa yêu thương', 'Trao tri thức', 'Đi cùng tuổi trẻ'],
+        outroAction: {
+            label: 'Khám phá thêm về chúng tôi',
+            href: '#gioi-thieu',
+        },
+    },
+];
+
+const BOOK_NOTES = [
+    {
+        title: 'Một lời nhắn trước khi mở',
+        label: 'Lời nhắn',
+        angle: '-7deg',
+        body: 'Cuốn sách này không chỉ để đọc, mà để cảm được nhịp của một hành trình volunteer thật sự.',
+    },
+    {
+        title: 'Cách xem nhanh nhất',
+        label: 'Gợi ý',
+        angle: '5deg',
+        body: 'Bạn có thể bấm trực tiếp vào nửa trái hoặc nửa phải trang sách, hoặc dùng phím mũi tên để lật.',
+    },
+    {
+        title: 'Điều đáng giữ lại',
+        label: 'Thông điệp',
+        angle: '-4deg',
+        body: 'Mỗi trang là một lát cắt nhỏ về con người, chuyến đi và cảm giác được đồng hành cùng nhau.',
     },
 ];
 
 export class BookExperience {
     constructor() {
         this.pages = BOOK_PAGES;
+        this.notes = BOOK_NOTES;
         this.pageFlip = null;
         this.isInteractive = false;
         this.isOpen = false;
+        this.activeNoteIndex = null;
         this.currentIndex = 0;
         this.mobileDirection = 'next';
         this.prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -196,15 +221,11 @@ export class BookExperience {
         const coverPage = this.pages.find((page) => page.variant === 'cover') || this.pages[0];
 
         container.innerHTML = `
-            <div class="volunteer-book-intro">
-                <p class="volunteer-book-kicker">Volunteer Book Experience</p>
-                <h2 class="section-title volunteer-book-title">Mở cuốn sách này như mở một hành trình thật</h2>
-                <p class="section-subtitle volunteer-book-subtitle">
-                    <strong>Ở trạng thái bình thường, đây là một quyển sách đóng nằm giữa trang. Khi chạm vào, toàn bộ không gian chìm xuống để chỉ còn lại cuốn sách và trải nghiệm đọc tập trung.</strong>
-                </p>
-            </div>
-
             <div class="volunteer-book-launchpad">
+                <div class="volunteer-book-note-rail volunteer-book-note-rail--left">
+                    ${this.notes.slice(0, 2).map((note, index) => this.renderNoteButton(note, index)).join('')}
+                </div>
+
                 <button class="volunteer-book-teaser" id="volunteerBookOpen" type="button" aria-haspopup="dialog" aria-controls="volunteerBookOverlay" aria-label="Mở Volunteer Book">
                     <span class="volunteer-book-teaser-glow" aria-hidden="true"></span>
                     <span class="volunteer-book-teaser-stack" aria-hidden="true"></span>
@@ -222,41 +243,26 @@ export class BookExperience {
                     </span>
                     <span class="volunteer-book-teaser-caption">
                         <span class="volunteer-book-teaser-caption-label">Bấm để khám phá</span>
-                        <strong>Cuốn sách sẽ mở ra trong chế độ đọc tập trung</strong>
                     </span>
                 </button>
+
+                <div class="volunteer-book-note-rail volunteer-book-note-rail--right">
+                    ${this.notes.slice(2).map((note, index) => this.renderNoteButton(note, index + 2)).join('')}
+                </div>
+
+                <div class="volunteer-book-note-popover" id="volunteerBookNotePopover" hidden></div>
             </div>
 
             <div class="volunteer-book-overlay" id="volunteerBookOverlay" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Volunteer Book Reader">
                 <div class="volunteer-book-overlay-backdrop" data-book-close="true"></div>
                 <div class="volunteer-book-overlay-shell">
-                    <div class="volunteer-book-overlay-topbar">
-                        <div class="volunteer-book-overlay-copy">
-                            <span class="volunteer-book-overlay-kicker">Reader Mode</span>
-                            <strong>Không gian xung quanh được làm tối để chỉ còn lại cuốn sách.</strong>
-                        </div>
-                        <button class="volunteer-book-overlay-close" id="volunteerBookClose" type="button" aria-label="Đóng Volunteer Book">
-                            <span aria-hidden="true">✕</span>
-                            <span>Đóng</span>
-                        </button>
-                    </div>
+                    <button class="volunteer-book-overlay-close" id="volunteerBookClose" type="button" aria-label="Đóng Volunteer Book">
+                        <span class="volunteer-book-overlay-close-text">Đóng</span>
+                        <span aria-hidden="true">✕</span>
+                    </button>
 
                     <div class="volunteer-book-shell">
-                        <div class="volunteer-book-meta">
-                            <div>
-                                <span class="volunteer-book-meta-label">Trải nghiệm đọc</span>
-                                <strong class="volunteer-book-meta-value">2 trang như sách thật trên desktop, 1 trang tối ưu riêng cho mobile</strong>
-                            </div>
-                            <div>
-                                <span class="volunteer-book-meta-label">Cách khám phá</span>
-                                <strong class="volunteer-book-meta-value">Bấm trực tiếp vào trang, vuốt nhẹ hoặc dùng phím mũi tên để lật</strong>
-                            </div>
-                            <div>
-                                <span class="volunteer-book-meta-label">Đang đọc</span>
-                                <strong class="volunteer-book-meta-value" id="volunteerBookCurrentLabel">Bìa sách</strong>
-                            </div>
-                        </div>
-
+                        <div class="volunteer-book-reader-glow" aria-hidden="true"></div>
                         <div class="volunteer-book-stage" id="volunteerBookStage" tabindex="0" aria-label="Sổ tay volunteer">
                             <div class="volunteer-book-bookcase">
                                 <div class="volunteer-book-frame" aria-hidden="true"></div>
@@ -270,14 +276,12 @@ export class BookExperience {
                         </div>
 
                         <div class="volunteer-book-footer">
-                            <button class="volunteer-book-nav-btn" id="volunteerBookPrev" aria-label="Trang trước">
+                            <button class="volunteer-book-nav-btn volunteer-book-nav-btn--prev" id="volunteerBookPrev" aria-label="Trang trước">
                                 <span aria-hidden="true">←</span>
-                                <span>Prev</span>
                             </button>
 
                             <div class="volunteer-book-progress-wrap">
                                 <div class="volunteer-book-progress-head">
-                                    <span class="volunteer-book-progress-label" id="volunteerBookModeLabel">2 trang</span>
                                     <span class="volunteer-book-progress-count" id="volunteerBookProgressText">Bìa / 08</span>
                                 </div>
                                 <div class="volunteer-book-progress-track" aria-hidden="true">
@@ -285,8 +289,7 @@ export class BookExperience {
                                 </div>
                             </div>
 
-                            <button class="volunteer-book-nav-btn" id="volunteerBookNext" aria-label="Trang tiếp theo">
-                                <span>Next</span>
+                            <button class="volunteer-book-nav-btn volunteer-book-nav-btn--next" id="volunteerBookNext" aria-label="Trang tiếp theo">
                                 <span aria-hidden="true">→</span>
                             </button>
                         </div>
@@ -296,11 +299,44 @@ export class BookExperience {
         `;
     }
 
+    renderNoteButton(note, index) {
+        return `
+            <button class="volunteer-book-note" type="button" data-note-index="${index}" style="--note-angle: ${note.angle};" aria-label="${note.label}">
+                <span class="volunteer-book-note-label">${note.label}</span>
+                <strong>${note.title}</strong>
+            </button>
+        `;
+    }
+
+    renderNotePopover() {
+        if (!this.notePopover) return;
+
+        if (this.activeNoteIndex === null) {
+            this.notePopover.hidden = true;
+            this.notePopover.innerHTML = '';
+            return;
+        }
+
+        const note = this.notes[this.activeNoteIndex];
+        if (!note) return;
+
+        this.notePopover.hidden = false;
+        this.notePopover.innerHTML = `
+            <div class="volunteer-book-note-card">
+                <button class="volunteer-book-note-close" type="button" data-note-close="true" aria-label="Đóng lời nhắn">✕</button>
+                <span class="volunteer-book-note-card-label">${note.label}</span>
+                <h3>${note.title}</h3>
+                <p>${note.body}</p>
+            </div>
+        `;
+    }
+
     cacheElements() {
         this.container = document.getElementById('volunteerBookContainer');
         this.openBtn = document.getElementById('volunteerBookOpen');
         this.overlay = document.getElementById('volunteerBookOverlay');
         this.closeBtn = document.getElementById('volunteerBookClose');
+        this.notePopover = document.getElementById('volunteerBookNotePopover');
         this.stage = document.getElementById('volunteerBookStage');
         this.root = document.getElementById('volunteerBookRoot');
         this.desktopShell = document.getElementById('volunteerBookDesktopShell');
@@ -311,6 +347,7 @@ export class BookExperience {
         this.modeLabel = document.getElementById('volunteerBookModeLabel');
         this.progressText = document.getElementById('volunteerBookProgressText');
         this.progressFill = document.getElementById('volunteerBookProgressFill');
+        this.renderNotePopover();
     }
 
     attachEvents() {
@@ -320,16 +357,25 @@ export class BookExperience {
         this.nextBtn?.addEventListener('click', () => this.flipNext());
 
         this.container?.addEventListener('click', (event) => {
-            if (event.target.closest('[data-book-close]')) {
+            const noteTrigger = event.target.closest('[data-note-index]');
+            if (noteTrigger) {
                 event.preventDefault();
-                this.closeReader();
+                const noteIndex = Number(noteTrigger.dataset.noteIndex);
+                this.activeNoteIndex = this.activeNoteIndex === noteIndex ? null : noteIndex;
+                this.renderNotePopover();
                 return;
             }
 
-            const gotoTrigger = event.target.closest('[data-book-target]');
-            if (gotoTrigger) {
+            if (event.target.closest('[data-note-close]')) {
                 event.preventDefault();
-                this.flipTo(Number(gotoTrigger.dataset.bookTarget));
+                this.activeNoteIndex = null;
+                this.renderNotePopover();
+                return;
+            }
+
+            if (event.target.closest('[data-book-close]')) {
+                event.preventDefault();
+                this.closeReader();
                 return;
             }
 
@@ -507,10 +553,13 @@ export class BookExperience {
         if (this.isOpen || !this.overlay) return;
 
         this.isOpen = true;
+        this.activeNoteIndex = null;
+        this.renderNotePopover();
         this.overlay.classList.add('is-open');
         this.overlay.setAttribute('aria-hidden', 'false');
         document.body.classList.add('has-volunteer-book-open');
         document.body.classList.add('native-book-cursor');
+        window._chatWidget?.closeChat?.();
         window._lockScroll?.();
 
         requestAnimationFrame(() => {
@@ -713,6 +762,11 @@ export class BookExperience {
                     <div class="volunteer-book-chip-row">
                         ${page.chips.map((chip) => `<span class="volunteer-book-chip">${chip}</span>`).join('')}
                     </div>
+                    ${page.outroAction ? `
+                        <a href="${page.outroAction.href}" class="btn btn-primary volunteer-book-outro-link" data-book-href="${page.outroAction.href}">
+                            ${page.outroAction.label}
+                        </a>
+                    ` : ''}
                     <div class="volunteer-book-cover-seal">See you on the next journey</div>
                 </div>
             `;
@@ -751,10 +805,10 @@ export class BookExperience {
                 ${page.toc?.length ? `
                     <div class="volunteer-book-toc">
                         ${page.toc.map((item, itemIndex) => `
-                            <button class="volunteer-book-toc-item" type="button" data-book-target="${item.target}">
+                            <div class="volunteer-book-toc-item" aria-label="${item.label}">
                                 <span>${String(itemIndex + 1).padStart(2, '0')}</span>
                                 <strong>${item.label}</strong>
-                            </button>
+                            </div>
                         `).join('')}
                     </div>
                 ` : ''}
@@ -765,22 +819,14 @@ export class BookExperience {
                         <cite>${page.quote.cite}</cite>
                     </blockquote>
                 ` : ''}
-                ${page.ctaList?.length ? `
-                    <div class="volunteer-book-cta-list">
-                        ${page.ctaList.map((item) => `
-                            <a href="${item.href}" class="btn ${this.getCtaClass(item.style)} volunteer-book-cta-link" data-book-href="${item.href}">
-                                ${item.label}
-                            </a>
-                        `).join('')}
+                ${page.outroAction ? `
+                    <div class="volunteer-book-cta-list volunteer-book-cta-list--outro">
+                        <a href="${page.outroAction.href}" class="btn btn-primary volunteer-book-cta-link volunteer-book-cta-link--outro" data-book-href="${page.outroAction.href}">
+                            ${page.outroAction.label}
+                        </a>
                     </div>
                 ` : ''}
             </div>
         `;
-    }
-
-    getCtaClass(style) {
-        if (style === 'secondary') return 'btn-secondary';
-        if (style === 'ghost') return 'btn-outline';
-        return 'btn-primary';
     }
 }

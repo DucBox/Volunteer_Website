@@ -21,6 +21,7 @@ export class ChatWidget {
     init() {
         this.render();
         this.attachEventListeners();
+        window._chatWidget = this;
         
         // Add welcome message (marked as system message)
         this.addMessage('assistant', 
