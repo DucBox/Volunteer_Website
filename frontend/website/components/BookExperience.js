@@ -7,6 +7,19 @@ const QR_INFO = {
     note: 'Tên + Ủng hộ Dự Án Cho EM',
 };
 
+const THANK_YOU_LETTER = {
+    eyebrow: 'Thư cảm ơn',
+    title: 'Cảm ơn bạn đã lật tới trang cuối',
+    paragraphs: [
+        'Nếu bạn muốn tiếp tục đồng hành cùng Dự Án Cho EM, bạn có thể quét mã QR này để ủng hộ hoặc kết nối thêm với chúng mình.',
+    ],
+    qr: QR_INFO,
+    quote: {
+        text: 'Mỗi đóng góp nhỏ sẽ giúp cuốn sách này có thêm những chương đẹp hơn ngoài đời thật.',
+        cite: '— Dự Án Cho EM',
+    },
+};
+
 const DESKTOP_BOOK_PAGES = [
     {
         density: 'hard',
@@ -43,7 +56,7 @@ const DESKTOP_BOOK_PAGES = [
             'Bạn sẽ nhận lại điều gì.',
             'Những hành trình tiêu biểu đã đi qua.',
             'Câu chuyện thật từ người đã đồng hành.',
-            'Một lời cảm ơn cuối sách kèm mã QR để kết nối tiếp.',
+            'Một lời cảm ơn cuối sách để tiếp tục kết nối cùng dự án.',
         ],
         callout: 'Bạn không cần bấm vào mục lục. Chỉ cần lật từng trang để đi hết câu chuyện.',
     },
@@ -163,26 +176,6 @@ const DESKTOP_BOOK_PAGES = [
         },
     },
     {
-        numberLabel: '09',
-        metaTitle: 'Thư cảm ơn',
-        layout: 'compact',
-        variant: 'letter',
-        eyebrow: 'Thư cảm ơn',
-        title: 'Cảm ơn bạn đã lật tới trang cuối',
-        paragraphs: [
-            'Nếu bạn muốn tiếp tục đồng hành cùng Dự Án Cho EM, bạn có thể quét mã QR này để ủng hộ hoặc kết nối thêm với chúng mình.',
-        ],
-        qr: QR_INFO,
-        quote: {
-            text: 'Mỗi đóng góp nhỏ sẽ giúp cuốn sách này có thêm những chương đẹp hơn ngoài đời thật.',
-            cite: '— Dự Án Cho EM',
-        },
-        outroAction: {
-            label: 'Khám phá thêm về chúng tôi',
-            href: '#gioi-thieu',
-        },
-    },
-    {
         density: 'hard',
         metaTitle: 'Bìa sau',
         variant: 'back-cover',
@@ -227,7 +220,7 @@ const MOBILE_BOOK_PAGES = [
             'Bạn nhận lại gì.',
             'Những hành trình tiêu biểu.',
             'Câu chuyện từ người thật.',
-            'Thư cảm ơn + mã QR.',
+            'Một lời cảm ơn cuối sách để tiếp tục kết nối.',
         ],
     },
     {
@@ -346,21 +339,6 @@ const MOBILE_BOOK_PAGES = [
         },
     },
     {
-        numberLabel: '12',
-        metaTitle: 'Thư cảm ơn',
-        variant: 'letter',
-        eyebrow: 'Thư cảm ơn',
-        title: 'Cảm ơn bạn đã lật tới trang cuối',
-        paragraphs: [
-            'Nếu bạn muốn tiếp tục đồng hành cùng Dự Án Cho EM, bạn có thể quét mã QR này để ủng hộ hoặc kết nối thêm với chúng mình.',
-        ],
-        qr: QR_INFO,
-        outroAction: {
-            label: 'Khám phá thêm về chúng tôi',
-            href: '#gioi-thieu',
-        },
-    },
-    {
         metaTitle: 'Bìa sau',
         variant: 'back-cover',
         kicker: 'EM Volunteer Project',
@@ -384,6 +362,10 @@ export class BookExperience {
         this.handleKeydown = this.onKeydown.bind(this);
 
         this.init();
+    }
+
+    getLastNumberLabel(pages) {
+        return [...pages].reverse().find((page) => page.numberLabel && page.numberLabel !== 'Bìa')?.numberLabel || '00';
     }
 
     init() {
@@ -434,13 +416,15 @@ export class BookExperience {
 
                         <div class="volunteer-book-stage" id="volunteerBookStage" tabindex="0" aria-label="Sổ tay volunteer">
                             <div class="volunteer-book-bookcase">
-                                <div class="volunteer-book-frame" aria-hidden="true"></div>
-                                <div class="volunteer-book-desktop-shell" id="volunteerBookDesktopShell">
-                                    <div class="volunteer-book-root" id="volunteerBookRoot">
-                                        ${this.pages.map((page, index) => this.renderPage(page, index)).join('')}
+                                <div class="volunteer-book-reader-viewport" id="volunteerBookViewport">
+                                    <div class="volunteer-book-frame" aria-hidden="true"></div>
+                                    <div class="volunteer-book-desktop-shell" id="volunteerBookDesktopShell">
+                                        <div class="volunteer-book-root" id="volunteerBookRoot">
+                                            ${this.pages.map((page, index) => this.renderPage(page, index)).join('')}
+                                        </div>
                                     </div>
+                                    <div class="volunteer-book-mobile-reader" id="volunteerBookMobileReader"></div>
                                 </div>
-                                <div class="volunteer-book-mobile-reader" id="volunteerBookMobileReader"></div>
                             </div>
                         </div>
 
@@ -451,7 +435,7 @@ export class BookExperience {
 
                             <div class="volunteer-book-progress-wrap">
                                 <div class="volunteer-book-progress-head">
-                                    <span class="volunteer-book-progress-count" id="volunteerBookProgressText">Bìa / 09</span>
+                                    <span class="volunteer-book-progress-count" id="volunteerBookProgressText">Bìa / ${this.getLastNumberLabel(this.pages)}</span>
                                 </div>
                                 <div class="volunteer-book-progress-track" aria-hidden="true">
                                     <span class="volunteer-book-progress-fill" id="volunteerBookProgressFill"></span>
@@ -463,7 +447,26 @@ export class BookExperience {
                             </button>
                         </div>
                     </div>
+
+                    <aside class="volunteer-book-letter" id="volunteerBookLetter" aria-hidden="true">
+                        ${this.renderLetterSheet()}
+                    </aside>
                 </div>
+            </div>
+        `;
+    }
+
+    renderLetterSheet() {
+        return `
+            <div class="volunteer-book-letter-sheet">
+                <span class="volunteer-book-letter-eyebrow">${THANK_YOU_LETTER.eyebrow}</span>
+                <h3 class="volunteer-book-letter-title">${THANK_YOU_LETTER.title}</h3>
+                ${THANK_YOU_LETTER.paragraphs.map((paragraph) => `<p class="volunteer-book-letter-copy">${paragraph}</p>`).join('')}
+                ${this.renderQrBlock(THANK_YOU_LETTER.qr, false)}
+                <blockquote class="volunteer-book-letter-quote">
+                    <p>${THANK_YOU_LETTER.quote.text}</p>
+                    <cite>${THANK_YOU_LETTER.quote.cite}</cite>
+                </blockquote>
             </div>
         `;
     }
@@ -474,8 +477,10 @@ export class BookExperience {
         this.overlay = document.getElementById('volunteerBookOverlay');
         this.closeBtn = document.getElementById('volunteerBookClose');
         this.stage = document.getElementById('volunteerBookStage');
+        this.readerViewport = document.getElementById('volunteerBookViewport');
         this.root = document.getElementById('volunteerBookRoot');
         this.mobileReader = document.getElementById('volunteerBookMobileReader');
+        this.letter = document.getElementById('volunteerBookLetter');
         this.prevBtn = document.getElementById('volunteerBookPrev');
         this.nextBtn = document.getElementById('volunteerBookNext');
         this.progressText = document.getElementById('volunteerBookProgressText');
@@ -551,6 +556,7 @@ export class BookExperience {
         }
 
         this.fitPages();
+        this.updateReaderViewport();
 
         this.pageFlip = new window.St.PageFlip(this.root, {
             width: 480,
@@ -663,6 +669,7 @@ export class BookExperience {
 
         requestAnimationFrame(() => {
             this.isInteractive = true;
+            this.updateReaderViewport();
             if (typeof this.pageFlip?.update === 'function') {
                 this.pageFlip.update();
             }
@@ -692,6 +699,43 @@ export class BookExperience {
     clampIndexes() {
         this.currentIndex = Math.max(0, Math.min(this.currentIndex, this.pages.length - 1));
         this.mobileIndex = Math.max(0, Math.min(this.mobileIndex, this.mobilePages.length - 1));
+    }
+
+    updateReaderViewport() {
+        if (!this.stage || !this.readerViewport) return;
+
+        if (this.isMobileViewport()) {
+            this.readerViewport.style.width = '';
+            this.readerViewport.style.height = '';
+            return;
+        }
+
+        const stageWidth = Math.max(0, this.stage.clientWidth);
+        const stageHeight = Math.max(0, this.stage.clientHeight);
+        if (!stageWidth || !stageHeight) return;
+
+        const desktopRatio = 960 / 660;
+        const maxWidth = Math.min(stageWidth, 1120);
+        const maxHeight = Math.min(stageHeight, 720);
+
+        let width = maxWidth;
+        let height = width / desktopRatio;
+
+        if (height > maxHeight) {
+            height = maxHeight;
+            width = height * desktopRatio;
+        }
+
+        this.readerViewport.style.width = `${Math.floor(width)}px`;
+        this.readerViewport.style.height = `${Math.floor(height)}px`;
+    }
+
+    shouldShowLetter(index) {
+        if (this.isMobileViewport()) {
+            return index >= this.mobilePages.length - 1;
+        }
+
+        return index >= this.pages.length - 2;
     }
 
     flipPrev() {
@@ -737,6 +781,15 @@ export class BookExperience {
             this.progressFill.style.width = `${progress}%`;
         }
 
+        if (this.overlay) {
+            this.overlay.classList.toggle('has-letter-visible', this.shouldShowLetter(activeIndex));
+        }
+
+        if (this.letter) {
+            const shouldShow = this.shouldShowLetter(activeIndex);
+            this.letter.setAttribute('aria-hidden', shouldShow ? 'false' : 'true');
+        }
+
         if (this.prevBtn) {
             this.prevBtn.disabled = activeIndex <= 0;
         }
@@ -756,10 +809,13 @@ export class BookExperience {
         this.clampIndexes();
 
         if (this.isMobileViewport()) {
+            this.updateReaderViewport();
             this.renderMobileReader(false);
             this.syncStatus();
             return;
         }
+
+        this.updateReaderViewport();
 
         if (this.pageFlip) {
             if (this.pageFlip.getCurrentPageIndex() !== this.currentIndex) {
