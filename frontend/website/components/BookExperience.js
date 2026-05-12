@@ -23,15 +23,22 @@ const THANK_YOU_PAGE = {
 // Unified chapter source — pagination engine splits these into physical pages at runtime
 const BOOK_CHAPTERS = [
     {
-        variant: 'blank', // index 0 (LEFT) — pushes cover to index 1 (RIGHT)
-    },
-    {
         variant: 'cover',
+        density: 'hard',
         numberLabel: 'Bìa',
         kicker: 'EM Volunteer Journal',
         title: 'Sổ Tay Tình Nguyện',
         lead: 'Một quyển sách nhỏ kể lại cách Dự Án Cho EM kết nối người trẻ với những hành trình tử tế.',
         chips: ['Volunteer', 'Tri thức', 'Cộng đồng', 'Hành trình'],
+    },
+    {
+        coverPair: 'cover',
+        eyebrow: 'Dự Án Cho EM',
+        title: 'Một hành trình bắt đầu từ đây',
+        blocks: [
+            { type: 'quote', text: 'Có những điều chỉ cần lật sang trang là thấy mình muốn đồng hành.', cite: '— Dự Án Cho EM' },
+            { type: 'paragraph', text: 'Cuốn sách này là lời mời. Mỗi chương là một góc nhìn, mỗi trang là một lý do để bắt đầu.' },
+        ],
     },
     {
         eyebrow: 'Mở đầu',
@@ -147,6 +154,15 @@ const BOOK_CHAPTERS = [
             { type: 'paragraph', text: THANK_YOU_PAGE.paragraphs[0] },
             { type: 'qr', data: THANK_YOU_PAGE.qr },
             { type: 'quote', text: THANK_YOU_PAGE.quote.text, cite: THANK_YOU_PAGE.quote.cite },
+        ],
+    },
+    {
+        coverPair: 'back-cover',
+        eyebrow: 'Cùng nhau tiếp tục',
+        title: 'Câu chuyện vẫn còn đang được viết',
+        blocks: [
+            { type: 'paragraph', text: 'Mỗi tình nguyện viên mới là một trang mới. Mỗi chuyến đi là một chương thêm vào cuốn sách này.' },
+            { type: 'quote', text: 'Một chương đẹp luôn cần thêm người viết cùng.', cite: '— Dự Án Cho EM' },
         ],
     },
     {
@@ -292,10 +308,15 @@ export class BookExperience {
             } while (remaining.length > 0);
         }
 
-        // Ensure back-cover lands on the left side of the final spread (even index = left page)
-        const backCoverIdx = result.findIndex(p => p.variant === 'back-cover');
-        if (backCoverIdx !== -1 && backCoverIdx % 2 !== 0) {
-            result.splice(backCoverIdx, 0, { variant: 'blank' });
+        const coverIdx = result.findIndex((p) => p.variant === 'cover');
+        const backCoverIdx = result.findIndex((p) => p.variant === 'back-cover');
+
+        // Desktop: keep an even number of interior pages so the back cover closes cleanly.
+        if (!isMobile && coverIdx !== -1 && backCoverIdx !== -1) {
+            const interiorCount = backCoverIdx - coverIdx - 1;
+            if (interiorCount % 2 !== 0) {
+                result.splice(backCoverIdx, 0, { variant: 'blank', coverPair: 'back-cover' });
+            }
         }
 
         return result;
@@ -506,7 +527,7 @@ export class BookExperience {
             drawShadow: true,
             maxShadowOpacity: 0.16,
             flippingTime: this.prefersReducedMotion.matches ? 0 : 720,
-            usePortrait: true,
+            usePortrait: false,
             autoSize: true,
             showCover: false,
             mobileScrollSupport: true,
@@ -829,7 +850,8 @@ export class BookExperience {
 
     renderPage(page, index) {
         const densityAttr = page.density ? ` data-density="${page.density}"` : '';
-        const variantClass = page.variant ? ` volunteer-book-leaf--${page.variant}` : '';
+        const effectiveVariant = page.coverPair ?? page.variant;
+        const variantClass = effectiveVariant ? ` volunteer-book-leaf--${effectiveVariant}` : '';
 
         return `
             <article class="volunteer-book-leaf${variantClass}"${densityAttr} data-page-index="${index}">

@@ -474,9 +474,7 @@
     height: min(100%, 720px);
     max-width: 100%;
     max-height: 100%;
-    border-radius: 30px;
     overflow: hidden;
-    background: #f5ead9;
 }
 
 .volunteer-book-root {
@@ -512,11 +510,9 @@
 
 .volunteer-book-root .stf__parent {
     position: absolute !important;
-    top: 50%;
-    left: 50%;
+    top: 50% !important;
+    left: 50% !important;
     margin: 0 !important;
-    width: auto !important;
-    height: auto !important;
     max-width: 100% !important;
     max-height: 100% !important;
     transform: translate(-50%, -50%) !important;
@@ -560,6 +556,33 @@
         radial-gradient(circle at top left, rgba(255, 255, 255, 0.32), transparent 24%),
         linear-gradient(145deg, #7b4f28 0%, #9a6735 34%, #b88449 100%);
     color: #fff7ee;
+}
+
+/* Content pages that use cover background need light text */
+.volunteer-book-leaf--cover .volunteer-book-page-eyebrow,
+.volunteer-book-leaf--back-cover .volunteer-book-page-eyebrow {
+    color: rgba(255, 247, 238, 0.72);
+}
+.volunteer-book-leaf--cover .volunteer-book-page-heading,
+.volunteer-book-leaf--back-cover .volunteer-book-page-heading {
+    color: #fff7ee;
+}
+.volunteer-book-leaf--cover .volunteer-book-page-copy,
+.volunteer-book-leaf--back-cover .volunteer-book-page-copy {
+    color: rgba(255, 247, 238, 0.84);
+}
+.volunteer-book-leaf--cover .volunteer-book-quote,
+.volunteer-book-leaf--back-cover .volunteer-book-quote {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: rgba(255, 255, 255, 0.14);
+}
+.volunteer-book-leaf--cover .volunteer-book-quote p,
+.volunteer-book-leaf--back-cover .volunteer-book-quote p {
+    color: #fff7ee;
+}
+.volunteer-book-leaf--cover .volunteer-book-quote cite,
+.volunteer-book-leaf--back-cover .volunteer-book-quote cite {
+    color: rgba(255, 247, 238, 0.6);
 }
 
 .volunteer-book-cover {
