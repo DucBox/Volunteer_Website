@@ -23,10 +23,7 @@ export class ChatWidget {
         this.attachEventListeners();
         window._chatWidget = this;
 
-        // Configure marked: single newlines become <br>, GFM enabled
-        if (typeof marked !== 'undefined') {
-            marked.setOptions({ breaks: true, gfm: true });
-        }
+        // Note: marked options are passed per-call (setOptions deprecated in v5+)
         
         // Add welcome message (marked as system message)
         this.addMessage('assistant', 
@@ -234,9 +231,22 @@ export class ChatWidget {
         
         // Parse markdown for assistant messages, escape HTML for user messages
         const rawContent = role === 'assistant' ? this.preprocessMarkdown(content) : content;
-        const messageContent = role === 'assistant' && typeof marked !== 'undefined'
-            ? (typeof DOMPurify !== 'undefined' ? DOMPurify.sanitize(marked.parse(rawContent)) : this.escapeHtml(rawContent))
-            : this.escapeHtml(rawContent);
+        let messageContent;
+        if (role === 'assistant' && typeof marked !== 'undefined') {
+            try {
+                const opts = { breaks: true, gfm: true };
+                const html = typeof marked.parse === 'function'
+                    ? marked.parse(rawContent, opts)
+                    : marked(rawContent, opts);
+                messageContent = typeof DOMPurify !== 'undefined'
+                    ? DOMPurify.sanitize(html)
+                    : html;
+            } catch (e) {
+                messageContent = this.escapeHtml(rawContent);
+            }
+        } else {
+            messageContent = this.escapeHtml(rawContent);
+        }
         
         messageDiv.innerHTML = `
             <div class="message-avatar">${avatar}</div>
@@ -314,16 +324,16 @@ export class ChatWidget {
         return div.innerHTML;
     }
 
-    // Normalize LLM output so marked.parse() renders it correctly.
-    // LLMs often return "- item - item" inline; convert to proper markdown list.
+    // Normalize LLM output so marked.parse() renders lists/breaks correctly.
+    // The API returns "text:\n- item" (no blank line before list).
+    // Markdown requires a blank line (\n\n) before a list to recognise it as such.
     preprocessMarkdown(text) {
         return text
-            // "colon - item" → "colon\n- item"
-            .replace(/:\s+-\s+/g, ':\n- ')
-            // "sentence end. - item" → "sentence.\n- item"
-            .replace(/([.!?])\s+-\s+/g, '$1\n- ')
-            // Remove extra spaces before newlines
-            .replace(/ +\n/g, '\n')
+            // Ensure blank line before list blocks that follow non-blank text
+            // "text\n- item"  →  "text\n\n- item"
+            .replace(/([^\n])\n([ \t]*-\s)/g, '$1\n\n$2')
+            // Same for ordered lists: "text\n1. item" → "text\n\n1. item"
+            .replace(/([^\n])\n([ \t]*\d+\.\s)/g, '$1\n\n$2')
             // Collapse 3+ blank lines to 2
             .replace(/\n{3,}/g, '\n\n')
             .trim();
