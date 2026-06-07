@@ -1,0 +1,402 @@
+/* ===================================
+   PROJECT DETAIL PAGE
+   =================================== */
+
+/* ---- Hero Banner ---- */
+.pd-hero {
+    position: relative;
+    width: 100%;
+    height: 480px;
+    overflow: hidden;
+}
+
+.pd-hero-image {
+    position: absolute;
+    inset: 0;
+}
+
+.pd-hero-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.pd-hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0.15) 0%,
+        rgba(0, 0, 0, 0.55) 100%
+    );
+}
+
+.pd-hero-content {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: var(--space-48) var(--space-48) var(--space-48);
+    max-width: 900px;
+    margin: 0 auto;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: left;
+}
+
+.pd-hero-badge {
+    position: static;
+    display: inline-flex;
+    margin-bottom: var(--space-16);
+    font-size: 12px;
+}
+
+.pd-hero-title {
+    font-size: clamp(28px, 5vw, 52px);
+    font-weight: 800;
+    color: #fff;
+    line-height: 1.2;
+    margin-bottom: var(--space-12);
+    text-shadow: 0 2px 16px rgba(0, 0, 0, 0.4);
+}
+
+.pd-hero-meta {
+    display: flex;
+    gap: var(--space-24);
+    color: rgba(255, 255, 255, 0.88);
+    font-size: 15px;
+    font-weight: 500;
+    flex-wrap: wrap;
+}
+
+/* ---- Back button bar ---- */
+.pd-back-wrap {
+    background: var(--color-warm-bg);
+    border-bottom: 1px solid var(--color-card-border);
+    padding: var(--space-12) 0;
+}
+
+.pd-back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--color-primary);
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: gap 0.2s ease, opacity 0.2s ease;
+}
+
+.pd-back-btn:hover {
+    gap: 10px;
+    opacity: 0.8;
+}
+
+/* ---- Main body ---- */
+.pd-body {
+    padding-top: var(--space-48);
+    padding-bottom: var(--space-64);
+    max-width: 860px;
+}
+
+/* Lead text */
+.pd-lead {
+    font-size: 18px;
+    color: var(--color-text-secondary);
+    line-height: 1.8;
+    margin-bottom: var(--space-32);
+    font-weight: 500;
+}
+
+/* ---- Stats grid ---- */
+.pd-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    background: var(--color-warm-bg);
+    border-radius: var(--radius-lg);
+    padding: var(--space-32);
+    margin-bottom: var(--space-48);
+}
+
+.pd-stat {
+    text-align: center;
+}
+
+.pd-stat-value {
+    display: block;
+    font-size: 36px;
+    font-weight: 800;
+    color: var(--color-primary);
+    line-height: 1.1;
+    margin-bottom: 6px;
+}
+
+.pd-stat-label {
+    font-size: 13px;
+    color: var(--color-text-secondary);
+    font-weight: 500;
+}
+
+/* ---- Full description (rich HTML content) ---- */
+.pd-full-desc {
+    margin-bottom: var(--space-48);
+}
+
+.pd-full-desc h4 {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--color-text);
+    margin: var(--space-32) 0 var(--space-12);
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--color-warm-bg);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.pd-full-desc p {
+    font-size: 16px;
+    color: var(--color-text-secondary);
+    line-height: 1.8;
+    margin-bottom: var(--space-16);
+}
+
+.pd-full-desc ul {
+    padding-left: var(--space-24);
+    margin-bottom: var(--space-16);
+}
+
+.pd-full-desc li {
+    font-size: 16px;
+    color: var(--color-text-secondary);
+    line-height: 1.7;
+    margin-bottom: 8px;
+}
+
+.pd-full-desc blockquote {
+    background: var(--color-warm-light);
+    border-left: 4px solid var(--color-primary);
+    padding: var(--space-20) var(--space-24);
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+    margin: var(--space-24) 0;
+    font-style: italic;
+    color: var(--color-text);
+    font-size: 16px;
+    line-height: 1.8;
+}
+
+.pd-full-desc blockquote cite {
+    display: block;
+    margin-top: var(--space-8);
+    font-style: normal;
+    font-size: 13px;
+    color: var(--color-text-secondary);
+    font-weight: 600;
+}
+
+/* ---- Coming soon variant ---- */
+.pd-coming-soon {
+    text-align: center;
+    padding: var(--space-48) var(--space-24);
+    background: var(--color-warm-bg);
+    border-radius: var(--radius-lg);
+    margin-bottom: var(--space-32);
+}
+
+.pd-coming-soon-icon {
+    font-size: 64px;
+    margin-bottom: var(--space-16);
+}
+
+.pd-coming-soon h3 {
+    font-size: 22px;
+    color: var(--color-primary);
+    margin-bottom: var(--space-12);
+    font-weight: 700;
+}
+
+.pd-coming-soon p {
+    color: var(--color-text-secondary);
+    font-size: 16px;
+    line-height: 1.7;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+/* ---- CTA section ---- */
+.pd-cta-section {
+    background: var(--gradient-primary);
+    border-radius: var(--radius-lg);
+    padding: var(--space-48) var(--space-32);
+    text-align: center;
+    color: #fff;
+    margin-top: var(--space-48);
+}
+
+.pd-cta-section h3 {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: var(--space-12);
+    color: #fff;
+}
+
+.pd-cta-section p {
+    font-size: 16px;
+    opacity: 0.9;
+    margin-bottom: var(--space-24);
+    line-height: 1.6;
+}
+
+.pd-cta-btn {
+    background: #fff;
+    color: var(--color-primary);
+    font-weight: 700;
+    padding: 14px 32px;
+    font-size: 16px;
+    border-radius: 9999px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    display: inline-block;
+    text-decoration: none;
+}
+
+.pd-cta-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+/* ---- Not found ---- */
+.pd-not-found {
+    padding: var(--space-64) var(--space-24);
+    text-align: center;
+    min-height: 60vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-16);
+}
+
+.pd-not-found-icon { font-size: 64px; }
+
+.pd-not-found h2 {
+    font-size: 24px;
+    color: var(--color-text);
+    font-weight: 700;
+}
+
+.pd-not-found p {
+    color: var(--color-text-secondary);
+    font-size: 16px;
+}
+
+/* ---- Fade-in animations ---- */
+.pd-fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.pd-fade-in.pd-visible {
+    opacity: 1;
+    transform: none;
+}
+
+/* ===================================
+   MODAL UPDATES (acts as quick preview now)
+   =================================== */
+
+.act-card-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.act-card-actions .btn {
+    flex: 1;
+    min-width: 120px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 14px;
+    padding: 10px 16px;
+}
+
+.act-modal-short-desc {
+    font-size: 15px;
+    color: var(--color-text-secondary);
+    line-height: 1.7;
+    margin-bottom: var(--space-24);
+}
+
+.act-modal-cta-row {
+    text-align: center;
+}
+
+.act-modal-detail-btn {
+    display: inline-block;
+    text-decoration: none;
+    width: 100%;
+    text-align: center;
+    font-weight: 700;
+    font-size: 15px;
+}
+
+/* ===================================
+   RESPONSIVE
+   =================================== */
+
+@media (max-width: 768px) {
+    .pd-hero { height: 360px; }
+
+    .pd-hero-content {
+        padding: var(--space-32) var(--space-24) var(--space-32);
+    }
+
+    .pd-stats {
+        grid-template-columns: repeat(2, 1fr);
+        padding: var(--space-24);
+    }
+
+    .pd-stat-value { font-size: 28px; }
+
+    .pd-body { padding-top: var(--space-32); }
+
+    .pd-lead { font-size: 16px; }
+
+    .pd-full-desc p,
+    .pd-full-desc li { font-size: 15px; }
+
+    .pd-cta-section {
+        padding: var(--space-32) var(--space-20);
+    }
+}
+
+@media (max-width: 480px) {
+    .pd-hero { height: 280px; }
+
+    .pd-hero-title { font-size: 24px; }
+
+    .pd-hero-meta { font-size: 13px; gap: var(--space-12); }
+
+    .pd-stats { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+
+    .act-card-actions { flex-direction: column; }
+    .act-card-actions .btn { min-width: unset; }
+}
+
+/* ===================================
+   DARK MODE
+   =================================== */
+
+[data-theme="dark"] .pd-back-wrap {
+    background: var(--color-surface);
+    border-bottom-color: var(--color-border);
+}
+
+[data-theme="dark"] .pd-hero-overlay {
+    background: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0.25) 0%,
+        rgba(0, 0, 0, 0.7) 100%
+    );
+}

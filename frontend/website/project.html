@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- SEO (title overridden by ProjectDetail.js) -->
+    <title>Dự Án – Dự Án Cho EM</title>
+    <meta name="description" content="Chi tiết dự án – Dự Án Cho EM">
+
+    <!-- Anti-FOUC: apply theme before paint -->
+    <script>
+        (function () {
+            var t = localStorage.getItem('theme') ||
+                    (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+            document.documentElement.setAttribute('data-theme', t);
+            document.documentElement.style.scrollBehavior = 'auto';
+            document.documentElement.style.visibility = 'hidden';
+        })();
+    </script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap" as="style">
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer">
+
+    <!-- Shared CSS -->
+    <link rel="stylesheet" href="styles/variables.css">
+    <link rel="stylesheet" href="styles/backgrounds.css">
+    <link rel="stylesheet" href="styles/navbar.css">
+    <link rel="stylesheet" href="styles/sections.css">
+    <link rel="stylesheet" href="styles/activities.css">
+    <link rel="stylesheet" href="styles/footer.css">
+    <link rel="stylesheet" href="styles/cursor.css">
+    <link rel="stylesheet" href="styles/scrolltotop.css">
+    <link rel="stylesheet" href="styles/toast.css">
+
+    <!-- Project Detail specific CSS -->
+    <link rel="stylesheet" href="styles/projectDetail.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <div id="navbarContainer"></div>
+
+    <div class="page-wrapper">
+
+        <!-- ProjectDetail.js renders here -->
+        <div id="projectDetailContainer"></div>
+
+        <!-- ==================== FOOTER ==================== -->
+        <footer id="lien-he" class="footer">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Về Chúng Tôi</h4>
+                    <p>Dự án tình nguyện cam kết mang lại những thay đổi tích cực cho cộng đồng thông qua các hoạt động ý nghĩa và bền vững.</p>
+                    <div class="social-links">
+                        <a href="https://www.facebook.com/info.duanchoem" target="_blank" rel="noopener noreferrer"
+                           class="social-link" aria-label="Facebook">
+                            <img src="assets/images/facebook.jpg" alt="Facebook" loading="lazy">
+                        </a>
+                        <a href="https://www.tiktok.com/@hanhtrinh.choem?lang=en" target="_blank" rel="noopener noreferrer"
+                           class="social-link" aria-label="TikTok">
+                            <img src="assets/images/tiktok.jpg" alt="TikTok" loading="lazy">
+                        </a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>Liên Hệ</h4>
+                    <p>📞 Hotline: <a href="tel:0912503111">0912 503 111</a></p>
+                    <p>📞 Hotline: <a href="tel:0945513426">0945 513 426</a></p>
+                    <p>✉️ Email: info.duanem@gmail.com</p>
+                    <p>⏰ Thứ 2 – Chủ Nhật: 8:00 – 22:00</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Liên Kết Nhanh</h4>
+                    <a href="index.html#gioi-thieu">Giới Thiệu</a>
+                    <a href="index.html#hoat-dong">Hoạt Động</a>
+                    <a href="index.html#tinh-nguyen">Tình Nguyện</a>
+                    <a href="index.html#quyen-gop">Quyên Góp</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 EM Volunteer Project. All rights reserved.</p>
+            </div>
+        </footer>
+
+    </div><!-- /.page-wrapper -->
+
+    <!-- Main JS -->
+    <script type="module" src="project.js"></script>
+</body>
+</html>

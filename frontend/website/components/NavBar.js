@@ -1,6 +1,8 @@
 // Navbar Component
 export class Navbar {
-    constructor() {
+    // options.homeUrl: when set, nav links navigate to homeUrl + '#section' instead of smooth-scrolling
+    constructor(options = {}) {
+        this.homeUrl = options.homeUrl || null;
         this.init();
     }
 
@@ -68,15 +70,17 @@ export class Navbar {
             menuToggle.textContent = isOpen ? '✕' : '☰';
         });
 
-        // Smooth scroll for all nav links
+        // Smooth scroll for all nav links (or navigate to home page on detail pages)
         document.querySelectorAll('.nav-link, .btn-donate-nav').forEach(link => {
             link.addEventListener('click', e => {
                 const href = link.getAttribute('href');
                 if (href?.startsWith('#')) {
                     e.preventDefault();
-                    const target = document.querySelector(href);
-                    if (target) {
-                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    if (this.homeUrl) {
+                        window.location.href = this.homeUrl + href;
+                    } else {
+                        const target = document.querySelector(href);
+                        if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
                     }
                 }
                 navMenu?.classList.remove('active');
@@ -85,10 +89,14 @@ export class Navbar {
             });
         });
 
-        // Logo → scroll to top
+        // Logo → scroll to top (or navigate home on detail pages)
         logoLink?.addEventListener('click', e => {
             e.preventDefault();
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            if (this.homeUrl) {
+                window.location.href = this.homeUrl;
+            } else {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
             navMenu?.classList.remove('active');
             menuToggle?.setAttribute('aria-expanded', 'false');
             menuToggle && (menuToggle.textContent = '☰');
