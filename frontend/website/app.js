@@ -24,7 +24,6 @@ import { Timeline }       from './components/Timeline.js';
 import { ImpactCounter }  from './components/ImpactCounter.js';
 import { Animations }     from './components/Animations.js';
 import { Cursor }         from './components/Cursor.js';
-import { BookExperience } from './components/BookExperience.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     // Restore scroll position instantly, then reveal page
@@ -42,7 +41,6 @@ document.addEventListener('DOMContentLoaded', () => {
     new Navbar();
     new Forms();
     new Gallery();
-    new BookExperience();
     new Members();
     new Testimonials();
     new ScrollToTop();
