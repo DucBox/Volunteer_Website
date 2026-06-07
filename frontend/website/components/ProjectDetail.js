@@ -22,6 +22,7 @@ export class ProjectDetail {
 
         if (!activity) {
             this.renderNotFound(container);
+            this.renderSidebar();
             return;
         }
 
@@ -48,6 +49,7 @@ export class ProjectDetail {
         }
 
         this.initLightbox();
+        this.renderSidebar();
     }
 
     // ---- Image probe (same technique as Testimonials.js) ----
@@ -448,6 +450,60 @@ export class ProjectDetail {
         // Re-scan after async sections render
         setTimeout(observe, 1000);
         setTimeout(observe, 3000);
+    }
+
+    // ---- Sidebar: other activities ----
+    renderSidebar() {
+        const sidebar = document.getElementById('pdSidebar');
+        if (!sidebar) return;
+
+        const STATUS_ORDER = ['completed', 'upcoming', 'planning'];
+        const STATUS_META  = {
+            completed: { label: 'Đã hoàn thành', dot: 'completed' },
+            upcoming:  { label: 'Sắp diễn ra',   dot: 'upcoming'  },
+            planning:  { label: 'Lên kế hoạch',  dot: 'planning'  },
+        };
+
+        const activities = ACTIVITIES.filter(a => !a.id.startsWith('placeholder'));
+        const currentId  = this.activity?.id;
+
+        let html = `
+            <div class="pd-sidebar-inner">
+                <div class="pd-sidebar-header">
+                    <span class="pd-sidebar-title">Các Hoạt Động</span>
+                </div>`;
+
+        STATUS_ORDER.forEach(status => {
+            const items = activities.filter(a => a.status === status);
+            if (!items.length) return;
+            const meta = STATUS_META[status];
+
+            html += `<div class="pd-sidebar-group">
+                <div class="pd-sidebar-group-label">
+                    <span class="pd-sidebar-dot pd-sidebar-dot--${meta.dot}"></span>
+                    ${meta.label}
+                </div>`;
+
+            items.forEach(a => {
+                const isActive = a.id === currentId;
+                html += `
+                    <a href="project.html?id=${a.id}"
+                       class="pd-sidebar-item${isActive ? ' active' : ''}"
+                       ${isActive ? 'aria-current="page"' : ''}>
+                        <img class="pd-sidebar-thumb" src="${a.image}" alt="${a.title}" loading="lazy"
+                             onerror="this.style.display='none'">
+                        <div class="pd-sidebar-item-info">
+                            <span class="pd-sidebar-item-title">${a.title}</span>
+                            <span class="pd-sidebar-item-loc">📍 ${a.location}</span>
+                        </div>
+                    </a>`;
+            });
+
+            html += `</div>`;
+        });
+
+        html += `</div>`;
+        sidebar.innerHTML = html;
     }
 
     // ---- Not found ----

@@ -48,8 +48,14 @@
 
     <div class="page-wrapper">
 
-        <!-- ProjectDetail.js renders here -->
-        <div id="projectDetailContainer"></div>
+        <!-- 2-col layout: main content + sidebar -->
+        <div class="pd-page-layout">
+            <!-- Main content (hero + sections) -->
+            <div id="projectDetailContainer" class="pd-main-content"></div>
+
+            <!-- Sidebar: sticky on desktop, section on mobile -->
+            <aside id="pdSidebar" class="pd-sidebar" aria-label="Danh sách hoạt động"></aside>
+        </div>
 
         <!-- ==================== FOOTER ==================== -->
         <footer id="lien-he" class="footer">
