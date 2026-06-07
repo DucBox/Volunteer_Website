@@ -534,26 +534,6 @@
 .pd-not-found h2 { font-size: 24px; font-weight: 700; color: var(--color-text); }
 .pd-not-found p  { color: var(--color-text-secondary); font-size: 16px; }
 
-/* ===================================
-   CARD BUTTON FIX (Activities.js)
-   =================================== */
-
-.act-card-actions {
-    display: flex;
-    flex-direction: row;
-    gap: 8px;
-    flex-wrap: wrap;
-}
-
-.act-card-actions .btn {
-    flex: 1;
-    min-width: 0;
-    font-size: 13px;
-    padding: 9px 12px;
-    text-align: center;
-    text-decoration: none;
-    white-space: nowrap;
-}
 
 /* ===================================
    MODAL — single column, no image

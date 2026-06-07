@@ -113,12 +113,28 @@
     font-size: 14px;
     color: var(--color-text-secondary);
     line-height: 1.7;
-    margin-bottom: var(--space-20);
+    margin-bottom: var(--space-16);
     flex: 1;
     display: -webkit-box;
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
+}
+
+/* ---- Card action buttons — side by side ---- */
+.act-card-actions {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+}
+
+.act-card-actions .btn {
+    flex: 1;
+    font-size: 13px;
+    padding: 9px 10px;
+    text-align: center;
+    text-decoration: none;
+    white-space: nowrap;
 }
 
 /* ---- Nav Buttons — inherits .nav-btn-shared from sections.css ---- */
