@@ -94,9 +94,13 @@ export class Navbar {
                 if (href?.startsWith('#')) {
                     e.preventDefault();
                     const target = document.querySelector(href);
-                    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    if (target) {
+                        const navbarH = document.querySelector('.navbar')?.offsetHeight || 72;
+                        const top = target.getBoundingClientRect().top + window.scrollY - navbarH - 8;
+                        window.scrollTo({ top, behavior: 'smooth' });
+                    }
                 }
-                // Full URLs (e.g. index.html#quyen-gop) are handled by the browser
+                // Full URLs (e.g. index.html#quyen-gop) handled by browser
                 navMenu?.classList.remove('active');
                 menuToggle?.setAttribute('aria-expanded', 'false');
                 menuToggle && (menuToggle.textContent = '☰');

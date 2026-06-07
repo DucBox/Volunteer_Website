@@ -70,7 +70,7 @@
 /* ---- Floating sticky back button ---- */
 .pd-back-float {
     position: fixed;
-    bottom: 28px;
+    bottom: 90px;
     left: 20px;
     z-index: 900;
     display: inline-flex;
@@ -622,7 +622,7 @@
     .pd-full-desc p,
     .pd-full-desc li { font-size: 15px; }
 
-    .pd-back-float { bottom: 20px; left: 12px; padding: 8px 14px; font-size: 12px; }
+    .pd-back-float { bottom: 80px; left: 12px; padding: 8px 14px; font-size: 12px; }
 
     .act-modal-content { max-width: 100% !important; }
     .act-modal-info--solo { padding: var(--space-32) var(--space-20) var(--space-20) !important; }
