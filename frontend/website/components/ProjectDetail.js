@@ -33,20 +33,18 @@ export class ProjectDetail {
         this.renderSkeleton(container, activity);
         this.initScrollAnimations();
 
-        // Async: gallery images (from data array)
-        this.galleryImages = activity.gallery || [];
-        if (this.galleryImages.length > 0) {
+        // Gallery + feelings sections always render for completed projects
+        // (placeholder shown when no data — section must exist for nav links to work)
+        if (activity.status === 'completed') {
+            this.galleryImages = activity.gallery || [];
             this.renderGallerySection();
-            this.initGalleryCarousel();
-        }
+            if (this.galleryImages.length > 0) this.initGalleryCarousel();
 
-        // Async: feelings (image probe per-project folder)
-        if (activity.status === 'completed' && activity.feelingsFolder) {
-            this.feelingsImages = await this.probeImages(activity.feelingsFolder, 30);
-            if (this.feelingsImages.length > 0) {
-                this.renderFeelingsSection();
-                this.initFeelingsCarousel();
+            if (activity.feelingsFolder) {
+                this.feelingsImages = await this.probeImages(activity.feelingsFolder, 30);
             }
+            this.renderFeelingsSection();
+            if (this.feelingsImages.length > 0) this.initFeelingsCarousel();
         }
 
         this.initLightbox();
@@ -158,32 +156,39 @@ export class ProjectDetail {
         const mount = document.getElementById('pd-gallery-mount');
         if (!mount) return;
 
-        const cards = this.galleryImages.map((src, i) => `
-            <div class="pd-gallery-card pd-fade-in" data-lightbox-gallery data-index="${i}">
-                <img src="${src}" alt="Ảnh ${i + 1}" loading="lazy">
-                <div class="pd-gallery-card-hover">🔍</div>
-            </div>
-        `).join('');
+        const hasImages = this.galleryImages.length > 0;
+        const inner = hasImages
+            ? `<div class="pd-gallery-carousel">
+                   <div class="pd-gallery-viewport">
+                       <div class="pd-gallery-track" id="pdGalleryTrack">
+                           ${this.galleryImages.map((src, i) => `
+                               <div class="pd-gallery-card pd-fade-in" data-lightbox-gallery data-index="${i}">
+                                   <img src="${src}" alt="Ảnh ${i + 1}" loading="lazy">
+                                   <div class="pd-gallery-card-hover">🔍</div>
+                               </div>`).join('')}
+                       </div>
+                   </div>
+                   <div class="pd-gallery-controls">
+                       <button class="pd-gallery-btn" id="pdGalleryPrev" aria-label="Trước">&#8249;</button>
+                       <div class="pd-gallery-dots" id="pdGalleryDots"></div>
+                       <button class="pd-gallery-btn" id="pdGalleryNext" aria-label="Tiếp">&#8250;</button>
+                   </div>
+               </div>`
+            : `<div class="pd-placeholder pd-fade-in">
+                   <div class="pd-placeholder-icon">📸</div>
+                   <p>Ảnh khoảnh khắc sẽ sớm được cập nhật.</p>
+               </div>`;
 
         mount.innerHTML = `
             <section id="pd-gallery" class="pd-section pd-gallery-section">
                 <div class="container">
                     <h2 class="pd-section-title pd-fade-in">Khoảnh Khắc Đáng Nhớ</h2>
-                    <div class="pd-gallery-carousel">
-                        <div class="pd-gallery-viewport">
-                            <div class="pd-gallery-track" id="pdGalleryTrack">${cards}</div>
-                        </div>
-                        <div class="pd-gallery-controls">
-                            <button class="pd-gallery-btn" id="pdGalleryPrev" aria-label="Trước">&#8249;</button>
-                            <div class="pd-gallery-dots" id="pdGalleryDots"></div>
-                            <button class="pd-gallery-btn" id="pdGalleryNext" aria-label="Tiếp">&#8250;</button>
-                        </div>
-                    </div>
+                    ${inner}
                 </div>
             </section>
         `;
 
-        this.renderGalleryDots();
+        if (hasImages) this.renderGalleryDots();
     }
 
     renderGalleryDots() {
@@ -263,35 +268,42 @@ export class ProjectDetail {
         const mount = document.getElementById('pd-feelings-mount');
         if (!mount) return;
 
-        const cards = this.feelingsImages.map((src, i) => `
-            <div class="testimonial-card-new pd-feelings-card pd-fade-in" data-lightbox-feelings data-index="${i}">
-                <div class="card-image-wrapper">
-                    <img src="${src}" alt="Cảm nhận ${i + 1}" loading="lazy">
-                    <div class="card-shimmer"></div>
-                </div>
-            </div>
-        `).join('');
+        const hasImages = this.feelingsImages.length > 0;
+        const inner = hasImages
+            ? `<p class="pd-section-sub pd-fade-in">Những chia sẻ từ những người đã trực tiếp tham gia hành trình</p>
+               <div class="pd-feelings-carousel">
+                   <div class="pd-feelings-viewport">
+                       <div class="testimonials-track" id="pdFeelingsTrack">
+                           ${this.feelingsImages.map((src, i) => `
+                               <div class="testimonial-card-new pd-feelings-card pd-fade-in" data-lightbox-feelings data-index="${i}">
+                                   <div class="card-image-wrapper">
+                                       <img src="${src}" alt="Cảm nhận ${i + 1}" loading="lazy">
+                                       <div class="card-shimmer"></div>
+                                   </div>
+                               </div>`).join('')}
+                       </div>
+                   </div>
+                   <div class="pd-feelings-controls">
+                       <button class="testimonials-nav-btn prev" id="pdFeelingsPrev">&#8249;</button>
+                       <div class="testimonials-dots" id="pdFeelingsDots"></div>
+                       <button class="testimonials-nav-btn next" id="pdFeelingsNext">&#8250;</button>
+                   </div>
+               </div>`
+            : `<div class="pd-placeholder pd-fade-in">
+                   <div class="pd-placeholder-icon">💬</div>
+                   <p>Cảm nhận từ tình nguyện viên sẽ sớm được cập nhật.</p>
+               </div>`;
 
         mount.innerHTML = `
             <section id="pd-testimonials" class="pd-section pd-section--alt pd-feelings-section">
                 <div class="container">
                     <h2 class="pd-section-title pd-fade-in">Cảm Nhận Từ Tình Nguyện Viên</h2>
-                    <p class="pd-section-sub pd-fade-in">Những chia sẻ từ những người đã trực tiếp tham gia hành trình</p>
-                    <div class="pd-feelings-carousel">
-                        <div class="pd-feelings-viewport">
-                            <div class="testimonials-track" id="pdFeelingsTrack">${cards}</div>
-                        </div>
-                        <div class="pd-feelings-controls">
-                            <button class="testimonials-nav-btn prev" id="pdFeelingsPrev">&#8249;</button>
-                            <div class="testimonials-dots" id="pdFeelingsDots"></div>
-                            <button class="testimonials-nav-btn next" id="pdFeelingsNext">&#8250;</button>
-                        </div>
-                    </div>
+                    ${inner}
                 </div>
             </section>
         `;
 
-        this.renderFeelingsDots();
+        if (hasImages) this.renderFeelingsDots();
     }
 
     feelingsPerView() {
