@@ -22,6 +22,11 @@ export class ChatWidget {
         this.render();
         this.attachEventListeners();
         window._chatWidget = this;
+
+        // Configure marked: single newlines become <br>, GFM enabled
+        if (typeof marked !== 'undefined') {
+            marked.setOptions({ breaks: true, gfm: true });
+        }
         
         // Add welcome message (marked as system message)
         this.addMessage('assistant', 
@@ -228,9 +233,10 @@ export class ChatWidget {
         const avatar = role === 'user' ? '👤' : '🤖';
         
         // Parse markdown for assistant messages, escape HTML for user messages
+        const rawContent = role === 'assistant' ? this.preprocessMarkdown(content) : content;
         const messageContent = role === 'assistant' && typeof marked !== 'undefined'
-            ? (typeof DOMPurify !== 'undefined' ? DOMPurify.sanitize(marked.parse(content)) : this.escapeHtml(content))
-            : this.escapeHtml(content);
+            ? (typeof DOMPurify !== 'undefined' ? DOMPurify.sanitize(marked.parse(rawContent)) : this.escapeHtml(rawContent))
+            : this.escapeHtml(rawContent);
         
         messageDiv.innerHTML = `
             <div class="message-avatar">${avatar}</div>
@@ -306,5 +312,20 @@ export class ChatWidget {
         const div = document.createElement('div');
         div.textContent = text;
         return div.innerHTML;
+    }
+
+    // Normalize LLM output so marked.parse() renders it correctly.
+    // LLMs often return "- item - item" inline; convert to proper markdown list.
+    preprocessMarkdown(text) {
+        return text
+            // "colon - item" → "colon\n- item"
+            .replace(/:\s+-\s+/g, ':\n- ')
+            // "sentence end. - item" → "sentence.\n- item"
+            .replace(/([.!?])\s+-\s+/g, '$1\n- ')
+            // Remove extra spaces before newlines
+            .replace(/ +\n/g, '\n')
+            // Collapse 3+ blank lines to 2
+            .replace(/\n{3,}/g, '\n\n')
+            .trim();
     }
 }
