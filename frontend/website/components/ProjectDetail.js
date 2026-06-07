@@ -94,9 +94,6 @@ export class ProjectDetail {
                </div>`
             : '';
 
-        const ctaHref = a.ctaHref || 'index.html#tinh-nguyen';
-        const ctaText = a.ctaText || 'Đăng Ký Tình Nguyện';
-
         container.innerHTML = `
             <!-- Hero -->
             <div class="pd-hero">
@@ -142,14 +139,6 @@ export class ProjectDetail {
             <!-- Feelings placeholder (filled if images exist) -->
             <div id="pd-feelings-mount"></div>
 
-            <!-- CTA -->
-            <section class="pd-section pd-cta-section">
-                <div class="container">
-                    <h2 class="pd-fade-in">Bạn muốn tham gia?</h2>
-                    <p class="pd-fade-in">Đồng hành cùng chúng mình trong hành trình mang yêu thương đến những em nhỏ.</p>
-                    <a href="${ctaHref}" class="btn btn-primary pd-cta-btn pd-fade-in">${ctaText}</a>
-                </div>
-            </section>
         `;
     }
 
