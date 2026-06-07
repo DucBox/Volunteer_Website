@@ -22,7 +22,7 @@ export class ProjectDetail {
 
         if (!activity) {
             this.renderNotFound(container);
-            this.renderSidebar();
+            this.renderOtherActivities();
             return;
         }
 
@@ -49,7 +49,7 @@ export class ProjectDetail {
         }
 
         this.initLightbox();
-        this.renderSidebar();
+        this.renderOtherActivities();
     }
 
     // ---- Image probe (same technique as Testimonials.js) ----
@@ -452,58 +452,59 @@ export class ProjectDetail {
         setTimeout(observe, 3000);
     }
 
-    // ---- Sidebar: other activities ----
-    renderSidebar() {
-        const sidebar = document.getElementById('pdSidebar');
-        if (!sidebar) return;
+    // ---- Other activities section (above footer) ----
+    renderOtherActivities() {
+        const mount = document.getElementById('pdOtherActivities');
+        if (!mount) return;
 
-        const STATUS_ORDER = ['completed', 'upcoming', 'planning'];
-        const STATUS_META  = {
-            completed: { label: 'Đã hoàn thành', dot: 'completed' },
-            upcoming:  { label: 'Sắp diễn ra',   dot: 'upcoming'  },
-            planning:  { label: 'Lên kế hoạch',  dot: 'planning'  },
-        };
-
-        const activities = ACTIVITIES.filter(a => !a.id.startsWith('placeholder'));
         const currentId  = this.activity?.id;
+        const others     = ACTIVITIES.filter(a => !a.id.startsWith('placeholder') && a.id !== currentId);
+        if (!others.length) return;
 
-        let html = `
-            <div class="pd-sidebar-inner">
-                <div class="pd-sidebar-header">
-                    <span class="pd-sidebar-title">Các Hoạt Động</span>
-                </div>`;
+        const STATUS_LABEL = { completed: 'Đã hoàn thành', upcoming: 'Sắp diễn ra', planning: 'Lên kế hoạch' };
+        const STATUS_DOT   = { completed: 'completed', upcoming: 'upcoming', planning: 'planning' };
 
-        STATUS_ORDER.forEach(status => {
-            const items = activities.filter(a => a.status === status);
-            if (!items.length) return;
-            const meta = STATUS_META[status];
+        const cards = others.map(a => `
+            <a href="project.html?id=${a.id}" class="pd-oa-card">
+                <div class="pd-oa-card-img">
+                    <img src="${a.image}" alt="${a.title}" loading="lazy"
+                         onerror="this.src='assets/images/backgrounds/hero-bg.jpg'">
+                    <div class="pd-oa-card-overlay"></div>
+                    <span class="act-status-badge act-status--${a.status}">${STATUS_LABEL[a.status] || ''}</span>
+                </div>
+                <div class="pd-oa-card-body">
+                    <h3 class="pd-oa-card-title">${a.title}</h3>
+                    <div class="pd-oa-card-meta">
+                        <span>📍 ${a.location}</span>
+                        <span>📅 ${a.date}</span>
+                    </div>
+                    <p class="pd-oa-card-desc">${a.shortDesc}</p>
+                    <span class="pd-oa-card-cta">Xem chi tiết →</span>
+                </div>
+            </a>
+        `).join('');
 
-            html += `<div class="pd-sidebar-group">
-                <div class="pd-sidebar-group-label">
-                    <span class="pd-sidebar-dot pd-sidebar-dot--${meta.dot}"></span>
-                    ${meta.label}
-                </div>`;
+        mount.innerHTML = `
+            <section class="pd-oa-section">
+                <div class="container">
+                    <h2 class="pd-section-title pd-fade-in">Khám Phá Thêm</h2>
+                    <div class="pd-oa-grid">
+                        ${cards}
+                    </div>
+                </div>
+            </section>
+        `;
 
-            items.forEach(a => {
-                const isActive = a.id === currentId;
-                html += `
-                    <a href="project.html?id=${a.id}"
-                       class="pd-sidebar-item${isActive ? ' active' : ''}"
-                       ${isActive ? 'aria-current="page"' : ''}>
-                        <img class="pd-sidebar-thumb" src="${a.image}" alt="${a.title}" loading="lazy"
-                             onerror="this.style.display='none'">
-                        <div class="pd-sidebar-item-info">
-                            <span class="pd-sidebar-item-title">${a.title}</span>
-                            <span class="pd-sidebar-item-loc">📍 ${a.location}</span>
-                        </div>
-                    </a>`;
-            });
-
-            html += `</div>`;
+        // Trigger scroll animation observer on new elements
+        document.querySelectorAll('.pd-oa-card').forEach(el => {
+            el.classList.add('pd-fade-in');
         });
-
-        html += `</div>`;
-        sidebar.innerHTML = html;
+        document.querySelectorAll('.pd-fade-in:not(.pd-visible)').forEach(el => {
+            const obs = new IntersectionObserver(entries => {
+                entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('pd-visible'); obs.unobserve(e.target); } });
+            }, { threshold: 0.08 });
+            obs.observe(el);
+        });
     }
 
     // ---- Not found ----
