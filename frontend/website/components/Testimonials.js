@@ -77,7 +77,10 @@ export class Testimonials {
             .slice(0, 20)
             .map(({ src, alt }) => ({ src, alt }));
 
-        this.images = validImages;
+        // Shuffle + pick random subset (6–9) for the main page overview
+        const shuffled = [...validImages].sort(() => Math.random() - 0.5);
+        const pickCount = Math.min(shuffled.length, 6 + Math.floor(Math.random() * 4));
+        this.images = shuffled.slice(0, pickCount);
         console.log(`[Testimonials] ✓ Đã load ${this.images.length} ảnh`);
     }
 

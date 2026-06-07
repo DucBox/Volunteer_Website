@@ -6,7 +6,6 @@ import { ProjectDetail } from './components/ProjectDetail.js';
 import { Cursor }        from './components/Cursor.js';
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Reveal page (same anti-FOUC logic as app.js)
     requestAnimationFrame(() => {
         document.documentElement.style.visibility = '';
         requestAnimationFrame(() => {
@@ -14,8 +13,18 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // homeUrl tells the Navbar to navigate to index.html instead of smooth-scrolling in-page
-    new Navbar({ homeUrl: 'index.html' });
+    new Navbar({
+        homeUrl: 'index.html',
+        navItems: [
+            { label: 'Tổng Quan',   href: '#pd-overview'      },
+            { label: 'Câu Chuyện',  href: '#pd-story'         },
+            { label: 'Khoảnh Khắc', href: '#pd-gallery'       },
+            { label: 'Cảm Nhận',    href: '#pd-testimonials'  },
+            { label: 'Quyên Góp',   href: 'index.html#quyen-gop', isCtaButton: true },
+        ],
+        sectionIds: ['pd-overview', 'pd-story', 'pd-gallery', 'pd-testimonials'],
+    });
+
     new ScrollToTop();
     new ProjectDetail();
     new Cursor();

@@ -89,7 +89,7 @@ export class Activities {
                     <p class="act-card-desc">${activity.shortDesc}</p>
                     <div class="act-card-actions">
                         <button class="btn btn-outline act-preview-btn" data-id="${activity.id}">Xem nhanh</button>
-                        <a href="project.html?id=${activity.id}" class="btn btn-primary">Xem Chi Tiết →</a>
+                        <a href="project.html?id=${activity.id}" class="btn btn-primary act-detail-link">Xem Chi Tiết →</a>
                     </div>
                 </div>
             </div>
@@ -126,12 +126,8 @@ export class Activities {
             : '';
 
         document.getElementById('actModalBody').innerHTML = `
-            <div class="act-modal-image-wrap">
-                <img src="${a.image}" alt="${a.title}"
-                     onerror="this.src='assets/images/volunteers.jpg'">
-                <span class="act-status-badge act-status--${a.status}">${label}</span>
-            </div>
-            <div class="act-modal-info">
+            <div class="act-modal-info act-modal-info--solo">
+                <span class="act-status-badge act-status--${a.status} act-modal-status-badge">${label}</span>
                 <h2 class="act-modal-title">${a.title}</h2>
                 <div class="act-card-meta act-modal-meta">
                     <span>📍 ${a.location}</span>
@@ -139,11 +135,9 @@ export class Activities {
                 </div>
                 ${stats}
                 <p class="act-modal-short-desc">${a.shortDesc}</p>
-                <div class="act-modal-cta-row">
-                    <a href="project.html?id=${a.id}" class="btn btn-primary act-modal-detail-btn">
-                        Xem Trang Chi Tiết →
-                    </a>
-                </div>
+                <a href="project.html?id=${a.id}" class="btn btn-primary act-modal-detail-btn">
+                    Xem Trang Chi Tiết →
+                </a>
             </div>
         `;
 

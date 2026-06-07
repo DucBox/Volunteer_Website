@@ -10,6 +10,10 @@ export const ACTIVITIES = [
         status: 'completed',
         shortDesc:
             'Trong chuyến đi đầu tiên của EM, chúng mình đã mang đến — và cũng mang về — thật nhiều điều. Những nụ cười rạng rỡ, ánh mắt háo hức và sự biết ơn từ tận đáy lòng.',
+        // Thêm ảnh vào đây để hiển thị section "Khoảnh khắc đáng nhớ"
+        gallery: [],
+        // Ảnh cảm nhận TNV từ thư mục assets/images/feelings/backan/ (1.jpg, 2.jpg, ...)
+        feelingsFolder: 'assets/images/feelings/backan/',
         stats: [
             { value: '50+',  label: 'Em nhỏ' },
             { value: '30+',  label: 'Học bổng' },
@@ -42,6 +46,8 @@ export const ACTIVITIES = [
         status: 'completed',
         shortDesc:
             'Giáng sinh luôn là mùa của những điều ấm áp. Chúng mình muốn trở thành "ông già Noel" đặc biệt — mang đến niềm vui, sự tò mò và những kỷ niệm đẹp đầu đời cho các em.',
+        gallery: [],
+        feelingsFolder: 'assets/images/feelings/yty/',
         stats: [
             { value: '100+', label: 'Phần quà Noel' },
             { value: '80+',  label: 'Em nhỏ' },
@@ -74,6 +80,8 @@ export const ACTIVITIES = [
         status: 'planning',
         shortDesc:
             'Hành trình tiếp theo sẽ đến với vùng đất lịch sử Điện Biên. Một chuyến đi đặc biệt đang được lên kế hoạch — hãy cùng chờ đón và đăng ký tham gia!',
+        gallery: [],
+        feelingsFolder: null,
         stats: null,
         ctaText: 'Đăng Ký Quan Tâm',
         ctaHref: 'index.html#tinh-nguyen',
