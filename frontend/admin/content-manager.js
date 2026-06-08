@@ -51,6 +51,78 @@ function escHtml(s) {
     return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
 
+// ── Image uploader (shared file input, reused across all upload buttons) ──
+let _uploadTarget = null;
+const _imgFileInput = (() => {
+    const el = document.createElement('input');
+    el.type = 'file';
+    el.accept = 'image/jpeg,image/png,image/webp';
+    el.style.display = 'none';
+    document.body.appendChild(el);
+
+    el.addEventListener('change', async () => {
+        if (!el.files.length || !_uploadTarget) return;
+        const file = el.files[0];
+        el.value = '';
+        const { btn, pathInput, thumb, destFolder } = _uploadTarget;
+        _uploadTarget = null;
+
+        const origHtml = btn.innerHTML;
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+
+        try {
+            const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, '_');
+            const destPath = `frontend/website/${destFolder}/${safeName}`;
+
+            const fd = new FormData();
+            fd.append('file', file);
+            fd.append('dest_path', destPath);
+            fd.append('image_type', 'gallery');
+
+            const key = typeof getAdminKey === 'function' ? getAdminKey() : '';
+            const res = await fetch(`${BACKEND_BASE}/content/upload-image`, {
+                method: 'POST',
+                headers: { 'X-Admin-Key': key },
+                body: fd,
+            });
+
+            if (!res.ok) {
+                const err = await res.json().catch(() => ({ detail: res.statusText }));
+                throw new Error(err.detail || res.statusText);
+            }
+            const data = await res.json();
+
+            pathInput.value = data.path;
+            if (thumb) {
+                thumb.src = resolveImgSrc(data.path);
+                thumb.classList.remove('cm-img-empty');
+            }
+
+            if (typeof showToast === 'function') showToast('Ảnh đã upload và push lên GitHub!', 'success');
+            else alert('Upload thành công: ' + data.path);
+        } catch (err) {
+            if (typeof showToast === 'function') showToast('Upload thất bại: ' + err.message, 'error');
+            else alert('Upload thất bại: ' + err.message);
+        } finally {
+            btn.disabled = false;
+            btn.innerHTML = origHtml;
+        }
+    });
+    return el;
+})();
+
+window.triggerImgUpload = function(btn, destFolder = 'assets/images/cake_shop') {
+    const row = btn.closest('.cm-img-picker-row');
+    _uploadTarget = {
+        btn,
+        pathInput: row?.querySelector('[data-field="image"]'),
+        thumb:     row?.querySelector('.cm-img-thumb'),
+        destFolder,
+    };
+    _imgFileInput.click();
+};
+
 function cmHeaders(extra = {}) {
     const key = typeof getAdminKey === 'function' ? getAdminKey() : (window.getAdminKey?.() ?? '');
     return { 'X-Admin-Key': key, 'Content-Type': 'application/json', ...extra };
@@ -516,6 +588,10 @@ function menuItemRow(item, i, type) {
                  onload="this.classList.remove('cm-img-empty')">
             <input class="form-input" placeholder="Đường dẫn ảnh (assets/images/...)" value="${img}" data-field="image"
                    oninput="updateThumb(this)">
+            <button type="button" class="cm-upload-img-btn" title="Upload ảnh mới"
+                    onclick="triggerImgUpload(this, 'assets/images/cake_shop')">
+                <i class="fas fa-camera"></i>
+            </button>
         </div>
     </div>`;
 }
