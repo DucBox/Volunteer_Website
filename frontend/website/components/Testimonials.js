@@ -161,14 +161,21 @@ export class Testimonials {
     
     renderDots() {
         const dotsContainer = document.getElementById('testimonialsDots');
+        const controls = dotsContainer?.closest('.testimonials-controls');
         if (!dotsContainer) return;
-        
+
         const totalPages = Math.ceil(this.images.length / this.cardsPerView);
-        
-        dotsContainer.innerHTML = Array.from({ length: totalPages }, (_, i) => 
+
+        if (totalPages <= 1) {
+            if (controls) controls.style.display = 'none';
+            return;
+        }
+        if (controls) controls.style.display = '';
+
+        dotsContainer.innerHTML = Array.from({ length: totalPages }, (_, i) =>
             `<button class="testimonial-dot" data-page="${i}"></button>`
         ).join('');
-        
+
         dotsContainer.querySelectorAll('.testimonial-dot').forEach((dot, index) => {
             dot.addEventListener('click', () => {
                 this.currentIndex = index * this.cardsPerView;

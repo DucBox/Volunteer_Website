@@ -187,6 +187,13 @@ export class ProjectDetail {
         const dotsEl = document.getElementById('pdGalleryDots');
         if (!dotsEl) return;
         const pages = Math.ceil(this.galleryImages.length / this.galleryPerView());
+        const controls = document.querySelector('.pd-gallery-controls');
+        if (pages <= 1) {
+            if (controls) controls.style.display = 'none';
+            dotsEl.innerHTML = '';
+            return;
+        }
+        if (controls) controls.style.display = '';
         dotsEl.innerHTML = Array.from({ length: pages }, (_, i) =>
             `<button class="pd-gallery-dot${i === 0 ? ' active' : ''}" data-page="${i}"></button>`
         ).join('');
@@ -308,6 +315,13 @@ export class ProjectDetail {
         const dotsEl = document.getElementById('pdFeelingsDots');
         if (!dotsEl) return;
         const pages = Math.ceil(this.feelingsImages.length / this.feelingsPerView());
+        const controls = document.querySelector('.pd-feelings-controls');
+        if (pages <= 1) {
+            if (controls) controls.style.display = 'none';
+            dotsEl.innerHTML = '';
+            return;
+        }
+        if (controls) controls.style.display = '';
         dotsEl.innerHTML = Array.from({ length: pages }, (_, i) =>
             `<button class="testimonial-dot${i === 0 ? ' active' : ''}" data-page="${i}"></button>`
         ).join('');

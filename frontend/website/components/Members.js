@@ -61,11 +61,13 @@ export class Members {
         this.renderSlider();
         this.renderLightbox();
         this.attachEvents();
+        this.renderDots();
         this.updateSlider();
         this.startAuto();
 
         window.addEventListener('resize', () => {
             this.currentIndex = Math.min(this.currentIndex, this.maxIndex);
+            this.renderDots();
             this.updateSlider();
         });
 
@@ -80,9 +82,6 @@ export class Members {
         if (!container) return;
 
         const cards = this.members.map((m, i) => this.cardHTML(m, i)).join('');
-        const dots  = this.members.map((_, i) =>
-            `<button class="mem-dot${i === 0 ? ' active' : ''}" data-index="${i}" aria-label="Slide ${i + 1}"></button>`
-        ).join('');
 
         container.innerHTML = `
             <div class="mem-slider-wrapper">
@@ -90,12 +89,27 @@ export class Members {
                     <div class="mem-slider-track" id="memTrack">${cards}</div>
                 </div>
             </div>
-            <div class="mem-controls">
+            <div class="mem-controls" id="memControls">
                 <button class="mem-slider-btn mem-prev" id="memPrev" aria-label="Trước">&#8249;</button>
-                <div class="mem-dots" id="memDots">${dots}</div>
+                <div class="mem-dots" id="memDots"></div>
                 <button class="mem-slider-btn mem-next" id="memNext" aria-label="Tiếp">&#8250;</button>
             </div>
         `;
+    }
+
+    renderDots() {
+        const dotsContainer = document.getElementById('memDots');
+        const controls = document.getElementById('memControls');
+        if (!dotsContainer) return;
+        const count = this.maxIndex + 1;
+        if (count <= 1) {
+            if (controls) controls.style.display = 'none';
+            return;
+        }
+        if (controls) controls.style.display = '';
+        dotsContainer.innerHTML = Array.from({ length: count }, (_, i) =>
+            `<button class="mem-dot${i === this.currentIndex ? ' active' : ''}" data-index="${i}" aria-label="Slide ${i + 1}"></button>`
+        ).join('');
     }
 
     cardHTML(member, index) {
