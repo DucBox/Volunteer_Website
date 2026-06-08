@@ -288,11 +288,13 @@
     <script type="module">
         import { Navbar } from './components/NavBar.js';
         import { ScrollToTop } from './components/ScrolltoTop.js';
+        import { Cursor } from './components/Cursor.js';
         import { loadContent } from './data/ContentLoader.js';
 
         async function init() {
             new Navbar();
             new ScrollToTop();
+            new Cursor();
 
             document.documentElement.style.visibility = '';
 
