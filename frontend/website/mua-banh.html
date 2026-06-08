@@ -30,12 +30,12 @@
     <link rel="stylesheet" href="styles/support-pages.css">
 
     <style>
-        /* ── Amber tokens ── */
+        /* ── Color tokens: map to site primary blue ── */
         :root {
-            --cake-amber:      #d97706;
-            --cake-amber-lt:   #f59e0b;
-            --cake-amber-pale: rgba(245,158,11,0.10);
-            --cake-amber-rgb:  217,119,6;
+            --cake-amber:      var(--color-primary);
+            --cake-amber-lt:   var(--color-primary-hover);
+            --cake-amber-pale: rgba(var(--color-primary-rgb), 0.10);
+            --cake-amber-rgb:  var(--color-primary-rgb);
             --sp-header-h:     56px;
         }
 
@@ -171,7 +171,7 @@
         }
 
         /* ── Hero ── */
-        .sp-hero { background: linear-gradient(135deg,#7c3a00 0%,#d97706 50%,#f59e0b 100%); }
+        .sp-hero { background: var(--gradient-primary); }
 
         /* ── Section anchor offset ── */
         .menu-section { scroll-margin-top: calc(var(--sp-header-h) + 8px); }
@@ -425,7 +425,7 @@
         /* ── CTA ── */
         .cake-cta-box {
             text-align: center; padding: 40px 24px;
-            background: linear-gradient(135deg,#7c3a00,#d97706 60%,#f59e0b);
+            background: var(--gradient-primary);
             border-radius: 20px; color: #fff;
             transition: filter .35s ease, box-shadow .35s ease;
         }
@@ -448,6 +448,24 @@
             border-color: rgba(255,255,255,.75);
             transform: translateY(-2px) scale(1.03);
             box-shadow: 0 8px 24px rgba(0,0,0,.2);
+        }
+
+        /* ── Intro text (matches hero-subtitle typography) ── */
+        .cake-intro-section { text-align: center; margin-bottom: 48px; }
+        .cake-intro-text {
+            font-size: clamp(16px, 2.3vw, 19px);
+            color: var(--color-text-secondary);
+            line-height: 1.75;
+            font-weight: 500;
+            max-width: 720px;
+            margin: 0 auto;
+        }
+        .cake-intro-text p { margin-bottom: 16px; }
+        .cake-intro-text p:last-child { margin-bottom: 0; }
+        .cake-intro-char {
+            display: inline;
+            opacity: 0;
+            transition: opacity 0.04s ease;
         }
 
         /* ── Dark mode ── */
@@ -507,9 +525,10 @@
     <div class="sp-content" style="max-width:960px;">
 
         <!-- Intro -->
-        <div class="sp-section" style="margin-bottom:32px;">
-            <div class="sp-story" id="sp-cake-intro">
-                <p><strong>Bếp Bánh Cho EM</strong> là sáng kiến của nhóm tình nguyện — chúng mình tự tay làm bánh Tiramisu để gây quỹ thiện nguyện. Mỗi chiếc bánh bạn mua không chỉ là món ngon, mà còn là viên gạch nhỏ góp vào ba lô sách vở đầy hơn cho các em vùng cao. Toàn bộ lợi nhuận sau chi phí được dành cho quỹ thiện nguyện.</p>
+        <div class="sp-section cake-intro-section">
+            <div class="cake-intro-text" id="sp-cake-intro">
+                <p>Bếp Bánh Cho EM là sáng kiến của nhóm tình nguyện — chúng mình tự tay làm bánh Tiramisu và bán để gây quỹ cho các chuyến thiện nguyện. Mỗi chiếc bánh bạn mua không chỉ là một món ngon, mà còn là một viên gạch nhỏ góp vào ngôi trường ấm áp hơn, ba lô sách vở đầy hơn cho các em vùng cao.</p>
+                <p>Chúng mình cam kết làm bánh từ nguyên liệu sạch, nướng tay và giao đến tận nơi với tất cả tình yêu thương. Toàn bộ lợi nhuận sau chi phí được dành cho quỹ thiện nguyện của dự án.</p>
             </div>
         </div>
 
@@ -718,6 +737,42 @@
             try { content = await loadContent(); } catch (_) {}
             applyContent(content);
             initTabs();
+            typewriteIntro();
+        }
+
+        function typewriteIntro() {
+            const container = document.getElementById('sp-cake-intro');
+            if (!container) return;
+
+            // Wrap every character in a span
+            const walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT, null, false);
+            const nodes = [];
+            let n;
+            while ((n = walker.nextNode())) { if (n.nodeValue.trim()) nodes.push(n); }
+
+            nodes.forEach(textNode => {
+                const frag = document.createDocumentFragment();
+                for (const ch of textNode.nodeValue) {
+                    const s = document.createElement('span');
+                    s.textContent = ch;
+                    s.className = 'cake-intro-char';
+                    frag.appendChild(s);
+                }
+                textNode.parentNode.replaceChild(frag, textNode);
+            });
+
+            const chars = container.querySelectorAll('.cake-intro-char');
+            const speed = 12; // ms per char
+            let i = 0, last = null;
+            function frame(now) {
+                if (last === null) last = now;
+                while (now - last >= speed && i < chars.length) {
+                    chars[i++].style.opacity = '1';
+                    last += speed;
+                }
+                if (i < chars.length) requestAnimationFrame(frame);
+            }
+            requestAnimationFrame(frame);
         }
 
         function applyContent(c) {
@@ -726,7 +781,7 @@
 
             if (sp.heroTitle)    setText('sp-cake-heroTitle',    sp.heroTitle);
             if (sp.heroSubtitle) setText('sp-cake-heroSubtitle', sp.heroSubtitle);
-            if (sp.intro)        setHtml('sp-cake-intro', sp.intro);
+            if (sp.intro)        setHtml('sp-cake-intro', sp.intro);  // typewriteIntro() runs after this returns
             document.getElementById('sp-cake-fbLink').href = _fbLink;
 
             renderCombos(sp.combos?.length ? sp.combos : DEFAULT_COMBOS);
