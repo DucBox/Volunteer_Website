@@ -55,9 +55,7 @@ export class Testimonials {
             const pickCount = Math.min(shuffled.length, 6 + Math.floor(Math.random() * 4));
             this.images = shuffled.slice(0, pickCount).map(t => ({
                 src: t.image,
-                alt: t.name || 'Cảm nhận tình nguyện viên',
-                name: t.name || '',
-                text: t.text || '',
+                alt: 'Cảm nhận tình nguyện viên',
             }));
         } else {
             await this.loadImages();
@@ -138,16 +136,11 @@ export class Testimonials {
             <div class="testimonials-carousel">
                 <div class="testimonials-track" id="testimonialsTrack">
                     ${this.images.map((img, index) => `
-                        <div class="testimonial-card-new${img.text ? ' has-text' : ''}" data-index="${index}">
+                        <div class="testimonial-card-new" data-index="${index}">
                             <div class="card-image-wrapper">
                                 <img src="${img.src}" alt="${img.alt}" loading="lazy">
                                 <div class="card-shimmer"></div>
                             </div>
-                            ${img.text ? `
-                            <div class="testimonial-card-body">
-                                ${img.name ? `<p class="testimonial-card-name">${img.name}</p>` : ''}
-                                <p class="testimonial-card-text">"${img.text}"</p>
-                            </div>` : ''}
                         </div>
                     `).join('')}
                 </div>

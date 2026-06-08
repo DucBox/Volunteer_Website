@@ -22,7 +22,6 @@ function initQuillOnCard(actIdx) {
         theme: 'snow',
         modules: {
             toolbar: [
-                [{ header: [3, 4, false] }],
                 ['bold', 'italic', 'underline'],
                 [{ list: 'ordered' }, { list: 'bullet' }],
                 ['blockquote'],
@@ -808,8 +807,6 @@ window.saveActivities = async function() {
                 gallery: [],
                 feelings: Array.from(feelingCards).map(fc => ({
                     image: fc.querySelector('[data-field="image"]').value.trim(),
-                    name:  fc.querySelector('[data-field="name"]').value.trim(),
-                    text:  fc.querySelector('[data-field="text"]').value.trim(),
                 })).filter(f => f.image),
                 stats: Array.from(statRows).map(r => ({
                     value: r.querySelector('[data-field="value"]').value.trim(),
@@ -1028,31 +1025,19 @@ function testimonialCard(t, i) {
     const imgSrc = t.image ? `${VERCEL_BASE}/${t.image}` : '';
     return `<div class="cm-card testimonial-admin-card" id="testimonial-item-${i}">
         <div class="cm-card-header">
-            <span class="cm-card-label">Card ${i + 1}${t.name ? ' — ' + escHtml(t.name) : ''}</span>
+            <span class="cm-card-label">Ảnh ${i + 1}</span>
             <button class="btn-icon btn-danger" onclick="removeTestimonial(${i})" title="Xóa"><i class="fas fa-trash"></i></button>
         </div>
-        <div class="testimonial-admin-layout">
-            <div class="testimonial-admin-img-col">
-                ${imgSrc
-                    ? `<img src="${imgSrc}" class="testimonial-admin-preview" onerror="this.src='';this.style.display='none'" alt="preview">`
-                    : `<div class="testimonial-admin-no-img"><i class="fas fa-image"></i><span>Chưa có ảnh</span></div>`
-                }
-                <label class="btn btn-secondary btn-sm cm-upload-btn" style="margin-top:8px;justify-content:center">
-                    <i class="fas fa-upload"></i> Đổi ảnh
-                    <input type="file" accept="image/*" style="display:none" onchange="uploadTestimonialImg(event,${i})">
-                </label>
-                <input class="form-input" style="margin-top:6px;font-size:12px" placeholder="assets/images/feelings/..." value="${escHtml(t.image || '')}" data-field="image" id="testimonial-img-path-${i}">
-            </div>
-            <div class="testimonial-admin-text-col">
-                <div class="form-group">
-                    <label>Tên TNV</label>
-                    <input class="form-input" placeholder="Nguyễn Văn A" value="${escHtml(t.name || '')}" data-field="name">
-                </div>
-                <div class="form-group">
-                    <label>Cảm nghĩ / Trích dẫn</label>
-                    <textarea class="form-input" rows="4" placeholder="Nội dung cảm nghĩ của tình nguyện viên..." data-field="text">${escHtml(t.text || '')}</textarea>
-                </div>
-            </div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:8px;padding:8px 0">
+            ${imgSrc
+                ? `<img src="${imgSrc}" class="testimonial-admin-preview" onerror="this.src='';this.style.display='none'" alt="preview">`
+                : `<div class="testimonial-admin-no-img"><i class="fas fa-image"></i><span>Chưa có ảnh</span></div>`
+            }
+            <label class="btn btn-secondary btn-sm cm-upload-btn" style="justify-content:center">
+                <i class="fas fa-upload"></i> Đổi ảnh
+                <input type="file" accept="image/*" style="display:none" onchange="uploadTestimonialImg(event,${i})">
+            </label>
+            <input class="form-input" style="font-size:12px" placeholder="assets/images/feelings/..." value="${escHtml(t.image || '')}" data-field="image" id="testimonial-img-path-${i}">
         </div>
     </div>`;
 }
@@ -1066,7 +1051,7 @@ window.addTestimonial = function() {
     const list = document.getElementById('testimonials-list');
     const i = list.children.length;
     const div = document.createElement('div');
-    div.innerHTML = testimonialCard({ image: '', name: '', text: '' }, i);
+    div.innerHTML = testimonialCard({ image: '' }, i);
     list.appendChild(div.firstElementChild);
     updateTestimonialsCount(i + 1);
 };
@@ -1102,8 +1087,6 @@ window.saveTestimonials = async function() {
         const cards = document.querySelectorAll('#testimonials-list .cm-card');
         _currentContent.testimonials = Array.from(cards).map(card => ({
             image: card.querySelector('[data-field="image"]').value.trim(),
-            name:  card.querySelector('[data-field="name"]').value.trim(),
-            text:  card.querySelector('[data-field="text"]').value.trim(),
         })).filter(t => t.image);
         await saveContent(_currentContent);
         showCmStatus('testimonials', '✅ Đã lưu! Web sẽ cập nhật sau ~1-2 phút.');
@@ -1126,31 +1109,19 @@ function actFeelingCard(f, actIdx, feelIdx) {
     const imgSrc = f.image ? `${VERCEL_BASE}/${f.image}` : '';
     return `<div class="cm-card testimonial-admin-card cm-card--nested" id="act-feeling-${actIdx}-${feelIdx}">
         <div class="cm-card-header">
-            <span class="cm-card-label">Ảnh ${feelIdx + 1}${f.name ? ' — ' + escHtml(f.name) : ''}</span>
+            <span class="cm-card-label">Ảnh ${feelIdx + 1}</span>
             <button class="btn-icon btn-danger" onclick="removeActFeeling(${actIdx},${feelIdx})" title="Xóa"><i class="fas fa-trash"></i></button>
         </div>
-        <div class="testimonial-admin-layout">
-            <div class="testimonial-admin-img-col">
-                ${imgSrc
-                    ? `<img src="${imgSrc}" class="testimonial-admin-preview" onerror="this.style.display='none'" alt="preview">`
-                    : `<div class="testimonial-admin-no-img"><i class="fas fa-image"></i><span>Chưa có ảnh</span></div>`
-                }
-                <label class="btn btn-secondary btn-sm cm-upload-btn" style="margin-top:8px;justify-content:center">
-                    <i class="fas fa-upload"></i> Upload ảnh
-                    <input type="file" accept="image/*" style="display:none" onchange="uploadActFeelingImg(event,${actIdx},${feelIdx})">
-                </label>
-                <input class="form-input" style="margin-top:6px;font-size:12px" placeholder="assets/images/feelings/..." value="${escHtml(f.image || '')}" data-field="image" id="act-feeling-img-${actIdx}-${feelIdx}">
-            </div>
-            <div class="testimonial-admin-text-col">
-                <div class="form-group">
-                    <label>Tên TNV</label>
-                    <input class="form-input" placeholder="Nguyễn Văn A" value="${escHtml(f.name || '')}" data-field="name">
-                </div>
-                <div class="form-group">
-                    <label>Cảm nghĩ</label>
-                    <textarea class="form-input" rows="3" placeholder="Nội dung cảm nghĩ..." data-field="text">${escHtml(f.text || '')}</textarea>
-                </div>
-            </div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:8px;padding:8px 0">
+            ${imgSrc
+                ? `<img src="${imgSrc}" class="testimonial-admin-preview" onerror="this.style.display='none'" alt="preview">`
+                : `<div class="testimonial-admin-no-img"><i class="fas fa-image"></i><span>Chưa có ảnh</span></div>`
+            }
+            <label class="btn btn-secondary btn-sm cm-upload-btn" style="justify-content:center">
+                <i class="fas fa-upload"></i> Upload ảnh
+                <input type="file" accept="image/*" style="display:none" onchange="uploadActFeelingImg(event,${actIdx},${feelIdx})">
+            </label>
+            <input class="form-input" style="font-size:12px" placeholder="assets/images/feelings/..." value="${escHtml(f.image || '')}" data-field="image" id="act-feeling-img-${actIdx}-${feelIdx}">
         </div>
     </div>`;
 }
@@ -1164,7 +1135,7 @@ window.addActFeeling = function(actIdx) {
     if (!container) return;
     const i = container.children.length;
     const div = document.createElement('div');
-    div.innerHTML = actFeelingCard({ image: '', name: '', text: '' }, actIdx, i);
+    div.innerHTML = actFeelingCard({ image: '' }, actIdx, i);
     container.appendChild(div.firstElementChild);
 };
 
