@@ -462,5 +462,60 @@
     "facebook": "https://www.facebook.com/info.duanchoem",
     "tiktok": "https://www.tiktok.com/@hanhtrinh.choem?lang=en",
     "copyright": "2026 EM Volunteer Project. All rights reserved."
+  },
+  "supportPages": {
+    "materials": {
+      "heroTitle": "Ủng Hộ Vật Chất",
+      "heroSubtitle": "Những món quà nhỏ bé, ý nghĩa lớn lao cho các em nhỏ vùng cao",
+      "story": "<p>Tại những bản làng xa xôi trên núi cao — nơi đường đất còn gồ ghề, nơi điện về muộn hơn ánh nắng — có những em nhỏ vẫn đến trường với chiếc bút gần cùn và quyển vở gần đầy. Với các em, một cuốn sách mới hay một hộp bút màu không chỉ là đồ dùng học tập, đó là cả niềm vui và hy vọng.</p><p>Dự Án Cho EM ra đời từ mong muốn rút ngắn khoảng cách đó. Mỗi chuyến đi của chúng mình mang theo ba lô nặng ắp sách vở, bút thước, đồ ăn — và trên hết, mang theo tình thương của tất cả những người đã đóng góp từ xa.</p><p>Đồ dùng vật chất bạn gửi sẽ được chúng mình trực tiếp trao tận tay các em trong chuyến công tác gần nhất. <strong>Không qua trung gian. Minh bạch. Tất cả cho các em.</strong></p>"
+    },
+    "cake": {
+      "heroTitle": "Mua Bánh Ủng Hộ",
+      "heroSubtitle": "Ngọt ngào cho bạn — ấm áp cho em",
+      "intro": "<p><strong>Bếp Bánh Cho EM</strong> là sáng kiến nhỏ của nhóm tình nguyện — chúng mình tự tay làm bánh Tiramisu và bán để gây quỹ cho các chuyến thiện nguyện. Mỗi chiếc bánh bạn mua không chỉ là một món ngon, mà còn là một viên gạch nhỏ góp vào ngôi trường ấm áp hơn, ba lô sách vở đầy hơn cho các em vùng cao.</p><p>Chúng mình cam kết làm bánh từ nguyên liệu sạch, nướng tay và giao đến tận nơi với tất cả tình yêu thương. Toàn bộ lợi nhuận sau chi phí được dành cho quỹ thiện nguyện của dự án.</p>",
+      "fbLink": "https://www.facebook.com/bepbanhchoem",
+      "combos": [
+        {
+          "badge": "Opening",
+          "name": "COMBO 1 | OPENING",
+          "note": "Áp dụng 3 tuần đầu",
+          "items": [
+            "🍰 01 Tiramisu Size L",
+            "🥤 Tặng kèm 01 ly chanh leo pha sẵn"
+          ],
+          "price": "80.000đ"
+        },
+        {
+          "badge": "Share",
+          "name": "COMBO 2 | SHARE THE SWEETNESS",
+          "note": "",
+          "items": [
+            "🍰 02 Tiramisu Size M"
+          ],
+          "price": "Chỉ 85.000đ"
+        },
+        {
+          "badge": "Combo",
+          "name": "COMBO 3 | BÁNH & CHANH LEO",
+          "note": "",
+          "items": [
+            "🍰 01 Tiramisu Size L",
+            "🍋 01 Chai Cốt Chanh Leo"
+          ],
+          "price": "Chỉ 119.000đ"
+        },
+        {
+          "badge": "Premium",
+          "name": "COMBO 4 | SWEET MOMENTS",
+          "note": "",
+          "items": [
+            "🍰 01 Tiramisu Size L",
+            "🍰 01 Tiramisu Size M",
+            "🍋 01 Chai Cốt Chanh Leo"
+          ],
+          "price": "Chỉ 169.000đ"
+        }
+      ]
+    }
   }
 }

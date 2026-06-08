@@ -447,6 +447,78 @@
                         <i class="fas fa-save"></i> Lưu & Cập Nhật Web
                     </button>
                 </div>
+
+                <!-- Support page: Vật chất -->
+                <div class="cm-form-card" style="margin-top:24px">
+                    <h3 class="cm-sub-title">Trang "Ủng Hộ Vật Chất" (ungho-vat-chat.html)</h3>
+                    <div class="form-group">
+                        <label>Tiêu đề trang</label>
+                        <input id="sp-mat-heroTitle" class="form-input" placeholder="Ủng Hộ Vật Chất">
+                    </div>
+                    <div class="form-group">
+                        <label>Phụ đề hero</label>
+                        <input id="sp-mat-heroSubtitle" class="form-input" placeholder="Những món quà nhỏ bé, ý nghĩa lớn lao">
+                    </div>
+                    <div class="form-group">
+                        <label>Câu chuyện (HTML)</label>
+                        <div class="mini-editor" id="mini-editor-sp-mat-story" data-init-html="">
+                            <div class="mini-editor-toolbar">
+                                <button type="button" onclick="miniEditorExec('mini-editor-sp-mat-story','bold')" title="In đậm"><i class="fas fa-bold"></i></button>
+                                <button type="button" onclick="miniEditorExec('mini-editor-sp-mat-story','italic')" title="In nghiêng"><i class="fas fa-italic"></i></button>
+                                <button type="button" onclick="miniEditorExec('mini-editor-sp-mat-story','underline')" title="Gạch chân"><i class="fas fa-underline"></i></button>
+                                <span class="mini-editor-sep"></span>
+                                <button type="button" onclick="miniEditorExec('mini-editor-sp-mat-story','insertUnorderedList')" title="Danh sách"><i class="fas fa-list-ul"></i></button>
+                                <button type="button" onclick="miniEditorExec('mini-editor-sp-mat-story','removeFormat')" title="Xóa định dạng"><i class="fas fa-eraser"></i></button>
+                            </div>
+                            <div class="mini-editor-content" contenteditable="true" data-field="story"></div>
+                        </div>
+                    </div>
+                    <p style="font-size:13px;color:var(--text-muted);margin-top:8px">
+                        <i class="fas fa-info-circle"></i> Danh sách đồ dùng và hotlines được lấy từ phần "Ủng hộ vật chất" ở trên.
+                    </p>
+                </div>
+
+                <!-- Support page: Bánh -->
+                <div class="cm-form-card" style="margin-top:16px">
+                    <h3 class="cm-sub-title">Trang "Mua Bánh Ủng Hộ" (mua-banh.html)</h3>
+                    <div class="cm-grid-2">
+                        <div class="form-group">
+                            <label>Tiêu đề trang</label>
+                            <input id="sp-cake-heroTitle" class="form-input" placeholder="Mua Bánh Ủng Hộ">
+                        </div>
+                        <div class="form-group">
+                            <label>Phụ đề hero</label>
+                            <input id="sp-cake-heroSubtitle" class="form-input" placeholder="Ngọt ngào cho bạn — ấm áp cho em">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Link Facebook đặt bánh</label>
+                        <input id="sp-cake-fbLink" class="form-input" placeholder="https://www.facebook.com/bepbanhchoem">
+                    </div>
+                    <div class="form-group">
+                        <label>Giới thiệu (HTML)</label>
+                        <div class="mini-editor" id="mini-editor-sp-cake-intro" data-init-html="">
+                            <div class="mini-editor-toolbar">
+                                <button type="button" onclick="miniEditorExec('mini-editor-sp-cake-intro','bold')" title="In đậm"><i class="fas fa-bold"></i></button>
+                                <button type="button" onclick="miniEditorExec('mini-editor-sp-cake-intro','italic')" title="In nghiêng"><i class="fas fa-italic"></i></button>
+                                <button type="button" onclick="miniEditorExec('mini-editor-sp-cake-intro','removeFormat')" title="Xóa định dạng"><i class="fas fa-eraser"></i></button>
+                            </div>
+                            <div class="mini-editor-content" contenteditable="true" data-field="intro"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Danh sách combo</label>
+                        <div id="sp-cake-combos-list" class="cm-sub-list"></div>
+                        <button class="btn btn-secondary btn-sm" onclick="addCakeCombo()" style="margin-top:8px">
+                            <i class="fas fa-plus"></i> Thêm combo
+                        </button>
+                    </div>
+
+                    <div id="cm-status-support" class="cm-status" style="display:none"></div>
+                    <button id="cm-save-support" class="btn btn-primary" onclick="saveSupportPages()">
+                        <i class="fas fa-save"></i> Lưu Trang Ủng Hộ
+                    </button>
+                </div>
             </section>
 
             <!-- PARTNERS -->

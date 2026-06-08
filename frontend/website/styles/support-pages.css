@@ -1,0 +1,490 @@
+/* ===================================
+   SUPPORT LANDING PAGES — Shared styles
+   ungho-vat-chat.html & mua-banh.html
+   =================================== */
+
+/* Page wrapper */
+.sp-wrapper {
+    min-height: 100vh;
+    background: var(--color-background);
+}
+
+/* Back button */
+.sp-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--color-primary);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 10px 18px;
+    border-radius: 8px;
+    border: 1.5px solid rgba(var(--color-primary-rgb), 0.25);
+    background: rgba(var(--color-primary-rgb), 0.05);
+    transition: all 0.2s ease;
+    margin-bottom: 32px;
+}
+
+.sp-back:hover {
+    background: rgba(var(--color-primary-rgb), 0.12);
+    border-color: var(--color-primary);
+    transform: translateX(-3px);
+}
+
+/* Hero */
+.sp-hero {
+    background: var(--gradient-primary);
+    color: #fff;
+    padding: 80px 24px 64px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.sp-hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(circle at 20% 50%, rgba(255,255,255,0.12) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(255,255,255,0.10) 0%, transparent 50%);
+    pointer-events: none;
+}
+
+.sp-hero-icon {
+    font-size: 64px;
+    display: block;
+    margin-bottom: 20px;
+    line-height: 1;
+}
+
+.sp-hero h1 {
+    font-size: clamp(28px, 5vw, 48px);
+    font-weight: 800;
+    margin: 0 0 16px;
+    line-height: 1.2;
+    text-shadow: 0 2px 12px rgba(0,0,0,0.15);
+}
+
+.sp-hero p {
+    font-size: clamp(15px, 2vw, 18px);
+    opacity: 0.92;
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+/* Content area */
+.sp-content {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 48px 24px 80px;
+}
+
+/* Sections */
+.sp-section {
+    margin-bottom: 56px;
+}
+
+.sp-section-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--color-text);
+    margin: 0 0 24px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.sp-section-title::after {
+    content: '';
+    flex: 1;
+    height: 2px;
+    background: var(--gradient-primary);
+    border-radius: 2px;
+    opacity: 0.3;
+}
+
+/* Story text */
+.sp-story {
+    font-size: 16px;
+    line-height: 1.85;
+    color: var(--color-text);
+}
+
+.sp-story p {
+    margin-bottom: 16px;
+}
+
+.sp-story p:last-child {
+    margin-bottom: 0;
+}
+
+/* Items grid (materials) */
+.sp-items-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: 16px;
+}
+
+.sp-item-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding: 16px 12px;
+    background: var(--color-surface);
+    border: 1.5px solid var(--color-card-border);
+    border-radius: 12px;
+    text-align: center;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.sp-item-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(var(--color-primary-rgb), 0.12);
+}
+
+.sp-item-img-wrap {
+    width: 80px;
+    height: 80px;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 2px solid var(--color-border);
+    flex-shrink: 0;
+}
+
+.sp-item-img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.sp-item-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--color-text);
+    line-height: 1.3;
+}
+
+/* How-to steps */
+.sp-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.sp-step {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 20px 24px;
+    background: var(--color-surface);
+    border: 1.5px solid var(--color-card-border);
+    border-radius: 12px;
+}
+
+.sp-step-num {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--gradient-primary);
+    color: #fff;
+    font-size: 16px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.sp-step-body h4 {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--color-text);
+    margin: 0 0 6px;
+}
+
+.sp-step-body p {
+    font-size: 14px;
+    color: var(--color-text-secondary);
+    margin: 0;
+    line-height: 1.6;
+}
+
+/* Contact CTA */
+.sp-contact-box {
+    background: var(--gradient-primary);
+    border-radius: 16px;
+    padding: 36px 32px;
+    text-align: center;
+    color: #fff;
+}
+
+.sp-contact-box h3 {
+    font-size: 22px;
+    font-weight: 700;
+    margin: 0 0 12px;
+}
+
+.sp-contact-box p {
+    opacity: 0.9;
+    margin-bottom: 24px;
+    font-size: 15px;
+}
+
+.sp-hotlines {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+}
+
+.sp-hotline-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    background: rgba(255,255,255,0.2);
+    border: 1.5px solid rgba(255,255,255,0.4);
+    border-radius: 50px;
+    color: #fff;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 700;
+    transition: background 0.2s ease;
+    backdrop-filter: blur(8px);
+}
+
+.sp-hotline-btn:hover {
+    background: rgba(255,255,255,0.3);
+}
+
+/* Combo cards (cake page) */
+.sp-combos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+.sp-combo-card {
+    background: var(--color-surface);
+    border: 2px solid var(--color-card-border);
+    border-radius: 16px;
+    padding: 24px;
+    position: relative;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+    overflow: hidden;
+}
+
+.sp-combo-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--gradient-primary);
+}
+
+.sp-combo-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 36px rgba(var(--color-primary-rgb), 0.14);
+    border-color: rgba(var(--color-primary-rgb), 0.3);
+}
+
+.sp-combo-badge {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: var(--color-primary);
+    background: rgba(var(--color-primary-rgb), 0.1);
+    padding: 3px 10px;
+    border-radius: 20px;
+    display: inline-block;
+    margin-bottom: 10px;
+}
+
+.sp-combo-name {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--color-text);
+    margin: 0 0 6px;
+    line-height: 1.35;
+}
+
+.sp-combo-note {
+    font-size: 12px;
+    color: var(--color-text-secondary);
+    font-style: italic;
+    margin: 0 0 16px;
+}
+
+.sp-combo-items {
+    list-style: none;
+    margin: 0 0 20px;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.sp-combo-items li {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    color: var(--color-text-secondary);
+}
+
+.sp-combo-items li::before {
+    content: '•';
+    color: var(--color-primary);
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
+.sp-combo-price {
+    font-size: 24px;
+    font-weight: 800;
+    color: var(--color-primary);
+    letter-spacing: -0.5px;
+}
+
+/* Info cards (instructions, notes) */
+.sp-info-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.sp-info-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 16px 20px;
+    background: var(--color-warm-light);
+    border-radius: 10px;
+    border-left: 3px solid var(--color-primary);
+}
+
+.sp-info-card-icon {
+    font-size: 20px;
+    flex-shrink: 0;
+    line-height: 1.4;
+}
+
+.sp-info-card p {
+    font-size: 14px;
+    color: var(--color-text);
+    margin: 0;
+    line-height: 1.65;
+}
+
+/* Warning card */
+.sp-info-card--warn {
+    border-left-color: #F59E0B;
+    background: rgba(245, 158, 11, 0.08);
+}
+
+/* CTA button */
+.sp-cta-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 16px 32px;
+    background: var(--gradient-primary);
+    color: #fff;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 700;
+    border-radius: 50px;
+    box-shadow: 0 6px 20px rgba(var(--color-primary-rgb), 0.35);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.sp-cta-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 28px rgba(var(--color-primary-rgb), 0.45);
+}
+
+.sp-cta-center {
+    text-align: center;
+    margin-top: 32px;
+}
+
+/* Delivery options */
+.sp-delivery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 16px;
+}
+
+.sp-delivery-card {
+    padding: 20px 24px;
+    background: var(--color-surface);
+    border: 1.5px solid var(--color-card-border);
+    border-radius: 12px;
+}
+
+.sp-delivery-card h4 {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--color-text);
+    margin: 0 0 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.sp-delivery-card p {
+    font-size: 14px;
+    color: var(--color-text-secondary);
+    margin: 0;
+    line-height: 1.6;
+}
+
+/* Dark mode */
+[data-theme="dark"] .sp-item-card,
+[data-theme="dark"] .sp-step,
+[data-theme="dark"] .sp-combo-card,
+[data-theme="dark"] .sp-delivery-card {
+    background: var(--color-surface);
+    border-color: var(--color-border);
+}
+
+[data-theme="dark"] .sp-info-card {
+    background: var(--color-warm-light);
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+    .sp-hero {
+        padding: 60px 20px 48px;
+    }
+    .sp-content {
+        padding: 32px 16px 60px;
+    }
+    .sp-combos-grid {
+        grid-template-columns: 1fr;
+    }
+    .sp-items-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    .sp-hotlines {
+        flex-direction: column;
+        align-items: center;
+    }
+    .sp-contact-box {
+        padding: 28px 20px;
+    }
+}
+
+@media (max-width: 400px) {
+    .sp-items-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}

@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mua Bánh Ủng Hộ – Dự Án Cho EM</title>
+    <meta name="description" content="Mua bánh Tiramisu thơm ngon của Bếp Bánh Cho Em – mỗi chiếc bánh góp phần vào quỹ thiện nguyện cho các em vùng cao.">
+
+    <script>
+        (function () {
+            var t = localStorage.getItem('theme') ||
+                    (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+            document.documentElement.setAttribute('data-theme', t);
+            document.documentElement.style.visibility = 'hidden';
+        })();
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
+
+    <link rel="stylesheet" href="styles/variables.css">
+    <link rel="stylesheet" href="styles/backgrounds.css">
+    <link rel="stylesheet" href="styles/navbar.css">
+    <link rel="stylesheet" href="styles/sections.css">
+    <link rel="stylesheet" href="styles/footer.css">
+    <link rel="stylesheet" href="styles/cursor.css">
+    <link rel="stylesheet" href="styles/scrolltotop.css">
+    <link rel="stylesheet" href="styles/toast.css">
+    <link rel="stylesheet" href="styles/support-pages.css">
+
+    <style>
+        /* Cake page accent overrides */
+        .sp-hero {
+            background: linear-gradient(135deg, #d97706 0%, #f59e0b 50%, #fbbf24 100%);
+        }
+        .sp-combo-card::before {
+            background: linear-gradient(90deg, #f59e0b, #fbbf24);
+        }
+        .sp-combo-card:hover {
+            box-shadow: 0 12px 36px rgba(245, 158, 11, 0.2);
+            border-color: rgba(245, 158, 11, 0.35);
+        }
+        .sp-combo-badge {
+            color: #92400e;
+            background: rgba(245, 158, 11, 0.15);
+        }
+        .sp-combo-price {
+            color: #d97706;
+        }
+        .sp-combo-items li::before {
+            color: #f59e0b;
+        }
+        .sp-section-title::after {
+            background: linear-gradient(90deg, #f59e0b, #fbbf24);
+        }
+        .sp-info-card {
+            border-left-color: #f59e0b;
+        }
+        .sp-step-num {
+            background: linear-gradient(135deg, #d97706, #f59e0b);
+        }
+        .sp-cta-btn {
+            background: linear-gradient(135deg, #d97706, #f59e0b);
+            box-shadow: 0 6px 20px rgba(217, 119, 6, 0.4);
+        }
+        .sp-cta-btn:hover {
+            box-shadow: 0 10px 28px rgba(217, 119, 6, 0.55);
+        }
+        .sp-hotline-btn {
+            background: rgba(255,255,255,0.2);
+        }
+        .sp-contact-box {
+            background: linear-gradient(135deg, #d97706, #f59e0b);
+        }
+        .sp-back {
+            color: #d97706;
+            border-color: rgba(217, 119, 6, 0.3);
+            background: rgba(217, 119, 6, 0.05);
+        }
+        .sp-back:hover {
+            border-color: #d97706;
+            background: rgba(217, 119, 6, 0.1);
+        }
+        /* Highlight tag for opening combo */
+        .sp-combo-card--featured {
+            border-color: rgba(245, 158, 11, 0.4);
+        }
+        .sp-featured-tag {
+            position: absolute;
+            top: 14px;
+            right: 14px;
+            font-size: 11px;
+            font-weight: 700;
+            color: #fff;
+            background: linear-gradient(135deg, #d97706, #f59e0b);
+            padding: 3px 10px;
+            border-radius: 20px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+    </style>
+</head>
+<body>
+    <div id="navbarContainer"></div>
+
+    <div class="sp-wrapper page-wrapper">
+
+        <!-- Hero -->
+        <div class="sp-hero">
+            <span class="sp-hero-icon">🍰</span>
+            <h1 id="sp-cake-heroTitle">Mua Bánh Ủng Hộ</h1>
+            <p id="sp-cake-heroSubtitle">Ngọt ngào cho bạn — ấm áp cho em</p>
+        </div>
+
+        <div class="sp-content">
+            <a href="index.html#quyen-gop" class="sp-back">
+                <i class="fas fa-arrow-left"></i> Quay lại trang chính
+            </a>
+
+            <!-- Intro / Story -->
+            <div class="sp-section">
+                <h2 class="sp-section-title">
+                    <span>🏡</span> Bếp Bánh Cho EM
+                </h2>
+                <div class="sp-story" id="sp-cake-intro">
+                    <p><strong>Bếp Bánh Cho EM</strong> là sáng kiến nhỏ của nhóm tình nguyện — chúng mình tự tay làm bánh Tiramisu và bán để gây quỹ cho các chuyến thiện nguyện. Mỗi chiếc bánh bạn mua không chỉ là một món ngon, mà còn là một viên gạch nhỏ góp vào ngôi trường ấm áp hơn, ba lô sách vở đầy hơn cho các em vùng cao.</p>
+                    <p>Chúng mình cam kết làm bánh từ nguyên liệu sạch, nướng tay và giao đến tận nơi với tất cả tình yêu thương. Toàn bộ lợi nhuận sau chi phí được dành cho quỹ thiện nguyện của dự án.</p>
+                </div>
+            </div>
+
+            <!-- Combos -->
+            <div class="sp-section">
+                <h2 class="sp-section-title">
+                    <span>🩵</span> Chương Trình Khuyến Mãi
+                </h2>
+                <div class="sp-combos-grid" id="sp-cake-combosGrid">
+                    <!-- Rendered by JS with fallback defaults -->
+                    <div class="sp-combo-card sp-combo-card--featured">
+                        <span class="sp-featured-tag">Hot</span>
+                        <span class="sp-combo-badge">Opening</span>
+                        <h3 class="sp-combo-name">COMBO 1 | OPENING</h3>
+                        <p class="sp-combo-note">Áp dụng 3 tuần đầu</p>
+                        <ul class="sp-combo-items">
+                            <li>🍰 01 Tiramisu Size L</li>
+                            <li>🥤 Tặng kèm 01 ly chanh leo pha sẵn</li>
+                        </ul>
+                        <div class="sp-combo-price">80.000đ</div>
+                    </div>
+                    <div class="sp-combo-card">
+                        <span class="sp-combo-badge">Share</span>
+                        <h3 class="sp-combo-name">COMBO 2 | SHARE THE SWEETNESS</h3>
+                        <p class="sp-combo-note"></p>
+                        <ul class="sp-combo-items">
+                            <li>🍰 02 Tiramisu Size M</li>
+                        </ul>
+                        <div class="sp-combo-price">Chỉ 85.000đ</div>
+                    </div>
+                    <div class="sp-combo-card">
+                        <span class="sp-combo-badge">Combo</span>
+                        <h3 class="sp-combo-name">COMBO 3 | BÁNH & CHANH LEO</h3>
+                        <p class="sp-combo-note"></p>
+                        <ul class="sp-combo-items">
+                            <li>🍰 01 Tiramisu Size L</li>
+                            <li>🍋 01 Chai Cốt Chanh Leo</li>
+                        </ul>
+                        <div class="sp-combo-price">Chỉ 119.000đ</div>
+                    </div>
+                    <div class="sp-combo-card">
+                        <span class="sp-combo-badge">Premium</span>
+                        <h3 class="sp-combo-name">COMBO 4 | SWEET MOMENTS</h3>
+                        <p class="sp-combo-note"></p>
+                        <ul class="sp-combo-items">
+                            <li>🍰 01 Tiramisu Size L</li>
+                            <li>🍰 01 Tiramisu Size M</li>
+                            <li>🍋 01 Chai Cốt Chanh Leo</li>
+                        </ul>
+                        <div class="sp-combo-price">Chỉ 169.000đ</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Usage Instructions -->
+            <div class="sp-section">
+                <h2 class="sp-section-title">
+                    <span>📋</span> Hướng Dẫn Sử Dụng
+                </h2>
+                <div class="sp-info-cards" id="sp-cake-instructions">
+                    <div class="sp-info-card">
+                        <span class="sp-info-card-icon">🌡️</span>
+                        <p>Tiramisu là bánh lạnh, cần được bảo quản trong ngăn mát tủ lạnh.</p>
+                    </div>
+                    <div class="sp-info-card">
+                        <span class="sp-info-card-icon">⏱️</span>
+                        <p>Trong thời tiết mùa hè hoặc sau quá trình vận chuyển, bánh có thể mềm hơn. Vui lòng để bánh trong ngăn mát tủ lạnh từ <strong>30 phút – 1 giờ</strong> trước khi thưởng thức để đạt kết cấu chuẩn nhất.</p>
+                    </div>
+                    <div class="sp-info-card">
+                        <span class="sp-info-card-icon">📅</span>
+                        <p>Sử dụng ngon nhất trong vòng <strong>2 ngày</strong> kể từ khi nhận bánh.</p>
+                    </div>
+                    <div class="sp-info-card sp-info-card--warn">
+                        <span class="sp-info-card-icon">⚠️</span>
+                        <p><strong>Lưu ý:</strong> Sản phẩm có chứa rượu.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Delivery -->
+            <div class="sp-section">
+                <h2 class="sp-section-title">
+                    <span>🚚</span> Phương Thức Nhận Bánh
+                </h2>
+                <div class="sp-delivery-grid">
+                    <div class="sp-delivery-card">
+                        <h4><span>🏠</span> Nhận Trực Tiếp</h4>
+                        <p>Khách hàng có thể đến nhận bánh tại địa điểm được Bếp xác nhận khi đặt hàng. Tiện lợi, nhanh chóng và không tốn phí vận chuyển.</p>
+                    </div>
+                    <div class="sp-delivery-card">
+                        <h4><span>📦</span> Giao Hàng</h4>
+                        <p>Khách hàng có thể tự đặt đơn vị vận chuyển hoặc Bếp hỗ trợ book ship theo yêu cầu. Phí vận chuyển do khách hàng thanh toán theo mức phí của đơn vị vận chuyển.</p>
+                    </div>
+                </div>
+                <div class="sp-info-card" style="margin-top: 16px;">
+                    <span class="sp-info-card-icon">🏔️</span>
+                    <p>Đối với các đơn hàng giao xa hoặc trong thời tiết nắng nóng, Bếp khuyến khích khách nhận bánh và bảo quản lạnh <strong>sớm nhất có thể</strong> để đảm bảo chất lượng.</p>
+                </div>
+            </div>
+
+            <!-- CTA -->
+            <div class="sp-contact-box">
+                <h3>Đặt Bánh Ngay!</h3>
+                <p>Nhắn tin đến fanpage của Bếp Bánh Cho EM để đặt hàng</p>
+                <div class="sp-cta-center">
+                    <a id="sp-cake-fbLink" href="https://www.facebook.com/bepbanhchoem" target="_blank" rel="noopener" class="sp-cta-btn">
+                        <i class="fab fa-facebook"></i> Nhắn Tin Đặt Bánh
+                    </a>
+                </div>
+                <p style="font-size:13px; opacity:0.8; margin-top:16px; margin-bottom:0;">Chúng mình sẽ xác nhận đơn và báo địa điểm nhận bánh sớm nhất</p>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer id="lien-he" class="footer">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <img src="assets/images/logo-no-bg.jpg" alt="Dự Án Cho EM Logo" class="footer-logo-img">
+                        <span class="footer-logo-text">Dự Án Cho EM</span>
+                    </div>
+                    <p class="footer-about" id="footer-about-sp">Hành trình mang tri thức và yêu thương đến những em nhỏ vùng khó khăn trên khắp Việt Nam.</p>
+                </div>
+                <div class="footer-section">
+                    <h3 class="footer-title">Liên Hệ</h3>
+                    <div class="footer-info">
+                        <div class="footer-info-item">
+                            <i class="fas fa-envelope"></i>
+                            <a href="mailto:contact@duanchoem.vn" id="footer-email-sp">contact@duanchoem.vn</a>
+                        </div>
+                        <div class="footer-info-item">
+                            <i class="fas fa-clock"></i>
+                            <span id="footer-hours-sp">Thứ 2 – Thứ 7: 9:00 – 21:00</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h3 class="footer-title">Theo Dõi Chúng Mình</h3>
+                    <div class="social-links">
+                        <a href="https://www.facebook.com/duanchoem" target="_blank" rel="noopener"
+                           class="social-link" aria-label="Facebook">
+                            <img src="assets/images/facebook.jpg" alt="Facebook" style="width:28px;height:28px;border-radius:6px;">
+                        </a>
+                        <a href="https://www.tiktok.com/@duanchoem" target="_blank" rel="noopener"
+                           class="social-link" aria-label="TikTok">
+                            <img src="assets/images/tiktok.jpg" alt="TikTok" style="width:28px;height:28px;border-radius:6px;">
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Dự Án Cho EM. Made with ❤️ for the community.</p>
+            </div>
+        </footer>
+    </div>
+
+    <div id="scrollTopContainer"></div>
+
+    <script type="module">
+        import { NavBar } from './components/NavBar.js';
+        import { ScrollToTop } from './components/ScrolltoTop.js';
+        import { loadContent } from './data/ContentLoader.js';
+
+        async function init() {
+            new NavBar();
+            new ScrollToTop();
+
+            document.documentElement.style.visibility = '';
+
+            try {
+                const content = await loadContent();
+                applyContent(content);
+            } catch (e) {
+                document.documentElement.style.visibility = '';
+            }
+        }
+
+        function applyContent(c) {
+            if (!c) return;
+
+            const sp = c.supportPages?.cake;
+            if (sp) {
+                if (sp.heroTitle) {
+                    const el = document.getElementById('sp-cake-heroTitle');
+                    if (el) el.textContent = sp.heroTitle;
+                }
+                if (sp.heroSubtitle) {
+                    const el = document.getElementById('sp-cake-heroSubtitle');
+                    if (el) el.textContent = sp.heroSubtitle;
+                }
+                if (sp.intro) {
+                    const el = document.getElementById('sp-cake-intro');
+                    if (el) el.innerHTML = sp.intro;
+                }
+                if (sp.fbLink) {
+                    const el = document.getElementById('sp-cake-fbLink');
+                    if (el) el.href = sp.fbLink;
+                }
+                if (sp.combos?.length) {
+                    const grid = document.getElementById('sp-cake-combosGrid');
+                    if (grid) {
+                        grid.innerHTML = sp.combos.map((combo, idx) => {
+                            const isFeatured = idx === 0;
+                            const items = (combo.items || []).map(item =>
+                                `<li>${item}</li>`
+                            ).join('');
+                            return `
+                                <div class="sp-combo-card${isFeatured ? ' sp-combo-card--featured' : ''}">
+                                    ${isFeatured ? '<span class="sp-featured-tag">Hot</span>' : ''}
+                                    ${combo.badge ? `<span class="sp-combo-badge">${combo.badge}</span>` : ''}
+                                    <h3 class="sp-combo-name">${combo.name || ''}</h3>
+                                    ${combo.note ? `<p class="sp-combo-note">${combo.note}</p>` : '<p class="sp-combo-note"></p>'}
+                                    <ul class="sp-combo-items">${items}</ul>
+                                    <div class="sp-combo-price">${combo.price || ''}</div>
+                                </div>
+                            `;
+                        }).join('');
+                    }
+                }
+            }
+
+            // Footer
+            const f = c.footer;
+            if (f) {
+                const aboutEl = document.getElementById('footer-about-sp');
+                if (aboutEl && f.about) aboutEl.textContent = f.about;
+                const emailEl = document.getElementById('footer-email-sp');
+                if (emailEl && f.email) { emailEl.href = 'mailto:' + f.email; emailEl.textContent = f.email; }
+                const hoursEl = document.getElementById('footer-hours-sp');
+                if (hoursEl && f.hours) hoursEl.textContent = f.hours;
+            }
+        }
+
+        init();
+    </script>
+</body>
+</html>

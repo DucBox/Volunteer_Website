@@ -126,6 +126,7 @@ export async function initContentManager() {
         populatePartners(_currentContent.partners);
         populateMission(_currentContent.mission);
         populateTestimonials(_currentContent.testimonials);
+        populateSupportPages(_currentContent.supportPages);
     } catch (e) {
         console.error('Content load failed:', e);
     }
@@ -404,6 +405,129 @@ window.saveDonation = async function() {
         showCmStatus('donation', '❌ Lỗi: ' + e.message, 'error');
     } finally {
         cmLoading('donation', false);
+    }
+};
+
+// ============================
+// SECTION: SUPPORT PAGES
+// ============================
+
+function populateSupportPages(sp) {
+    if (!sp) return;
+    const mat = sp.materials || {};
+    const cake = sp.cake || {};
+
+    // Materials page
+    const matTitleEl = document.getElementById('sp-mat-heroTitle');
+    if (matTitleEl) matTitleEl.value = mat.heroTitle || '';
+    const matSubEl = document.getElementById('sp-mat-heroSubtitle');
+    if (matSubEl) matSubEl.value = mat.heroSubtitle || '';
+    const matStoryEditor = document.getElementById('mini-editor-sp-mat-story');
+    if (matStoryEditor) {
+        matStoryEditor.dataset.initHtml = mat.story || '';
+        initMiniEditor('mini-editor-sp-mat-story');
+    }
+
+    // Cake page
+    const cakeTitleEl = document.getElementById('sp-cake-heroTitle');
+    if (cakeTitleEl) cakeTitleEl.value = cake.heroTitle || '';
+    const cakeSubEl = document.getElementById('sp-cake-heroSubtitle');
+    if (cakeSubEl) cakeSubEl.value = cake.heroSubtitle || '';
+    const cakeFbEl = document.getElementById('sp-cake-fbLink');
+    if (cakeFbEl) cakeFbEl.value = cake.fbLink || '';
+    const cakeIntroEditor = document.getElementById('mini-editor-sp-cake-intro');
+    if (cakeIntroEditor) {
+        cakeIntroEditor.dataset.initHtml = cake.intro || '';
+        initMiniEditor('mini-editor-sp-cake-intro');
+    }
+    const combosList = document.getElementById('sp-cake-combos-list');
+    if (combosList) {
+        combosList.innerHTML = (cake.combos || []).map((c, i) => cakeComboRow(c, i)).join('');
+    }
+}
+
+function cakeComboRow(combo, i) {
+    return `<div class="cm-card cm-card--nested" id="cake-combo-${i}">
+        <div class="cm-card-header">
+            <strong>Combo ${i + 1}</strong>
+            <button class="btn-icon btn-danger" onclick="removeCakeCombo(${i})" title="Xóa"><i class="fas fa-trash"></i></button>
+        </div>
+        <div class="cm-grid-2">
+            <div class="form-group">
+                <label>Tên combo</label>
+                <input class="form-input" placeholder="COMBO 1 | OPENING" value="${escHtml(combo.name || '')}" data-field="name">
+            </div>
+            <div class="form-group">
+                <label>Badge</label>
+                <input class="form-input" placeholder="Opening" value="${escHtml(combo.badge || '')}" data-field="badge">
+            </div>
+        </div>
+        <div class="cm-grid-2">
+            <div class="form-group">
+                <label>Ghi chú (ví dụ: áp dụng 3 tuần đầu)</label>
+                <input class="form-input" placeholder="" value="${escHtml(combo.note || '')}" data-field="note">
+            </div>
+            <div class="form-group">
+                <label>Giá</label>
+                <input class="form-input" placeholder="80.000đ" value="${escHtml(combo.price || '')}" data-field="price">
+            </div>
+        </div>
+        <div class="form-group">
+            <label>Danh sách (mỗi dòng một món)</label>
+            <textarea class="form-input" rows="3" data-field="items" placeholder="🍰 01 Tiramisu Size L\n🥤 Tặng kèm 01 ly chanh leo">${escHtml((combo.items || []).join('\n'))}</textarea>
+        </div>
+    </div>`;
+}
+
+window.removeCakeCombo = function(i) { document.getElementById(`cake-combo-${i}`)?.remove(); };
+
+window.addCakeCombo = function() {
+    const list = document.getElementById('sp-cake-combos-list');
+    const i = list.querySelectorAll('.cm-card--nested').length;
+    const div = document.createElement('div');
+    div.innerHTML = cakeComboRow({ name: '', badge: '', note: '', price: '', items: [] }, i);
+    list.appendChild(div.firstElementChild);
+};
+
+window.saveSupportPages = async function() {
+    cmLoading('support', true);
+    try {
+        // Materials
+        const matStoryEl = document.querySelector('#mini-editor-sp-mat-story .mini-editor-content');
+
+        // Cake combos
+        const comboEls = document.querySelectorAll('#sp-cake-combos-list .cm-card--nested');
+        const combos = Array.from(comboEls).map(el => ({
+            name:  el.querySelector('[data-field="name"]')?.value.trim() || '',
+            badge: el.querySelector('[data-field="badge"]')?.value.trim() || '',
+            note:  el.querySelector('[data-field="note"]')?.value.trim() || '',
+            price: el.querySelector('[data-field="price"]')?.value.trim() || '',
+            items: (el.querySelector('[data-field="items"]')?.value || '').split('\n').map(s => s.trim()).filter(Boolean),
+        })).filter(c => c.name);
+
+        const cakeIntroEl = document.querySelector('#mini-editor-sp-cake-intro .mini-editor-content');
+
+        _currentContent.supportPages = {
+            materials: {
+                heroTitle:    document.getElementById('sp-mat-heroTitle')?.value.trim() || '',
+                heroSubtitle: document.getElementById('sp-mat-heroSubtitle')?.value.trim() || '',
+                story:        matStoryEl?.innerHTML || '',
+            },
+            cake: {
+                heroTitle:    document.getElementById('sp-cake-heroTitle')?.value.trim() || '',
+                heroSubtitle: document.getElementById('sp-cake-heroSubtitle')?.value.trim() || '',
+                fbLink:       document.getElementById('sp-cake-fbLink')?.value.trim() || '',
+                intro:        cakeIntroEl?.innerHTML || '',
+                combos,
+            },
+        };
+
+        await saveContent(_currentContent, 'trang ung ho');
+        showCmStatus('support', '✅ Đã lưu! Web sẽ cập nhật sau ~1-2 phút.');
+    } catch (e) {
+        showCmStatus('support', '❌ Lỗi: ' + e.message, 'error');
+    } finally {
+        cmLoading('support', false);
     }
 };
 
