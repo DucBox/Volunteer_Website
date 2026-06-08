@@ -585,11 +585,6 @@
 
     <!-- Custom JS -->
     <script src="script.js"></script>
-    <script type="module">
-        import { initContentManager } from './content-manager.js';
-        window._initContentManager = initContentManager;
-        // Handle case where login completed before module finished loading
-        document.addEventListener('admin-logged-in', () => initContentManager());
-    </script>
+    <script type="module" src="init-content-manager.js"></script>
 </body>
 </html>
