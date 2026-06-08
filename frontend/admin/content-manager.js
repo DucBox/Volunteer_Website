@@ -498,20 +498,41 @@ window.addCakeCombo = function() {
 };
 
 function menuItemRow(item, i, type) {
-    return `<div class="cm-row" id="menu-${type}-${i}">
-        <input class="form-input" placeholder="Tên sản phẩm" value="${escHtml(item.name || '')}" data-field="name">
-        <input class="form-input" placeholder="Mô tả ngắn" value="${escHtml(item.desc || item.description || '')}" data-field="desc">
-        <input class="form-input" placeholder="Giá (vd: 80.000đ hoặc Liên hệ)" value="${escHtml(item.price || '')}" data-field="price">
-        <input class="form-input" placeholder="Đường dẫn ảnh" value="${escHtml(item.image || '')}" data-field="image">
-        <button class="btn-icon btn-danger" onclick="removeMenuItem('${type}',${i})" title="Xóa"><i class="fas fa-trash"></i></button>
+    const img   = escHtml(item.image || '');
+    const name  = escHtml(item.name  || '');
+    const desc  = escHtml(item.desc  || item.description || '');
+    const price = escHtml(item.price || '');
+    return `
+    <div class="cm-menu-item" id="menu-${type}-${i}">
+        <div class="cm-row">
+            <input class="form-input" placeholder="Tên sản phẩm" value="${name}" data-field="name">
+            <input class="form-input" style="max-width:140px" placeholder="Giá (vd: Liên hệ)" value="${price}" data-field="price">
+            <button class="btn-icon btn-danger" onclick="removeMenuItem('${type}',${i})" title="Xóa"><i class="fas fa-trash"></i></button>
+        </div>
+        <input class="form-input" placeholder="Mô tả ngắn" value="${desc}" data-field="desc">
+        <div class="cm-img-picker-row">
+            <img class="cm-img-thumb" src="${img}" alt=""
+                 onerror="this.classList.add('cm-img-empty')"
+                 onload="this.classList.remove('cm-img-empty')">
+            <input class="form-input" placeholder="Đường dẫn ảnh (assets/images/...)" value="${img}" data-field="image"
+                   oninput="updateThumb(this)">
+        </div>
     </div>`;
 }
 
 window.removeMenuItem = function(type, i) { document.getElementById(`menu-${type}-${i}`)?.remove(); };
 
+window.updateThumb = function(input) {
+    const thumb = input.closest('.cm-img-picker-row')?.querySelector('.cm-img-thumb');
+    if (thumb) {
+        thumb.src = input.value;
+        thumb.classList.remove('cm-img-empty');
+    }
+};
+
 window.addMenuBanh = function() {
     const list = document.getElementById('sp-cake-banh-list');
-    const i = list.querySelectorAll('.cm-row').length;
+    const i = list.querySelectorAll('.cm-menu-item').length;
     const div = document.createElement('div');
     div.innerHTML = menuItemRow({ name:'', desc:'', price:'', image:'' }, i, 'banh');
     list.appendChild(div.firstElementChild);
@@ -519,7 +540,7 @@ window.addMenuBanh = function() {
 
 window.addMenuNuoc = function() {
     const list = document.getElementById('sp-cake-nuoc-list');
-    const i = list.querySelectorAll('.cm-row').length;
+    const i = list.querySelectorAll('.cm-menu-item').length;
     const div = document.createElement('div');
     div.innerHTML = menuItemRow({ name:'', desc:'', price:'', image:'' }, i, 'nuoc');
     list.appendChild(div.firstElementChild);
@@ -544,7 +565,7 @@ window.saveSupportPages = async function() {
         const cakeIntroEl = document.querySelector('#mini-editor-sp-cake-intro .mini-editor-content');
 
         function readMenuRows(listId, type) {
-            return Array.from(document.querySelectorAll(`#${listId} .cm-row`)).map(r => ({
+            return Array.from(document.querySelectorAll(`#${listId} .cm-menu-item`)).map(r => ({
                 name:  r.querySelector('[data-field="name"]')?.value.trim() || '',
                 desc:  r.querySelector('[data-field="desc"]')?.value.trim() || '',
                 price: r.querySelector('[data-field="price"]')?.value.trim() || '',

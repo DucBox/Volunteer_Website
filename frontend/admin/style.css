@@ -1094,6 +1094,42 @@ body {
 
 .cm-img-row .form-input { flex: 1; }
 
+/* Menu item card (bánh / nước) */
+.cm-menu-item {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px;
+    margin-bottom: 10px;
+}
+
+.cm-img-picker-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.cm-img-picker-row .form-input { flex: 1; }
+
+.cm-img-thumb {
+    width: 56px;
+    height: 56px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 1.5px solid var(--border);
+    flex-shrink: 0;
+    background: var(--bg-secondary);
+    transition: opacity .2s;
+}
+
+.cm-img-thumb.cm-img-empty {
+    opacity: 0.25;
+    background: var(--gray-200);
+}
+
 .cm-upload-btn {
     flex-shrink: 0;
     cursor: pointer;
