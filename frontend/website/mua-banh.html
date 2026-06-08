@@ -428,6 +428,11 @@
             text-align: center; padding: 40px 24px;
             background: linear-gradient(135deg,#7c3a00,#d97706 60%,#f59e0b);
             border-radius: 20px; color: #fff;
+            transition: filter .35s ease, box-shadow .35s ease;
+        }
+        .cake-cta-box:hover {
+            filter: brightness(1.08);
+            box-shadow: 0 16px 48px rgba(var(--cake-amber-rgb),.35);
         }
         .cake-cta-box h3 { font-size: 24px; font-weight: 800; margin: 0 0 10px; }
         .cake-cta-box p  { opacity: .9; margin: 0 0 24px; font-size: 15px; }
@@ -436,9 +441,15 @@
             padding: 14px 32px; background: rgba(255,255,255,.2);
             border: 2px solid rgba(255,255,255,.5); color: #fff;
             text-decoration: none; font-size: 16px; font-weight: 700;
-            border-radius: 50px; backdrop-filter: blur(8px); transition: background .2s;
+            border-radius: 50px; backdrop-filter: blur(8px);
+            transition: background .2s ease, transform .2s ease, box-shadow .2s ease, border-color .2s ease;
         }
-        .cake-cta-btn:hover { background: rgba(255,255,255,.32); }
+        .cake-cta-btn:hover {
+            background: rgba(255,255,255,.35);
+            border-color: rgba(255,255,255,.75);
+            transform: translateY(-2px) scale(1.03);
+            box-shadow: 0 8px 24px rgba(0,0,0,.2);
+        }
 
         /* ── Dark mode ── */
         [data-theme="dark"] .product-card,
@@ -733,7 +744,12 @@
         }
 
         function renderCombos(combos) {
-            _combos = combos;
+            _combos = combos.map((c, i) => ({
+                ...c,
+                products: (c.products && c.products.length)
+                    ? c.products
+                    : (DEFAULT_COMBOS[i]?.products || [])
+            }));
             const grid = document.getElementById('sp-cake-combosGrid');
             if (!grid) return;
             grid.innerHTML = combos.map((c, i) => `

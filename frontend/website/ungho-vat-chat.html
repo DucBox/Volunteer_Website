@@ -141,6 +141,15 @@
         /* Item cards already have hover in support-pages.css — strengthen it */
         .sp-item-card:hover .sp-item-img-wrap img { transform: scale(1.06); }
         .sp-item-img-wrap img { transition: transform .35s ease; }
+        /* CTA contact box hover */
+        .sp-contact-box {
+            transition: filter .35s ease, box-shadow .35s ease;
+        }
+        .sp-contact-box:hover {
+            filter: brightness(1.07);
+            box-shadow: 0 16px 48px rgba(var(--color-primary-rgb), .3);
+        }
+        .sp-hotline-btn:active { transform: scale(.97); }
     </style>
 </head>
 <body>
