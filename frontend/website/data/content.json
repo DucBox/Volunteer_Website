@@ -472,48 +472,48 @@
     "cake": {
       "heroTitle": "Mua Bánh Ủng Hộ",
       "heroSubtitle": "Ngọt ngào cho bạn — ấm áp cho em",
-      "intro": "<p><strong>Bếp Bánh Cho EM</strong> là sáng kiến nhỏ của nhóm tình nguyện — chúng mình tự tay làm bánh Tiramisu và bán để gây quỹ cho các chuyến thiện nguyện. Mỗi chiếc bánh bạn mua không chỉ là một món ngon, mà còn là một viên gạch nhỏ góp vào ngôi trường ấm áp hơn, ba lô sách vở đầy hơn cho các em vùng cao.</p><p>Chúng mình cam kết làm bánh từ nguyên liệu sạch, nướng tay và giao đến tận nơi với tất cả tình yêu thương. Toàn bộ lợi nhuận sau chi phí được dành cho quỹ thiện nguyện của dự án.</p>",
       "fbLink": "https://www.facebook.com/bepbanhchoem",
+      "intro": "<p><strong>Bếp Bánh Cho EM</strong> là sáng kiến nhỏ của nhóm tình nguyện — chúng mình tự tay làm bánh Tiramisu và bán để gây quỹ cho các chuyến thiện nguyện. Mỗi chiếc bánh bạn mua không chỉ là một món ngon, mà còn là một viên gạch nhỏ góp vào ngôi trường ấm áp hơn, ba lô sách vở đầy hơn cho các em vùng cao.</p><p>Chúng mình cam kết làm bánh từ nguyên liệu sạch, nướng tay và giao đến tận nơi với tất cả tình yêu thương. Toàn bộ lợi nhuận sau chi phí được dành cho quỹ thiện nguyện của dự án.</p>",
       "combos": [
         {
-          "badge": "Opening",
           "name": "COMBO 1 | OPENING",
+          "badge": "Opening",
           "note": "Áp dụng 3 tuần đầu",
+          "price": "80.000đ",
           "items": [
             "🍰 01 Tiramisu Size L",
             "🥤 Tặng kèm 01 ly chanh leo pha sẵn"
-          ],
-          "price": "80.000đ"
+          ]
         },
         {
-          "badge": "Share",
           "name": "COMBO 2 | SHARE THE SWEETNESS",
+          "badge": "Share",
           "note": "",
+          "price": "Chỉ 85.000đ",
           "items": [
             "🍰 02 Tiramisu Size M"
-          ],
-          "price": "Chỉ 85.000đ"
+          ]
         },
         {
-          "badge": "Combo",
           "name": "COMBO 3 | BÁNH & CHANH LEO",
+          "badge": "Combo",
           "note": "",
+          "price": "Chỉ 119.000đ",
           "items": [
             "🍰 01 Tiramisu Size L",
             "🍋 01 Chai Cốt Chanh Leo"
-          ],
-          "price": "Chỉ 119.000đ"
+          ]
         },
         {
-          "badge": "Premium",
           "name": "COMBO 4 | SWEET MOMENTS",
+          "badge": "Premium",
           "note": "",
+          "price": "Chỉ 169.000đ",
           "items": [
             "🍰 01 Tiramisu Size L",
             "🍰 01 Tiramisu Size M",
             "🍋 01 Chai Cốt Chanh Leo"
-          ],
-          "price": "Chỉ 169.000đ"
+          ]
         }
       ],
       "menu": {
@@ -536,7 +536,7 @@
             "name": "Cốt Chanh Leo",
             "desc": "Chai cốt nguyên chất, pha được nhiều ly, chua ngọt tự nhiên.",
             "price": "Liên hệ",
-            "image": "assets/images/cake_shop/nuoc-ep-chanh-leo-332-2.jpg"
+            "image": "assets/images/cake_shop/cach-pha-nuoc-ep-chanh-leo.jpg"
           },
           {
             "name": "Ly Chanh Leo Pha Sẵn",
