@@ -2,48 +2,58 @@
   "hero": {
     "subtitle": "Hành trình mang yêu thương đến những em nhỏ vùng khó khăn!",
     "stats": [
-      { "number": "20+", "label": "Tình Nguyện Viên" },
-      { "number": "2+",  "label": "Dự Án Hoàn Thành" },
-      { "number": "200+","label": "Người Được Hỗ Trợ" },
-      { "number": "2+",  "label": "Đối Tác" }
+      {
+        "number": "20+",
+        "label": "Tình Nguyện Viên"
+      },
+      {
+        "number": "2+",
+        "label": "Dự Án Hoàn Thành"
+      },
+      {
+        "number": "200+",
+        "label": "Người Được Hỗ Trợ"
+      },
+      {
+        "number": "2+",
+        "label": "Đối Tác"
+      }
     ]
   },
-
   "members": [
     {
-      "image": "assets/images/members/tdao.jpg",
-      "role": "Founder",
       "name": "Đào Việt Thanh",
+      "role": "Founder",
       "info": "Cựu Sinh viên khoa Tiếng Anh, trường ĐHSP Hà Nội. Người sáng lập dự án với nhiều năm kinh nghiệm trong lĩnh vực từ thiện và phát triển cộng đồng.",
       "hobbies": "Đọc sách, Đánh cầu, Du lịch",
-      "quote": "Tuổi trẻ vất vả một chút."
+      "quote": "Tuổi trẻ vất vả một chút.",
+      "image": "assets/images/members/tdao.jpg"
     },
     {
-      "image": "assets/images/members/thao.jpg",
-      "role": "Co-Founder",
       "name": "Tạ Thanh Thảo",
+      "role": "Co-Founder",
       "info": "Cựu Sinh viên khoa Tiếng Anh, trường ĐHSP Hà Nội. Đồng sáng lập và chịu trách nhiệm về các hoạt động trong công tác hậu cần.",
       "hobbies": "Ngủ, Xem phim, Lướt Tiktok",
-      "quote": "The more you give, the more you receive."
+      "quote": "The more you give, the more you receive.",
+      "image": "assets/images/members/thao.jpg"
     },
     {
-      "image": "assets/images/members/thư.jpg",
-      "role": "Co-Founder",
       "name": "Nguyễn Minh Thư",
+      "role": "Co-Founder",
       "info": "Cựu Sinh viên Học viện Tài chính. Tình nguyện viên tích cực với niềm đam mê giúp đỡ trẻ em vùng cao.",
       "hobbies": "Ăn, Ngủ",
-      "quote": "Làm hết sức, chơi hết mình."
+      "quote": "Làm hết sức, chơi hết mình.",
+      "image": "assets/images/members/thư.jpg"
     },
     {
-      "image": "assets/images/members/htrang.jpg",
-      "role": "Co-Founder",
       "name": "Dương Hà Trang",
+      "role": "Co-Founder",
       "info": "Cựu Sinh viên khoa Tiếng Anh, trường ĐHSP Hà Nội.",
-      "hobbies": "Nấu ăn, Dạy học",
-      "quote": "Khi chúng ta dạy học, chúng ta không chỉ truyền đạt kiến thức, mà còn truyền đạt cả hi vọng."
+      "hobbies": "Nấu ăn, Dạy học, Chăm trẻ",
+      "quote": "Khi chúng ta dạy học, chúng ta không chỉ truyền đạt kiến thức, mà còn truyền đạt cả hi vọng.",
+      "image": "assets/images/members/htrang.jpg"
     }
   ],
-
   "mission": {
     "cards": [
       {
@@ -126,14 +136,24 @@
       }
     ]
   },
-
   "impact": [
-    { "count": 2,   "label": "Chuyến Đi Tình Nguyện" },
-    { "count": 60,  "label": "Suất Học Bổng" },
-    { "count": 200, "label": "Phần Quà Trao Tặng" },
-    { "count": 24,  "label": "Giờ Học Vui Vẻ" }
+    {
+      "count": 2,
+      "label": "Chuyến Đi Tình Nguyện"
+    },
+    {
+      "count": 60,
+      "label": "Suất Học Bổng"
+    },
+    {
+      "count": 200,
+      "label": "Phần Quà Trao Tặng"
+    },
+    {
+      "count": 24,
+      "label": "Giờ Học Vui Vẻ"
+    }
   ],
-
   "timeline": [
     {
       "date": "Tháng 3, 2025",
@@ -143,9 +163,18 @@
       "icon": "🌱",
       "image": "assets/images/projects/backan.jpg",
       "stats": [
-        { "value": "20+", "label": "Tình nguyện viên" },
-        { "value": "50+", "label": "Em nhỏ" },
-        { "value": "30+", "label": "Học bổng" }
+        {
+          "value": "20+",
+          "label": "Tình nguyện viên"
+        },
+        {
+          "value": "50+",
+          "label": "Em nhỏ"
+        },
+        {
+          "value": "30+",
+          "label": "Học bổng"
+        }
       ],
       "desc": "Chuyến đi khai sinh của Dự Án Cho EM — dạy tiếng Anh, trao học bổng và mang niềm vui đến hơn 50 em nhỏ tại vùng núi Bắc Kạn."
     },
@@ -157,9 +186,18 @@
       "icon": "🎄",
       "image": "assets/images/projects/yty.jpg",
       "stats": [
-        { "value": "25+", "label": "Tình nguyện viên" },
-        { "value": "80+", "label": "Em nhỏ" },
-        { "value": "100+", "label": "Phần quà" }
+        {
+          "value": "25+",
+          "label": "Tình nguyện viên"
+        },
+        {
+          "value": "80+",
+          "label": "Em nhỏ"
+        },
+        {
+          "value": "100+",
+          "label": "Phần quà"
+        }
       ],
       "desc": "Mang Giáng Sinh lên vùng cao — trao 100+ phần quà, tổ chức đêm văn nghệ và thắp sáng ước mơ cho các em nhỏ tại Lào Cai."
     },
@@ -204,7 +242,6 @@
       "desc": "Hành trình tiếp theo đang được lên kế hoạch. Bạn có muốn trở thành một phần của chuyến xe này và đồng hành ở trạm kế tiếp không?"
     }
   ],
-
   "activities": [
     {
       "id": "backan",
@@ -218,10 +255,22 @@
       "feelings": [],
       "feelingsFolder": "assets/images/feelings/backan/",
       "stats": [
-        { "value": "50+",  "label": "Em nhỏ" },
-        { "value": "30+",  "label": "Học bổng" },
-        { "value": "20+",  "label": "Tình nguyện viên" },
-        { "value": "2",    "label": "Ngày" }
+        {
+          "value": "50+",
+          "label": "Em nhỏ"
+        },
+        {
+          "value": "30+",
+          "label": "Học bổng"
+        },
+        {
+          "value": "20+",
+          "label": "Tình nguyện viên"
+        },
+        {
+          "value": "2",
+          "label": "Ngày"
+        }
       ],
       "fullDesc": "<p>Chuyến đi đầu tiên của Dự Án Cho EM đến với mảnh đất Bắc Kạn vào tháng 3/2025 đã để lại những dấu ấn khó phai trong lòng cả đội và các em nhỏ. Đây là hành trình mở đầu cho một chuỗi những chuyến đi đầy ý nghĩa, nơi tình yêu thương và tri thức được lan tỏa đến những vùng đất còn nhiều khó khăn.</p><h4>🌟 Điểm nổi bật</h4><ul><li>Tổ chức 6 buổi học tiếng Anh vui vẻ và sáng tạo cho hơn 50 em nhỏ</li><li>Trao tặng 30 suất học bổng kèm đồ dùng học tập</li><li>Tổ chức các trò chơi teambuilding gắn kết tình bạn</li><li>Giao lưu văn hóa và ca hát cùng các em</li><li>Thăm hỏi và hỗ trợ các gia đình có hoàn cảnh khó khăn</li></ul><h4>💬 Cảm nhận từ tình nguyện viên</h4><blockquote>Nhìn các em háo hức học từng chữ tiếng Anh, mình mới hiểu tại sao mình quyết định tham gia dự án này. Đây thực sự là một trong những kỷ niệm đẹp nhất tuổi trẻ của mình.<cite>— Nguyễn Thị Lan, Tình nguyện viên</cite></blockquote>"
     },
@@ -237,10 +286,22 @@
       "feelings": [],
       "feelingsFolder": "assets/images/feelings/yty/",
       "stats": [
-        { "value": "100+", "label": "Phần quà Noel" },
-        { "value": "80+",  "label": "Em nhỏ" },
-        { "value": "25+",  "label": "Tình nguyện viên" },
-        { "value": "3",    "label": "Ngày" }
+        {
+          "value": "100+",
+          "label": "Phần quà Noel"
+        },
+        {
+          "value": "80+",
+          "label": "Em nhỏ"
+        },
+        {
+          "value": "25+",
+          "label": "Tình nguyện viên"
+        },
+        {
+          "value": "3",
+          "label": "Ngày"
+        }
       ],
       "fullDesc": "<p>Trong không khí Giáng sinh ấm áp, Dự Án Cho EM lần đầu tiên đặt chân đến vùng đất Lào Cai. Những con đường núi quanh co dẫn đến những ngôi trường nhỏ xinh giữa bạt ngàn xanh mướt, nơi các em nhỏ chưa từng được đón một mùa Giáng sinh thực sự.</p><h4>🎄 Ý nghĩa đặc biệt</h4><ul><li>Mang Giáng sinh đến với các em nhỏ vùng cao lần đầu tiên</li><li>Tổ chức đêm hội Noel với đèn hoa lung linh và quà tặng</li><li>Dạy tiếng Anh qua các bài hát Giáng sinh quốc tế</li><li>Trao tặng hơn 100 phần quà Noel ý nghĩa</li><li>Chụp ảnh lưu niệm và tạo những kỷ niệm khó quên</li></ul><h4>💬 Khoảnh khắc khó quên</h4><blockquote>Lần đầu tiên trong đời, các em được nhìn thấy ông già Noel. Ánh mắt ngạc nhiên và nụ cười rạng rỡ của các em là món quà lớn nhất với tất cả chúng mình.<cite>— Trần Văn Đức, Trưởng nhóm</cite></blockquote>"
     },
@@ -259,7 +320,6 @@
       "fullDesc": "<p>Hành trình Điện Biên đang trong giai đoạn lên kế hoạch. Thông tin chi tiết sẽ được cập nhật sớm!</p>"
     }
   ],
-
   "volunteer": {
     "subtitle": "Chúng mình đang tìm kiếm những người đồng đội mới — những bạn trẻ nhiệt huyết, sẵn sàng đồng hành cùng dự án trong các hoạt động tổ chức, hỗ trợ và lan tỏa yêu thương.",
     "benefits": [
@@ -273,7 +333,6 @@
     "formDesc": "Hãy để tuổi trẻ của bạn được ghi dấu ở một hành trình đầy yêu thương cùng Dự án Cho Em nhé.",
     "formLink": "https://forms.gle/1uepUDGaWpRv8qoRA"
   },
-
   "faq": [
     {
       "q": "Điều kiện tham gia tình nguyện là gì?",
@@ -300,7 +359,6 @@
       "a": "Hiện EM đã tổ chức các chuyến tại Bắc Kạn (03/2025) và Lào Cai (12/2025). Chuyến tiếp theo đang được lên kế hoạch tại Điện Biên — danh sách địa điểm sẽ tiếp tục được mở rộng!"
     }
   ],
-
   "donation": {
     "transfer": {
       "accountNumber": "9999 5521 44",
@@ -313,28 +371,79 @@
     "materials": {
       "description": "Ngoài tài chính, bạn có thể ủng hộ đồ dùng học tập và đồ ăn cho các bé:",
       "items": [
-        { "image": "assets/images/book.jpg",  "name": "Sách vở" },
-        { "image": "assets/images/pen.jpg",   "name": "Bút chì" },
-        { "image": "assets/images/pen2.jpg",  "name": "Bút mực" },
-        { "image": "assets/images/ruler.jpg", "name": "Thước" },
-        { "image": "assets/images/food.jpg",  "name": "Đồ ăn" },
-        { "image": "assets/images/drink.jpg", "name": "Nước uống" }
+        {
+          "image": "assets/images/book.jpg",
+          "name": "Sách vở"
+        },
+        {
+          "image": "assets/images/pen.jpg",
+          "name": "Bút chì"
+        },
+        {
+          "image": "assets/images/pen2.jpg",
+          "name": "Bút mực"
+        },
+        {
+          "image": "assets/images/ruler.jpg",
+          "name": "Thước"
+        },
+        {
+          "image": "assets/images/food.jpg",
+          "name": "Đồ ăn"
+        },
+        {
+          "image": "assets/images/drink.jpg",
+          "name": "Nước uống"
+        }
       ],
-      "hotlines": ["0912503111", "0945513426"]
+      "hotlines": [
+        "0912503111",
+        "0945513426"
+      ]
     }
   },
-
   "testimonials": [
-    { "image": "assets/images/feelings/1.jpg", "name": "", "text": "" },
-    { "image": "assets/images/feelings/2.jpg", "name": "", "text": "" },
-    { "image": "assets/images/feelings/3.jpg", "name": "", "text": "" },
-    { "image": "assets/images/feelings/4.jpg", "name": "", "text": "" },
-    { "image": "assets/images/feelings/5.jpg", "name": "", "text": "" },
-    { "image": "assets/images/feelings/6.jpg", "name": "", "text": "" },
-    { "image": "assets/images/feelings/7.jpg", "name": "", "text": "" },
-    { "image": "assets/images/feelings/8.jpg", "name": "", "text": "" }
+    {
+      "image": "assets/images/feelings/1.jpg",
+      "name": "",
+      "text": ""
+    },
+    {
+      "image": "assets/images/feelings/2.jpg",
+      "name": "",
+      "text": ""
+    },
+    {
+      "image": "assets/images/feelings/3.jpg",
+      "name": "",
+      "text": ""
+    },
+    {
+      "image": "assets/images/feelings/4.jpg",
+      "name": "",
+      "text": ""
+    },
+    {
+      "image": "assets/images/feelings/5.jpg",
+      "name": "",
+      "text": ""
+    },
+    {
+      "image": "assets/images/feelings/6.jpg",
+      "name": "",
+      "text": ""
+    },
+    {
+      "image": "assets/images/feelings/7.jpg",
+      "name": "",
+      "text": ""
+    },
+    {
+      "image": "assets/images/feelings/8.jpg",
+      "name": "",
+      "text": ""
+    }
   ],
-
   "partners": [
     {
       "logo": "assets/images/sponsors/ieltshieuminh.jpg",
@@ -342,10 +451,12 @@
       "desc": "Hướng đến xây dựng các lớp học đơn giản mà hiệu quả, kỷ luật nhưng vui vẻ. Kể từ tháng 9/2025, IELTS Hiếu Minh chính thức trở thành đối tác đăng ký thi của cả BC và IDP."
     }
   ],
-
   "footer": {
     "about": "Dự án tình nguyện cam kết mang lại những thay đổi tích cực cho cộng đồng thông qua các hoạt động ý nghĩa và bền vững.",
-    "hotlines": ["0912503111", "0945513426"],
+    "hotlines": [
+      "0912503111",
+      "0945513426"
+    ],
     "email": "info.duanem@gmail.com",
     "hours": "Thứ 2 – Chủ Nhật: 8:00 – 22:00",
     "facebook": "https://www.facebook.com/info.duanchoem",
