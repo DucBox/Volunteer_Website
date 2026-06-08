@@ -4,6 +4,7 @@
 // ===================================
 
 const CONTENT_API = `${API_BASE}/content`;
+const WEBSITE_BASE = 'https://volunteer-website-self.vercel.app';
 let _currentContent = null;
 
 // ---- Helpers ----
@@ -31,9 +32,9 @@ function cmLoading(sectionId, loading) {
 }
 
 async function fetchContent() {
-    const res = await fetch(CONTENT_API, { headers: { 'X-Admin-Key': getAdminKey() } });
-    if (res.status === 401) { handleUnauthorized(); throw new Error('Unauthorized'); }
-    if (!res.ok) throw new Error('Cannot fetch content');
+    // Read directly from the public website (no auth needed, always reflects live content)
+    const res = await fetch(`${WEBSITE_BASE}/data/content.json?v=${Date.now()}`);
+    if (!res.ok) throw new Error('Cannot fetch content.json from website');
     return res.json();
 }
 
@@ -969,7 +970,7 @@ window.saveMission = async function() {
 // SECTION: TESTIMONIALS
 // ============================
 
-const VERCEL_BASE = 'https://volunteer-website-self.vercel.app';
+const VERCEL_BASE = WEBSITE_BASE;
 
 function populateTestimonials(testimonials) {
     const list = document.getElementById('testimonials-list');
