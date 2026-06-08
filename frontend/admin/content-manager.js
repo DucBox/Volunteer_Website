@@ -511,7 +511,7 @@ function menuItemRow(item, i, type) {
         </div>
         <input class="form-input" placeholder="Mô tả ngắn" value="${desc}" data-field="desc">
         <div class="cm-img-picker-row">
-            <img class="cm-img-thumb" src="${img}" alt=""
+            <img class="cm-img-thumb" src="${img ? `${WEBSITE_BASE}/${img.replace(/^\//,'')}` : ''}" alt=""
                  onerror="this.classList.add('cm-img-empty')"
                  onload="this.classList.remove('cm-img-empty')">
             <input class="form-input" placeholder="Đường dẫn ảnh (assets/images/...)" value="${img}" data-field="image"
@@ -522,10 +522,16 @@ function menuItemRow(item, i, type) {
 
 window.removeMenuItem = function(type, i) { document.getElementById(`menu-${type}-${i}`)?.remove(); };
 
+function resolveImgSrc(path) {
+    if (!path) return '';
+    if (path.startsWith('http://') || path.startsWith('https://') || path.startsWith('//')) return path;
+    return `${WEBSITE_BASE}/${path.replace(/^\//, '')}`;
+}
+
 window.updateThumb = function(input) {
     const thumb = input.closest('.cm-img-picker-row')?.querySelector('.cm-img-thumb');
     if (thumb) {
-        thumb.src = input.value;
+        thumb.src = resolveImgSrc(input.value);
         thumb.classList.remove('cm-img-empty');
     }
 };
