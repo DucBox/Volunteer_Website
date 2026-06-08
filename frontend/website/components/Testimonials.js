@@ -4,14 +4,28 @@
  */
 
 export class Testimonials {
-    constructor(feelingsPath) {
+    /**
+     * @param {Array|string} dataOrPath
+     *   - Array: [{image, name, text}, ...] from content.json
+     *   - string: folder path (legacy fallback, scan mode)
+     */
+    constructor(dataOrPath) {
         this.images = [];
         this.currentIndex = 0;
         this.autoSlideInterval = null;
         this.isPlaying = true;
         this.slideSpeed = 4000;
-        this.feelingsPath = feelingsPath || 'assets/images/feelings/';
         this.cardsPerView = this.getCardsPerView();
+
+        if (Array.isArray(dataOrPath) && dataOrPath.length > 0) {
+            // CMS mode: data comes from content.json with image + name + text
+            this._cmsData = dataOrPath;
+            this._mode = 'cms';
+        } else {
+            // Legacy scan mode
+            this.feelingsPath = (typeof dataOrPath === 'string' ? dataOrPath : null) || 'assets/images/feelings/';
+            this._mode = 'scan';
+        }
 
         this.init();
     }
@@ -33,8 +47,22 @@ export class Testimonials {
     
     async init() {
         console.log('[Testimonials] Khởi tạo component...');
-        await this.loadImages();
-        
+
+        if (this._mode === 'cms') {
+            // Filter out entries with no image, shuffle, pick 6-9
+            const valid = this._cmsData.filter(t => t.image);
+            const shuffled = [...valid].sort(() => Math.random() - 0.5);
+            const pickCount = Math.min(shuffled.length, 6 + Math.floor(Math.random() * 4));
+            this.images = shuffled.slice(0, pickCount).map(t => ({
+                src: t.image,
+                alt: t.name || 'Cảm nhận tình nguyện viên',
+                name: t.name || '',
+                text: t.text || '',
+            }));
+        } else {
+            await this.loadImages();
+        }
+
         if (this.images.length > 0) {
             this.render();
             this.attachEventListeners();
@@ -110,11 +138,16 @@ export class Testimonials {
             <div class="testimonials-carousel">
                 <div class="testimonials-track" id="testimonialsTrack">
                     ${this.images.map((img, index) => `
-                        <div class="testimonial-card-new" data-index="${index}">
+                        <div class="testimonial-card-new${img.text ? ' has-text' : ''}" data-index="${index}">
                             <div class="card-image-wrapper">
                                 <img src="${img.src}" alt="${img.alt}" loading="lazy">
                                 <div class="card-shimmer"></div>
                             </div>
+                            ${img.text ? `
+                            <div class="testimonial-card-body">
+                                ${img.name ? `<p class="testimonial-card-name">${img.name}</p>` : ''}
+                                <p class="testimonial-card-text">"${img.text}"</p>
+                            </div>` : ''}
                         </div>
                     `).join('')}
                 </div>

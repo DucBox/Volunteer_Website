@@ -45,7 +45,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     new Navbar();
     new Forms();
     new Members(content.members);
-    new Testimonials();
+    new Testimonials(content.testimonials);
     new ScrollToTop();
     new Activities(content.activities);
     new Mission(content.mission);

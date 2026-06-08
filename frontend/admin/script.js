@@ -63,7 +63,9 @@ async function submitAdminKey() {
         _adminKey = key;
         hideLoginOverlay();
         loadDocuments();
-        // Init content manager after login
+        // Dispatch event for module (handles race condition)
+        document.dispatchEvent(new CustomEvent('admin-logged-in'));
+        // Also call directly if module already loaded
         if (window._initContentManager) window._initContentManager();
     } catch {
         errorEl.textContent = 'Không thể kết nối đến server.';

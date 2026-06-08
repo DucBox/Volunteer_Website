@@ -1134,3 +1134,69 @@ body {
         grid-template-columns: 1fr;
     }
 }
+
+/* Testimonial admin cards */
+.testimonial-admin-card {
+    border-color: #e0e7ff;
+}
+
+.testimonial-admin-layout {
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    gap: 16px;
+    align-items: start;
+}
+
+.testimonial-admin-img-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+}
+
+.testimonial-admin-preview {
+    width: 130px;
+    height: 130px;
+    object-fit: cover;
+    border-radius: 10px;
+    border: 2px solid var(--border);
+}
+
+.testimonial-admin-no-img {
+    width: 130px;
+    height: 130px;
+    border-radius: 10px;
+    border: 2px dashed var(--border);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    color: var(--text-muted);
+    font-size: 12px;
+}
+
+.testimonial-admin-no-img i {
+    font-size: 28px;
+    opacity: 0.4;
+}
+
+.testimonial-admin-text-col {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.cm-status--info {
+    background: #eff6ff;
+    color: #1d4ed8;
+}
+
+@media (max-width: 640px) {
+    .testimonial-admin-layout {
+        grid-template-columns: 1fr;
+    }
+    .testimonial-admin-img-col {
+        align-items: flex-start;
+    }
+}
