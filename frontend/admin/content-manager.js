@@ -524,9 +524,63 @@ function populateSupportPages(sp) {
     if (nuocList) {
         nuocList.innerHTML = ((cake.menu?.nuoc) || []).map((item, i) => menuItemRow(item, i, 'nuoc')).join('');
     }
+    // Populate combo product selects AFTER menu lists are rendered
+    populateComboSelects();
+}
+
+// ── Helpers for combo product snapshot ──
+
+function getMenuSnapshot() {
+    // Read all current menu items from the form (bánh + nước)
+    const items = [];
+    document.querySelectorAll('#sp-cake-banh-list .cm-menu-item').forEach(r => {
+        const name  = r.querySelector('[data-field="name"]')?.value.trim();
+        const image = r.querySelector('[data-field="image"]')?.value.trim();
+        if (name) items.push({ name, image: image || '', group: 'Bánh' });
+    });
+    document.querySelectorAll('#sp-cake-nuoc-list .cm-menu-item').forEach(r => {
+        const name  = r.querySelector('[data-field="name"]')?.value.trim();
+        const image = r.querySelector('[data-field="image"]')?.value.trim();
+        if (name) items.push({ name, image: image || '', group: 'Nước' });
+    });
+    return items;
+}
+
+function comboProductCard(p) {
+    const qty = parseInt(String(p.qty || '1').replace('×', '')) || 1;
+    const src = resolveImgSrc(p.image || '');
+    return `
+    <div class="cm-combo-product" data-image="${escHtml(p.image || '')}" data-name="${escHtml(p.name || '')}">
+        <img class="cm-img-thumb-sm" src="${escHtml(src)}" alt=""
+             onerror="this.classList.add('cm-img-empty')" onload="this.classList.remove('cm-img-empty')">
+        <span class="cm-combo-product-name">${escHtml(p.name || '')}</span>
+        <div class="cm-qty-wrap">
+            <span class="cm-qty-x">×</span>
+            <input type="number" class="cm-qty-input form-input" value="${qty}" min="1" max="99">
+        </div>
+        <button type="button" class="btn-icon btn-danger" onclick="removeComboProduct(this)" title="Xóa">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>`;
+}
+
+function populateComboSelects() {
+    const menuItems = getMenuSnapshot();
+    document.querySelectorAll('.cm-product-select').forEach(sel => {
+        const val = sel.value;
+        sel.innerHTML = '<option value="">— Chọn sản phẩm —</option>' +
+            ['Bánh', 'Nước'].map(g => {
+                const opts = menuItems.filter(m => m.group === g).map((m, idx) =>
+                    `<option value="${encodeURIComponent(JSON.stringify(m))}">${m.name}</option>`
+                ).join('');
+                return opts ? `<optgroup label="${g}">${opts}</optgroup>` : '';
+            }).join('');
+        sel.value = val;
+    });
 }
 
 function cakeComboRow(combo, i) {
+    const productsHtml = (combo.products || []).map(p => comboProductCard(p)).join('');
     return `<div class="cm-card cm-card--nested" id="cake-combo-${i}">
         <div class="cm-card-header">
             <strong>Combo ${i + 1}</strong>
@@ -544,8 +598,8 @@ function cakeComboRow(combo, i) {
         </div>
         <div class="cm-grid-2">
             <div class="form-group">
-                <label>Ghi chú (ví dụ: áp dụng 3 tuần đầu)</label>
-                <input class="form-input" placeholder="" value="${escHtml(combo.note || '')}" data-field="note">
+                <label>Ghi chú</label>
+                <input class="form-input" placeholder="Áp dụng 3 tuần đầu" value="${escHtml(combo.note || '')}" data-field="note">
             </div>
             <div class="form-group">
                 <label>Giá</label>
@@ -553,20 +607,38 @@ function cakeComboRow(combo, i) {
             </div>
         </div>
         <div class="form-group">
-            <label>Danh sách (mỗi dòng một món)</label>
-            <textarea class="form-input" rows="3" data-field="items" placeholder="🍰 01 Tiramisu Size L\n🥤 Tặng kèm 01 ly chanh leo">${escHtml((combo.items || []).join('\n'))}</textarea>
+            <label>Sản phẩm trong combo</label>
+            <div class="cm-combo-products" data-field="products">${productsHtml}</div>
+            <div class="cm-add-product-row">
+                <select class="form-input cm-product-select"></select>
+                <button type="button" class="btn btn-secondary" onclick="addComboProduct(this)">+ Thêm</button>
+            </div>
         </div>
     </div>`;
 }
 
-window.removeCakeCombo = function(i) { document.getElementById(`cake-combo-${i}`)?.remove(); };
+window.removeCakeCombo    = function(i) { document.getElementById(`cake-combo-${i}`)?.remove(); };
+window.removeComboProduct = function(btn) { btn.closest('.cm-combo-product')?.remove(); };
+
+window.addComboProduct = function(btn) {
+    const sel = btn.previousElementSibling;
+    if (!sel || !sel.value) return;
+    let item;
+    try { item = JSON.parse(decodeURIComponent(sel.value)); } catch { return; }
+    const container = btn.closest('.form-group').querySelector('.cm-combo-products');
+    const div = document.createElement('div');
+    div.innerHTML = comboProductCard({ image: item.image, name: item.name, qty: '×1' });
+    container.appendChild(div.firstElementChild);
+    sel.value = '';
+};
 
 window.addCakeCombo = function() {
     const list = document.getElementById('sp-cake-combos-list');
     const i = list.querySelectorAll('.cm-card--nested').length;
     const div = document.createElement('div');
-    div.innerHTML = cakeComboRow({ name: '', badge: '', note: '', price: '', items: [] }, i);
+    div.innerHTML = cakeComboRow({ name: '', badge: '', note: '', price: '', products: [] }, i);
     list.appendChild(div.firstElementChild);
+    populateComboSelects();
 };
 
 function menuItemRow(item, i, type) {
@@ -634,15 +706,24 @@ window.saveSupportPages = async function() {
         // Materials
         const matStoryEl = document.querySelector('#mini-editor-sp-mat-story .mini-editor-content');
 
-        // Cake combos
+        // Cake combos (snapshot approach)
         const comboEls = document.querySelectorAll('#sp-cake-combos-list .cm-card--nested');
-        const combos = Array.from(comboEls).map(el => ({
-            name:  el.querySelector('[data-field="name"]')?.value.trim() || '',
-            badge: el.querySelector('[data-field="badge"]')?.value.trim() || '',
-            note:  el.querySelector('[data-field="note"]')?.value.trim() || '',
-            price: el.querySelector('[data-field="price"]')?.value.trim() || '',
-            items: (el.querySelector('[data-field="items"]')?.value || '').split('\n').map(s => s.trim()).filter(Boolean),
-        })).filter(c => c.name);
+        const combos = Array.from(comboEls).map(el => {
+            const products = Array.from(el.querySelectorAll('.cm-combo-product')).map(p => {
+                const qty = parseInt(p.querySelector('.cm-qty-input')?.value || '1') || 1;
+                return { image: p.dataset.image || '', name: p.dataset.name || '', qty: `×${qty}` };
+            });
+            // Auto-generate items text list from products (for backward compat on website)
+            const items = products.map(p => `${p.name} ${p.qty}`);
+            return {
+                name:     el.querySelector('[data-field="name"]')?.value.trim() || '',
+                badge:    el.querySelector('[data-field="badge"]')?.value.trim() || '',
+                note:     el.querySelector('[data-field="note"]')?.value.trim() || '',
+                price:    el.querySelector('[data-field="price"]')?.value.trim() || '',
+                products,
+                items,
+            };
+        }).filter(c => c.name);
 
         const cakeIntroEl = document.querySelector('#mini-editor-sp-cake-intro .mini-editor-content');
 

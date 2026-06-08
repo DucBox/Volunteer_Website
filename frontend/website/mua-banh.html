@@ -745,9 +745,8 @@
         function renderCombos(combos) {
             _combos = combos.map((c, i) => ({
                 ...c,
-                products: (c.products && c.products.length)
-                    ? c.products
-                    : (DEFAULT_COMBOS[i]?.products || [])
+                // Use saved products snapshot; fallback to DEFAULT only if none saved yet
+                products: (c.products && c.products.length) ? c.products : (DEFAULT_COMBOS[i]?.products || [])
             }));
             const grid = document.getElementById('sp-cake-combosGrid');
             if (!grid) return;
