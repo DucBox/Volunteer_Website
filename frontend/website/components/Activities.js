@@ -28,12 +28,14 @@ export class Activities {
         this.renderSlider();
         this.renderModal();
         this.attachEvents();
+        this.renderDots();
         this.updateSlider();
         this.updateNavButtons();
         this.startAuto();
 
         window.addEventListener('resize', () => {
             this.currentIndex = Math.min(this.currentIndex, this.maxIndex);
+            this.renderDots();
             this.updateSlider();
             this.updateNavButtons();
         });
@@ -49,13 +51,7 @@ export class Activities {
         const container = document.getElementById('activitiesSliderContainer');
         if (!container) return;
 
-        const cards = this.activities
-            .map((a, i) => this.cardHTML(a, i))
-            .join('');
-
-        const dots = this.activities
-            .map((_, i) => `<button class="act-dot${i === 0 ? ' active' : ''}" data-index="${i}" aria-label="Đến slide ${i + 1}"></button>`)
-            .join('');
+        const cards = this.activities.map((a, i) => this.cardHTML(a, i)).join('');
 
         container.innerHTML = `
             <div class="act-slider-wrapper">
@@ -63,12 +59,27 @@ export class Activities {
                     <div class="act-slider-track" id="actTrack">${cards}</div>
                 </div>
             </div>
-            <div class="act-controls">
+            <div class="act-controls" id="actControls">
                 <button class="act-slider-btn act-prev" id="actPrev" aria-label="Trước">&#8249;</button>
-                <div class="act-dots" id="actDots">${dots}</div>
+                <div class="act-dots" id="actDots"></div>
                 <button class="act-slider-btn act-next" id="actNext" aria-label="Tiếp">&#8250;</button>
             </div>
         `;
+    }
+
+    renderDots() {
+        const dotsContainer = document.getElementById('actDots');
+        const controls = document.getElementById('actControls');
+        if (!dotsContainer) return;
+        const count = this.maxIndex + 1;
+        if (count <= 1) {
+            if (controls) controls.style.display = 'none';
+            return;
+        }
+        if (controls) controls.style.display = '';
+        dotsContainer.innerHTML = Array.from({ length: count }, (_, i) =>
+            `<button class="act-dot${i === this.currentIndex ? ' active' : ''}" data-index="${i}" aria-label="Đến slide ${i + 1}"></button>`
+        ).join('');
     }
 
     cardHTML(activity, index) {
