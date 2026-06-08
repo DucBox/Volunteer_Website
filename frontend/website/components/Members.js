@@ -36,22 +36,6 @@ const MEMBERS_DATA = [
         hobbies: 'Nấu ăn, Dạy học',
         quote: 'Khi chúng ta dạy học, chúng ta không chỉ truyền đạt kiến thức, mà còn truyền đạt cả hi vọng.'
     },
-    {
-        image: 'assets/images/members/member5.jpg',
-        role: 'Member',
-        name: 'Hoàng Văn E',
-        info: 'Giáo viên tình nguyện, giảng dạy miễn phí cho trẻ em có hoàn cảnh khó khăn.',
-        hobbies: 'Chơi cờ, xem phim, viết blog',
-        quote: 'Giáo dục là cánh cửa mở ra tương lai tươi sáng cho mọi đứa trẻ.'
-    },
-    {
-        image: 'assets/images/members/member6.jpg',
-        role: 'Member',
-        name: 'Vũ Thị F',
-        info: 'Nhiếp ảnh gia tình nguyện, ghi lại những khoảnh khắc ý nghĩa của dự án.',
-        hobbies: 'Nhiếp ảnh, du lịch, cafe',
-        quote: 'Mỗi bức ảnh là một câu chuyện, mỗi câu chuyện là một tình cảm.'
-    }
 ];
 
 export class Members {

@@ -24,17 +24,21 @@ class RAGEngine:
         # Chunk
         chunks = self.chunking.split(text)
 
-        # Store với metadata
+        # Store với metadata — rollback all chunks if any write fails
         doc_id = str(uuid.uuid4())
-        for i, chunk in enumerate(chunks):
-            chunk_id = f"{doc_id}_{i}"
-            metadata = {
-                "doc_id": doc_id,
-                "doc_name": doc_name,
-                "file_name": file_name,
-                "chunk_index": i
-            }
-            self.vector_store.add(chunk_id=chunk_id, text=chunk, metadata=metadata)
+        try:
+            for i, chunk in enumerate(chunks):
+                chunk_id = f"{doc_id}_{i}"
+                metadata = {
+                    "doc_id": doc_id,
+                    "doc_name": doc_name,
+                    "file_name": file_name,
+                    "chunk_index": i
+                }
+                self.vector_store.add(chunk_id=chunk_id, text=chunk, metadata=metadata)
+        except Exception:
+            self.vector_store.delete_by_doc_id(doc_id)
+            raise
 
         return {"doc_id": doc_id, "doc_name": doc_name, "chunks": len(chunks)}
 
@@ -56,5 +60,5 @@ class RAGEngine:
 
         return {
             "answer": answer,
-            "sources": results
+            "sources": [{"id": r["id"], "metadata": r["metadata"]} for r in results]
         }

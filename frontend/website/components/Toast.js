@@ -24,13 +24,25 @@ export class Toast {
         const toast = document.createElement('div');
         toast.className = `toast toast-${type}`;
         toast.setAttribute('role', 'alert');
-        toast.innerHTML = `
-            <span class="toast-icon">${icons[type] ?? icons.info}</span>
-            <span class="toast-message">${message}</span>
-            <button class="toast-close" aria-label="Đóng">✕</button>
-            <div class="toast-progress" style="animation: toastProgress ${duration}ms linear forwards"></div>
-        `;
 
+        const iconEl = document.createElement('span');
+        iconEl.className = 'toast-icon';
+        iconEl.textContent = icons[type] ?? icons.info;
+
+        const msgEl = document.createElement('span');
+        msgEl.className = 'toast-message';
+        msgEl.textContent = message;
+
+        const closeBtn = document.createElement('button');
+        closeBtn.className = 'toast-close';
+        closeBtn.setAttribute('aria-label', 'Đóng');
+        closeBtn.textContent = '✕';
+
+        const progressEl = document.createElement('div');
+        progressEl.className = 'toast-progress';
+        progressEl.style.animation = `toastProgress ${duration}ms linear forwards`;
+
+        toast.append(iconEl, msgEl, closeBtn, progressEl);
         this.container.appendChild(toast);
 
         // Trigger enter animation

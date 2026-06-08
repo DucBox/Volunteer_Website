@@ -4,7 +4,7 @@ from app.config import settings
 
 class EmbeddingService:
     def __init__(self):
-        self.client = OpenAI(api_key=settings.OPENAI_API_KEY)
+        self.client = OpenAI(api_key=settings.OPENAI_API_KEY, timeout=20.0, max_retries=2)
         self.model = settings.EMBEDDING_MODEL
 
     def embed(self, text: str) -> list[float]:

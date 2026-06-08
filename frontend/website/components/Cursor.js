@@ -1,7 +1,8 @@
 export class Cursor {
     constructor() {
-        // Do not init on mobile
+        // Do not init on mobile or when user prefers reduced motion
         if (window.innerWidth <= 768 || 'ontouchstart' in window) return;
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
         this.init();
     }
 

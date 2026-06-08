@@ -16,8 +16,10 @@ const state = {
 // ===================================
 // ADMIN KEY AUTH
 // ===================================
+let _adminKey = '';
+
 function getAdminKey() {
-    return sessionStorage.getItem('adminKey') || '';
+    return _adminKey;
 }
 
 function adminHeaders(extra = {}) {
@@ -58,7 +60,7 @@ async function submitAdminKey() {
             return;
         }
 
-        sessionStorage.setItem('adminKey', key);
+        _adminKey = key;
         hideLoginOverlay();
         loadDocuments();
     } catch {
@@ -67,7 +69,7 @@ async function submitAdminKey() {
 }
 
 function handleUnauthorized() {
-    sessionStorage.removeItem('adminKey');
+    _adminKey = '';
     document.getElementById('adminKeyInput').value = '';
     document.getElementById('loginError').textContent = 'Phiên đã hết hạn. Vui lòng đăng nhập lại.';
     showLoginOverlay();
@@ -82,11 +84,13 @@ document.addEventListener('DOMContentLoaded', () => {
     setupDocumentList();
     setupChat();
 
-    if (getAdminKey()) {
-        loadDocuments();
-    } else {
-        showLoginOverlay();
-    }
+    // Wire up login overlay actions (no inline handlers in HTML)
+    document.getElementById('adminKeySubmitBtn')?.addEventListener('click', submitAdminKey);
+    document.getElementById('adminKeyInput')?.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') submitAdminKey();
+    });
+
+    showLoginOverlay();
 });
 
 // ===================================

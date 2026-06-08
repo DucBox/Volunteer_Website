@@ -8,8 +8,7 @@ class ChatRequest(BaseModel):
 
 class SourceChunk(BaseModel):
     id: str
-    text: str
-    metadata: dict
+    metadata: dict  # doc_name, file_name, chunk_index only — no raw text
 
 
 class ChatResponse(BaseModel):
