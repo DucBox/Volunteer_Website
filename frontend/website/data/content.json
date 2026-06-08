@@ -515,7 +515,37 @@
           ],
           "price": "Chỉ 169.000đ"
         }
-      ]
+      ],
+      "menu": {
+        "banh": [
+          {
+            "name": "Tiramisu Size L",
+            "desc": "Đủ cho 4–6 người. Lớp mascarpone mịn, cà phê thấm đều.",
+            "price": "Liên hệ",
+            "image": "assets/images/cake_shop/Tiramisu.jpeg"
+          },
+          {
+            "name": "Tiramisu Size M",
+            "desc": "Đủ cho 2–3 người. Hương vị chuẩn, bảo quản dễ dàng.",
+            "price": "Liên hệ",
+            "image": "assets/images/cake_shop/Tiramisu.jpeg"
+          }
+        ],
+        "nuoc": [
+          {
+            "name": "Cốt Chanh Leo",
+            "desc": "Chai cốt nguyên chất, pha được nhiều ly, chua ngọt tự nhiên.",
+            "price": "Liên hệ",
+            "image": "assets/images/cake_shop/nuoc-ep-chanh-leo-332-2.jpg"
+          },
+          {
+            "name": "Ly Chanh Leo Pha Sẵn",
+            "desc": "Ly chanh leo pha lạnh mát. Đặc biệt trong COMBO 1.",
+            "price": "Liên hệ",
+            "image": "assets/images/cake_shop/nuoc-ep-chanh-leo-332-2.jpg"
+          }
+        ]
+      }
     }
   }
 }

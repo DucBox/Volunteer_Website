@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mua Bánh Ủng Hộ – Dự Án Cho EM</title>
-    <meta name="description" content="Mua bánh Tiramisu thơm ngon của Bếp Bánh Cho Em – mỗi chiếc bánh góp phần vào quỹ thiện nguyện cho các em vùng cao.">
+    <meta name="description" content="Mua bánh Tiramisu của Bếp Bánh Cho EM — mỗi chiếc bánh góp phần vào quỹ thiện nguyện.">
 
     <script>
         (function () {
@@ -31,81 +31,356 @@
     <link rel="stylesheet" href="styles/support-pages.css">
 
     <style>
-        /* Cake page accent overrides */
-        .sp-hero {
-            background: linear-gradient(135deg, #d97706 0%, #f59e0b 50%, #fbbf24 100%);
+        /* ── Amber theme overrides ── */
+        :root {
+            --cake-amber:      #d97706;
+            --cake-amber-lt:   #f59e0b;
+            --cake-amber-pale: rgba(245,158,11,0.10);
+            --cake-amber-rgb:  217,119,6;
         }
-        .sp-combo-card::before {
-            background: linear-gradient(90deg, #f59e0b, #fbbf24);
+
+        .sp-hero           { background: linear-gradient(135deg,#7c3a00 0%,#d97706 50%,#f59e0b 100%); }
+        .sp-back           { color: var(--cake-amber); border-color: rgba(var(--cake-amber-rgb),.28); background: rgba(var(--cake-amber-rgb),.05); }
+        .sp-back:hover     { border-color: var(--cake-amber); background: rgba(var(--cake-amber-rgb),.12); }
+
+        /* ── Sticky menu tabs ── */
+        .menu-tabs-bar {
+            position: sticky;
+            top: var(--navbar-offset, 64px);
+            z-index: 90;
+            background: var(--color-surface);
+            border-bottom: 2px solid var(--color-border);
+            padding: 0 24px;
+            display: flex;
+            gap: 4px;
+            overflow-x: auto;
+            scrollbar-width: none;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
         }
-        .sp-combo-card:hover {
-            box-shadow: 0 12px 36px rgba(245, 158, 11, 0.2);
-            border-color: rgba(245, 158, 11, 0.35);
+        .menu-tabs-bar::-webkit-scrollbar { display: none; }
+
+        .menu-tab {
+            padding: 14px 22px;
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--color-text-secondary);
+            border-bottom: 3px solid transparent;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: color .2s, border-color .2s;
+            background: none;
+            border-top: none;
+            border-left: none;
+            border-right: none;
+            font-family: inherit;
+            margin-bottom: -2px;
         }
-        .sp-combo-badge {
-            color: #92400e;
-            background: rgba(245, 158, 11, 0.15);
+        .menu-tab:hover      { color: var(--cake-amber); }
+        .menu-tab.active     { color: var(--cake-amber); border-bottom-color: var(--cake-amber); }
+
+        /* ── Section anchors ── */
+        .menu-section { scroll-margin-top: calc(var(--navbar-offset, 64px) + 52px); }
+
+        /* ── Section heading ── */
+        .menu-section-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 24px;
         }
-        .sp-combo-price {
-            color: #d97706;
+        .menu-section-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            background: var(--cake-amber-pale);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            flex-shrink: 0;
         }
-        .sp-combo-items li::before {
-            color: #f59e0b;
+        .menu-section-header h2 {
+            font-size: 22px;
+            font-weight: 800;
+            color: var(--color-text);
+            margin: 0;
         }
-        .sp-section-title::after {
-            background: linear-gradient(90deg, #f59e0b, #fbbf24);
+        .menu-section-header p {
+            font-size: 13px;
+            color: var(--color-text-secondary);
+            margin: 2px 0 0;
         }
-        .sp-info-card {
-            border-left-color: #f59e0b;
+
+        /* ── Product grid ── */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
         }
-        .sp-step-num {
-            background: linear-gradient(135deg, #d97706, #f59e0b);
+
+        /* ── Product card ── */
+        .product-card {
+            background: var(--color-surface);
+            border: 1.5px solid var(--color-card-border);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: transform .25s ease, box-shadow .25s ease;
+            display: flex;
+            flex-direction: column;
         }
-        .sp-cta-btn {
-            background: linear-gradient(135deg, #d97706, #f59e0b);
-            box-shadow: 0 6px 20px rgba(217, 119, 6, 0.4);
+        .product-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 32px rgba(var(--cake-amber-rgb),.18);
         }
-        .sp-cta-btn:hover {
-            box-shadow: 0 10px 28px rgba(217, 119, 6, 0.55);
+        .product-card-img {
+            aspect-ratio: 1 / 1;
+            overflow: hidden;
+            background: #f5f0e8;
         }
-        .sp-hotline-btn {
-            background: rgba(255,255,255,0.2);
+        .product-card-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform .4s ease;
         }
-        .sp-contact-box {
-            background: linear-gradient(135deg, #d97706, #f59e0b);
+        .product-card:hover .product-card-img img { transform: scale(1.05); }
+
+        .product-card-body {
+            padding: 16px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
         }
-        .sp-back {
-            color: #d97706;
-            border-color: rgba(217, 119, 6, 0.3);
-            background: rgba(217, 119, 6, 0.05);
+        .product-card-name {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--color-text);
+            margin: 0;
+            line-height: 1.35;
         }
-        .sp-back:hover {
-            border-color: #d97706;
-            background: rgba(217, 119, 6, 0.1);
+        .product-card-desc {
+            font-size: 13px;
+            color: var(--color-text-secondary);
+            margin: 0;
+            flex: 1;
+            line-height: 1.5;
         }
-        /* Highlight tag for opening combo */
-        .sp-combo-card--featured {
-            border-color: rgba(245, 158, 11, 0.4);
+        .product-card-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 12px;
+            gap: 8px;
         }
-        .sp-featured-tag {
+        .product-card-price {
+            font-size: 16px;
+            font-weight: 800;
+            color: var(--cake-amber);
+        }
+        .product-card-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 14px;
+            background: var(--cake-amber);
+            color: #fff;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 700;
+            border-radius: 8px;
+            transition: background .2s ease;
+            white-space: nowrap;
+            border: none;
+            cursor: pointer;
+            font-family: inherit;
+        }
+        .product-card-btn:hover { background: #b45309; }
+
+        /* ── Combo cards (redesigned) ── */
+        .combo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 16px;
+        }
+        .combo-card {
+            background: var(--color-surface);
+            border: 2px solid var(--color-card-border);
+            border-radius: 14px;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            transition: transform .25s, box-shadow .25s, border-color .25s;
+        }
+        .combo-card::after {
+            content: '';
             position: absolute;
-            top: 14px;
-            right: 14px;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--cake-amber), var(--cake-amber-lt));
+        }
+        .combo-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 28px rgba(var(--cake-amber-rgb),.18);
+            border-color: rgba(var(--cake-amber-rgb),.35);
+        }
+        .combo-card-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
             font-size: 11px;
             font-weight: 700;
-            color: #fff;
-            background: linear-gradient(135deg, #d97706, #f59e0b);
+            text-transform: uppercase;
+            letter-spacing: .6px;
+            color: #92400e;
+            background: var(--cake-amber-pale);
             padding: 3px 10px;
             border-radius: 20px;
+            width: fit-content;
+        }
+        .combo-card-name {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--color-text);
+            margin: 0;
+            line-height: 1.35;
+        }
+        .combo-card-note {
+            font-size: 12px;
+            color: var(--color-text-secondary);
+            font-style: italic;
+            margin: 0;
+        }
+        .combo-card-items {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .combo-card-items li {
+            font-size: 13px;
+            color: var(--color-text-secondary);
+            padding-left: 14px;
+            position: relative;
+        }
+        .combo-card-items li::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: var(--cake-amber);
+            font-weight: 700;
+        }
+        .combo-card-price {
+            font-size: 22px;
+            font-weight: 800;
+            color: var(--cake-amber);
+            margin-top: auto;
+        }
+        .combo-card--hot .combo-card-badge { background: #fef3c7; }
+        .combo-hot-tag {
+            position: absolute;
+            top: 12px; right: 12px;
+            background: linear-gradient(135deg, var(--cake-amber), var(--cake-amber-lt));
+            color: #fff;
+            font-size: 10px;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 20px;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: .5px;
+        }
+
+        /* ── Instructions compact ── */
+        .instr-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .instr-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 14px 18px;
+            background: var(--cake-amber-pale);
+            border-radius: 10px;
+            border-left: 3px solid var(--cake-amber-lt);
+        }
+        .instr-item--warn {
+            background: rgba(239,68,68,.07);
+            border-left-color: #ef4444;
+        }
+        .instr-item-icon { font-size: 18px; flex-shrink: 0; line-height: 1.5; }
+        .instr-item p { font-size: 14px; color: var(--color-text); margin: 0; line-height: 1.6; }
+
+        /* ── CTA ── */
+        .cake-cta-box {
+            text-align: center;
+            padding: 40px 24px;
+            background: linear-gradient(135deg,#7c3a00,#d97706 60%,#f59e0b);
+            border-radius: 20px;
+            color: #fff;
+        }
+        .cake-cta-box h3 { font-size: 24px; font-weight: 800; margin: 0 0 10px; }
+        .cake-cta-box p  { opacity: .9; margin: 0 0 24px; font-size: 15px; }
+        .cake-cta-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 32px;
+            background: rgba(255,255,255,.2);
+            border: 2px solid rgba(255,255,255,.5);
+            color: #fff;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 700;
+            border-radius: 50px;
+            backdrop-filter: blur(8px);
+            transition: background .2s;
+        }
+        .cake-cta-btn:hover { background: rgba(255,255,255,.32); }
+
+        /* ── Delivery compact ── */
+        .delivery-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+        }
+        .delivery-item {
+            padding: 16px 18px;
+            background: var(--color-surface);
+            border: 1.5px solid var(--color-card-border);
+            border-radius: 12px;
+        }
+        .delivery-item h4 { font-size: 14px; font-weight: 700; color: var(--color-text); margin: 0 0 6px; }
+        .delivery-item p  { font-size: 13px; color: var(--color-text-secondary); margin: 0; line-height: 1.55; }
+
+        [data-theme="dark"] .product-card,
+        [data-theme="dark"] .combo-card,
+        [data-theme="dark"] .delivery-item { background: var(--color-surface); border-color: var(--color-border); }
+        [data-theme="dark"] .instr-item { background: rgba(245,158,11,.08); }
+        [data-theme="dark"] .menu-tabs-bar { background: var(--color-surface); border-color: var(--color-border); }
+        [data-theme="dark"] .product-card-img { background: #2a1f0f; }
+
+        @media(max-width:640px){
+            .product-grid  { grid-template-columns: repeat(2,1fr); gap: 14px; }
+            .combo-grid    { grid-template-columns: 1fr; }
+            .delivery-row  { grid-template-columns: 1fr; }
+            .product-card-footer { flex-direction: column; align-items: flex-start; }
+        }
+        @media(max-width:380px){
+            .product-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
     <div id="navbarContainer"></div>
 
-    <div class="sp-wrapper page-wrapper">
+    <div class="page-wrapper">
 
         <!-- Hero -->
         <div class="sp-hero">
@@ -114,129 +389,116 @@
             <p id="sp-cake-heroSubtitle">Ngọt ngào cho bạn — ấm áp cho em</p>
         </div>
 
-        <div class="sp-content">
+        <!-- Sticky menu tabs -->
+        <div class="menu-tabs-bar" id="menuTabsBar">
+            <button class="menu-tab active" data-target="section-combo">🩵 Combo Ưu Đãi</button>
+            <button class="menu-tab" data-target="section-banh">🍰 Bánh</button>
+            <button class="menu-tab" data-target="section-nuoc">🥤 Nước</button>
+            <button class="menu-tab" data-target="section-info">📋 Thông Tin</button>
+        </div>
+
+        <div class="sp-content" style="max-width:960px;">
             <a href="index.html#quyen-gop" class="sp-back">
                 <i class="fas fa-arrow-left"></i> Quay lại trang chính
             </a>
 
-            <!-- Intro / Story -->
-            <div class="sp-section">
-                <h2 class="sp-section-title">
-                    <span>🏡</span> Bếp Bánh Cho EM
-                </h2>
+            <!-- Intro -->
+            <div class="sp-section" style="margin-bottom:32px;">
                 <div class="sp-story" id="sp-cake-intro">
-                    <p><strong>Bếp Bánh Cho EM</strong> là sáng kiến nhỏ của nhóm tình nguyện — chúng mình tự tay làm bánh Tiramisu và bán để gây quỹ cho các chuyến thiện nguyện. Mỗi chiếc bánh bạn mua không chỉ là một món ngon, mà còn là một viên gạch nhỏ góp vào ngôi trường ấm áp hơn, ba lô sách vở đầy hơn cho các em vùng cao.</p>
-                    <p>Chúng mình cam kết làm bánh từ nguyên liệu sạch, nướng tay và giao đến tận nơi với tất cả tình yêu thương. Toàn bộ lợi nhuận sau chi phí được dành cho quỹ thiện nguyện của dự án.</p>
+                    <p><strong>Bếp Bánh Cho EM</strong> là sáng kiến của nhóm tình nguyện — chúng mình tự tay làm bánh Tiramisu để gây quỹ thiện nguyện. Mỗi chiếc bánh bạn mua không chỉ là món ngon, mà còn là viên gạch nhỏ góp vào ba lô sách vở đầy hơn cho các em vùng cao. Toàn bộ lợi nhuận sau chi phí được dành cho quỹ thiện nguyện.</p>
                 </div>
             </div>
 
-            <!-- Combos -->
-            <div class="sp-section">
-                <h2 class="sp-section-title">
-                    <span>🩵</span> Chương Trình Khuyến Mãi
-                </h2>
-                <div class="sp-combos-grid" id="sp-cake-combosGrid">
-                    <!-- Rendered by JS with fallback defaults -->
-                    <div class="sp-combo-card sp-combo-card--featured">
-                        <span class="sp-featured-tag">Hot</span>
-                        <span class="sp-combo-badge">Opening</span>
-                        <h3 class="sp-combo-name">COMBO 1 | OPENING</h3>
-                        <p class="sp-combo-note">Áp dụng 3 tuần đầu</p>
-                        <ul class="sp-combo-items">
-                            <li>🍰 01 Tiramisu Size L</li>
-                            <li>🥤 Tặng kèm 01 ly chanh leo pha sẵn</li>
-                        </ul>
-                        <div class="sp-combo-price">80.000đ</div>
+            <!-- COMBO section -->
+            <div class="sp-section menu-section" id="section-combo">
+                <div class="menu-section-header">
+                    <div class="menu-section-icon">🩵</div>
+                    <div>
+                        <h2>Combo Ưu Đãi</h2>
+                        <p>Kết hợp thêm để tiết kiệm hơn</p>
                     </div>
-                    <div class="sp-combo-card">
-                        <span class="sp-combo-badge">Share</span>
-                        <h3 class="sp-combo-name">COMBO 2 | SHARE THE SWEETNESS</h3>
-                        <p class="sp-combo-note"></p>
-                        <ul class="sp-combo-items">
-                            <li>🍰 02 Tiramisu Size M</li>
-                        </ul>
-                        <div class="sp-combo-price">Chỉ 85.000đ</div>
-                    </div>
-                    <div class="sp-combo-card">
-                        <span class="sp-combo-badge">Combo</span>
-                        <h3 class="sp-combo-name">COMBO 3 | BÁNH & CHANH LEO</h3>
-                        <p class="sp-combo-note"></p>
-                        <ul class="sp-combo-items">
-                            <li>🍰 01 Tiramisu Size L</li>
-                            <li>🍋 01 Chai Cốt Chanh Leo</li>
-                        </ul>
-                        <div class="sp-combo-price">Chỉ 119.000đ</div>
-                    </div>
-                    <div class="sp-combo-card">
-                        <span class="sp-combo-badge">Premium</span>
-                        <h3 class="sp-combo-name">COMBO 4 | SWEET MOMENTS</h3>
-                        <p class="sp-combo-note"></p>
-                        <ul class="sp-combo-items">
-                            <li>🍰 01 Tiramisu Size L</li>
-                            <li>🍰 01 Tiramisu Size M</li>
-                            <li>🍋 01 Chai Cốt Chanh Leo</li>
-                        </ul>
-                        <div class="sp-combo-price">Chỉ 169.000đ</div>
-                    </div>
+                </div>
+                <div class="combo-grid" id="sp-cake-combosGrid">
+                    <!-- rendered by JS -->
                 </div>
             </div>
 
-            <!-- Usage Instructions -->
-            <div class="sp-section">
-                <h2 class="sp-section-title">
-                    <span>📋</span> Hướng Dẫn Sử Dụng
-                </h2>
-                <div class="sp-info-cards" id="sp-cake-instructions">
-                    <div class="sp-info-card">
-                        <span class="sp-info-card-icon">🌡️</span>
-                        <p>Tiramisu là bánh lạnh, cần được bảo quản trong ngăn mát tủ lạnh.</p>
+            <!-- BÁNH section -->
+            <div class="sp-section menu-section" id="section-banh">
+                <div class="menu-section-header">
+                    <div class="menu-section-icon">🍰</div>
+                    <div>
+                        <h2>Bánh</h2>
+                        <p>Tiramisu tự làm từ nguyên liệu sạch</p>
                     </div>
-                    <div class="sp-info-card">
-                        <span class="sp-info-card-icon">⏱️</span>
-                        <p>Trong thời tiết mùa hè hoặc sau quá trình vận chuyển, bánh có thể mềm hơn. Vui lòng để bánh trong ngăn mát tủ lạnh từ <strong>30 phút – 1 giờ</strong> trước khi thưởng thức để đạt kết cấu chuẩn nhất.</p>
+                </div>
+                <div class="product-grid" id="sp-cake-banhGrid">
+                    <!-- rendered by JS -->
+                </div>
+            </div>
+
+            <!-- NƯỚC section -->
+            <div class="sp-section menu-section" id="section-nuoc">
+                <div class="menu-section-header">
+                    <div class="menu-section-icon">🥤</div>
+                    <div>
+                        <h2>Nước</h2>
+                        <p>Đồ uống đi kèm thơm ngon</p>
                     </div>
-                    <div class="sp-info-card">
-                        <span class="sp-info-card-icon">📅</span>
-                        <p>Sử dụng ngon nhất trong vòng <strong>2 ngày</strong> kể từ khi nhận bánh.</p>
+                </div>
+                <div class="product-grid" id="sp-cake-nuocGrid">
+                    <!-- rendered by JS -->
+                </div>
+            </div>
+
+            <!-- INFO section -->
+            <div class="sp-section menu-section" id="section-info">
+                <div class="menu-section-header">
+                    <div class="menu-section-icon">📋</div>
+                    <div>
+                        <h2>Hướng Dẫn & Giao Nhận</h2>
+                        <p>Thông tin bảo quản và nhận hàng</p>
                     </div>
-                    <div class="sp-info-card sp-info-card--warn">
-                        <span class="sp-info-card-icon">⚠️</span>
+                </div>
+
+                <div class="instr-list" style="margin-bottom:24px;">
+                    <div class="instr-item">
+                        <span class="instr-item-icon">🌡️</span>
+                        <p>Tiramisu là bánh lạnh, cần bảo quản trong <strong>ngăn mát tủ lạnh</strong>.</p>
+                    </div>
+                    <div class="instr-item">
+                        <span class="instr-item-icon">⏱️</span>
+                        <p>Để bánh trong ngăn mát <strong>30 phút – 1 giờ</strong> trước khi thưởng thức để đạt kết cấu chuẩn.</p>
+                    </div>
+                    <div class="instr-item">
+                        <span class="instr-item-icon">📅</span>
+                        <p>Sử dụng ngon nhất trong <strong>2 ngày</strong> kể từ khi nhận bánh.</p>
+                    </div>
+                    <div class="instr-item instr-item--warn">
+                        <span class="instr-item-icon">⚠️</span>
                         <p><strong>Lưu ý:</strong> Sản phẩm có chứa rượu.</p>
                     </div>
                 </div>
-            </div>
 
-            <!-- Delivery -->
-            <div class="sp-section">
-                <h2 class="sp-section-title">
-                    <span>🚚</span> Phương Thức Nhận Bánh
-                </h2>
-                <div class="sp-delivery-grid">
-                    <div class="sp-delivery-card">
-                        <h4><span>🏠</span> Nhận Trực Tiếp</h4>
-                        <p>Khách hàng có thể đến nhận bánh tại địa điểm được Bếp xác nhận khi đặt hàng. Tiện lợi, nhanh chóng và không tốn phí vận chuyển.</p>
+                <div class="delivery-row">
+                    <div class="delivery-item">
+                        <h4>🏠 Nhận Trực Tiếp</h4>
+                        <p>Đến nhận tại địa điểm được Bếp xác nhận khi đặt hàng. Không tốn phí vận chuyển.</p>
                     </div>
-                    <div class="sp-delivery-card">
-                        <h4><span>📦</span> Giao Hàng</h4>
-                        <p>Khách hàng có thể tự đặt đơn vị vận chuyển hoặc Bếp hỗ trợ book ship theo yêu cầu. Phí vận chuyển do khách hàng thanh toán theo mức phí của đơn vị vận chuyển.</p>
+                    <div class="delivery-item">
+                        <h4>📦 Giao Hàng</h4>
+                        <p>Tự đặt đơn vị vận chuyển hoặc Bếp hỗ trợ book ship. Phí vận chuyển do khách thanh toán.</p>
                     </div>
-                </div>
-                <div class="sp-info-card" style="margin-top: 16px;">
-                    <span class="sp-info-card-icon">🏔️</span>
-                    <p>Đối với các đơn hàng giao xa hoặc trong thời tiết nắng nóng, Bếp khuyến khích khách nhận bánh và bảo quản lạnh <strong>sớm nhất có thể</strong> để đảm bảo chất lượng.</p>
                 </div>
             </div>
 
             <!-- CTA -->
-            <div class="sp-contact-box">
+            <div class="cake-cta-box">
                 <h3>Đặt Bánh Ngay!</h3>
-                <p>Nhắn tin đến fanpage của Bếp Bánh Cho EM để đặt hàng</p>
-                <div class="sp-cta-center">
-                    <a id="sp-cake-fbLink" href="https://www.facebook.com/bepbanhchoem" target="_blank" rel="noopener" class="sp-cta-btn">
-                        <i class="fab fa-facebook"></i> Nhắn Tin Đặt Bánh
-                    </a>
-                </div>
-                <p style="font-size:13px; opacity:0.8; margin-top:16px; margin-bottom:0;">Chúng mình sẽ xác nhận đơn và báo địa điểm nhận bánh sớm nhất</p>
+                <p>Nhắn tin đến fanpage — chúng mình xác nhận đơn nhanh nhất có thể</p>
+                <a id="sp-cake-fbLink" href="https://www.facebook.com/bepbanhchoem" target="_blank" rel="noopener" class="cake-cta-btn">
+                    <i class="fab fa-facebook"></i> Nhắn Tin Đặt Bánh
+                </a>
             </div>
         </div>
 
@@ -248,7 +510,7 @@
                         <img src="assets/images/logo-no-bg.jpg" alt="Dự Án Cho EM Logo" class="footer-logo-img">
                         <span class="footer-logo-text">Dự Án Cho EM</span>
                     </div>
-                    <p class="footer-about" id="footer-about-sp">Hành trình mang tri thức và yêu thương đến những em nhỏ vùng khó khăn trên khắp Việt Nam.</p>
+                    <p class="footer-about" id="footer-about-sp">Hành trình mang tri thức và yêu thương đến những em nhỏ vùng khó khăn.</p>
                 </div>
                 <div class="footer-section">
                     <h3 class="footer-title">Liên Hệ</h3>
@@ -266,12 +528,10 @@
                 <div class="footer-section">
                     <h3 class="footer-title">Theo Dõi Chúng Mình</h3>
                     <div class="social-links">
-                        <a href="https://www.facebook.com/duanchoem" target="_blank" rel="noopener"
-                           class="social-link" aria-label="Facebook">
+                        <a href="https://www.facebook.com/duanchoem" target="_blank" rel="noopener" class="social-link" aria-label="Facebook">
                             <img src="assets/images/facebook.jpg" alt="Facebook" style="width:28px;height:28px;border-radius:6px;">
                         </a>
-                        <a href="https://www.tiktok.com/@duanchoem" target="_blank" rel="noopener"
-                           class="social-link" aria-label="TikTok">
+                        <a href="https://www.tiktok.com/@duanchoem" target="_blank" rel="noopener" class="social-link" aria-label="TikTok">
                             <img src="assets/images/tiktok.jpg" alt="TikTok" style="width:28px;height:28px;border-radius:6px;">
                         </a>
                     </div>
@@ -283,84 +543,128 @@
         </footer>
     </div>
 
-    <div id="scrollTopContainer"></div>
-
     <script type="module">
         import { Navbar } from './components/NavBar.js';
         import { ScrollToTop } from './components/ScrolltoTop.js';
         import { Cursor } from './components/Cursor.js';
         import { loadContent } from './data/ContentLoader.js';
 
+        const DEFAULT_FB = 'https://www.facebook.com/bepbanhchoem';
+
+        const DEFAULT_COMBOS = [
+            { badge:'Opening', name:'COMBO 1 | OPENING', note:'Áp dụng 3 tuần đầu', items:['🍰 01 Tiramisu Size L','🥤 Tặng kèm 01 ly chanh leo pha sẵn'], price:'80.000đ' },
+            { badge:'Share',   name:'COMBO 2 | SHARE THE SWEETNESS', note:'', items:['🍰 02 Tiramisu Size M'], price:'Chỉ 85.000đ' },
+            { badge:'Combo',   name:'COMBO 3 | BÁNH & CHANH LEO',    note:'', items:['🍰 01 Tiramisu Size L','🍋 01 Chai Cốt Chanh Leo'], price:'Chỉ 119.000đ' },
+            { badge:'Premium', name:'COMBO 4 | SWEET MOMENTS',       note:'', items:['🍰 01 Tiramisu Size L','🍰 01 Tiramisu Size M','🍋 01 Chai Cốt Chanh Leo'], price:'Chỉ 169.000đ' },
+        ];
+
+        const DEFAULT_BANH = [
+            { name:'Tiramisu Size L', desc:'Đủ cho 4–6 người. Lớp mascarpone mịn, cà phê thấm đều.', price:'Liên hệ', image:'assets/images/cake_shop/Tiramisu.jpeg' },
+            { name:'Tiramisu Size M', desc:'Đủ cho 2–3 người. Hương vị chuẩn, bảo quản dễ dàng.',   price:'Liên hệ', image:'assets/images/cake_shop/Tiramisu.jpeg' },
+        ];
+
+        const DEFAULT_NUOC = [
+            { name:'Cốt Chanh Leo',        desc:'Chai cốt nguyên chất, pha được nhiều ly, chua ngọt tự nhiên.', price:'Liên hệ', image:'assets/images/cake_shop/nuoc-ep-chanh-leo-332-2.jpg' },
+            { name:'Ly Chanh Leo Pha Sẵn', desc:'Ly chanh leo pha lạnh mát. Đặc biệt trong COMBO 1.',            price:'Liên hệ', image:'assets/images/cake_shop/nuoc-ep-chanh-leo-332-2.jpg' },
+        ];
+
         async function init() {
             new Navbar();
             new ScrollToTop();
             new Cursor();
-
             document.documentElement.style.visibility = '';
 
-            try {
-                const content = await loadContent();
-                applyContent(content);
-            } catch (e) {
-                document.documentElement.style.visibility = '';
-            }
+            let content = null;
+            try { content = await loadContent(); } catch (_) {}
+            applyContent(content);
+            initTabs();
         }
 
         function applyContent(c) {
-            if (!c) return;
+            const sp  = c?.supportPages?.cake  || {};
+            const fbLink = sp.fbLink || DEFAULT_FB;
 
-            const sp = c.supportPages?.cake;
-            if (sp) {
-                if (sp.heroTitle) {
-                    const el = document.getElementById('sp-cake-heroTitle');
-                    if (el) el.textContent = sp.heroTitle;
-                }
-                if (sp.heroSubtitle) {
-                    const el = document.getElementById('sp-cake-heroSubtitle');
-                    if (el) el.textContent = sp.heroSubtitle;
-                }
-                if (sp.intro) {
-                    const el = document.getElementById('sp-cake-intro');
-                    if (el) el.innerHTML = sp.intro;
-                }
-                if (sp.fbLink) {
-                    const el = document.getElementById('sp-cake-fbLink');
-                    if (el) el.href = sp.fbLink;
-                }
-                if (sp.combos?.length) {
-                    const grid = document.getElementById('sp-cake-combosGrid');
-                    if (grid) {
-                        grid.innerHTML = sp.combos.map((combo, idx) => {
-                            const isFeatured = idx === 0;
-                            const items = (combo.items || []).map(item =>
-                                `<li>${item}</li>`
-                            ).join('');
-                            return `
-                                <div class="sp-combo-card${isFeatured ? ' sp-combo-card--featured' : ''}">
-                                    ${isFeatured ? '<span class="sp-featured-tag">Hot</span>' : ''}
-                                    ${combo.badge ? `<span class="sp-combo-badge">${combo.badge}</span>` : ''}
-                                    <h3 class="sp-combo-name">${combo.name || ''}</h3>
-                                    ${combo.note ? `<p class="sp-combo-note">${combo.note}</p>` : '<p class="sp-combo-note"></p>'}
-                                    <ul class="sp-combo-items">${items}</ul>
-                                    <div class="sp-combo-price">${combo.price || ''}</div>
-                                </div>
-                            `;
-                        }).join('');
-                    }
-                }
-            }
+            if (sp.heroTitle)    setTxt('sp-cake-heroTitle',    sp.heroTitle);
+            if (sp.heroSubtitle) setTxt('sp-cake-heroSubtitle', sp.heroSubtitle);
+            if (sp.intro)        setHtml('sp-cake-intro',       sp.intro);
+            document.getElementById('sp-cake-fbLink').href = fbLink;
 
-            // Footer
-            const f = c.footer;
+            renderCombos(sp.combos?.length ? sp.combos : DEFAULT_COMBOS, fbLink);
+            renderProducts('sp-cake-banhGrid',  sp.menu?.banh?.length  ? sp.menu.banh  : DEFAULT_BANH,  fbLink);
+            renderProducts('sp-cake-nuocGrid',  sp.menu?.nuoc?.length  ? sp.menu.nuoc  : DEFAULT_NUOC,  fbLink);
+
+            const f = c?.footer;
             if (f) {
-                const aboutEl = document.getElementById('footer-about-sp');
-                if (aboutEl && f.about) aboutEl.textContent = f.about;
-                const emailEl = document.getElementById('footer-email-sp');
-                if (emailEl && f.email) { emailEl.href = 'mailto:' + f.email; emailEl.textContent = f.email; }
-                const hoursEl = document.getElementById('footer-hours-sp');
-                if (hoursEl && f.hours) hoursEl.textContent = f.hours;
+                if (f.about) setTxt('footer-about-sp', f.about);
+                if (f.email) { const el = document.getElementById('footer-email-sp'); if(el){ el.href='mailto:'+f.email; el.textContent=f.email; }}
+                if (f.hours) setTxt('footer-hours-sp', f.hours);
             }
         }
+
+        function renderCombos(combos, fbLink) {
+            const grid = document.getElementById('sp-cake-combosGrid');
+            if (!grid) return;
+            grid.innerHTML = combos.map((c, i) => `
+                <div class="combo-card${i===0?' combo-card--hot':''}">
+                    ${i===0 ? '<span class="combo-hot-tag">Hot</span>' : ''}
+                    <span class="combo-card-badge">${c.badge||''}</span>
+                    <p class="combo-card-name">${c.name||''}</p>
+                    ${c.note ? `<p class="combo-card-note">${c.note}</p>` : ''}
+                    <ul class="combo-card-items">${(c.items||[]).map(it=>`<li>${it}</li>`).join('')}</ul>
+                    <div class="combo-card-price">${c.price||''}</div>
+                </div>
+            `).join('');
+        }
+
+        function renderProducts(gridId, items, fbLink) {
+            const grid = document.getElementById(gridId);
+            if (!grid) return;
+            grid.innerHTML = items.map(item => `
+                <div class="product-card">
+                    <div class="product-card-img">
+                        <img src="${item.image}" alt="${item.name}" loading="lazy">
+                    </div>
+                    <div class="product-card-body">
+                        <p class="product-card-name">${item.name}</p>
+                        <p class="product-card-desc">${item.desc||item.description||''}</p>
+                        <div class="product-card-footer">
+                            <span class="product-card-price">${item.price||'Liên hệ'}</span>
+                            <a href="${fbLink}" target="_blank" rel="noopener" class="product-card-btn">
+                                <i class="fab fa-facebook"></i> Đặt
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function initTabs() {
+            const tabs    = document.querySelectorAll('.menu-tab');
+            const sections = ['section-combo','section-banh','section-nuoc','section-info'].map(id => document.getElementById(id));
+            const bar      = document.getElementById('menuTabsBar');
+
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const target = document.getElementById(tab.dataset.target);
+                    if (target) target.scrollIntoView({ behavior:'smooth', block:'start' });
+                });
+            });
+
+            // Update active tab on scroll
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const id = entry.target.id;
+                        tabs.forEach(t => t.classList.toggle('active', t.dataset.target === id));
+                    }
+                });
+            }, { rootMargin: '-30% 0px -60% 0px', threshold: 0 });
+
+            sections.forEach(s => { if (s) observer.observe(s); });
+        }
+
+        function setTxt(id, v)  { const el = document.getElementById(id); if (el) el.textContent = v; }
+        function setHtml(id, v) { const el = document.getElementById(id); if (el) el.innerHTML = v; }
 
         init();
     </script>

@@ -444,6 +444,14 @@ function populateSupportPages(sp) {
     if (combosList) {
         combosList.innerHTML = (cake.combos || []).map((c, i) => cakeComboRow(c, i)).join('');
     }
+    const banhList = document.getElementById('sp-cake-banh-list');
+    if (banhList) {
+        banhList.innerHTML = ((cake.menu?.banh) || []).map((item, i) => menuItemRow(item, i, 'banh')).join('');
+    }
+    const nuocList = document.getElementById('sp-cake-nuoc-list');
+    if (nuocList) {
+        nuocList.innerHTML = ((cake.menu?.nuoc) || []).map((item, i) => menuItemRow(item, i, 'nuoc')).join('');
+    }
 }
 
 function cakeComboRow(combo, i) {
@@ -489,6 +497,34 @@ window.addCakeCombo = function() {
     list.appendChild(div.firstElementChild);
 };
 
+function menuItemRow(item, i, type) {
+    return `<div class="cm-row" id="menu-${type}-${i}">
+        <input class="form-input" placeholder="Tên sản phẩm" value="${escHtml(item.name || '')}" data-field="name">
+        <input class="form-input" placeholder="Mô tả ngắn" value="${escHtml(item.desc || item.description || '')}" data-field="desc">
+        <input class="form-input" placeholder="Giá (vd: 80.000đ hoặc Liên hệ)" value="${escHtml(item.price || '')}" data-field="price">
+        <input class="form-input" placeholder="Đường dẫn ảnh" value="${escHtml(item.image || '')}" data-field="image">
+        <button class="btn-icon btn-danger" onclick="removeMenuItem('${type}',${i})" title="Xóa"><i class="fas fa-trash"></i></button>
+    </div>`;
+}
+
+window.removeMenuItem = function(type, i) { document.getElementById(`menu-${type}-${i}`)?.remove(); };
+
+window.addMenuBanh = function() {
+    const list = document.getElementById('sp-cake-banh-list');
+    const i = list.querySelectorAll('.cm-row').length;
+    const div = document.createElement('div');
+    div.innerHTML = menuItemRow({ name:'', desc:'', price:'', image:'' }, i, 'banh');
+    list.appendChild(div.firstElementChild);
+};
+
+window.addMenuNuoc = function() {
+    const list = document.getElementById('sp-cake-nuoc-list');
+    const i = list.querySelectorAll('.cm-row').length;
+    const div = document.createElement('div');
+    div.innerHTML = menuItemRow({ name:'', desc:'', price:'', image:'' }, i, 'nuoc');
+    list.appendChild(div.firstElementChild);
+};
+
 window.saveSupportPages = async function() {
     cmLoading('support', true);
     try {
@@ -507,6 +543,15 @@ window.saveSupportPages = async function() {
 
         const cakeIntroEl = document.querySelector('#mini-editor-sp-cake-intro .mini-editor-content');
 
+        function readMenuRows(listId, type) {
+            return Array.from(document.querySelectorAll(`#${listId} .cm-row`)).map(r => ({
+                name:  r.querySelector('[data-field="name"]')?.value.trim() || '',
+                desc:  r.querySelector('[data-field="desc"]')?.value.trim() || '',
+                price: r.querySelector('[data-field="price"]')?.value.trim() || '',
+                image: r.querySelector('[data-field="image"]')?.value.trim() || '',
+            })).filter(it => it.name);
+        }
+
         _currentContent.supportPages = {
             materials: {
                 heroTitle:    document.getElementById('sp-mat-heroTitle')?.value.trim() || '',
@@ -519,6 +564,10 @@ window.saveSupportPages = async function() {
                 fbLink:       document.getElementById('sp-cake-fbLink')?.value.trim() || '',
                 intro:        cakeIntroEl?.innerHTML || '',
                 combos,
+                menu: {
+                    banh: readMenuRows('sp-cake-banh-list', 'banh'),
+                    nuoc: readMenuRows('sp-cake-nuoc-list', 'nuoc'),
+                },
             },
         };
 
