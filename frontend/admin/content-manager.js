@@ -8,31 +8,25 @@ const CONTENT_API   = `${BACKEND_BASE}/content`;
 const WEBSITE_BASE  = 'https://volunteer-website-self.vercel.app';
 let _currentContent = null;
 
-const _quills = new Map(); // div element -> Quill instance
-
 function escAttr(s) {
     return String(s || '').replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 }
 
-function initQuillOnCard(actIdx) {
-    const el = document.getElementById(`quill-desc-${actIdx}`);
-    if (!el || _quills.has(el)) return;
-    const initHtml = el.dataset.initHtml || '';
-    const q = new Quill(el, {
-        theme: 'snow',
-        modules: {
-            toolbar: [
-                ['bold', 'italic', 'underline'],
-                [{ list: 'ordered' }, { list: 'bullet' }],
-                ['blockquote'],
-                ['clean'],
-            ],
-        },
-        placeholder: 'Nội dung mô tả chi tiết dự án...',
-    });
-    if (initHtml) q.clipboard.dangerouslyPasteHTML(initHtml);
-    _quills.set(el, q);
+function initMiniEditor(actIdx) {
+    const wrapper = document.getElementById(`mini-editor-${actIdx}`);
+    if (!wrapper || wrapper.dataset.initialized) return;
+    wrapper.dataset.initialized = 'true';
+    const content = wrapper.querySelector('.mini-editor-content');
+    const initHtml = wrapper.dataset.initHtml || '';
+    if (content && initHtml) content.innerHTML = initHtml;
 }
+
+window.miniEditorExec = function(actIdx, cmd) {
+    const content = document.querySelector(`#mini-editor-${actIdx} .mini-editor-content`);
+    if (!content) return;
+    content.focus();
+    document.execCommand(cmd, false, null);
+};
 
 // ---- Helpers ----
 
@@ -630,7 +624,7 @@ function populateActivities(activities) {
     const list = document.getElementById('activities-list');
     if (!list) return;
     list.innerHTML = (activities || []).map((a, i) => activityCard(a, i)).join('');
-    (activities || []).forEach((_, i) => initQuillOnCard(i));
+    (activities || []).forEach((_, i) => initMiniEditor(i));
 }
 
 function activityCard(a, i) {
@@ -695,7 +689,20 @@ function activityCard(a, i) {
         </div>
         <div class="form-group">
             <label>Mô tả đầy đủ (trang chi tiết)</label>
-            <div id="quill-desc-${i}" class="quill-editor-wrapper" data-init-html="${escAttr(a.fullDesc || '')}"></div>
+            <div class="mini-editor" id="mini-editor-${i}" data-init-html="${escAttr(a.fullDesc || '')}">
+                <div class="mini-editor-toolbar">
+                    <button type="button" onclick="miniEditorExec(${i},'bold')" title="In đậm"><i class="fas fa-bold"></i></button>
+                    <button type="button" onclick="miniEditorExec(${i},'italic')" title="In nghiêng"><i class="fas fa-italic"></i></button>
+                    <button type="button" onclick="miniEditorExec(${i},'underline')" title="Gạch chân"><i class="fas fa-underline"></i></button>
+                    <span class="mini-editor-sep"></span>
+                    <button type="button" onclick="miniEditorExec(${i},'insertUnorderedList')" title="Danh sách chấm"><i class="fas fa-list-ul"></i></button>
+                    <button type="button" onclick="miniEditorExec(${i},'insertOrderedList')" title="Danh sách số"><i class="fas fa-list-ol"></i></button>
+                    <span class="mini-editor-sep"></span>
+                    <button type="button" onclick="miniEditorExec(${i},'removeFormat')" title="Xóa định dạng"><i class="fas fa-eraser"></i></button>
+                </div>
+                <div class="mini-editor-content" contenteditable="true" data-field="fullDesc" spellcheck="false"
+                    style="min-height:140px;padding:12px;outline:none;line-height:1.7;font-size:14px"></div>
+            </div>
         </div>
         <div class="form-group">
             <label>Thống kê nhanh</label>
@@ -724,7 +731,7 @@ window.addActivity = function() {
     const div = document.createElement('div');
     div.innerHTML = activityCard({ id: '', title: '', location: '', date: '', status: 'planning', image: '', shortDesc: '', fullDesc: '', stats: [], feelingsFolder: '', gallery: [] }, i);
     list.appendChild(div.firstElementChild);
-    initQuillOnCard(i);
+    initMiniEditor(i);
 };
 
 window.removeActStat = function(actIdx, statIdx) { document.getElementById(`act-stat-${actIdx}-${statIdx}`)?.remove(); };
@@ -789,11 +796,8 @@ window.saveActivities = async function() {
         _currentContent.activities = Array.from(cards).map((card, ci) => {
             const statRows     = card.querySelectorAll('.cm-sub-list > .cm-row');
             const feelingCards = card.querySelectorAll(`#act-feelings-list-${ci} .cm-card`);
-            const quillDiv = card.querySelector('[id^="quill-desc-"]');
-            const quillInst = quillDiv ? _quills.get(quillDiv) : null;
-            const fullDesc = quillInst
-                ? (quillInst.root.innerHTML || '').replace(/<p><br><\/p>/g, '').trim()
-                : '';
+            const editorEl = card.querySelector('.mini-editor-content');
+            const fullDesc = editorEl ? editorEl.innerHTML.replace(/<br\s*\/?>/gi, '').trim() : '';
             return {
                 id:            card.querySelector('[data-field="id"]').value.trim(),
                 title:         card.querySelector('[data-field="title"]').value.trim(),
