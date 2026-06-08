@@ -3,14 +3,16 @@
 // Handles all CMS operations via /api/content
 // ===================================
 
-const CONTENT_API = `${API_BASE}/content`;
-const WEBSITE_BASE = 'https://volunteer-website-self.vercel.app';
+const BACKEND_BASE  = 'https://volunteerwebsite-production.up.railway.app/api';
+const CONTENT_API   = `${BACKEND_BASE}/content`;
+const WEBSITE_BASE  = 'https://volunteer-website-self.vercel.app';
 let _currentContent = null;
 
 // ---- Helpers ----
 
 function cmHeaders(extra = {}) {
-    return { 'X-Admin-Key': getAdminKey(), 'Content-Type': 'application/json', ...extra };
+    const key = typeof getAdminKey === 'function' ? getAdminKey() : (window.getAdminKey?.() ?? '');
+    return { 'X-Admin-Key': key, 'Content-Type': 'application/json', ...extra };
 }
 
 function showCmStatus(sectionId, msg, type = 'success') {
@@ -56,7 +58,7 @@ async function uploadImage(file, destPath, imageType) {
     fd.append('image_type', imageType);
     const res = await fetch(`${CONTENT_API}/upload-image`, {
         method: 'POST',
-        headers: { 'X-Admin-Key': getAdminKey() },
+        headers: { 'X-Admin-Key': typeof getAdminKey === 'function' ? getAdminKey() : (window.getAdminKey?.() ?? '') },
         body: fd,
     });
     if (!res.ok) throw new Error('Image upload failed');
