@@ -1,12 +1,14 @@
 // Project Detail Page — Entry Point
 
-import { ACTIVITIES }   from './data/activities.js';
+import { ACTIVITIES }    from './data/activities.js';
+import { loadContent }   from './data/ContentLoader.js';
+import { applyContent }  from './components/ContentApplier.js';
 import { Navbar }        from './components/NavBar.js';
 import { ScrollToTop }   from './components/ScrolltoTop.js';
 import { ProjectDetail } from './components/ProjectDetail.js';
 import { Cursor }        from './components/Cursor.js';
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
     requestAnimationFrame(() => {
         document.documentElement.style.visibility = '';
         requestAnimationFrame(() => {
@@ -14,16 +16,19 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Read project id synchronously to build the correct nav items
+    const content = await loadContent();
+
+    // Merge activities from content.json over static fallback
+    const activities = content.activities || ACTIVITIES;
+
     const id       = new URLSearchParams(window.location.search).get('id');
-    const activity = ACTIVITIES.find(a => a.id === id);
+    const activity = activities.find(a => a.id === id);
 
     const navItems = [
         { label: 'Tổng Quan',  href: '#pd-overview' },
         { label: 'Câu Chuyện', href: '#pd-story'     },
     ];
 
-    // Only completed projects have gallery + feelings sections
     if (activity?.status === 'completed') {
         navItems.push({ label: 'Khoảnh Khắc', href: '#pd-gallery'      });
         navItems.push({ label: 'Cảm Nhận',    href: '#pd-testimonials' });
@@ -37,6 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     new Navbar({ homeUrl: 'index.html', navItems, sectionIds });
     new ScrollToTop();
-    new ProjectDetail();
+    new ProjectDetail(activities);
+    applyContent(content);   // footer, etc.
     new Cursor();
 });

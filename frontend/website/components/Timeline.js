@@ -80,8 +80,8 @@ const STOP_VARIANTS = [
 ];
 
 export class Timeline {
-    constructor() {
-        this.items = TIMELINE_DATA;
+    constructor(data) {
+        this.items = data || TIMELINE_DATA;
         this.currentIndex = 0;
         this.currentOffset = 0;
         this.progressPosition = 0;

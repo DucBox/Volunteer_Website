@@ -3,7 +3,8 @@
 import { ACTIVITIES, STATUS_LABELS } from '../data/activities.js';
 
 export class ProjectDetail {
-    constructor() {
+    constructor(activities) {
+        this.activitiesData = activities || ACTIVITIES;
         this.activity       = null;
         this.galleryImages  = [];
         this.galleryIndex   = 0;
@@ -16,7 +17,7 @@ export class ProjectDetail {
 
     async init() {
         const id       = new URLSearchParams(window.location.search).get('id');
-        const activity = ACTIVITIES.find(a => a.id === id);
+        const activity = this.activitiesData.find(a => a.id === id);
         const container = document.getElementById('projectDetailContainer');
         if (!container) return;
 
@@ -447,7 +448,7 @@ export class ProjectDetail {
         if (!mount) return;
 
         const currentId  = this.activity?.id;
-        const others     = ACTIVITIES.filter(a => !a.id.startsWith('placeholder') && a.id !== currentId);
+        const others     = this.activitiesData.filter(a => !a.id.startsWith('placeholder') && a.id !== currentId);
         if (!others.length) return;
 
         const STATUS_LABEL = { completed: 'Đã hoàn thành', upcoming: 'Sắp diễn ra', planning: 'Lên kế hoạch' };

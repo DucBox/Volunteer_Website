@@ -3,8 +3,8 @@
 import { ACTIVITIES, STATUS_LABELS } from '../data/activities.js';
 
 export class Activities {
-    constructor() {
-        this.activities   = ACTIVITIES;
+    constructor(data) {
+        this.activities   = data || ACTIVITIES;
         this.currentIndex = 0;
         this.autoTimer    = null;
         this.isDragging   = false;

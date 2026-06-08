@@ -1,0 +1,341 @@
+{
+  "hero": {
+    "subtitle": "Hành trình mang yêu thương đến những em nhỏ vùng khó khăn!",
+    "stats": [
+      { "number": "20+", "label": "Tình Nguyện Viên" },
+      { "number": "2+",  "label": "Dự Án Hoàn Thành" },
+      { "number": "200+","label": "Người Được Hỗ Trợ" },
+      { "number": "2+",  "label": "Đối Tác" }
+    ]
+  },
+
+  "members": [
+    {
+      "image": "assets/images/members/tdao.jpg",
+      "role": "Founder",
+      "name": "Đào Việt Thanh",
+      "info": "Cựu Sinh viên khoa Tiếng Anh, trường ĐHSP Hà Nội. Người sáng lập dự án với nhiều năm kinh nghiệm trong lĩnh vực từ thiện và phát triển cộng đồng.",
+      "hobbies": "Đọc sách, Đánh cầu, Du lịch",
+      "quote": "Tuổi trẻ vất vả một chút."
+    },
+    {
+      "image": "assets/images/members/thao.jpg",
+      "role": "Co-Founder",
+      "name": "Tạ Thanh Thảo",
+      "info": "Cựu Sinh viên khoa Tiếng Anh, trường ĐHSP Hà Nội. Đồng sáng lập và chịu trách nhiệm về các hoạt động trong công tác hậu cần.",
+      "hobbies": "Ngủ, Xem phim, Lướt Tiktok",
+      "quote": "The more you give, the more you receive."
+    },
+    {
+      "image": "assets/images/members/thư.jpg",
+      "role": "Co-Founder",
+      "name": "Nguyễn Minh Thư",
+      "info": "Cựu Sinh viên Học viện Tài chính. Tình nguyện viên tích cực với niềm đam mê giúp đỡ trẻ em vùng cao.",
+      "hobbies": "Ăn, Ngủ",
+      "quote": "Làm hết sức, chơi hết mình."
+    },
+    {
+      "image": "assets/images/members/htrang.jpg",
+      "role": "Co-Founder",
+      "name": "Dương Hà Trang",
+      "info": "Cựu Sinh viên khoa Tiếng Anh, trường ĐHSP Hà Nội.",
+      "hobbies": "Nấu ăn, Dạy học",
+      "quote": "Khi chúng ta dạy học, chúng ta không chỉ truyền đạt kiến thức, mà còn truyền đạt cả hi vọng."
+    }
+  ],
+
+  "mission": {
+    "cards": [
+      {
+        "key": "knowledge",
+        "icon": "🎯",
+        "title": "Tri Thức",
+        "frontDesc": "Giáo dục là chìa khóa mở ra tương lai — mỗi buổi học không chỉ là những con chữ, mà còn là cơ hội để các em tự tin hơn, dám ước mơ và dám theo đuổi.",
+        "backDesc": "Chúng mình tổ chức các buổi dạy tiếng Anh vui vẻ, kỹ năng sống và những trò chơi trí tuệ — không phải luyện thi, mà là khơi dậy tình yêu học hỏi trong mỗi đứa trẻ.",
+        "modal": {
+          "sections": [
+            {
+              "heading": "Tại sao Tri Thức?",
+              "content": "<p>Ở những vùng núi xa xôi, các em nhỏ không thiếu thông minh — các em thiếu cơ hội. Một buổi học tiếng Anh vui vẻ có thể mở ra cả một chân trời mới: từ sự tự tin khi giao tiếp, đến khả năng tiếp cận thông tin toàn cầu.</p>"
+            },
+            {
+              "heading": "Chúng mình làm gì?",
+              "content": "<ul><li>Tổ chức các buổi học tiếng Anh qua trò chơi, bài hát và hoạt động sáng tạo</li><li>Dạy kỹ năng sống: tư duy phản biện, làm việc nhóm, tự học</li><li>Trao tặng đồ dùng học tập và học bổng cho các em có hoàn cảnh khó khăn</li><li>Kết nối các em với tài nguyên học tập phù hợp lứa tuổi</li></ul>"
+            },
+            {
+              "heading": "Câu chuyện thực tế",
+              "quote": {
+                "text": "Lần đầu tiên em nói được một câu tiếng Anh hoàn chỉnh, em cứ cười mãi không thôi. Cô giáo bảo em giỏi lắm — đó là lần đầu tiên em nghĩ mình cũng làm được.",
+                "cite": "— Em học sinh tại Bắc Kạn, 10 tuổi"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "key": "inspire",
+        "icon": "🤝",
+        "title": "Truyền Cảm Hứng",
+        "frontDesc": "Ai cũng có thể trở thành người truyền cảm hứng — không cần phải là giáo viên hay chuyên gia, chỉ cần một trái tim sẵn sàng chia sẻ.",
+        "backDesc": "Các bạn tình nguyện viên — sinh viên, người đi làm, freelancer — đều có thể trở thành \"người thầy\" theo cách riêng của mình: qua bài hát, trò chơi, hay chỉ là một nụ cười ấm áp.",
+        "modal": {
+          "sections": [
+            {
+              "heading": "Ai cũng có thể là người thầy",
+              "content": "<p>Tình nguyện viên của EM đến từ mọi ngành nghề: sinh viên đại học, kỹ sư, designer, nhân viên văn phòng. Điểm chung duy nhất là sẵn sàng chia sẻ — một kỹ năng, một câu chuyện, một nụ cười.</p>"
+            },
+            {
+              "heading": "Cảm hứng lan toả như thế nào?",
+              "content": "<ul><li>Tổ chức đêm văn nghệ, trò chơi vận động và hoạt động nhóm sôi nổi</li><li>Kể chuyện về thế giới bên ngoài — về đại học, về nghề nghiệp, về ước mơ</li><li>Làm \"bạn lớn\" — lắng nghe, động viên và đồng hành cùng các em</li><li>Chứng minh rằng: học tập là niềm vui, không phải gánh nặng</li></ul>"
+            },
+            {
+              "heading": "Từ tình nguyện viên",
+              "quote": {
+                "text": "Mình nghĩ mình đến để dạy các em, nhưng thực ra chính các em đã dạy mình rất nhiều — về sự biết ơn, về niềm vui giản đơn và về ý nghĩa của việc cho đi.",
+                "cite": "— Nguyễn Thị Lan, Tình nguyện viên 2025"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "key": "give",
+        "icon": "💡",
+        "title": "Cho Đi",
+        "frontDesc": "Hành trình này không chỉ dành cho các em — mà còn dành cho chúng ta. Khi cho đi, chúng mình cũng nhận lại rất nhiều: niềm vui, sự trưởng thành và những bài học ý nghĩa.",
+        "backDesc": "Mỗi chuyến đi, tình nguyện viên không chỉ trao đồ dùng hay kiến thức — họ mang về tình bạn, kỷ niệm không quên và sự thay đổi sâu sắc trong chính bản thân mình.",
+        "modal": {
+          "sections": [
+            {
+              "heading": "Khi cho đi, ta nhận lại",
+              "content": "<p>Mỗi chuyến đi là một hành trình trưởng thành. Tình nguyện viên không chỉ trao quà — họ trao đi một phần con tim và nhận về những điều không thể mua được: tình bạn chân thật, kỷ niệm không phai và cái nhìn sâu sắc hơn về cuộc sống.</p>"
+            },
+            {
+              "heading": "Bạn sẽ nhận lại gì?",
+              "content": "<ul><li>Tình bạn bền chặt với những con người cùng chí hướng</li><li>Kỹ năng lãnh đạo, tổ chức sự kiện và làm việc nhóm thực tế</li><li>Góc nhìn mới về cuộc sống và những điều thực sự quan trọng</li><li>Ký ức đẹp từ những vùng đất, con người và văn hoá mới</li><li>Cảm giác bình yên khi biết rằng mình đã làm một điều có ý nghĩa</li></ul>"
+            },
+            {
+              "heading": "Truyền thống cho đi",
+              "quote": {
+                "text": "Trên chuyến xe về, ai cũng im lặng — không phải vì buồn, mà vì trong lòng đang rất đầy. Đầy ắp những khuôn mặt trẻ thơ, những tiếng cười và cả những giọt nước mắt hạnh phúc.",
+                "cite": "— Trần Văn Đức, Trưởng nhóm chuyến Lào Cai 2025"
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+
+  "impact": [
+    { "count": 2,   "label": "Chuyến Đi Tình Nguyện" },
+    { "count": 60,  "label": "Suất Học Bổng" },
+    { "count": 200, "label": "Phần Quà Trao Tặng" },
+    { "count": 24,  "label": "Giờ Học Vui Vẻ" }
+  ],
+
+  "timeline": [
+    {
+      "date": "Tháng 3, 2025",
+      "title": "Hành Trình Đầu Tiên",
+      "location": "📍 Bắc Kạn",
+      "status": "completed",
+      "icon": "🌱",
+      "image": "assets/images/projects/backan.jpg",
+      "stats": [
+        { "value": "20+", "label": "Tình nguyện viên" },
+        { "value": "50+", "label": "Em nhỏ" },
+        { "value": "30+", "label": "Học bổng" }
+      ],
+      "desc": "Chuyến đi khai sinh của Dự Án Cho EM — dạy tiếng Anh, trao học bổng và mang niềm vui đến hơn 50 em nhỏ tại vùng núi Bắc Kạn."
+    },
+    {
+      "date": "Tháng 12, 2025",
+      "title": "Noel Cho Em",
+      "location": "📍 Lào Cai",
+      "status": "completed",
+      "icon": "🎄",
+      "image": "assets/images/projects/yty.jpg",
+      "stats": [
+        { "value": "25+", "label": "Tình nguyện viên" },
+        { "value": "80+", "label": "Em nhỏ" },
+        { "value": "100+", "label": "Phần quà" }
+      ],
+      "desc": "Mang Giáng Sinh lên vùng cao — trao 100+ phần quà, tổ chức đêm văn nghệ và thắp sáng ước mơ cho các em nhỏ tại Lào Cai."
+    },
+    {
+      "date": "Mùa xuân 2026",
+      "title": "Trạm Gieo Sách",
+      "location": "📍 Sơn La",
+      "status": "planning",
+      "icon": "📚",
+      "image": null,
+      "stats": null,
+      "desc": "Một chuyến đi giả lập để chuẩn bị cho quy mô lớn hơn: mang tủ sách nhỏ, góc đọc và các hoạt động kể chuyện đến với trẻ em vùng cao."
+    },
+    {
+      "date": "Mùa hè 2026",
+      "title": "Ngày Hội Kỹ Năng",
+      "location": "📍 Hà Giang",
+      "status": "planning",
+      "icon": "🎒",
+      "image": null,
+      "stats": null,
+      "desc": "Một trạm dừng thử nghiệm cho hành trình tương lai, nơi các em sẽ được học kỹ năng sống, teamwork và những buổi chơi-vừa-học vui vẻ."
+    },
+    {
+      "date": "Cuối 2026",
+      "title": "Chuyến Xe Ánh Sáng",
+      "location": "📍 Yên Bái",
+      "status": "planning",
+      "icon": "✨",
+      "image": null,
+      "stats": null,
+      "desc": "Trạm ý tưởng để dự án có thể mở rộng thành một chuyến xe lưu động, ghé từng điểm trường với học liệu, quà tặng và hoạt động cộng đồng."
+    },
+    {
+      "date": "2026",
+      "title": "Điện Biên — Sắp Tới",
+      "location": "📍 Điện Biên",
+      "status": "upcoming",
+      "icon": "🌟",
+      "image": null,
+      "stats": null,
+      "desc": "Hành trình tiếp theo đang được lên kế hoạch. Bạn có muốn trở thành một phần của chuyến xe này và đồng hành ở trạm kế tiếp không?"
+    }
+  ],
+
+  "activities": [
+    {
+      "id": "backan",
+      "image": "assets/images/projects/backan.jpg",
+      "title": "Hành Trình Đầu Tiên",
+      "location": "Bắc Kạn",
+      "date": "15–16/03/2025",
+      "status": "completed",
+      "shortDesc": "Trong chuyến đi đầu tiên của EM, chúng mình đã mang đến — và cũng mang về — thật nhiều điều. Những nụ cười rạng rỡ, ánh mắt háo hức và sự biết ơn từ tận đáy lòng.",
+      "gallery": [],
+      "feelingsFolder": "assets/images/feelings/backan/",
+      "stats": [
+        { "value": "50+",  "label": "Em nhỏ" },
+        { "value": "30+",  "label": "Học bổng" },
+        { "value": "20+",  "label": "Tình nguyện viên" },
+        { "value": "2",    "label": "Ngày" }
+      ],
+      "fullDesc": "<p>Chuyến đi đầu tiên của Dự Án Cho EM đến với mảnh đất Bắc Kạn vào tháng 3/2025 đã để lại những dấu ấn khó phai trong lòng cả đội và các em nhỏ. Đây là hành trình mở đầu cho một chuỗi những chuyến đi đầy ý nghĩa, nơi tình yêu thương và tri thức được lan tỏa đến những vùng đất còn nhiều khó khăn.</p><h4>🌟 Điểm nổi bật</h4><ul><li>Tổ chức 6 buổi học tiếng Anh vui vẻ và sáng tạo cho hơn 50 em nhỏ</li><li>Trao tặng 30 suất học bổng kèm đồ dùng học tập</li><li>Tổ chức các trò chơi teambuilding gắn kết tình bạn</li><li>Giao lưu văn hóa và ca hát cùng các em</li><li>Thăm hỏi và hỗ trợ các gia đình có hoàn cảnh khó khăn</li></ul><h4>💬 Cảm nhận từ tình nguyện viên</h4><blockquote>Nhìn các em háo hức học từng chữ tiếng Anh, mình mới hiểu tại sao mình quyết định tham gia dự án này. Đây thực sự là một trong những kỷ niệm đẹp nhất tuổi trẻ của mình.<cite>— Nguyễn Thị Lan, Tình nguyện viên</cite></blockquote>"
+    },
+    {
+      "id": "yty",
+      "image": "assets/images/projects/yty.jpg",
+      "title": "Noel Cho Em",
+      "location": "Lào Cai",
+      "date": "5–7/12/2025",
+      "status": "completed",
+      "shortDesc": "Giáng sinh luôn là mùa của những điều ấm áp. Chúng mình muốn trở thành \"ông già Noel\" đặc biệt — mang đến niềm vui, sự tò mò và những kỷ niệm đẹp đầu đời cho các em.",
+      "gallery": [],
+      "feelingsFolder": "assets/images/feelings/yty/",
+      "stats": [
+        { "value": "100+", "label": "Phần quà Noel" },
+        { "value": "80+",  "label": "Em nhỏ" },
+        { "value": "25+",  "label": "Tình nguyện viên" },
+        { "value": "3",    "label": "Ngày" }
+      ],
+      "fullDesc": "<p>Trong không khí Giáng sinh ấm áp, Dự Án Cho EM lần đầu tiên đặt chân đến vùng đất Lào Cai. Những con đường núi quanh co dẫn đến những ngôi trường nhỏ xinh giữa bạt ngàn xanh mướt, nơi các em nhỏ chưa từng được đón một mùa Giáng sinh thực sự.</p><h4>🎄 Ý nghĩa đặc biệt</h4><ul><li>Mang Giáng sinh đến với các em nhỏ vùng cao lần đầu tiên</li><li>Tổ chức đêm hội Noel với đèn hoa lung linh và quà tặng</li><li>Dạy tiếng Anh qua các bài hát Giáng sinh quốc tế</li><li>Trao tặng hơn 100 phần quà Noel ý nghĩa</li><li>Chụp ảnh lưu niệm và tạo những kỷ niệm khó quên</li></ul><h4>💬 Khoảnh khắc khó quên</h4><blockquote>Lần đầu tiên trong đời, các em được nhìn thấy ông già Noel. Ánh mắt ngạc nhiên và nụ cười rạng rỡ của các em là món quà lớn nhất với tất cả chúng mình.<cite>— Trần Văn Đức, Trưởng nhóm</cite></blockquote>"
+    },
+    {
+      "id": "dienbien",
+      "image": "assets/images/projects/dienbien.jpg",
+      "title": "Hành Trình Điện Biên",
+      "location": "Điện Biên",
+      "date": "Sắp công bố • 2026",
+      "status": "planning",
+      "shortDesc": "Hành trình tiếp theo của chúng mình đang được lên kế hoạch. Hãy theo dõi để không bỏ lỡ cơ hội tham gia!",
+      "gallery": [],
+      "feelingsFolder": "assets/images/feelings/dienbien/",
+      "stats": [],
+      "fullDesc": "<p>Hành trình Điện Biên đang trong giai đoạn lên kế hoạch. Thông tin chi tiết sẽ được cập nhật sớm!</p>"
+    }
+  ],
+
+  "volunteer": {
+    "subtitle": "Chúng mình đang tìm kiếm những người đồng đội mới — những bạn trẻ nhiệt huyết, sẵn sàng đồng hành cùng dự án trong các hoạt động tổ chức, hỗ trợ và lan tỏa yêu thương.",
+    "benefits": [
+      "Trải nghiệm một hành trình ý nghĩa, kết nối với cộng đồng.",
+      "Mở rộng mạng lưới quan hệ xã hội.",
+      "Cơ hội làm việc nhóm, rèn kỹ năng tổ chức, quản lý thời gian.",
+      "Được gặp gỡ những con người giàu năng lượng, đầy cảm hứng.",
+      "Cơ hội phát triển bản thân và nghề nghiệp.",
+      "Tích lũy thêm những kỷ niệm tuổi trẻ đáng nhớ."
+    ],
+    "formDesc": "Hãy để tuổi trẻ của bạn được ghi dấu ở một hành trình đầy yêu thương cùng Dự án Cho Em nhé.",
+    "formLink": "https://forms.gle/1uepUDGaWpRv8qoRA"
+  },
+
+  "faq": [
+    {
+      "q": "Điều kiện tham gia tình nguyện là gì?",
+      "a": "Bạn từ 18 tuổi trở lên, có tinh thần tình nguyện và sẵn sàng dành 2–3 ngày cho chuyến đi. Không yêu cầu kinh nghiệm — chỉ cần một trái tim nhiệt huyết và mong muốn đóng góp!"
+    },
+    {
+      "q": "Chi phí tham gia một chuyến đi là bao nhiêu?",
+      "a": "Tình nguyện viên chỉ cần tự chi trả chi phí di chuyển đến điểm tập kết. Toàn bộ chi phí ăn uống, chỗ ở và hoạt động trong chuyến đi được dự án hỗ trợ."
+    },
+    {
+      "q": "Chuyến đi thường kéo dài bao lâu?",
+      "a": "Mỗi chuyến thường kéo dài 2–3 ngày cuối tuần. Lịch cụ thể được thông báo trước để bạn chủ động sắp xếp công việc cá nhân."
+    },
+    {
+      "q": "Tôi không biết dạy học, có tham gia được không?",
+      "a": "Hoàn toàn được! EM không yêu cầu bạn phải là giáo viên hay có kinh nghiệm dạy học. Các buổi học được thiết kế vui vẻ qua trò chơi và bài hát — bất kỳ ai cũng có thể tham gia và đóng góp theo cách riêng của mình."
+    },
+    {
+      "q": "Làm thế nào để đăng ký tham gia?",
+      "a": "Rất đơn giản! Bạn điền form đăng ký trực tuyến (xem phần Tình Nguyện phía trên), hoặc liên hệ trực tiếp qua hotline 0912 503 111 / 0945 513 426 để được tư vấn chi tiết."
+    },
+    {
+      "q": "Dự án đã hoạt động ở những tỉnh nào?",
+      "a": "Hiện EM đã tổ chức các chuyến tại Bắc Kạn (03/2025) và Lào Cai (12/2025). Chuyến tiếp theo đang được lên kế hoạch tại Điện Biên — danh sách địa điểm sẽ tiếp tục được mở rộng!"
+    }
+  ],
+
+  "donation": {
+    "transfer": {
+      "accountNumber": "9999 5521 44",
+      "bank": "Techcombank",
+      "accountName": "DAO VIET THANH",
+      "transferContent": "Tên + Ủng hộ dự án Trăng cho Em",
+      "qrImage": "assets/images/qr.jpg",
+      "note": "Một \"hóa đơn\" có thể nhỏ bé — là một cuốn vở mới tinh, hay hộp bút màu cho em vẽ tiếp ước mơ. Hãy quét mã QR và \"thanh toán giấc mơ\" để Trung Thu nơi lưng chừng núi thêm tròn đầy!"
+    },
+    "materials": {
+      "description": "Ngoài tài chính, bạn có thể ủng hộ đồ dùng học tập và đồ ăn cho các bé:",
+      "items": [
+        { "image": "assets/images/book.jpg",  "name": "Sách vở" },
+        { "image": "assets/images/pen.jpg",   "name": "Bút chì" },
+        { "image": "assets/images/pen2.jpg",  "name": "Bút mực" },
+        { "image": "assets/images/ruler.jpg", "name": "Thước" },
+        { "image": "assets/images/food.jpg",  "name": "Đồ ăn" },
+        { "image": "assets/images/drink.jpg", "name": "Nước uống" }
+      ],
+      "hotlines": ["0912503111", "0945513426"]
+    }
+  },
+
+  "partners": [
+    {
+      "logo": "assets/images/sponsors/ieltshieuminh.jpg",
+      "name": "IELTS Hiếu Minh",
+      "desc": "Hướng đến xây dựng các lớp học đơn giản mà hiệu quả, kỷ luật nhưng vui vẻ. Kể từ tháng 9/2025, IELTS Hiếu Minh chính thức trở thành đối tác đăng ký thi của cả BC và IDP."
+    }
+  ],
+
+  "footer": {
+    "about": "Dự án tình nguyện cam kết mang lại những thay đổi tích cực cho cộng đồng thông qua các hoạt động ý nghĩa và bền vững.",
+    "hotlines": ["0912503111", "0945513426"],
+    "email": "info.duanem@gmail.com",
+    "hours": "Thứ 2 – Chủ Nhật: 8:00 – 22:00",
+    "facebook": "https://www.facebook.com/info.duanchoem",
+    "tiktok": "https://www.tiktok.com/@hanhtrinh.choem?lang=en",
+    "copyright": "2026 EM Volunteer Project. All rights reserved."
+  }
+}

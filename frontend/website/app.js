@@ -23,8 +23,10 @@ import { Timeline }       from './components/Timeline.js';
 import { ImpactCounter }  from './components/ImpactCounter.js';
 import { Animations }     from './components/Animations.js';
 import { Cursor }         from './components/Cursor.js';
+import { loadContent }    from './data/ContentLoader.js';
+import { applyContent }   from './components/ContentApplier.js';
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
     // Restore scroll position instantly, then reveal page
     const savedY = parseInt(sessionStorage.getItem('_sy') || '0', 10);
     sessionStorage.removeItem('_sy');
@@ -37,18 +39,22 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    // Load content.json first, then init all components with live data
+    const content = await loadContent();
+
     new Navbar();
     new Forms();
-    new Members();
+    new Members(content.members);
     new Testimonials();
     new ScrollToTop();
-    new Activities();
-    new Mission();
-    new FAQ();
-    new Timeline();
-    new ImpactCounter();
-    new Animations();   // last — all dynamic HTML is rendered by this point
-    new Cursor();       // initialize custom cursor
+    new Activities(content.activities);
+    new Mission(content.mission);
+    new FAQ(content.faq);
+    new Timeline(content.timeline);
+    new ImpactCounter(content.impact);
+    applyContent(content);    // inject hero, volunteer, donation, partners, footer
+    new Animations();         // last — all dynamic HTML is rendered by this point
+    new Cursor();
 
     new ChatWidget({
         apiUrl:          'https://volunteerwebsite-production.up.railway.app/api/chat',

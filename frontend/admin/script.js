@@ -63,6 +63,8 @@ async function submitAdminKey() {
         _adminKey = key;
         hideLoginOverlay();
         loadDocuments();
+        // Init content manager after login
+        if (window._initContentManager) window._initContentManager();
     } catch {
         errorEl.textContent = 'Không thể kết nối đến server.';
     }
@@ -624,6 +626,37 @@ function escapeHtml(text) {
     div.textContent = text;
     return div.innerHTML;
 }
+
+// ===================================
+// MAIN FEELINGS UPLOAD (trang chủ)
+// ===================================
+window.uploadMainFeelings = async function() {
+    const input = document.getElementById('main-feelings-input');
+    const statusEl = document.getElementById('main-feelings-status');
+    if (!input.files.length) { statusEl.textContent = 'Chọn ảnh trước'; return; }
+
+    statusEl.textContent = `Đang upload ${input.files.length} ảnh...`;
+    let ok = 0;
+    for (let i = 0; i < input.files.length; i++) {
+        const file = input.files[i];
+        const fd = new FormData();
+        fd.append('file', file);
+        fd.append('dest_path', `frontend/website/assets/images/feelings/${Date.now()}_${i + 1}.jpg`);
+        fd.append('image_type', 'feelings');
+        try {
+            const res = await fetch(`${API_BASE}/content/upload-image`, {
+                method: 'POST',
+                headers: { 'X-Admin-Key': getAdminKey() },
+                body: fd,
+            });
+            if (res.ok) ok++;
+            statusEl.textContent = `Đã upload ${ok}/${input.files.length}...`;
+        } catch (e) {
+            statusEl.textContent = `Lỗi ảnh ${i + 1}: ${e.message}`;
+        }
+    }
+    statusEl.textContent = `✅ Xong! ${ok} ảnh đã upload. Vercel sẽ rebuild sau ~1-2 phút.`;
+};
 
 // ===================================
 // ERROR HANDLING

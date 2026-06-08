@@ -83,8 +83,35 @@ const MISSION_DETAILS = {
 };
 
 export class Mission {
-    constructor() {
+    constructor(data) {
+        if (data?.cards) {
+            // Rebuild MISSION_DETAILS from content.json
+            data.cards.forEach(card => {
+                if (MISSION_DETAILS[card.key]) {
+                    MISSION_DETAILS[card.key].icon     = card.icon;
+                    MISSION_DETAILS[card.key].title    = card.title;
+                    MISSION_DETAILS[card.key].sections = card.modal.sections;
+                }
+            });
+            this._applyCardText(data.cards);
+        }
         this.init();
+    }
+
+    _applyCardText(cards) {
+        // Update the flip card front/back text that's hardcoded in index.html
+        const flipCards = document.querySelectorAll('.mission-card-flip');
+        cards.forEach((card, i) => {
+            if (!flipCards[i]) return;
+            const frontP = flipCards[i].querySelector('.mission-card-front p');
+            const backP  = flipCards[i].querySelector('.mission-card-back p');
+            if (frontP) frontP.textContent = card.frontDesc;
+            if (backP)  backP.textContent  = card.backDesc;
+            const frontH3 = flipCards[i].querySelector('.mission-card-front h3');
+            const backH3  = flipCards[i].querySelector('.mission-card-back h3');
+            if (frontH3) frontH3.textContent = card.title;
+            if (backH3)  backH3.textContent  = card.title;
+        });
     }
 
     init() {

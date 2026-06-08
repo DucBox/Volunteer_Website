@@ -4,15 +4,15 @@
  */
 
 export class Testimonials {
-    constructor() {
+    constructor(feelingsPath) {
         this.images = [];
         this.currentIndex = 0;
         this.autoSlideInterval = null;
         this.isPlaying = true;
         this.slideSpeed = 4000;
-        this.feelingsPath = 'assets/images/feelings/';
+        this.feelingsPath = feelingsPath || 'assets/images/feelings/';
         this.cardsPerView = this.getCardsPerView();
-        
+
         this.init();
     }
     

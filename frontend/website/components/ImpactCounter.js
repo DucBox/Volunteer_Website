@@ -1,7 +1,19 @@
 // Impact Counter — re-animates every time section scrolls into view
 export class ImpactCounter {
-    constructor() {
+    constructor(data) {
+        if (data?.length) this._renderGrid(data);
         this.init();
+    }
+
+    _renderGrid(items) {
+        const grid = document.querySelector('.impact-grid');
+        if (!grid) return;
+        grid.innerHTML = items.map(item => `
+            <div class="impact-card">
+                <span class="impact-number" data-count="${item.count}">${item.count}+</span>
+                <span class="impact-label">${item.label}</span>
+            </div>
+        `).join('');
     }
 
     init() {

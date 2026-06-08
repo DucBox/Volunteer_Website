@@ -27,7 +27,8 @@ const FAQ_DATA = [
 ];
 
 export class FAQ {
-    constructor() {
+    constructor(data) {
+        this.data = data || FAQ_DATA;
         this.render();
         this.attachEvents();
     }
@@ -38,7 +39,7 @@ export class FAQ {
 
         container.innerHTML = `
             <ul class="faq-list" role="list">
-                ${FAQ_DATA.map((item, i) => `
+                ${this.data.map((item, i) => `
                     <li class="faq-item" data-index="${i}">
                         <button class="faq-question" aria-expanded="false" aria-controls="faq-answer-${i}">
                             <span class="faq-question-text">${item.q}</span>

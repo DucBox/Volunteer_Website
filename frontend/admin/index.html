@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard - Quản Lý Tài Liệu</title>
+    <title>Admin Dashboard - Dự Án Cho EM</title>
     
     <!-- Marked.js for Markdown rendering -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
@@ -38,6 +38,57 @@
         <!-- Sidebar -->
         <aside class="sidebar">
             <nav class="sidebar-nav">
+                <div class="nav-group-label">Nội Dung Website</div>
+                <a href="#cm-hero" class="nav-item" data-section="cm-hero">
+                    <i class="fas fa-star"></i>
+                    <span>Hero & Số liệu</span>
+                </a>
+                <a href="#cm-impact" class="nav-item" data-section="cm-impact">
+                    <i class="fas fa-chart-bar"></i>
+                    <span>Thành Quả</span>
+                </a>
+                <a href="#cm-activities" class="nav-item" data-section="cm-activities">
+                    <i class="fas fa-map-marked-alt"></i>
+                    <span>Hoạt Động & Dự Án</span>
+                </a>
+                <a href="#cm-testimonials-mgr" class="nav-item" data-section="cm-testimonials-mgr">
+                    <i class="fas fa-images"></i>
+                    <span>Cảm Nhận TNV</span>
+                </a>
+                <a href="#cm-members" class="nav-item" data-section="cm-members">
+                    <i class="fas fa-users"></i>
+                    <span>Thành Viên</span>
+                </a>
+                <a href="#cm-mission" class="nav-item" data-section="cm-mission">
+                    <i class="fas fa-bullseye"></i>
+                    <span>Sứ Mệnh</span>
+                </a>
+                <a href="#cm-timeline" class="nav-item" data-section="cm-timeline">
+                    <i class="fas fa-route"></i>
+                    <span>Hành Trình</span>
+                </a>
+                <a href="#cm-faq" class="nav-item" data-section="cm-faq">
+                    <i class="fas fa-question-circle"></i>
+                    <span>FAQ</span>
+                </a>
+                <a href="#cm-volunteer" class="nav-item" data-section="cm-volunteer">
+                    <i class="fas fa-hand-holding-heart"></i>
+                    <span>Tình Nguyện</span>
+                </a>
+                <a href="#cm-donation" class="nav-item" data-section="cm-donation">
+                    <i class="fas fa-donate"></i>
+                    <span>Quyên Góp</span>
+                </a>
+                <a href="#cm-partners" class="nav-item" data-section="cm-partners">
+                    <i class="fas fa-handshake"></i>
+                    <span>Đối Tác</span>
+                </a>
+                <a href="#cm-footer" class="nav-item" data-section="cm-footer">
+                    <i class="fas fa-address-card"></i>
+                    <span>Footer & Liên Hệ</span>
+                </a>
+
+                <div class="nav-group-label">Chatbot</div>
                 <a href="#upload" class="nav-item active" data-section="upload">
                     <i class="fas fa-upload"></i>
                     <span>Upload Tài Liệu</span>
@@ -153,6 +204,322 @@
                 </div>
             </section>
 
+            <!-- ==================== CONTENT MANAGER SECTIONS ==================== -->
+
+            <!-- HERO -->
+            <section class="content-section" id="cm-hero">
+                <div class="section-header">
+                    <h2><i class="fas fa-star"></i> Hero & Số Liệu Nhanh</h2>
+                    <p>Dòng phụ dưới tiêu đề và 4 con số thống kê hiển thị trên banner đầu trang.</p>
+                </div>
+                <div class="cm-form-card">
+                    <div class="form-group">
+                        <label>Câu phụ đề hero</label>
+                        <input id="hero-subtitle" class="form-input" placeholder="Hành trình mang yêu thương...">
+                    </div>
+                    <div class="form-group">
+                        <label>Thống kê nhanh (4 ô)</label>
+                        <div id="hero-stats-list" class="cm-sub-list"></div>
+                        <button class="btn btn-secondary btn-sm" onclick="addHeroStat()" style="margin-top:8px">
+                            <i class="fas fa-plus"></i> Thêm stat
+                        </button>
+                    </div>
+                    <div id="cm-status-hero" class="cm-status" style="display:none"></div>
+                    <button id="cm-save-hero" class="btn btn-primary" onclick="saveHero()">
+                        <i class="fas fa-save"></i> Lưu & Cập Nhật Web
+                    </button>
+                </div>
+            </section>
+
+            <!-- IMPACT -->
+            <section class="content-section" id="cm-impact">
+                <div class="section-header">
+                    <h2><i class="fas fa-chart-bar"></i> Thành Quả Của Chúng Mình</h2>
+                    <p>4 con số đếm hiển thị trong section "Thành Quả".</p>
+                </div>
+                <div class="cm-form-card">
+                    <div id="impact-list" class="cm-sub-list"></div>
+                    <button class="btn btn-secondary btn-sm" onclick="addImpactItem()" style="margin-top:8px">
+                        <i class="fas fa-plus"></i> Thêm mục
+                    </button>
+                    <div id="cm-status-impact" class="cm-status" style="display:none"></div>
+                    <button id="cm-save-impact" class="btn btn-primary" onclick="saveImpact()">
+                        <i class="fas fa-save"></i> Lưu & Cập Nhật Web
+                    </button>
+                </div>
+            </section>
+
+            <!-- ACTIVITIES -->
+            <section class="content-section" id="cm-activities">
+                <div class="section-header">
+                    <h2><i class="fas fa-map-marked-alt"></i> Hoạt Động & Dự Án</h2>
+                    <p>Quản lý các chuyến đi: thêm mới, sửa nội dung, upload ảnh bìa và ảnh cảm nhận TNV.</p>
+                </div>
+                <div class="cm-form-card">
+                    <div id="activities-list"></div>
+                    <button class="btn btn-secondary" onclick="addActivity()" style="margin-top:16px">
+                        <i class="fas fa-plus"></i> Thêm hoạt động mới
+                    </button>
+                    <div id="cm-status-activities" class="cm-status" style="display:none"></div>
+                    <button id="cm-save-activities" class="btn btn-primary" onclick="saveActivities()">
+                        <i class="fas fa-save"></i> Lưu & Cập Nhật Web
+                    </button>
+                </div>
+            </section>
+
+            <!-- TESTIMONIALS MANAGER (ảnh cảm nhận chung trang chủ) -->
+            <section class="content-section" id="cm-testimonials-mgr">
+                <div class="section-header">
+                    <h2><i class="fas fa-images"></i> Cảm Nhận Tình Nguyện Viên</h2>
+                    <p>Upload ảnh cảm nhận cho trang chủ (thư mục <code>assets/images/feelings/</code>) hoặc cho từng dự án (quản lý trong tab Hoạt Động).</p>
+                </div>
+                <div class="cm-form-card">
+                    <div class="form-group">
+                        <label>Upload ảnh vào thư mục feelings chung (trang chủ)</label>
+                        <p class="cm-hint">Ảnh sẽ được đánh số tự động từ vị trí cuối danh sách hiện tại.</p>
+                        <input type="file" accept="image/*" multiple id="main-feelings-input">
+                        <button class="btn btn-secondary" onclick="uploadMainFeelings()" style="margin-top:8px">
+                            <i class="fas fa-images"></i> Upload ảnh
+                        </button>
+                        <span id="main-feelings-status" style="font-size:13px;color:#64748b;margin-left:12px;"></span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- MEMBERS -->
+            <section class="content-section" id="cm-members">
+                <div class="section-header">
+                    <h2><i class="fas fa-users"></i> Thành Viên</h2>
+                    <p>Quản lý danh sách thành viên sáng lập hiển thị trên trang chủ.</p>
+                </div>
+                <div class="cm-form-card">
+                    <div id="members-list"></div>
+                    <button class="btn btn-secondary" onclick="addMember()" style="margin-top:16px">
+                        <i class="fas fa-plus"></i> Thêm thành viên
+                    </button>
+                    <div id="cm-status-members" class="cm-status" style="display:none"></div>
+                    <button id="cm-save-members" class="btn btn-primary" onclick="saveMembers()">
+                        <i class="fas fa-save"></i> Lưu & Cập Nhật Web
+                    </button>
+                </div>
+            </section>
+
+            <!-- MISSION -->
+            <section class="content-section" id="cm-mission">
+                <div class="section-header">
+                    <h2><i class="fas fa-bullseye"></i> Sứ Mệnh</h2>
+                    <p>3 flip card (Tri Thức / Truyền Cảm Hứng / Cho Đi) và nội dung modal khi bấm "Tìm hiểu thêm".</p>
+                </div>
+                <div class="cm-form-card">
+                    <div id="mission-list"></div>
+                    <div id="cm-status-mission" class="cm-status" style="display:none"></div>
+                    <button id="cm-save-mission" class="btn btn-primary" onclick="saveMission()">
+                        <i class="fas fa-save"></i> Lưu & Cập Nhật Web
+                    </button>
+                </div>
+            </section>
+
+            <!-- TIMELINE -->
+            <section class="content-section" id="cm-timeline">
+                <div class="section-header">
+                    <h2><i class="fas fa-route"></i> Hành Trình</h2>
+                    <p>Các mốc hành trình hiển thị trong section "Hành Trình Của Chúng Mình".</p>
+                </div>
+                <div class="cm-form-card">
+                    <div id="timeline-list"></div>
+                    <button class="btn btn-secondary" onclick="addTimelineItem()" style="margin-top:16px">
+                        <i class="fas fa-plus"></i> Thêm mốc mới
+                    </button>
+                    <div id="cm-status-timeline" class="cm-status" style="display:none"></div>
+                    <button id="cm-save-timeline" class="btn btn-primary" onclick="saveTimeline()">
+                        <i class="fas fa-save"></i> Lưu & Cập Nhật Web
+                    </button>
+                </div>
+            </section>
+
+            <!-- FAQ -->
+            <section class="content-section" id="cm-faq">
+                <div class="section-header">
+                    <h2><i class="fas fa-question-circle"></i> Câu Hỏi Thường Gặp</h2>
+                    <p>Thêm, sửa, xóa các câu hỏi & câu trả lời.</p>
+                </div>
+                <div class="cm-form-card">
+                    <div id="faq-list"></div>
+                    <button class="btn btn-secondary" onclick="addFaqItem()" style="margin-top:16px">
+                        <i class="fas fa-plus"></i> Thêm câu hỏi
+                    </button>
+                    <div id="cm-status-faq" class="cm-status" style="display:none"></div>
+                    <button id="cm-save-faq" class="btn btn-primary" onclick="saveFaq()">
+                        <i class="fas fa-save"></i> Lưu & Cập Nhật Web
+                    </button>
+                </div>
+            </section>
+
+            <!-- VOLUNTEER -->
+            <section class="content-section" id="cm-volunteer">
+                <div class="section-header">
+                    <h2><i class="fas fa-hand-holding-heart"></i> Section Tình Nguyện</h2>
+                    <p>Nội dung phần đăng ký tình nguyện viên.</p>
+                </div>
+                <div class="cm-form-card">
+                    <div class="form-group">
+                        <label>Phụ đề section</label>
+                        <textarea id="vol-subtitle" class="form-input" rows="2"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Quyền lợi khi tham gia</label>
+                        <div id="vol-benefits-list" class="cm-sub-list"></div>
+                        <button class="btn btn-secondary btn-sm" onclick="addVolBenefit()" style="margin-top:8px">
+                            <i class="fas fa-plus"></i> Thêm quyền lợi
+                        </button>
+                    </div>
+                    <div class="form-group">
+                        <label>Mô tả form đăng ký</label>
+                        <textarea id="vol-form-desc" class="form-input" rows="2"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Link Google Form đăng ký</label>
+                        <input id="vol-form-link" class="form-input" placeholder="https://forms.gle/...">
+                    </div>
+                    <div id="cm-status-volunteer" class="cm-status" style="display:none"></div>
+                    <button id="cm-save-volunteer" class="btn btn-primary" onclick="saveVolunteer()">
+                        <i class="fas fa-save"></i> Lưu & Cập Nhật Web
+                    </button>
+                </div>
+            </section>
+
+            <!-- DONATION -->
+            <section class="content-section" id="cm-donation">
+                <div class="section-header">
+                    <h2><i class="fas fa-donate"></i> Quyên Góp</h2>
+                    <p>Thông tin tài khoản ngân hàng, QR code và danh sách đồ vật chất nhận ủng hộ.</p>
+                </div>
+                <div class="cm-form-card">
+                    <h3 class="cm-sub-title">Chuyển khoản</h3>
+                    <div class="cm-grid-2">
+                        <div class="form-group">
+                            <label>Số tài khoản</label>
+                            <input id="don-account" class="form-input" placeholder="9999 5521 44">
+                        </div>
+                        <div class="form-group">
+                            <label>Ngân hàng</label>
+                            <input id="don-bank" class="form-input" placeholder="Techcombank">
+                        </div>
+                    </div>
+                    <div class="cm-grid-2">
+                        <div class="form-group">
+                            <label>Chủ tài khoản</label>
+                            <input id="don-name" class="form-input" placeholder="NGUYEN VAN A">
+                        </div>
+                        <div class="form-group">
+                            <label>Nội dung chuyển khoản</label>
+                            <input id="don-content" class="form-input" placeholder="Tên + Ủng hộ...">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Đường dẫn ảnh QR</label>
+                        <input id="don-qr" class="form-input" placeholder="assets/images/qr.jpg">
+                    </div>
+                    <div class="form-group">
+                        <label>Ghi chú (hiển thị dưới thẻ chuyển khoản)</label>
+                        <textarea id="don-note" class="form-input" rows="2"></textarea>
+                    </div>
+
+                    <h3 class="cm-sub-title" style="margin-top:24px">Ủng hộ vật chất</h3>
+                    <div class="cm-grid-2">
+                        <div class="form-group">
+                            <label>Hotline 1</label>
+                            <input id="don-hotline1" class="form-input" placeholder="0912503111">
+                        </div>
+                        <div class="form-group">
+                            <label>Hotline 2</label>
+                            <input id="don-hotline2" class="form-input" placeholder="0945513426">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Danh sách đồ dùng</label>
+                        <div id="don-items-list" class="cm-sub-list"></div>
+                        <button class="btn btn-secondary btn-sm" onclick="addDonItem()" style="margin-top:8px">
+                            <i class="fas fa-plus"></i> Thêm đồ dùng
+                        </button>
+                    </div>
+                    <div id="cm-status-donation" class="cm-status" style="display:none"></div>
+                    <button id="cm-save-donation" class="btn btn-primary" onclick="saveDonation()">
+                        <i class="fas fa-save"></i> Lưu & Cập Nhật Web
+                    </button>
+                </div>
+            </section>
+
+            <!-- PARTNERS -->
+            <section class="content-section" id="cm-partners">
+                <div class="section-header">
+                    <h2><i class="fas fa-handshake"></i> Đối Tác & Nhà Tài Trợ</h2>
+                    <p>Thêm, sửa, xóa các nhà tài trợ.</p>
+                </div>
+                <div class="cm-form-card">
+                    <div id="partners-list"></div>
+                    <button class="btn btn-secondary" onclick="addPartner()" style="margin-top:16px">
+                        <i class="fas fa-plus"></i> Thêm đối tác
+                    </button>
+                    <div id="cm-status-partners" class="cm-status" style="display:none"></div>
+                    <button id="cm-save-partners" class="btn btn-primary" onclick="savePartners()">
+                        <i class="fas fa-save"></i> Lưu & Cập Nhật Web
+                    </button>
+                </div>
+            </section>
+
+            <!-- FOOTER -->
+            <section class="content-section" id="cm-footer">
+                <div class="section-header">
+                    <h2><i class="fas fa-address-card"></i> Footer & Liên Hệ</h2>
+                    <p>Thông tin liên hệ, mạng xã hội và giờ làm việc.</p>
+                </div>
+                <div class="cm-form-card">
+                    <div class="form-group">
+                        <label>Mô tả về tổ chức (cột trái footer)</label>
+                        <textarea id="footer-about" class="form-input" rows="2"></textarea>
+                    </div>
+                    <div class="cm-grid-2">
+                        <div class="form-group">
+                            <label>Hotline 1</label>
+                            <input id="footer-h1" class="form-input" placeholder="0912503111">
+                        </div>
+                        <div class="form-group">
+                            <label>Hotline 2</label>
+                            <input id="footer-h2" class="form-input" placeholder="0945513426">
+                        </div>
+                    </div>
+                    <div class="cm-grid-2">
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input id="footer-email" class="form-input" placeholder="info.duanem@gmail.com">
+                        </div>
+                        <div class="form-group">
+                            <label>Giờ hoạt động</label>
+                            <input id="footer-hours" class="form-input" placeholder="Thứ 2 – Chủ Nhật: 8:00 – 22:00">
+                        </div>
+                    </div>
+                    <div class="cm-grid-2">
+                        <div class="form-group">
+                            <label>Link Facebook</label>
+                            <input id="footer-fb" class="form-input" placeholder="https://www.facebook.com/...">
+                        </div>
+                        <div class="form-group">
+                            <label>Link TikTok</label>
+                            <input id="footer-tt" class="form-input" placeholder="https://www.tiktok.com/...">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Copyright</label>
+                        <input id="footer-cr" class="form-input" placeholder="2026 EM Volunteer Project. All rights reserved.">
+                    </div>
+                    <div id="cm-status-footer" class="cm-status" style="display:none"></div>
+                    <button id="cm-save-footer" class="btn btn-primary" onclick="saveFooter()">
+                        <i class="fas fa-save"></i> Lưu & Cập Nhật Web
+                    </button>
+                </div>
+            </section>
+
             <!-- Chat Section -->
             <section class="content-section" id="chat">
                 <div class="section-header">
@@ -219,5 +586,9 @@
 
     <!-- Custom JS -->
     <script src="script.js"></script>
+    <script type="module">
+        import { initContentManager } from './content-manager.js';
+        window._initContentManager = initContentManager;
+    </script>
 </body>
 </html>

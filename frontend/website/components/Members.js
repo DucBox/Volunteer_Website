@@ -39,8 +39,8 @@ const MEMBERS_DATA = [
 ];
 
 export class Members {
-    constructor() {
-        this.members      = MEMBERS_DATA;
+    constructor(data) {
+        this.members      = data || MEMBERS_DATA;
         this.currentIndex = 0;
         this.autoTimer    = null;
         this.dragStartX   = 0;
