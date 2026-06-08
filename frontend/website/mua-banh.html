@@ -286,12 +286,12 @@
     <div id="scrollTopContainer"></div>
 
     <script type="module">
-        import { NavBar } from './components/NavBar.js';
+        import { Navbar } from './components/NavBar.js';
         import { ScrollToTop } from './components/ScrolltoTop.js';
         import { loadContent } from './data/ContentLoader.js';
 
         async function init() {
-            new NavBar();
+            new Navbar();
             new ScrollToTop();
 
             document.documentElement.style.visibility = '';
