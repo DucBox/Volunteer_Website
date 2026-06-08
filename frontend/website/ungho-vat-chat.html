@@ -39,15 +39,15 @@
             box-shadow: 0 2px 12px rgba(0,0,0,0.07);
         }
         .sp-header-inner {
-            max-width: 900px; margin: 0 auto; padding: 0 20px;
+            max-width: 1100px; margin: 0 auto; padding: 0 20px;
             height: var(--sp-header-h);
-            display: flex; align-items: center; justify-content: space-between;
+            display: flex; align-items: center;
         }
         .sp-header-brand {
             display: flex; align-items: center; gap: 8px;
             text-decoration: none; color: var(--color-text);
             padding: 6px 10px 6px 6px; border-radius: 8px;
-            transition: background .2s;
+            transition: background .2s; flex-shrink: 0;
         }
         .sp-header-brand:hover { background: var(--color-warm-light); }
         .sp-header-brand img { width: 28px; height: 28px; border-radius: 6px; object-fit: cover; }
@@ -56,7 +56,34 @@
             display: block; font-size: 10px; font-weight: 500;
             color: var(--color-text-secondary);
         }
+        /* Divider */
+        .sp-header-divider {
+            width: 1px; height: 24px;
+            background: var(--color-border);
+            margin: 0 8px; flex-shrink: 0;
+        }
+        /* Section tabs */
+        .sp-header-tabs {
+            display: flex; align-items: center;
+            flex: 1; overflow-x: auto; scrollbar-width: none; gap: 0;
+        }
+        .sp-header-tabs::-webkit-scrollbar { display: none; }
+        .sp-tab {
+            padding: 0 16px; height: var(--sp-header-h);
+            font-size: 13px; font-weight: 700;
+            color: var(--color-text-secondary);
+            border-bottom: 3px solid transparent;
+            border-top: none; border-left: none; border-right: none;
+            background: none; cursor: pointer; white-space: nowrap;
+            font-family: inherit;
+            transition: color .2s, border-color .2s;
+            margin-bottom: -1.5px;
+        }
+        .sp-tab:hover  { color: var(--color-primary); }
+        .sp-tab.active { color: var(--color-primary); border-bottom-color: var(--color-primary); }
+        /* Theme toggle */
         .sp-header-theme {
+            flex-shrink: 0; margin-left: 8px;
             width: 36px; height: 36px; border-radius: 50%;
             border: 1.5px solid var(--color-border);
             background: none; color: var(--color-text); font-size: 15px;
@@ -76,10 +103,13 @@
             transition: transform .2s ease, box-shadow .2s ease; white-space: nowrap;
         }
         .sp-back-float:hover { transform: translateX(-3px); box-shadow: 0 6px 28px rgba(0,0,0,0.24); }
+        /* Scroll offset for sticky header */
+        .nav-section { scroll-margin-top: calc(var(--sp-header-h) + 8px); }
         @media(max-width:480px) {
             .sp-back-float span { display: none; }
             .sp-back-float { padding: 10px 14px; }
             .sp-header-brand-text { display: none; }
+            .sp-tab { padding: 0 12px; font-size: 12px; }
         }
         [data-theme="dark"] .sp-header { background: var(--color-surface); border-color: var(--color-border); }
         [data-theme="dark"] .sp-back-float { background: var(--color-surface); }
@@ -98,6 +128,13 @@
                     <small>← Quay lại</small>
                 </div>
             </a>
+            <div class="sp-header-divider"></div>
+            <nav class="sp-header-tabs" id="sectionTabsBar">
+                <button class="sp-tab active" data-target="section-story">📖 Câu Chuyện</button>
+                <button class="sp-tab" data-target="section-items">📦 Đồ Cần</button>
+                <button class="sp-tab" data-target="section-steps">🚀 Cách Gửi</button>
+                <button class="sp-tab" data-target="section-contact">📞 Liên Hệ</button>
+            </nav>
             <button class="sp-header-theme" id="themeToggle" aria-label="Đổi giao diện">
                 <i class="fas fa-moon" id="themeIcon"></i>
             </button>
@@ -115,7 +152,7 @@
         <!-- no inline back button - using floating one below -->
 
             <!-- Story -->
-            <div class="sp-section">
+            <div class="sp-section nav-section" id="section-story">
                 <h2 class="sp-section-title">
                     <span>📖</span> Câu Chuyện Đằng Sau
                 </h2>
@@ -127,7 +164,7 @@
             </div>
 
             <!-- What to donate -->
-            <div class="sp-section">
+            <div class="sp-section nav-section" id="section-items">
                 <h2 class="sp-section-title">
                     <span>📦</span> Những Gì Các Em Cần
                 </h2>
@@ -173,7 +210,7 @@
             </div>
 
             <!-- How to donate -->
-            <div class="sp-section">
+            <div class="sp-section nav-section" id="section-steps">
                 <h2 class="sp-section-title">
                     <span>🚀</span> Cách Gửi Đồ Ủng Hộ
                 </h2>
@@ -210,7 +247,7 @@
             </div>
 
             <!-- Contact CTA -->
-            <div class="sp-contact-box">
+            <div class="sp-contact-box nav-section" id="section-contact">
                 <h3>Sẵn Sàng Ủng Hộ?</h3>
                 <p>Liên hệ ngay với chúng mình để được hướng dẫn chi tiết</p>
                 <div class="sp-hotlines" id="sp-mat-hotlines">
@@ -282,12 +319,36 @@
             new ScrollToTop();
             new Cursor();
             initTheme();
+            initTabs();
             document.documentElement.style.visibility = '';
 
             try {
                 const content = await loadContent();
                 applyContent(content);
             } catch (_) {}
+        }
+
+        function initTabs() {
+            const tabs     = document.querySelectorAll('.sp-tab');
+            const sections = ['section-story','section-items','section-steps','section-contact']
+                             .map(id => document.getElementById(id));
+
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    document.getElementById(tab.dataset.target)
+                            ?.scrollIntoView({ behavior:'smooth', block:'start' });
+                });
+            });
+
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(e => {
+                    if (e.isIntersecting) {
+                        tabs.forEach(t => t.classList.toggle('active', t.dataset.target === e.target.id));
+                    }
+                });
+            }, { rootMargin:'-20% 0px -70% 0px', threshold: 0 });
+
+            sections.forEach(s => { if (s) observer.observe(s); });
         }
 
         function initTheme() {
