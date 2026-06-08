@@ -141,6 +141,12 @@
         /* Item cards already have hover in support-pages.css — strengthen it */
         .sp-item-card:hover .sp-item-img-wrap img { transform: scale(1.06); }
         .sp-item-img-wrap img { transition: transform .35s ease; }
+        /* Story text typing chars */
+        .story-char {
+            display: inline;
+            opacity: 0;
+            transition: opacity 0.04s ease;
+        }
         /* CTA contact box hover */
         .sp-contact-box {
             transition: filter .35s ease, box-shadow .35s ease;
@@ -361,6 +367,38 @@
                 const content = await loadContent();
                 applyContent(content);
             } catch (_) {}
+            typewriteStory();
+        }
+
+        function typewriteStory() {
+            const container = document.getElementById('sp-mat-story');
+            if (!container) return;
+            const walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT, null, false);
+            const nodes = [];
+            let n;
+            while ((n = walker.nextNode())) { if (n.nodeValue.trim()) nodes.push(n); }
+            nodes.forEach(textNode => {
+                const frag = document.createDocumentFragment();
+                for (const ch of textNode.nodeValue) {
+                    const s = document.createElement('span');
+                    s.textContent = ch;
+                    s.className = 'story-char';
+                    frag.appendChild(s);
+                }
+                textNode.parentNode.replaceChild(frag, textNode);
+            });
+            const chars = container.querySelectorAll('.story-char');
+            const speed = 10;
+            let i = 0, last = null;
+            function frame(now) {
+                if (last === null) last = now;
+                while (now - last >= speed && i < chars.length) {
+                    chars[i++].style.opacity = '1';
+                    last += speed;
+                }
+                if (i < chars.length) requestAnimationFrame(frame);
+            }
+            requestAnimationFrame(frame);
         }
 
         function initTabs() {
