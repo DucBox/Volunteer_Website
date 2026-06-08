@@ -80,17 +80,18 @@ async def get_content():
 
 @router.post("/update", dependencies=[Depends(verify_admin_key)])
 @limiter.limit("10/minute")
-async def update_content(request: Request, payload: dict):
+async def update_content(request: Request, payload: dict, section: str = ""):
     """Replace content.json on GitHub with new payload."""
     if not GITHUB_TOKEN or not GITHUB_REPO:
         raise HTTPException(status_code=500, detail="GitHub integration not configured")
 
+    label = section.strip() if section.strip() else "site content"
     new_bytes = json.dumps(payload, ensure_ascii=False, indent=2).encode("utf-8")
     sha = await get_file_sha(CONTENT_JSON_PATH)
     await github_put_file(
         path=CONTENT_JSON_PATH,
         content_bytes=new_bytes,
-        message="chore: update site content via admin dashboard",
+        message=f"content: update {label} via admin dashboard",
         sha=sha,
     )
     return {"message": "Content updated. Vercel will rebuild in ~1–2 minutes."}

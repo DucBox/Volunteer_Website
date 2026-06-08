@@ -64,8 +64,11 @@ async function fetchContent() {
     return res.json();
 }
 
-async function saveContent(newContent) {
-    const res = await fetch(`${CONTENT_API}/update`, {
+async function saveContent(newContent, section = '') {
+    const url = section
+        ? `${CONTENT_API}/update?section=${encodeURIComponent(section)}`
+        : `${CONTENT_API}/update`;
+    const res = await fetch(url, {
         method: 'POST',
         headers: cmHeaders(),
         body: JSON.stringify(newContent),
@@ -153,7 +156,7 @@ window.saveHero = async function() {
             label:  row.querySelector('[data-field="label"]').value.trim(),
         }));
         _currentContent.hero = { subtitle, stats };
-        await saveContent(_currentContent);
+        await saveContent(_currentContent, "hero & so lieu");
         showCmStatus('hero', '✅ Đã lưu! Web sẽ cập nhật sau ~1-2 phút.');
     } catch (e) {
         showCmStatus('hero', '❌ Lỗi: ' + e.message, 'error');
@@ -200,7 +203,7 @@ window.saveImpact = async function() {
             count: parseInt(row.querySelector('[data-field="count"]').value) || 0,
             label: row.querySelector('[data-field="label"]').value.trim(),
         }));
-        await saveContent(_currentContent);
+        await saveContent(_currentContent, "thanh qua");
         showCmStatus('impact', '✅ Đã lưu! Web sẽ cập nhật sau ~1-2 phút.');
     } catch (e) {
         showCmStatus('impact', '❌ Lỗi: ' + e.message, 'error');
@@ -249,7 +252,7 @@ window.saveVolunteer = async function() {
             formDesc: document.getElementById('vol-form-desc').value.trim(),
             formLink: document.getElementById('vol-form-link').value.trim(),
         };
-        await saveContent(_currentContent);
+        await saveContent(_currentContent, "tinh nguyen");
         showCmStatus('volunteer', '✅ Đã lưu! Web sẽ cập nhật sau ~1-2 phút.');
     } catch (e) {
         showCmStatus('volunteer', '❌ Lỗi: ' + e.message, 'error');
@@ -303,7 +306,7 @@ window.saveFaq = async function() {
             q: card.querySelector('[data-field="q"]').value.trim(),
             a: card.querySelector('[data-field="a"]').value.trim(),
         })).filter(item => item.q);
-        await saveContent(_currentContent);
+        await saveContent(_currentContent, "FAQ");
         showCmStatus('faq', '✅ Đã lưu! Web sẽ cập nhật sau ~1-2 phút.');
     } catch (e) {
         showCmStatus('faq', '❌ Lỗi: ' + e.message, 'error');
@@ -378,7 +381,7 @@ window.saveDonation = async function() {
                 ].filter(Boolean),
             },
         };
-        await saveContent(_currentContent);
+        await saveContent(_currentContent, "quyen gop");
         showCmStatus('donation', '✅ Đã lưu! Web sẽ cập nhật sau ~1-2 phút.');
     } catch (e) {
         showCmStatus('donation', '❌ Lỗi: ' + e.message, 'error');
@@ -418,7 +421,7 @@ window.saveFooter = async function() {
                 document.getElementById('footer-h2').value.trim(),
             ].filter(Boolean),
         };
-        await saveContent(_currentContent);
+        await saveContent(_currentContent, "footer");
         showCmStatus('footer', '✅ Đã lưu! Web sẽ cập nhật sau ~1-2 phút.');
     } catch (e) {
         showCmStatus('footer', '❌ Lỗi: ' + e.message, 'error');
@@ -518,7 +521,7 @@ window.saveMembers = async function() {
             quote:   card.querySelector('[data-field="quote"]').value.trim(),
             image:   card.querySelector('[data-field="image"]').value.trim(),
         })).filter(m => m.name);
-        await saveContent(_currentContent);
+        await saveContent(_currentContent, "thanh vien");
         showCmStatus('members', '✅ Đã lưu! Web sẽ cập nhật sau ~1-2 phút.');
     } catch (e) {
         showCmStatus('members', '❌ Lỗi: ' + e.message, 'error');
@@ -607,7 +610,7 @@ window.saveTimeline = async function() {
             stats:    null,
             desc:     card.querySelector('[data-field="desc"]').value.trim(),
         })).filter(t => t.title);
-        await saveContent(_currentContent);
+        await saveContent(_currentContent, "hanh trinh");
         showCmStatus('timeline', '✅ Đã lưu! Web sẽ cập nhật sau ~1-2 phút.');
     } catch (e) {
         showCmStatus('timeline', '❌ Lỗi: ' + e.message, 'error');
@@ -818,7 +821,7 @@ window.saveActivities = async function() {
                 })).filter(s => s.value),
             };
         }).filter(a => a.id);
-        await saveContent(_currentContent);
+        await saveContent(_currentContent, "hoat dong & du an");
         showCmStatus('activities', '✅ Đã lưu! Web sẽ cập nhật sau ~1-2 phút.');
     } catch (e) {
         showCmStatus('activities', '❌ Lỗi: ' + e.message, 'error');
@@ -899,7 +902,7 @@ window.savePartners = async function() {
             desc: card.querySelector('[data-field="desc"]').value.trim(),
             logo: card.querySelector('[data-field="logo"]').value.trim(),
         })).filter(p => p.name);
-        await saveContent(_currentContent);
+        await saveContent(_currentContent, "doi tac");
         showCmStatus('partners', '✅ Đã lưu! Web sẽ cập nhật sau ~1-2 phút.');
     } catch (e) {
         showCmStatus('partners', '❌ Lỗi: ' + e.message, 'error');
@@ -998,7 +1001,7 @@ window.saveMission = async function() {
             };
         });
         _currentContent.mission = { cards: missionCards };
-        await saveContent(_currentContent);
+        await saveContent(_currentContent, "su menh");
         showCmStatus('mission', '✅ Đã lưu! Web sẽ cập nhật sau ~1-2 phút.');
     } catch (e) {
         showCmStatus('mission', '❌ Lỗi: ' + e.message, 'error');
@@ -1092,7 +1095,7 @@ window.saveTestimonials = async function() {
         _currentContent.testimonials = Array.from(cards).map(card => ({
             image: card.querySelector('[data-field="image"]').value.trim(),
         })).filter(t => t.image);
-        await saveContent(_currentContent);
+        await saveContent(_currentContent, "cam nhan TNV");
         showCmStatus('testimonials', '✅ Đã lưu! Web sẽ cập nhật sau ~1-2 phút.');
         updateTestimonialsCount(_currentContent.testimonials.length);
     } catch (e) {
