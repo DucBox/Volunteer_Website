@@ -661,6 +661,36 @@ window.uploadMainFeelings = async function() {
 };
 
 // ===================================
+// IMAGE LIGHTBOX (click preview to view full-size)
+// ===================================
+(function() {
+    const lb      = document.getElementById('adminLightbox');
+    const lbImg   = document.getElementById('adminLightboxImg');
+    const lbClose = document.getElementById('adminLightboxClose');
+    if (!lb || !lbImg) return;
+
+    function openLightbox(src) {
+        lbImg.src = src;
+        lb.style.display = 'flex';
+    }
+    function closeLightbox() {
+        lb.style.display = 'none';
+        lbImg.src = '';
+    }
+
+    lb.addEventListener('click', closeLightbox);
+    lbClose.addEventListener('click', closeLightbox);
+    lbImg.addEventListener('click', e => e.stopPropagation());
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+
+    // Event delegation — works for all dynamically rendered preview images
+    document.addEventListener('click', function(e) {
+        const img = e.target.closest('img.cm-img-preview, img.testimonial-admin-preview');
+        if (img && img.src) openLightbox(img.src);
+    });
+})();
+
+// ===================================
 // ERROR HANDLING
 // ===================================
 window.addEventListener('error', (e) => {

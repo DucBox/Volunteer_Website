@@ -563,6 +563,12 @@
         </main>
     </div>
 
+    <!-- Image Lightbox -->
+    <div id="adminLightbox" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.88);z-index:99999;align-items:center;justify-content:center;cursor:zoom-out;">
+        <button id="adminLightboxClose" style="position:absolute;top:16px;right:20px;background:none;border:none;color:#fff;font-size:32px;cursor:pointer;line-height:1;z-index:1;">&times;</button>
+        <img id="adminLightboxImg" src="" alt="" style="max-width:90vw;max-height:88vh;object-fit:contain;border-radius:8px;box-shadow:0 8px 40px rgba(0,0,0,0.6);">
+    </div>
+
     <!-- Loading Overlay -->
     <div class="loading-overlay" id="loadingOverlay">
         <div class="spinner"></div>

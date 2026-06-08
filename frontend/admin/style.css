@@ -1232,3 +1232,14 @@ body {
     color: #9ca3af;
     font-style: normal;
 }
+
+/* Clickable image previews */
+img.cm-img-preview,
+img.testimonial-admin-preview {
+    cursor: zoom-in;
+    transition: opacity 0.15s;
+}
+img.cm-img-preview:hover,
+img.testimonial-admin-preview:hover {
+    opacity: 0.85;
+}
