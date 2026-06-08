@@ -115,6 +115,32 @@
         [data-theme="dark"] .sp-back-float { background: var(--color-surface); }
         /* content offset */
         .sp-content { padding-top: 40px; }
+        /* Enhanced hover on step items */
+        .sp-step {
+            transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+        }
+        .sp-step:hover {
+            transform: translateX(5px);
+            box-shadow: -2px 6px 20px rgba(var(--color-primary-rgb), .1);
+            border-color: rgba(var(--color-primary-rgb), .3);
+        }
+        .sp-step-num { transition: transform .2s ease, box-shadow .2s ease; }
+        .sp-step:hover .sp-step-num {
+            transform: scale(1.12);
+            box-shadow: 0 4px 12px rgba(var(--color-primary-rgb), .3);
+        }
+        /* Hotline button scale */
+        .sp-hotline-btn {
+            transition: background .2s, transform .2s ease, box-shadow .2s ease !important;
+        }
+        .sp-hotline-btn:hover {
+            background: rgba(255,255,255,.35) !important;
+            transform: scale(1.04);
+            box-shadow: 0 4px 16px rgba(0,0,0,.2);
+        }
+        /* Item cards already have hover in support-pages.css — strengthen it */
+        .sp-item-card:hover .sp-item-img-wrap img { transform: scale(1.06); }
+        .sp-item-img-wrap img { transition: transform .35s ease; }
     </style>
 </head>
 <body>

@@ -246,6 +246,7 @@
             border-radius: 14px; padding: 20px;
             position: relative; overflow: hidden;
             display: flex; flex-direction: column; gap: 10px;
+            cursor: pointer;
             transition: transform .25s, box-shadow .25s, border-color .25s;
         }
         .combo-card::after {
@@ -254,9 +255,9 @@
             background: linear-gradient(90deg, var(--cake-amber), var(--cake-amber-lt));
         }
         .combo-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 28px rgba(var(--cake-amber-rgb),.18);
-            border-color: rgba(var(--cake-amber-rgb),.35);
+            transform: translateY(-4px);
+            box-shadow: 0 14px 36px rgba(var(--cake-amber-rgb),.22);
+            border-color: rgba(var(--cake-amber-rgb),.4);
         }
         .combo-card-badge {
             display: inline-block; font-size: 11px; font-weight: 700;
@@ -280,6 +281,13 @@
             padding: 2px 8px; border-radius: 20px;
             text-transform: uppercase; letter-spacing: .5px;
         }
+        .combo-card-hint {
+            font-size: 12px; font-weight: 600; color: var(--cake-amber);
+            display: flex; align-items: center; gap: 5px;
+            opacity: 0; transform: translateY(4px);
+            transition: opacity .2s ease, transform .2s ease;
+        }
+        .combo-card:hover .combo-card-hint { opacity: 1; transform: translateY(0); }
 
         /* ── Instructions ── */
         .instr-list { display: flex; flex-direction: column; gap: 10px; }
@@ -287,8 +295,14 @@
             display: flex; align-items: flex-start; gap: 12px;
             padding: 14px 18px; background: var(--cake-amber-pale);
             border-radius: 10px; border-left: 3px solid var(--cake-amber-lt);
+            transition: transform .2s ease, box-shadow .2s ease;
+        }
+        .instr-item:hover {
+            transform: translateX(5px);
+            box-shadow: -2px 4px 14px rgba(var(--cake-amber-rgb), .14);
         }
         .instr-item--warn { background: rgba(239,68,68,.07); border-left-color: #ef4444; }
+        .instr-item--warn:hover { box-shadow: -2px 4px 14px rgba(239,68,68,.1); }
         .instr-item-icon { font-size: 18px; flex-shrink: 0; line-height: 1.5; }
         .instr-item p { font-size: 14px; color: var(--color-text); margin: 0; line-height: 1.6; }
 
@@ -297,9 +311,117 @@
         .delivery-item {
             padding: 16px 18px; background: var(--color-surface);
             border: 1.5px solid var(--color-card-border); border-radius: 12px;
+            transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+        }
+        .delivery-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px rgba(var(--cake-amber-rgb), .14);
+            border-color: rgba(var(--cake-amber-rgb), .35);
         }
         .delivery-item h4 { font-size: 14px; font-weight: 700; color: var(--color-text); margin: 0 0 6px; }
         .delivery-item p  { font-size: 13px; color: var(--color-text-secondary); margin: 0; line-height: 1.55; }
+
+        /* ── Combo Detail Modal ── */
+        .combo-modal-overlay {
+            position: fixed; inset: 0; z-index: 1000;
+            background: rgba(15,8,0,.65); backdrop-filter: blur(8px);
+            display: flex; align-items: center; justify-content: center; padding: 20px;
+            opacity: 0; pointer-events: none; visibility: hidden;
+            transition: opacity .3s ease, visibility .3s;
+        }
+        .combo-modal-overlay.open { opacity: 1; pointer-events: auto; visibility: visible; }
+        .combo-modal-panel {
+            background: var(--color-surface); border-radius: 24px;
+            width: 100%; max-width: 500px; overflow: hidden;
+            box-shadow: 0 40px 100px rgba(0,0,0,.4);
+            transform: scale(.9) translateY(24px);
+            transition: transform .38s cubic-bezier(.34,1.38,.64,1);
+            max-height: 90vh; overflow-y: auto;
+        }
+        .combo-modal-overlay.open .combo-modal-panel { transform: scale(1) translateY(0); }
+        .combo-modal-accent {
+            height: 4px;
+            background: linear-gradient(90deg, var(--cake-amber), var(--cake-amber-lt));
+        }
+        .combo-modal-header {
+            padding: 20px 24px 16px; position: relative;
+            display: flex; flex-direction: column; gap: 4px;
+        }
+        .combo-modal-close {
+            position: absolute; top: 16px; right: 16px;
+            width: 32px; height: 32px; border-radius: 50%;
+            border: 1.5px solid var(--color-border); background: var(--color-background);
+            cursor: pointer; font-size: 14px; color: var(--color-text-secondary);
+            display: flex; align-items: center; justify-content: center;
+            transition: background .2s, color .2s, transform .2s;
+        }
+        .combo-modal-close:hover { background: var(--cake-amber-pale); color: var(--cake-amber); transform: rotate(90deg); }
+        .combo-modal-badge-row { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
+        .combo-modal-badge {
+            font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .6px;
+            color: #92400e; background: var(--cake-amber-pale); padding: 3px 10px; border-radius: 20px;
+        }
+        .combo-modal-hot {
+            font-size: 10px; font-weight: 700; text-transform: uppercase;
+            color: #fff; background: linear-gradient(135deg,var(--cake-amber),var(--cake-amber-lt));
+            padding: 2px 8px; border-radius: 20px; letter-spacing: .4px;
+        }
+        .combo-modal-title { font-size: 18px; font-weight: 800; color: var(--color-text); margin: 0; }
+        .combo-modal-note  { font-size: 12px; color: var(--color-text-secondary); font-style: italic; margin: 0; }
+        .combo-modal-products {
+            padding: 0 20px 20px;
+            display: grid; gap: 12px;
+            grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+        }
+        .combo-modal-product {
+            background: var(--color-background);
+            border: 1.5px solid var(--color-card-border); border-radius: 14px;
+            overflow: hidden; text-align: center;
+            transition: border-color .2s, box-shadow .2s;
+        }
+        .combo-modal-product:hover {
+            border-color: rgba(var(--cake-amber-rgb),.35);
+            box-shadow: 0 4px 14px rgba(var(--cake-amber-rgb),.12);
+        }
+        .combo-modal-product-img { aspect-ratio: 1/1; overflow: hidden; background: #f5f0e8; }
+        .combo-modal-product-img img {
+            width: 100%; height: 100%; object-fit: cover;
+            transition: transform .35s ease;
+        }
+        .combo-modal-product:hover .combo-modal-product-img img { transform: scale(1.06); }
+        .combo-modal-product-info { padding: 10px 8px; }
+        .combo-modal-product-qty {
+            font-size: 11px; font-weight: 800; color: var(--cake-amber);
+            background: var(--cake-amber-pale); padding: 2px 8px; border-radius: 20px;
+            display: inline-block; margin-bottom: 6px;
+        }
+        .combo-modal-product-name { font-size: 13px; font-weight: 700; color: var(--color-text); margin: 0 0 2px; }
+        .combo-modal-product-size { font-size: 11px; color: var(--color-text-secondary); margin: 0; }
+        .combo-modal-footer {
+            padding: 16px 24px 24px;
+            border-top: 1.5px solid var(--color-border);
+            display: flex; align-items: center; justify-content: space-between; gap: 16px;
+        }
+        .combo-modal-price { font-size: 28px; font-weight: 800; color: var(--cake-amber); line-height: 1; }
+        .combo-modal-cta {
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 12px 22px;
+            background: linear-gradient(135deg, var(--cake-amber), var(--cake-amber-lt));
+            color: #fff; text-decoration: none; font-size: 14px; font-weight: 700;
+            border-radius: 50px; border: none; cursor: pointer; font-family: inherit;
+            box-shadow: 0 4px 16px rgba(var(--cake-amber-rgb),.35);
+            transition: transform .2s, box-shadow .2s;
+        }
+        .combo-modal-cta:hover { transform: translateY(-1px); box-shadow: 0 8px 24px rgba(var(--cake-amber-rgb),.45); }
+        [data-theme="dark"] .combo-modal-panel { background: var(--color-surface); }
+        [data-theme="dark"] .combo-modal-product { background: var(--color-background); border-color: var(--color-border); }
+        [data-theme="dark"] .combo-modal-product-img { background: #2a1f0f; }
+        @media(max-width:480px){
+            .combo-modal-panel { border-radius: 20px; }
+            .combo-modal-products { grid-template-columns: repeat(auto-fit, minmax(90px,1fr)); gap: 8px; }
+            .combo-modal-footer { flex-direction: column; align-items: flex-start; gap: 12px; }
+            .combo-modal-price { font-size: 24px; }
+        }
 
         /* ── CTA ── */
         .cake-cta-box {
@@ -454,6 +576,29 @@
         </div>
     </div>
 
+    <!-- Combo Detail Modal -->
+    <div class="combo-modal-overlay" id="comboModal" role="dialog" aria-modal="true" aria-label="Chi tiết combo">
+        <div class="combo-modal-panel">
+            <div class="combo-modal-accent"></div>
+            <div class="combo-modal-header">
+                <div class="combo-modal-badge-row">
+                    <span class="combo-modal-badge" id="modal-badge"></span>
+                    <span class="combo-modal-hot" id="modal-hot" style="display:none">Hot</span>
+                </div>
+                <h2 class="combo-modal-title" id="modal-title"></h2>
+                <p class="combo-modal-note" id="modal-note"></p>
+                <button class="combo-modal-close" id="modalClose" aria-label="Đóng">✕</button>
+            </div>
+            <div class="combo-modal-products" id="modal-products"></div>
+            <div class="combo-modal-footer">
+                <div class="combo-modal-price" id="modal-price"></div>
+                <a class="combo-modal-cta" id="modal-cta" target="_blank" rel="noopener">
+                    <i class="fab fa-facebook"></i> Đặt Ngay
+                </a>
+            </div>
+        </div>
+    </div>
+
     <!-- Footer -->
     <footer id="lien-he" class="footer">
         <div class="footer-content">
@@ -507,10 +652,38 @@
 
         const DEFAULT_FB = 'https://www.facebook.com/bepbanhchoem';
         const DEFAULT_COMBOS = [
-            { badge:'Opening', name:'COMBO 1 | OPENING',           note:'Áp dụng 3 tuần đầu', items:['🍰 01 Tiramisu Size L','🥤 Tặng kèm 01 ly chanh leo pha sẵn'], price:'80.000đ' },
-            { badge:'Share',   name:'COMBO 2 | SHARE THE SWEETNESS', note:'', items:['🍰 02 Tiramisu Size M'], price:'Chỉ 85.000đ' },
-            { badge:'Combo',   name:'COMBO 3 | BÁNH & CHANH LEO',  note:'', items:['🍰 01 Tiramisu Size L','🍋 01 Chai Cốt Chanh Leo'], price:'Chỉ 119.000đ' },
-            { badge:'Premium', name:'COMBO 4 | SWEET MOMENTS',     note:'', items:['🍰 01 Tiramisu Size L','🍰 01 Tiramisu Size M','🍋 01 Chai Cốt Chanh Leo'], price:'Chỉ 169.000đ' },
+            {
+                badge:'Opening', name:'COMBO 1 | OPENING', note:'Áp dụng 3 tuần đầu',
+                items:['🍰 01 Tiramisu Size L','🥤 Tặng kèm 01 ly chanh leo pha sẵn'], price:'80.000đ',
+                products:[
+                    { image:'assets/images/cake_shop/Tiramisu.jpeg',               name:'Tiramisu',      size:'Size L',    qty:'01' },
+                    { image:'assets/images/cake_shop/nuoc-ep-chanh-leo-332-2.jpg', name:'Ly Chanh Leo',  size:'Pha Sẵn',   qty:'01 (Tặng Kèm)' },
+                ]
+            },
+            {
+                badge:'Share', name:'COMBO 2 | SHARE THE SWEETNESS', note:'',
+                items:['🍰 02 Tiramisu Size M'], price:'Chỉ 85.000đ',
+                products:[
+                    { image:'assets/images/cake_shop/Tiramisu.jpeg', name:'Tiramisu', size:'Size M', qty:'02' },
+                ]
+            },
+            {
+                badge:'Combo', name:'COMBO 3 | BÁNH & CHANH LEO', note:'',
+                items:['🍰 01 Tiramisu Size L','🍋 01 Chai Cốt Chanh Leo'], price:'Chỉ 119.000đ',
+                products:[
+                    { image:'assets/images/cake_shop/Tiramisu.jpeg',               name:'Tiramisu',          size:'Size L',       qty:'01' },
+                    { image:'assets/images/cake_shop/nuoc-ep-chanh-leo-332-2.jpg', name:'Chai Cốt Chanh Leo', size:'Nguyên Chất', qty:'01' },
+                ]
+            },
+            {
+                badge:'Premium', name:'COMBO 4 | SWEET MOMENTS', note:'',
+                items:['🍰 01 Tiramisu Size L','🍰 01 Tiramisu Size M','🍋 01 Chai Cốt Chanh Leo'], price:'Chỉ 169.000đ',
+                products:[
+                    { image:'assets/images/cake_shop/Tiramisu.jpeg',               name:'Tiramisu',           size:'Size L',       qty:'01' },
+                    { image:'assets/images/cake_shop/Tiramisu.jpeg',               name:'Tiramisu',           size:'Size M',       qty:'01' },
+                    { image:'assets/images/cake_shop/nuoc-ep-chanh-leo-332-2.jpg', name:'Chai Cốt Chanh Leo', size:'Nguyên Chất', qty:'01' },
+                ]
+            },
         ];
         const DEFAULT_BANH = [
             { name:'Tiramisu Size L', desc:'Đủ cho 4–6 người. Lớp mascarpone mịn, cà phê thấm đều.', price:'Liên hệ', image:'assets/images/cake_shop/Tiramisu.jpeg' },
@@ -521,10 +694,14 @@
             { name:'Ly Chanh Leo Pha Sẵn', desc:'Ly chanh leo pha lạnh mát. Tặng kèm COMBO 1.', price:'Liên hệ', image:'assets/images/cake_shop/nuoc-ep-chanh-leo-332-2.jpg' },
         ];
 
+        let _combos = DEFAULT_COMBOS;
+        let _fbLink = DEFAULT_FB;
+
         async function init() {
             new ScrollToTop();
             new Cursor();
             initTheme();
+            initModal();
             document.documentElement.style.visibility = '';
 
             let content = null;
@@ -534,17 +711,17 @@
         }
 
         function applyContent(c) {
-            const sp     = c?.supportPages?.cake || {};
-            const fbLink = sp.fbLink || DEFAULT_FB;
+            const sp = c?.supportPages?.cake || {};
+            _fbLink  = sp.fbLink || DEFAULT_FB;
 
             if (sp.heroTitle)    setText('sp-cake-heroTitle',    sp.heroTitle);
             if (sp.heroSubtitle) setText('sp-cake-heroSubtitle', sp.heroSubtitle);
             if (sp.intro)        setHtml('sp-cake-intro', sp.intro);
-            document.getElementById('sp-cake-fbLink').href = fbLink;
+            document.getElementById('sp-cake-fbLink').href = _fbLink;
 
-            renderCombos(sp.combos?.length  ? sp.combos  : DEFAULT_COMBOS, fbLink);
-            renderProducts('sp-cake-banhGrid', sp.menu?.banh?.length ? sp.menu.banh : DEFAULT_BANH, fbLink);
-            renderProducts('sp-cake-nuocGrid', sp.menu?.nuoc?.length ? sp.menu.nuoc : DEFAULT_NUOC, fbLink);
+            renderCombos(sp.combos?.length ? sp.combos : DEFAULT_COMBOS);
+            renderProducts('sp-cake-banhGrid', sp.menu?.banh?.length ? sp.menu.banh : DEFAULT_BANH, _fbLink);
+            renderProducts('sp-cake-nuocGrid', sp.menu?.nuoc?.length ? sp.menu.nuoc : DEFAULT_NUOC, _fbLink);
 
             const f = c?.footer;
             if (f?.about)  setText('footer-about-sp', f.about);
@@ -555,19 +732,68 @@
             }
         }
 
-        function renderCombos(combos, fbLink) {
+        function renderCombos(combos) {
+            _combos = combos;
             const grid = document.getElementById('sp-cake-combosGrid');
             if (!grid) return;
             grid.innerHTML = combos.map((c, i) => `
-                <div class="combo-card">
-                    ${i === 0 ? '<span class="combo-hot-tag">Hot</span>' : ''}
+                <div class="combo-card" data-combo-index="${i}" role="button" tabindex="0">
+                    ${i === 0 ? '<span class="combo-hot-tag">HOT</span>' : ''}
                     <span class="combo-card-badge">${c.badge || ''}</span>
                     <p class="combo-card-name">${c.name || ''}</p>
                     ${c.note ? `<p class="combo-card-note">${c.note}</p>` : ''}
                     <ul class="combo-card-items">${(c.items||[]).map(it=>`<li>${it}</li>`).join('')}</ul>
                     <div class="combo-card-price">${c.price || ''}</div>
+                    <span class="combo-card-hint"><i class="fas fa-images"></i> Xem chi tiết combo</span>
                 </div>
             `).join('');
+            grid.querySelectorAll('.combo-card').forEach(card => {
+                card.addEventListener('click', () => openComboModal(+card.dataset.comboIndex));
+                card.addEventListener('keydown', e => {
+                    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openComboModal(+card.dataset.comboIndex); }
+                });
+            });
+        }
+
+        function openComboModal(index) {
+            const combo = _combos[index];
+            if (!combo) return;
+            document.getElementById('modal-badge').textContent = combo.badge || '';
+            document.getElementById('modal-title').textContent = combo.name  || '';
+            const noteEl = document.getElementById('modal-note');
+            noteEl.textContent = combo.note || '';
+            noteEl.style.display = combo.note ? '' : 'none';
+            const hotEl = document.getElementById('modal-hot');
+            hotEl.style.display = index === 0 ? '' : 'none';
+            document.getElementById('modal-price').textContent = combo.price || '';
+            document.getElementById('modal-cta').href = _fbLink;
+            const products = combo.products || [];
+            document.getElementById('modal-products').innerHTML = products.map(p => `
+                <div class="combo-modal-product">
+                    <div class="combo-modal-product-img">
+                        <img src="${p.image}" alt="${p.name}" loading="lazy">
+                    </div>
+                    <div class="combo-modal-product-info">
+                        <span class="combo-modal-product-qty">${p.qty}</span>
+                        <p class="combo-modal-product-name">${p.name}</p>
+                        <p class="combo-modal-product-size">${p.size || ''}</p>
+                    </div>
+                </div>
+            `).join('');
+            document.getElementById('comboModal').classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeComboModal() {
+            document.getElementById('comboModal').classList.remove('open');
+            document.body.style.overflow = '';
+        }
+
+        function initModal() {
+            const overlay = document.getElementById('comboModal');
+            document.getElementById('modalClose').addEventListener('click', closeComboModal);
+            overlay.addEventListener('click', e => { if (e.target === overlay) closeComboModal(); });
+            document.addEventListener('keydown', e => { if (e.key === 'Escape') closeComboModal(); });
         }
 
         function renderProducts(gridId, items, fbLink) {
