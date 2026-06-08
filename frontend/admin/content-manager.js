@@ -8,7 +8,38 @@ const CONTENT_API   = `${BACKEND_BASE}/content`;
 const WEBSITE_BASE  = 'https://volunteer-website-self.vercel.app';
 let _currentContent = null;
 
+const _quills = new Map(); // div element -> Quill instance
+
+function escAttr(s) {
+    return String(s || '').replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+
+function initQuillOnCard(actIdx) {
+    const el = document.getElementById(`quill-desc-${actIdx}`);
+    if (!el || _quills.has(el)) return;
+    const initHtml = el.dataset.initHtml || '';
+    const q = new Quill(el, {
+        theme: 'snow',
+        modules: {
+            toolbar: [
+                [{ header: [3, 4, false] }],
+                ['bold', 'italic', 'underline'],
+                [{ list: 'ordered' }, { list: 'bullet' }],
+                ['blockquote'],
+                ['clean'],
+            ],
+        },
+        placeholder: 'Nội dung mô tả chi tiết dự án...',
+    });
+    if (initHtml) q.clipboard.dangerouslyPasteHTML(initHtml);
+    _quills.set(el, q);
+}
+
 // ---- Helpers ----
+
+function escHtml(s) {
+    return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
 
 function cmHeaders(extra = {}) {
     const key = typeof getAdminKey === 'function' ? getAdminKey() : (window.getAdminKey?.() ?? '');
@@ -600,6 +631,7 @@ function populateActivities(activities) {
     const list = document.getElementById('activities-list');
     if (!list) return;
     list.innerHTML = (activities || []).map((a, i) => activityCard(a, i)).join('');
+    (activities || []).forEach((_, i) => initQuillOnCard(i));
 }
 
 function activityCard(a, i) {
@@ -663,8 +695,8 @@ function activityCard(a, i) {
             <textarea class="form-input" rows="2" data-field="shortDesc">${escHtml(a.shortDesc)}</textarea>
         </div>
         <div class="form-group">
-            <label>Mô tả đầy đủ (trang chi tiết — HTML)</label>
-            <textarea class="form-input" rows="6" data-field="fullDesc">${escHtml(a.fullDesc || '')}</textarea>
+            <label>Mô tả đầy đủ (trang chi tiết)</label>
+            <div id="quill-desc-${i}" class="quill-editor-wrapper" data-init-html="${escAttr(a.fullDesc || '')}"></div>
         </div>
         <div class="form-group">
             <label>Thống kê nhanh</label>
@@ -693,6 +725,7 @@ window.addActivity = function() {
     const div = document.createElement('div');
     div.innerHTML = activityCard({ id: '', title: '', location: '', date: '', status: 'planning', image: '', shortDesc: '', fullDesc: '', stats: [], feelingsFolder: '', gallery: [] }, i);
     list.appendChild(div.firstElementChild);
+    initQuillOnCard(i);
 };
 
 window.removeActStat = function(actIdx, statIdx) { document.getElementById(`act-stat-${actIdx}-${statIdx}`)?.remove(); };
@@ -757,6 +790,11 @@ window.saveActivities = async function() {
         _currentContent.activities = Array.from(cards).map((card, ci) => {
             const statRows     = card.querySelectorAll('.cm-sub-list > .cm-row');
             const feelingCards = card.querySelectorAll(`#act-feelings-list-${ci} .cm-card`);
+            const quillDiv = card.querySelector('[id^="quill-desc-"]');
+            const quillInst = quillDiv ? _quills.get(quillDiv) : null;
+            const fullDesc = quillInst
+                ? (quillInst.root.innerHTML || '').replace(/<p><br><\/p>/g, '').trim()
+                : '';
             return {
                 id:            card.querySelector('[data-field="id"]').value.trim(),
                 title:         card.querySelector('[data-field="title"]').value.trim(),
@@ -765,7 +803,7 @@ window.saveActivities = async function() {
                 status:        card.querySelector('[data-field="status"]').value,
                 image:         card.querySelector('[data-field="image"]').value.trim(),
                 shortDesc:     card.querySelector('[data-field="shortDesc"]').value.trim(),
-                fullDesc:      card.querySelector('[data-field="fullDesc"]').value.trim(),
+                fullDesc,
                 feelingsFolder: card.querySelector('[data-field="feelingsFolder"]').value.trim(),
                 gallery: [],
                 feelings: Array.from(feelingCards).map(fc => ({
@@ -1149,15 +1187,3 @@ window.uploadActFeelingImg = async function(event, actIdx, feelIdx) {
     }
 };
 
-// ============================
-// UTILS
-// ============================
-
-function escHtml(str) {
-    if (!str) return '';
-    return String(str)
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;');
-}
