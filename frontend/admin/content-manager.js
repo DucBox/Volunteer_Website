@@ -12,8 +12,10 @@ function escAttr(s) {
     return String(s || '').replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 }
 
-function initMiniEditor(actIdx) {
-    const wrapper = document.getElementById(`mini-editor-${actIdx}`);
+function initMiniEditor(editorId) {
+    const wrapper = document.getElementById(
+        typeof editorId === 'number' ? `mini-editor-${editorId}` : editorId
+    );
     if (!wrapper || wrapper.dataset.initialized) return;
     wrapper.dataset.initialized = 'true';
     const content = wrapper.querySelector('.mini-editor-content');
@@ -21,12 +23,27 @@ function initMiniEditor(actIdx) {
     if (content && initHtml) content.innerHTML = initHtml;
 }
 
-window.miniEditorExec = function(actIdx, cmd) {
-    const content = document.querySelector(`#mini-editor-${actIdx} .mini-editor-content`);
+window.miniEditorExec = function(editorId, cmd) {
+    const id = typeof editorId === 'number' ? `mini-editor-${editorId}` : editorId;
+    const content = document.querySelector(`#${id} .mini-editor-content`);
     if (!content) return;
     content.focus();
     document.execCommand(cmd, false, null);
 };
+
+function miniEditorToolbar(editorId) {
+    const id = typeof editorId === 'number' ? `mini-editor-${editorId}` : editorId;
+    return `<div class="mini-editor-toolbar">
+        <button type="button" onclick="miniEditorExec('${id}','bold')" title="In đậm"><i class="fas fa-bold"></i></button>
+        <button type="button" onclick="miniEditorExec('${id}','italic')" title="In nghiêng"><i class="fas fa-italic"></i></button>
+        <button type="button" onclick="miniEditorExec('${id}','underline')" title="Gạch chân"><i class="fas fa-underline"></i></button>
+        <span class="mini-editor-sep"></span>
+        <button type="button" onclick="miniEditorExec('${id}','insertUnorderedList')" title="Danh sách chấm"><i class="fas fa-list-ul"></i></button>
+        <button type="button" onclick="miniEditorExec('${id}','insertOrderedList')" title="Danh sách số"><i class="fas fa-list-ol"></i></button>
+        <span class="mini-editor-sep"></span>
+        <button type="button" onclick="miniEditorExec('${id}','removeFormat')" title="Xóa định dạng"><i class="fas fa-eraser"></i></button>
+    </div>`;
+}
 
 // ---- Helpers ----
 
@@ -693,18 +710,8 @@ function activityCard(a, i) {
         <div class="form-group">
             <label>Mô tả đầy đủ (trang chi tiết)</label>
             <div class="mini-editor" id="mini-editor-${i}" data-init-html="${escAttr(a.fullDesc || '')}">
-                <div class="mini-editor-toolbar">
-                    <button type="button" onclick="miniEditorExec(${i},'bold')" title="In đậm"><i class="fas fa-bold"></i></button>
-                    <button type="button" onclick="miniEditorExec(${i},'italic')" title="In nghiêng"><i class="fas fa-italic"></i></button>
-                    <button type="button" onclick="miniEditorExec(${i},'underline')" title="Gạch chân"><i class="fas fa-underline"></i></button>
-                    <span class="mini-editor-sep"></span>
-                    <button type="button" onclick="miniEditorExec(${i},'insertUnorderedList')" title="Danh sách chấm"><i class="fas fa-list-ul"></i></button>
-                    <button type="button" onclick="miniEditorExec(${i},'insertOrderedList')" title="Danh sách số"><i class="fas fa-list-ol"></i></button>
-                    <span class="mini-editor-sep"></span>
-                    <button type="button" onclick="miniEditorExec(${i},'removeFormat')" title="Xóa định dạng"><i class="fas fa-eraser"></i></button>
-                </div>
-                <div class="mini-editor-content" contenteditable="true" data-field="fullDesc" spellcheck="false"
-                    style="min-height:140px;padding:12px;outline:none;line-height:1.7;font-size:14px"></div>
+                ${miniEditorToolbar(i)}
+                <div class="mini-editor-content" contenteditable="true" data-field="fullDesc" spellcheck="false"></div>
             </div>
         </div>
         <div class="form-group">
@@ -919,6 +926,11 @@ function populateMission(mission) {
     const list = document.getElementById('mission-list');
     if (!list || !mission?.cards) return;
     list.innerHTML = mission.cards.map((card, i) => missionCard(card, i)).join('');
+    mission.cards.forEach((card, ci) => {
+        (card.modal?.sections || []).forEach((s, si) => {
+            if (!s.quote) initMiniEditor(`mini-editor-ms-${ci}-${si}`);
+        });
+    });
 }
 
 function missionCard(card, i) {
@@ -951,6 +963,7 @@ function missionCard(card, i) {
 }
 
 function missionSectionRow(s, cardIdx, sectionIdx) {
+    const editorId = `mini-editor-ms-${cardIdx}-${sectionIdx}`;
     return `<div class="cm-card cm-card--nested" id="mission-section-${cardIdx}-${sectionIdx}">
         <div class="form-group">
             <label>Tiêu đề phần modal ${sectionIdx + 1}</label>
@@ -963,8 +976,11 @@ function missionSectionRow(s, cardIdx, sectionIdx) {
             <input class="form-input" placeholder="Trích dẫn từ..." value="${escHtml(s.quote.cite)}" data-field="quote-cite" style="margin-top:8px">
         </div>` : `
         <div class="form-group">
-            <label>Nội dung (HTML)</label>
-            <textarea class="form-input" rows="3" data-field="content">${escHtml(s.content || '')}</textarea>
+            <label>Nội dung</label>
+            <div class="mini-editor" id="${editorId}" data-init-html="${escAttr(s.content || '')}">
+                ${miniEditorToolbar(editorId)}
+                <div class="mini-editor-content" contenteditable="true" data-field="content" spellcheck="false"></div>
+            </div>
         </div>`}
     </div>`;
 }
@@ -986,9 +1002,10 @@ window.saveMission = async function() {
                         }
                     };
                 }
+                const contentEl = s.querySelector('.mini-editor-content[data-field="content"]');
                 return {
                     heading: s.querySelector('[data-field="heading"]').value.trim(),
-                    content: s.querySelector('[data-field="content"]').value.trim(),
+                    content: contentEl ? contentEl.innerHTML.replace(/<br\s*\/?>/gi, '').trim() : '',
                 };
             });
             return {
