@@ -115,7 +115,7 @@ export class ProjectDetail {
 
             <!-- Sticky floating back button -->
             <a href="index.html#hoat-dong" class="pd-back-float" aria-label="Quay lại Hoạt Động">
-                ← Hoạt Động
+                ← <span>Hoạt Động</span>
             </a>
 
             <!-- Overview -->

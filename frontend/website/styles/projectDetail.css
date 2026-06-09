@@ -760,7 +760,8 @@
     .pd-oa-grid { grid-template-columns: 1fr; gap: 16px; }
 
     .pd-section-title { font-size: 20px; }
-    .pd-back-float { display: none; } /* floating back btn clutters small screen — nav handles it */
+    .pd-back-float { padding: 10px 14px; }
+    .pd-back-float span { display: none; }
 }
 
 /* ===================================
