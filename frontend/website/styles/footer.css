@@ -59,6 +59,12 @@
     color: #fff;
 }
 
+/* Override .footer-section a rules that break icon centering */
+.social-links .social-link {
+    display: flex;
+    margin-bottom: 0;
+}
+
 .footer-bottom {
     max-width: 1200px;
     margin: 0 auto;
