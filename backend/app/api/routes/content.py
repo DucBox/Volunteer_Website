@@ -4,6 +4,7 @@ import base64
 import logging
 import httpx
 from io import BytesIO
+from typing import Optional
 from fastapi import APIRouter, UploadFile, File, Form, HTTPException, Depends, Request
 from slowapi import Limiter
 from slowapi.util import get_remote_address
