@@ -1079,6 +1079,15 @@ function activityCard(a, i) {
             </button>
         </div>
         <div class="form-group">
+            <label>Ảnh khoảnh khắc đáng nhớ — <span id="act-gallery-count-${i}">${(a.gallery||[]).length} ảnh</span></label>
+            <div id="act-gallery-list-${i}" class="cm-sub-list" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:8px">
+                ${(a.gallery || []).map((src, gi) => actGalleryItem(src, i, gi)).join('')}
+            </div>
+            <button class="btn btn-secondary btn-sm" onclick="addGalleryImg(${i})" style="margin-top:8px">
+                <i class="fas fa-plus"></i> Thêm ảnh gallery
+            </button>
+        </div>
+        <div class="form-group">
             <label>Cảm nhận tình nguyện viên — <span id="act-feelings-count-${i}">${(a.feelings||[]).length} card</span></label>
             <div id="act-feelings-list-${i}" class="cm-sub-list">
                 ${(a.feelings || []).map((f, fi) => actFeelingCard(f, i, fi)).join('')}
@@ -1175,7 +1184,8 @@ window.saveActivities = async function() {
                 shortDesc:     card.querySelector('[data-field="shortDesc"]').value.trim(),
                 fullDesc,
                 feelingsFolder: card.querySelector('[data-field="feelingsFolder"]').value.trim(),
-                gallery: [],
+                gallery: Array.from(card.querySelectorAll(`#act-gallery-list-${ci} [data-field="gallery-img"]`))
+                    .map(inp => inp.value.trim()).filter(Boolean),
                 feelings: Array.from(feelingCards).map(fc => ({
                     image: fc.querySelector('[data-field="image"]').value.trim(),
                 })).filter(f => f.image),
@@ -1485,6 +1495,58 @@ function renderActivityFeelings(actIdx, feelings) {
     if (!container) return;
     container.innerHTML = (feelings || []).map((f, fi) => actFeelingCard(f, actIdx, fi)).join('');
 }
+
+// ---- Gallery image items ----
+function actGalleryItem(src, actIdx, imgIdx) {
+    const imgUrl = src ? `${VERCEL_BASE}/${src}` : '';
+    return `<div class="cm-card cm-card--nested" id="act-gallery-${actIdx}-${imgIdx}" style="padding:10px">
+        <div class="cm-card-header" style="margin-bottom:6px">
+            <span class="cm-card-label">Ảnh ${imgIdx + 1}</span>
+            <button class="btn-icon btn-danger" onclick="removeGalleryImg(${actIdx},${imgIdx})" title="Xóa"><i class="fas fa-trash"></i></button>
+        </div>
+        ${imgUrl
+            ? `<img src="${imgUrl}" style="width:100%;height:90px;object-fit:cover;border-radius:6px;margin-bottom:6px" onerror="this.style.display='none'" alt="gallery">`
+            : `<div style="height:90px;background:var(--color-warm-bg);border-radius:6px;display:flex;align-items:center;justify-content:center;margin-bottom:6px;color:var(--color-text-secondary)"><i class="fas fa-image" style="font-size:24px"></i></div>`
+        }
+        <label class="btn btn-secondary btn-sm cm-upload-btn" style="justify-content:center;width:100%;margin-bottom:6px">
+            <i class="fas fa-upload"></i> Upload
+            <input type="file" accept="image/*" style="display:none" onchange="uploadActGalleryImg(event,${actIdx},${imgIdx})">
+        </label>
+        <input class="form-input" style="font-size:11px" placeholder="assets/images/gallery/..." value="${escHtml(src || '')}" data-field="gallery-img" id="act-gallery-img-${actIdx}-${imgIdx}">
+    </div>`;
+}
+
+window.removeGalleryImg = function(actIdx, imgIdx) {
+    document.getElementById(`act-gallery-${actIdx}-${imgIdx}`)?.remove();
+};
+
+window.addGalleryImg = function(actIdx) {
+    const container = document.getElementById(`act-gallery-list-${actIdx}`);
+    if (!container) return;
+    const i = container.children.length;
+    const div = document.createElement('div');
+    div.innerHTML = actGalleryItem('', actIdx, i);
+    container.appendChild(div.firstElementChild);
+};
+
+window.uploadActGalleryImg = async function(event, actIdx, imgIdx) {
+    const file = event.target.files[0];
+    if (!file) return;
+    const ext = file.name.split('.').pop();
+    const card = document.getElementById(`activity-item-${actIdx}`);
+    const idVal = card?.querySelector('[data-field="id"]')?.value.trim() || `act${actIdx}`;
+    const destPath = `frontend/website/assets/images/gallery/${idVal}_${imgIdx + 1}.${ext}`;
+    try {
+        const res = await uploadImage(file, destPath, 'gallery');
+        const input = document.getElementById(`act-gallery-img-${actIdx}-${imgIdx}`);
+        if (input) input.value = res.path;
+        const imgEl = document.querySelector(`#act-gallery-${actIdx}-${imgIdx} img`);
+        if (imgEl) { imgEl.src = `${VERCEL_BASE}/${res.path}?t=${Date.now()}`; imgEl.style.display = ''; }
+        showCmStatus('activities', `✅ Ảnh gallery đã upload: ${res.path}`);
+    } catch (e) {
+        showCmStatus('activities', '❌ Upload thất bại: ' + e.message, 'error');
+    }
+};
 
 function actFeelingCard(f, actIdx, feelIdx) {
     const imgSrc = f.image ? `${VERCEL_BASE}/${f.image}` : '';
