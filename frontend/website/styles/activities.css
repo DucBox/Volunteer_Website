@@ -290,6 +290,13 @@
     left: 16px;
 }
 
+/* Badge inside info panel (solo modal) — flow inline, not absolute */
+.act-modal-status-badge {
+    position: static;
+    display: inline-flex;
+    margin-bottom: 14px;
+}
+
 /* Right: info */
 .act-modal-info {
     flex: 1;

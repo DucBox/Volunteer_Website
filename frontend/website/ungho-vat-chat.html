@@ -110,11 +110,16 @@
         .sp-back-float:hover { transform: translateX(-3px); box-shadow: 0 6px 28px rgba(0,0,0,0.24); }
         /* Scroll offset for sticky header */
         .nav-section { scroll-margin-top: calc(var(--sp-header-h) + 8px); }
+        @media(max-width:640px) {
+            .sp-header-brand-text { display: none; }
+            .sp-tab { padding: 0 12px; font-size: 12px; }
+        }
         @media(max-width:480px) {
             .sp-back-float span { display: none; }
             .sp-back-float { padding: 10px 14px; }
-            .sp-header-brand-text { display: none; }
-            .sp-tab { padding: 0 12px; font-size: 12px; }
+        }
+        @media(max-width:380px) {
+            .sp-tab { padding: 0 8px; font-size: 11px; }
         }
         [data-theme="dark"] .sp-header { background: var(--color-surface); border-color: var(--color-border); }
         [data-theme="dark"] .sp-back-float { background: var(--color-surface); }

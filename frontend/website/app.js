@@ -22,7 +22,6 @@ import { FAQ }            from './components/FAQ.js';
 import { Timeline }       from './components/Timeline.js';
 import { ImpactCounter }  from './components/ImpactCounter.js';
 import { Animations }     from './components/Animations.js';
-import { Cursor }         from './components/Cursor.js';
 import { loadContent }    from './data/ContentLoader.js';
 import { applyContent }   from './components/ContentApplier.js';
 
@@ -54,7 +53,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     new ImpactCounter(content.impact);
     applyContent(content);    // inject hero, volunteer, donation, partners, footer
     new Animations();         // last — all dynamic HTML is rendered by this point
-    new Cursor();
 
     new ChatWidget({
         apiUrl:          'https://volunteerwebsite-production.up.railway.app/api/chat',

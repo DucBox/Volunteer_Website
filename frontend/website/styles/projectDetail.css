@@ -734,6 +734,17 @@
     .pd-hero-title { font-size: 24px; }
     .pd-hero-meta { font-size: 13px; gap: var(--space-12); }
 
+    /* Comfortable text padding — avoid text flush against screen edges */
+    .pd-section.container,
+    .pd-section > .container {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+    .pd-full-desc p,
+    .pd-full-desc li,
+    .pd-lead { padding: 0; }
+
     .pd-gallery-card { flex: 0 0 100%; }
     .pd-feelings-card { flex: 0 0 100% !important; }
 
@@ -747,6 +758,9 @@
     .act-card-actions { flex-wrap: wrap; }
 
     .pd-oa-grid { grid-template-columns: 1fr; gap: 16px; }
+
+    .pd-section-title { font-size: 20px; }
+    .pd-back-float { display: none; } /* floating back btn clutters small screen — nav handles it */
 }
 
 /* ===================================

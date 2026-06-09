@@ -6,8 +6,6 @@ import { applyContent }  from './components/ContentApplier.js';
 import { Navbar }        from './components/NavBar.js';
 import { ScrollToTop }   from './components/ScrolltoTop.js';
 import { ProjectDetail } from './components/ProjectDetail.js';
-import { Cursor }        from './components/Cursor.js';
-
 document.addEventListener('DOMContentLoaded', async () => {
     requestAnimationFrame(() => {
         document.documentElement.style.visibility = '';
@@ -44,5 +42,4 @@ document.addEventListener('DOMContentLoaded', async () => {
     new ScrollToTop();
     new ProjectDetail(activities);
     applyContent(content);   // footer, etc.
-    new Cursor();
 });
