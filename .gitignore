@@ -5,3 +5,4 @@ backend/data/chroma_db/
 *.log
 .pytest_cache/
 .DS_Store
+*.md
