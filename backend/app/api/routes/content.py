@@ -63,7 +63,8 @@ async def github_put_file(path: str, content_bytes: bytes, message: str, sha: Op
 
 
 @router.get("", dependencies=[Depends(verify_admin_key)])
-async def get_content():
+@limiter.limit("10/minute")
+async def get_content(request: Request):
     """Fetch current content.json from GitHub."""
     url = f"https://api.github.com/repos/{GITHUB_REPO}/contents/{CONTENT_JSON_PATH}"
     async with httpx.AsyncClient() as client:

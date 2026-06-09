@@ -1,6 +1,10 @@
 // ContentApplier — injects CMS content into static HTML sections
 // Covers: hero, volunteer, donation, partners, footer
 
+function safeHtml(html) {
+    return typeof DOMPurify !== 'undefined' ? DOMPurify.sanitize(html) : html;
+}
+
 export function applyContent(c) {
     applyHero(c.hero);
     applyVolunteer(c.volunteer);
@@ -13,7 +17,11 @@ function applyHero(hero) {
     if (!hero) return;
 
     const subtitle = document.querySelector('.hero-subtitle');
-    if (subtitle) subtitle.innerHTML = `<strong>${hero.subtitle}</strong>`;
+    if (subtitle) {
+        const strong = document.createElement('strong');
+        strong.textContent = hero.subtitle;
+        subtitle.replaceChildren(strong);
+    }
 
     const statItems = document.querySelectorAll('.hero-stats .stat-item');
     hero.stats?.forEach((s, i) => {
@@ -33,7 +41,11 @@ function applyVolunteer(vol) {
 
     const benefitsList = document.querySelector('.volunteer-benefits');
     if (benefitsList && vol.benefits) {
-        benefitsList.innerHTML = vol.benefits.map(b => `<li>${b}</li>`).join('');
+        benefitsList.replaceChildren(...vol.benefits.map(b => {
+            const li = document.createElement('li');
+            li.textContent = b;
+            return li;
+        }));
     }
 
     const formDesc = document.querySelector('.volunteer-form-desc');
@@ -67,9 +79,9 @@ function applyDonation(donation) {
         const stk  = document.querySelector('.qr-lightbox p:nth-child(2)');
         const bank = document.querySelector('.qr-lightbox p:nth-child(3)');
         const name = document.querySelector('.qr-lightbox p:nth-child(4)');
-        if (stk)  stk.innerHTML  = `<strong>STK:</strong> ${t.accountNumber}`;
-        if (bank) bank.innerHTML = `<strong>Ngân hàng:</strong> ${t.bank}`;
-        if (name) name.innerHTML = `<strong>Chủ TK:</strong> ${t.accountName}`;
+        if (stk)  stk.innerHTML  = safeHtml(`<strong>STK:</strong> ${t.accountNumber}`);
+        if (bank) bank.innerHTML = safeHtml(`<strong>Ngân hàng:</strong> ${t.bank}`);
+        if (name) name.innerHTML = safeHtml(`<strong>Chủ TK:</strong> ${t.accountName}`);
     }
 
     const noteEl = document.querySelector('.donation-disclaimer em');
@@ -81,22 +93,22 @@ function applyDonation(donation) {
 
     const materialsGrid = document.querySelector('.materials-grid');
     if (materialsGrid && m?.items) {
-        materialsGrid.innerHTML = m.items.map(item => `
+        materialsGrid.innerHTML = safeHtml(m.items.map(item => `
             <div class="material-item">
                 <div class="material-image-wrapper">
                     <img src="${item.image}" alt="${item.name}" class="material-image" loading="lazy">
                 </div>
                 <span class="material-name">${item.name}</span>
             </div>
-        `).join('');
+        `).join(''));
     }
 
     const materialsContact = document.querySelector('.materials-contact');
     if (materialsContact && m?.hotlines) {
         const [h1, h2] = m.hotlines;
-        materialsContact.innerHTML = `Liên hệ:
+        materialsContact.innerHTML = safeHtml(`Liên hệ:
             <a href="tel:${h1}">${formatPhone(h1)}</a>${h2 ? ` hoặc <a href="tel:${h2}">${formatPhone(h2)}</a>` : ''}
-            để được hướng dẫn gửi đồ ủng hộ`;
+            để được hướng dẫn gửi đồ ủng hộ`);
     }
 }
 
@@ -107,7 +119,7 @@ function applyPartners(partners) {
 
     // Keep the CTA card, replace real partner cards
     const ctaCard = grid.querySelector('.partner-card-cta');
-    grid.innerHTML = partners.map(p => `
+    grid.innerHTML = safeHtml(partners.map(p => `
         <div class="partner-card">
             <div class="partner-logo">
                 <img src="${p.logo}" alt="${p.name}" loading="lazy">
@@ -116,7 +128,7 @@ function applyPartners(partners) {
                 <strong>${p.name}</strong><br>${p.desc}
             </p>
         </div>
-    `).join('');
+    `).join(''));
 
     if (ctaCard) grid.appendChild(ctaCard);
 }
@@ -139,18 +151,22 @@ function applyFooter(footer) {
     const contactSection = document.querySelectorAll('.footer-section')[1];
     if (contactSection && footer.hotlines) {
         const [h1, h2] = footer.hotlines;
-        contactSection.innerHTML = `
+        contactSection.innerHTML = safeHtml(`
             <h4>Liên Hệ</h4>
             <p>📞 Hotline: <a href="tel:${h1}">${formatPhone(h1)}</a></p>
             ${h2 ? `<p>📞 Hotline: <a href="tel:${h2}">${formatPhone(h2)}</a></p>` : ''}
             <p>✉️ Email: ${footer.email}</p>
             <p>⏰ ${footer.hours}</p>
-        `;
+        `);
     }
 
-    // Copyright
+    // Copyright — always use current year
+    const currentYear = new Date().getFullYear();
+    const copyrightText = footer.copyright
+        ? footer.copyright.replace(/^\d{4}\s*/, '')
+        : 'EM Volunteer Project. All rights reserved.';
     document.querySelectorAll('.footer-bottom p').forEach(el => {
-        el.innerHTML = `&copy; ${footer.copyright}`;
+        el.innerHTML = `&copy; ${currentYear} ${copyrightText}`;
     });
 }
 

@@ -62,7 +62,8 @@ async def upload_document(
 
 
 @router.get("/{doc_id}/content", response_model=DocumentContent, dependencies=[Depends(verify_admin_key)])
-async def get_document_content(doc_id: str, rag=Depends(get_rag_engine)):
+@limiter.limit("10/minute")
+async def get_document_content(request: Request, doc_id: str, rag=Depends(get_rag_engine)):
     chunks = rag.vector_store.get_document_chunks(doc_id)
     if not chunks:
         raise HTTPException(status_code=404, detail="Document not found")
@@ -71,7 +72,8 @@ async def get_document_content(doc_id: str, rag=Depends(get_rag_engine)):
 
 
 @router.get("", response_model=list[DocumentInfo], dependencies=[Depends(verify_admin_key)])
-async def list_documents(rag=Depends(get_rag_engine)):
+@limiter.limit("10/minute")
+async def list_documents(request: Request, rag=Depends(get_rag_engine)):
     return rag.list_documents()
 
 

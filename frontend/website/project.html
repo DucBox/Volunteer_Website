@@ -7,6 +7,7 @@
     <!-- SEO (title overridden by ProjectDetail.js) -->
     <title>Dự Án – Dự Án Cho EM</title>
     <meta name="description" content="Chi tiết dự án – Dự Án Cho EM">
+    <meta name="robots" content="index, follow">
 
     <!-- Open Graph -->
     <meta property="og:type"        content="website">
@@ -108,7 +109,7 @@
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2026 EM Volunteer Project. All rights reserved.</p>
+                <p>&copy; <span class="copyright-year"></span> EM Volunteer Project. All rights reserved.</p>
             </div>
         </footer>
 
@@ -116,5 +117,6 @@
 
     <!-- Main JS -->
     <script type="module" src="project.js"></script>
+    <script>document.querySelectorAll('.copyright-year').forEach(function(el){el.textContent=new Date().getFullYear();});</script>
 </body>
 </html>

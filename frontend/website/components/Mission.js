@@ -116,8 +116,16 @@ export class Mission {
 
     init() {
         this.renderModal();
+        this._initFlipAria();
         this.attachFlipEvents();
         this.attachModalEvents();
+    }
+
+    _initFlipAria() {
+        document.querySelectorAll('.mission-card-flip').forEach(card => {
+            card.querySelector('.mission-card-front')?.setAttribute('aria-hidden', 'false');
+            card.querySelector('.mission-card-back')?.setAttribute('aria-hidden', 'true');
+        });
     }
 
     renderModal() {
@@ -144,6 +152,9 @@ export class Mission {
             card.addEventListener('click', e => {
                 if (e.target.closest('.mission-detail-btn')) return;
                 card.classList.toggle('flipped');
+                const flipped = card.classList.contains('flipped');
+                card.querySelector('.mission-card-front')?.setAttribute('aria-hidden', flipped ? 'true' : 'false');
+                card.querySelector('.mission-card-back')?.setAttribute('aria-hidden', flipped ? 'false' : 'true');
             });
 
             // Detail button → open modal
@@ -172,7 +183,7 @@ export class Mission {
         document.getElementById('missionModalIcon').textContent  = data.icon;
         document.getElementById('missionModalTitle').textContent = data.title;
 
-        document.getElementById('missionModalBody').innerHTML = data.sections.map(s => `
+        const rawHtml = data.sections.map(s => `
             <h4>${s.heading}</h4>
             ${s.content || ''}
             ${s.quote ? `
@@ -182,6 +193,8 @@ export class Mission {
                 </div>
             ` : ''}
         `).join('');
+        document.getElementById('missionModalBody').innerHTML =
+            typeof DOMPurify !== 'undefined' ? DOMPurify.sanitize(rawHtml) : rawHtml;
 
         document.getElementById('missionModal').classList.add('active');
         window._lockScroll();

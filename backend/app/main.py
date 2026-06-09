@@ -37,7 +37,7 @@ app.add_middleware(
         "https://admin-dashboard-em-lilac.vercel.app",
     ],
     allow_credentials=True,
-    allow_methods=["GET", "POST", "PUT", "DELETE"],
+    allow_methods=["GET", "POST", "DELETE"],
     allow_headers=["Content-Type", "Authorization", "X-Admin-Key"],
 )
 
