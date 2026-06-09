@@ -482,14 +482,61 @@
         [data-theme="dark"] .sp-back-float { background: var(--color-surface); border-color: rgba(var(--cake-amber-rgb),.3); }
         [data-theme="dark"] .product-card-img { background: #2a1f0f; }
 
+        /* ── Hamburger mobile menu ── */
+        .sp-hamburger {
+            display: none;
+            flex-shrink: 0;
+            width: 36px; height: 36px;
+            border-radius: 8px;
+            border: 1.5px solid var(--color-border);
+            background: none;
+            color: var(--color-text);
+            font-size: 18px;
+            cursor: pointer;
+            align-items: center;
+            justify-content: center;
+            margin-left: 4px;
+            transition: background .2s;
+            font-family: inherit;
+        }
+        .sp-hamburger:hover { background: var(--color-warm-light); }
+        .sp-mobile-nav {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.28s cubic-bezier(0.4,0,0.2,1);
+            border-top: 1px solid transparent;
+            background: var(--color-surface);
+        }
+        .sp-mobile-nav.open {
+            max-height: 300px;
+            border-top-color: var(--color-border);
+        }
+        .sp-mobile-nav-btn {
+            display: flex; align-items: center; gap: 12px;
+            width: 100%; padding: 15px 20px;
+            font-size: 15px; font-weight: 700;
+            color: var(--color-text);
+            background: none;
+            border: none;
+            border-bottom: 1px solid var(--color-border);
+            cursor: pointer; text-align: left;
+            font-family: inherit;
+            transition: background .2s, color .2s;
+        }
+        .sp-mobile-nav-btn:last-child { border-bottom: none; }
+        .sp-mobile-nav-btn:hover,
+        .sp-mobile-nav-btn.active { background: var(--color-warm-light); color: var(--cake-amber); }
+
         /* ── Responsive ── */
         @media(max-width:640px){
             .product-grid  { grid-template-columns: repeat(2,1fr); gap: 14px; }
             .combo-grid    { grid-template-columns: 1fr; }
             .delivery-row  { grid-template-columns: 1fr; }
             .product-card-footer { flex-direction: column; align-items: flex-start; }
-            .sp-tab { padding: 0 12px; font-size: 12px; }
+            .sp-header-tabs { display: none !important; }
+            .sp-header-divider { display: none; }
             .sp-header-brand-text { display: none; }
+            .sp-hamburger { display: flex; }
         }
         @media(max-width:380px){
             .product-grid { grid-template-columns: 1fr; }
@@ -514,10 +561,17 @@
                 <button class="sp-tab" data-target="section-nuoc">🥤 Nước</button>
                 <button class="sp-tab" data-target="section-info">📋 Thông Tin</button>
             </nav>
+            <button class="sp-hamburger" id="spHamburger" aria-label="Mở menu">☰</button>
             <button class="sp-header-theme" id="themeToggle" aria-label="Đổi giao diện">
                 <i class="fas fa-moon" id="themeIcon"></i>
             </button>
         </div>
+        <nav class="sp-mobile-nav" id="spMobileNav" aria-label="Mobile menu">
+            <button class="sp-mobile-nav-btn" data-target="section-combo">🩵 Combo Ưu Đãi</button>
+            <button class="sp-mobile-nav-btn" data-target="section-banh">🍰 Menu Bánh</button>
+            <button class="sp-mobile-nav-btn" data-target="section-nuoc">🥤 Menu Nước</button>
+            <button class="sp-mobile-nav-btn" data-target="section-info">📋 Thông Tin Đặt Hàng</button>
+        </nav>
     </header>
 
     <!-- Hero -->
@@ -742,6 +796,7 @@
             try { content = await loadContent(); } catch (_) {}
             applyContent(content);
             initTabs();
+            initMobileMenu();
             typewriteIntro();
         }
 
@@ -912,6 +967,52 @@
                 });
             }, { rootMargin:'-20% 0px -70% 0px', threshold: 0 });
 
+            sections.forEach(s => { if (s) observer.observe(s); });
+        }
+
+        function initMobileMenu() {
+            const hamburger = document.getElementById('spHamburger');
+            const mobileNav = document.getElementById('spMobileNav');
+            if (!hamburger || !mobileNav) return;
+
+            const sections = ['section-combo','section-banh','section-nuoc','section-info']
+                             .map(id => document.getElementById(id));
+
+            function close() {
+                mobileNav.classList.remove('open');
+                hamburger.textContent = '☰';
+            }
+
+            hamburger.addEventListener('click', e => {
+                e.stopPropagation();
+                const isOpen = mobileNav.classList.toggle('open');
+                hamburger.textContent = isOpen ? '✕' : '☰';
+            });
+
+            mobileNav.querySelectorAll('.sp-mobile-nav-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const target = document.getElementById(btn.dataset.target);
+                    if (target) {
+                        const top = target.getBoundingClientRect().top + window.scrollY - 64;
+                        window.scrollTo({ top, behavior: 'smooth' });
+                    }
+                    close();
+                });
+            });
+
+            document.addEventListener('click', e => {
+                if (!e.target.closest('.sp-header')) close();
+            });
+
+            // Sync active state with scroll
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(e => {
+                    if (e.isIntersecting) {
+                        mobileNav.querySelectorAll('.sp-mobile-nav-btn').forEach(b =>
+                            b.classList.toggle('active', b.dataset.target === e.target.id));
+                    }
+                });
+            }, { rootMargin:'-20% 0px -70% 0px', threshold: 0 });
             sections.forEach(s => { if (s) observer.observe(s); });
         }
 

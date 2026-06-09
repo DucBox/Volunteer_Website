@@ -110,16 +110,59 @@
         .sp-back-float:hover { transform: translateX(-3px); box-shadow: 0 6px 28px rgba(0,0,0,0.24); }
         /* Scroll offset for sticky header */
         .nav-section { scroll-margin-top: calc(var(--sp-header-h) + 8px); }
+        /* Hamburger mobile menu */
+        .sp-hamburger {
+            display: none;
+            flex-shrink: 0;
+            width: 36px; height: 36px;
+            border-radius: 8px;
+            border: 1.5px solid var(--color-border);
+            background: none;
+            color: var(--color-text);
+            font-size: 18px;
+            cursor: pointer;
+            align-items: center;
+            justify-content: center;
+            margin-left: 4px;
+            transition: background .2s;
+            font-family: inherit;
+        }
+        .sp-hamburger:hover { background: var(--color-warm-light); }
+        .sp-mobile-nav {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.28s cubic-bezier(0.4,0,0.2,1);
+            border-top: 1px solid transparent;
+            background: var(--color-surface);
+        }
+        .sp-mobile-nav.open {
+            max-height: 300px;
+            border-top-color: var(--color-border);
+        }
+        .sp-mobile-nav-btn {
+            display: flex; align-items: center; gap: 12px;
+            width: 100%; padding: 15px 20px;
+            font-size: 15px; font-weight: 700;
+            color: var(--color-text);
+            background: none;
+            border: none;
+            border-bottom: 1px solid var(--color-border);
+            cursor: pointer; text-align: left;
+            font-family: inherit;
+            transition: background .2s, color .2s;
+        }
+        .sp-mobile-nav-btn:last-child { border-bottom: none; }
+        .sp-mobile-nav-btn:hover,
+        .sp-mobile-nav-btn.active { background: var(--color-warm-light); color: var(--color-primary); }
         @media(max-width:640px) {
+            .sp-header-tabs { display: none !important; }
+            .sp-header-divider { display: none; }
             .sp-header-brand-text { display: none; }
-            .sp-tab { padding: 0 12px; font-size: 12px; }
+            .sp-hamburger { display: flex; }
         }
         @media(max-width:480px) {
             .sp-back-float span { display: none; }
             .sp-back-float { padding: 10px 14px; }
-        }
-        @media(max-width:380px) {
-            .sp-tab { padding: 0 8px; font-size: 11px; }
         }
         [data-theme="dark"] .sp-header { background: var(--color-surface); border-color: var(--color-border); }
         [data-theme="dark"] .sp-back-float { background: var(--color-surface); }
@@ -186,10 +229,17 @@
                 <button class="sp-tab" data-target="section-steps">🚀 Cách Gửi</button>
                 <button class="sp-tab" data-target="section-contact">📞 Liên Hệ</button>
             </nav>
+            <button class="sp-hamburger" id="spHamburger" aria-label="Mở menu">☰</button>
             <button class="sp-header-theme" id="themeToggle" aria-label="Đổi giao diện">
                 <i class="fas fa-moon" id="themeIcon"></i>
             </button>
         </div>
+        <nav class="sp-mobile-nav" id="spMobileNav" aria-label="Mobile menu">
+            <button class="sp-mobile-nav-btn" data-target="section-story">📖 Câu Chuyện</button>
+            <button class="sp-mobile-nav-btn" data-target="section-items">📦 Đồ Cần Gửi</button>
+            <button class="sp-mobile-nav-btn" data-target="section-steps">🚀 Cách Gửi</button>
+            <button class="sp-mobile-nav-btn" data-target="section-contact">📞 Liên Hệ</button>
+        </nav>
     </header>
 
     <!-- Hero -->
@@ -363,14 +413,13 @@
 
     <script type="module">
         import { ScrollToTop } from './components/ScrolltoTop.js';
-        import { Cursor }      from './components/Cursor.js';
         import { loadContent } from './data/ContentLoader.js';
 
         async function init() {
             new ScrollToTop();
-            new Cursor();
             initTheme();
             initTabs();
+            initMobileMenu();
             document.documentElement.style.visibility = '';
 
             try {
@@ -431,6 +480,51 @@
                 });
             }, { rootMargin:'-20% 0px -70% 0px', threshold: 0 });
 
+            sections.forEach(s => { if (s) observer.observe(s); });
+        }
+
+        function initMobileMenu() {
+            const hamburger = document.getElementById('spHamburger');
+            const mobileNav = document.getElementById('spMobileNav');
+            if (!hamburger || !mobileNav) return;
+
+            const sections = ['section-story','section-items','section-steps','section-contact']
+                             .map(id => document.getElementById(id));
+
+            function close() {
+                mobileNav.classList.remove('open');
+                hamburger.textContent = '☰';
+            }
+
+            hamburger.addEventListener('click', e => {
+                e.stopPropagation();
+                const isOpen = mobileNav.classList.toggle('open');
+                hamburger.textContent = isOpen ? '✕' : '☰';
+            });
+
+            mobileNav.querySelectorAll('.sp-mobile-nav-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const target = document.getElementById(btn.dataset.target);
+                    if (target) {
+                        const top = target.getBoundingClientRect().top + window.scrollY - 64;
+                        window.scrollTo({ top, behavior: 'smooth' });
+                    }
+                    close();
+                });
+            });
+
+            document.addEventListener('click', e => {
+                if (!e.target.closest('.sp-header')) close();
+            });
+
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(e => {
+                    if (e.isIntersecting) {
+                        mobileNav.querySelectorAll('.sp-mobile-nav-btn').forEach(b =>
+                            b.classList.toggle('active', b.dataset.target === e.target.id));
+                    }
+                });
+            }, { rootMargin:'-20% 0px -70% 0px', threshold: 0 });
             sections.forEach(s => { if (s) observer.observe(s); });
         }
 
