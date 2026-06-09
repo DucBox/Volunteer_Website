@@ -1,3 +1,6 @@
+import logging
+import logging.config
+import os
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import Response
@@ -5,6 +8,20 @@ from slowapi import Limiter, _rate_limit_exceeded_handler
 from slowapi.util import get_remote_address
 from slowapi.errors import RateLimitExceeded
 from app.api.routes import documents, chat, content
+
+logging.config.dictConfig({
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "default": {"format": "%(asctime)s [%(levelname)s] %(name)s: %(message)s"},
+    },
+    "handlers": {
+        "console": {"class": "logging.StreamHandler", "formatter": "default"},
+    },
+    "root": {"handlers": ["console"], "level": os.getenv("LOG_LEVEL", "INFO")},
+})
+
+logger = logging.getLogger(__name__)
 
 limiter = Limiter(key_func=get_remote_address)
 
@@ -42,4 +59,16 @@ app.include_router(content.router)
 
 @app.get("/health")
 async def health_check():
+    issues = []
+    if not os.getenv("OPENAI_API_KEY"):
+        issues.append("OPENAI_API_KEY not configured")
+    if not os.getenv("ADMIN_API_KEY"):
+        issues.append("ADMIN_API_KEY not configured")
+    try:
+        from app.api.dependencies import get_rag_engine
+        get_rag_engine()
+    except Exception as e:
+        issues.append(f"RAG engine unavailable: {e}")
+    if issues:
+        return {"status": "degraded", "issues": issues}
     return {"status": "ok"}

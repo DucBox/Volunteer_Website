@@ -46,7 +46,6 @@ export class Testimonials {
     }
     
     async init() {
-        console.log('[Testimonials] Khởi tạo component...');
 
         if (this._mode === 'cms') {
             // Filter out entries with no image, shuffle, pick 6-9
@@ -66,7 +65,6 @@ export class Testimonials {
             this.attachEventListeners();
             this.startAutoSlide();
             this.setupResponsive();
-            console.log('[Testimonials] ✓ Khởi tạo hoàn tất!');
         } else {
             console.error('[Testimonials] ✗ Không có ảnh!');
             this.showEmptyState();
@@ -74,7 +72,6 @@ export class Testimonials {
     }
     
     async loadImages() {
-        console.log('[Testimonials] Đang tải ảnh từ feelings/...');
 
         // Tạo danh sách candidates: 1.jpg, 1.jpeg, 1.png, 2.jpg, ...
         const extensions = ['jpg', 'jpeg', 'png'];
@@ -90,7 +87,6 @@ export class Testimonials {
             candidates.map(async ({ file, index }) => {
                 const src = `${this.feelingsPath}${file}`;
                 const exists = await this.checkImageExists(src);
-                if (exists) console.log(`[Testimonials] ✓ Tìm thấy: ${file}`);
                 return exists ? { src, alt: `Cảm nhận ${index}`, index } : null;
             })
         );
@@ -107,7 +103,6 @@ export class Testimonials {
         const shuffled = [...validImages].sort(() => Math.random() - 0.5);
         const pickCount = Math.min(shuffled.length, 6 + Math.floor(Math.random() * 4));
         this.images = shuffled.slice(0, pickCount);
-        console.log(`[Testimonials] ✓ Đã load ${this.images.length} ảnh`);
     }
 
     checkImageExists(url) {
@@ -233,7 +228,6 @@ export class Testimonials {
         track.style.transform = `translateX(${translateX}px)`;
         this.updateActiveDot();
         
-        console.log(`[Testimonials] Slide ${this.currentIndex}: cardsPerView=${cardsPerView}, cardWidth=${cardWidth.toFixed(1)}px`);
     }
     
     startAutoSlide() {

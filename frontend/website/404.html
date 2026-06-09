@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 – Trang Không Tồn Tại | Dự Án Cho EM</title>
+    <meta name="robots" content="noindex">
+
+    <script>
+        (function () {
+            var t = localStorage.getItem('theme') ||
+                    (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+            document.documentElement.setAttribute('data-theme', t);
+        })();
+    </script>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="assets/images/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon-32.png">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="styles/variables.css">
+
+    <style>
+        body {
+            min-height: 100dvh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 24px;
+            gap: 16px;
+            background: var(--color-background);
+            color: var(--color-text);
+        }
+
+        .err-code {
+            font-size: clamp(80px, 20vw, 140px);
+            font-weight: 800;
+            line-height: 1;
+            background: var(--gradient-text);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .err-title {
+            font-size: clamp(20px, 4vw, 28px);
+            font-weight: 700;
+            color: var(--color-text);
+            margin: 0;
+        }
+
+        .err-desc {
+            color: var(--color-text-secondary);
+            max-width: 420px;
+            line-height: 1.7;
+        }
+
+        .err-btn {
+            display: inline-block;
+            margin-top: 8px;
+            padding: 12px 32px;
+            background: var(--gradient-primary);
+            color: #fff;
+            border-radius: var(--radius-base);
+            font-weight: 600;
+            font-size: 15px;
+            text-decoration: none;
+            box-shadow: 0 4px 0 rgba(0,0,0,0.2), 0 8px 16px rgba(var(--color-primary-rgb), 0.2);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .err-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 0 rgba(0,0,0,0.2), 0 12px 24px rgba(var(--color-primary-rgb), 0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="err-code">404</div>
+    <h1 class="err-title">Trang Không Tồn Tại</h1>
+    <p class="err-desc">Trang bạn tìm kiếm đã bị xóa, đổi tên hoặc chưa từng tồn tại. Hãy quay về trang chủ nhé!</p>
+    <a href="/" class="err-btn">Về Trang Chủ</a>
+</body>
+</html>

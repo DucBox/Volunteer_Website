@@ -42,22 +42,21 @@
 .social-link {
     width: 40px;
     height: 40px;
+    background: rgba(255, 255, 255, 0.12);
+    border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: transform 0.3s, opacity 0.3s;
+    color: var(--color-gray-300);
+    font-size: 17px;
     text-decoration: none;
-}
-
-.social-link img {
-    width: 40px;
-    height: 40px;
-    object-fit: contain;
+    transition: transform 0.3s ease, background 0.3s ease, color 0.3s ease;
 }
 
 .social-link:hover {
-    transform: scale(1.1);
-    opacity: 0.8;
+    transform: scale(1.12);
+    background: var(--color-primary);
+    color: #fff;
 }
 
 .footer-bottom {

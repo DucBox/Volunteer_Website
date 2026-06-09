@@ -8,6 +8,15 @@
     <title>Dự Án – Dự Án Cho EM</title>
     <meta name="description" content="Chi tiết dự án – Dự Án Cho EM">
 
+    <!-- Open Graph -->
+    <meta property="og:type"        content="website">
+    <meta property="og:title"       content="Dự Án – Dự Án Cho EM">
+    <meta property="og:description" content="Chi tiết các dự án tình nguyện của Dự Án Cho EM – mang tri thức và yêu thương đến trẻ em vùng khó khăn.">
+    <meta property="og:image"       content="https://volunteer-website-self.vercel.app/assets/images/og-image.jpg">
+    <meta property="og:url"         content="https://volunteer-website-self.vercel.app/project.html">
+    <meta name="twitter:card"       content="summary_large_image">
+    <meta name="twitter:image"      content="https://volunteer-website-self.vercel.app/assets/images/og-image.jpg">
+
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="assets/images/favicon.ico">
     <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon-32.png">
@@ -21,6 +30,11 @@
             document.documentElement.setAttribute('data-theme', t);
             document.documentElement.style.scrollBehavior = 'auto';
             document.documentElement.style.visibility = 'hidden';
+            setTimeout(function () {
+                if (document.documentElement.style.visibility === 'hidden') {
+                    document.documentElement.style.visibility = '';
+                }
+            }, 3000);
         })();
     </script>
 
@@ -42,6 +56,9 @@
     <link rel="stylesheet" href="styles/footer.css">
     <link rel="stylesheet" href="styles/scrolltotop.css">
     <link rel="stylesheet" href="styles/toast.css">
+
+    <!-- Canonical -->
+    <link rel="canonical" href="https://volunteer-website-self.vercel.app/project.html">
 
     <!-- Project Detail specific CSS -->
     <link rel="stylesheet" href="styles/projectDetail.css">
@@ -67,11 +84,11 @@
                     <div class="social-links">
                         <a href="https://www.facebook.com/info.duanchoem" target="_blank" rel="noopener noreferrer"
                            class="social-link" aria-label="Facebook">
-                            <img src="assets/images/facebook.jpg" alt="Facebook" loading="lazy">
+                            <i class="fab fa-facebook-f" aria-hidden="true"></i>
                         </a>
                         <a href="https://www.tiktok.com/@hanhtrinh.choem?lang=en" target="_blank" rel="noopener noreferrer"
                            class="social-link" aria-label="TikTok">
-                            <img src="assets/images/tiktok.jpg" alt="TikTok" loading="lazy">
+                            <i class="fab fa-tiktok" aria-hidden="true"></i>
                         </a>
                     </div>
                 </div>

@@ -4,29 +4,24 @@ import base64
 import logging
 import httpx
 from io import BytesIO
-from typing import Optional
-from fastapi import APIRouter, UploadFile, File, Form, HTTPException, Depends, Header, Request
+from fastapi import APIRouter, UploadFile, File, Form, HTTPException, Depends, Request
 from slowapi import Limiter
 from slowapi.util import get_remote_address
 from PIL import Image
+from app.api.dependencies import verify_admin_key
 
 logger = logging.getLogger(__name__)
 router = APIRouter(prefix="/api/content", tags=["Content"])
 limiter = Limiter(key_func=get_remote_address)
 
 GITHUB_TOKEN = os.getenv("GITHUB_TOKEN", "")
-GITHUB_REPO  = os.getenv("GITHUB_REPO", "")   # e.g. "username/repo"
+GITHUB_REPO  = os.getenv("GITHUB_REPO", "")
 GITHUB_BRANCH = os.getenv("GITHUB_BRANCH", "master")
 CONTENT_JSON_PATH = "frontend/website/data/content.json"
 
 ALLOWED_IMAGE_TYPES = {"image/jpeg", "image/png", "image/webp"}
 MAX_IMAGE_SIZE = 10 * 1024 * 1024  # 10MB
-
-
-def verify_admin_key(x_admin_key: Optional[str] = Header(default=None)):
-    expected = os.getenv("ADMIN_API_KEY", "")
-    if not expected or x_admin_key != expected:
-        raise HTTPException(status_code=401, detail="Unauthorized")
+ALLOWED_DEST_PREFIX = "frontend/website/assets/images/"
 
 
 def github_headers():
@@ -112,6 +107,9 @@ async def upload_image(
     """
     if not GITHUB_TOKEN or not GITHUB_REPO:
         raise HTTPException(status_code=500, detail="GitHub integration not configured")
+
+    if ".." in dest_path or not dest_path.startswith(ALLOWED_DEST_PREFIX):
+        raise HTTPException(status_code=400, detail="Invalid destination path")
 
     if file.content_type not in ALLOWED_IMAGE_TYPES:
         raise HTTPException(status_code=400, detail="Unsupported image type")

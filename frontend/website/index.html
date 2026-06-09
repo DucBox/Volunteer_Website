@@ -39,6 +39,12 @@
             document.documentElement.style.scrollBehavior = 'auto';
             // Hide until we've repositioned — prevents flash to top
             document.documentElement.style.visibility = 'hidden';
+            // Safety: restore visibility after 3s if JS scroll restore doesn't happen
+            setTimeout(function () {
+                if (document.documentElement.style.visibility === 'hidden') {
+                    document.documentElement.style.visibility = '';
+                }
+            }, 3000);
 
             // Save position just before unload
             window.addEventListener('beforeunload', function () {
@@ -61,6 +67,9 @@
 
     <!-- DOMPurify for XSS sanitization -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.1.6/purify.min.js" integrity="sha512-rMFGVXC0YC6AJCJ7sS8qLgV0lPaqfhqKGCJ6SnzfYsApEscbcjBFn3rdFPumSbFO9pIFMHAMcfTTDifbPuL0A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <!-- Canonical -->
+    <link rel="canonical" href="https://volunteer-website-self.vercel.app/">
 
     <!-- CSS -->
     <link rel="stylesheet" href="styles/variables.css">
@@ -441,11 +450,11 @@
                     <div class="social-links">
                         <a href="https://www.facebook.com/info.duanchoem" target="_blank" rel="noopener noreferrer"
                            class="social-link" aria-label="Facebook">
-                            <img src="assets/images/facebook.jpg" alt="Facebook" loading="lazy">
+                            <i class="fab fa-facebook-f" aria-hidden="true"></i>
                         </a>
                         <a href="https://www.tiktok.com/@hanhtrinh.choem?lang=en" target="_blank" rel="noopener noreferrer"
                            class="social-link" aria-label="TikTok">
-                            <img src="assets/images/tiktok.jpg" alt="TikTok" loading="lazy">
+                            <i class="fab fa-tiktok" aria-hidden="true"></i>
                         </a>
                     </div>
                 </div>

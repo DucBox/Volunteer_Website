@@ -1,9 +1,8 @@
 import os
 import uuid
 import logging
-from typing import Optional
-from fastapi import APIRouter, UploadFile, File, Form, HTTPException, Depends, Header, Request
-from app.services.rag_engine import RAGEngine
+from fastapi import APIRouter, UploadFile, File, Form, HTTPException, Depends, Request
+from app.api.dependencies import verify_admin_key, get_rag_engine
 from app.schemas.document import IngestResponse, DocumentInfo, DeleteResponse, DocumentContent
 from slowapi import Limiter
 from slowapi.util import get_remote_address
@@ -13,8 +12,7 @@ logger = logging.getLogger(__name__)
 router = APIRouter(prefix="/api/documents", tags=["Documents"])
 limiter = Limiter(key_func=get_remote_address)
 
-rag = RAGEngine()
-UPLOAD_DIR = "/workspace/backend/data/uploads"
+UPLOAD_DIR = os.getenv("UPLOAD_DIR", "./data/uploads")
 os.makedirs(UPLOAD_DIR, exist_ok=True)
 
 ALLOWED_EXTENSIONS = {".pdf", ".txt", ".docx"}
@@ -26,18 +24,13 @@ ALLOWED_MIME_TYPES = {
 MAX_FILE_SIZE = 10 * 1024 * 1024  # 10MB
 
 
-def verify_admin_key(x_admin_key: Optional[str] = Header(default=None)):
-    expected = os.getenv("ADMIN_API_KEY", "")
-    if not expected or x_admin_key != expected:
-        raise HTTPException(status_code=401, detail="Unauthorized")
-
-
 @router.post("/upload", response_model=IngestResponse, dependencies=[Depends(verify_admin_key)])
 @limiter.limit("5/minute")
 async def upload_document(
     request: Request,
     file: UploadFile = File(...),
-    doc_name: str = Form(...)
+    doc_name: str = Form(...),
+    rag=Depends(get_rag_engine),
 ):
     ext = os.path.splitext(file.filename or "")[1].lower()
     if ext not in ALLOWED_EXTENSIONS:
@@ -69,7 +62,7 @@ async def upload_document(
 
 
 @router.get("/{doc_id}/content", response_model=DocumentContent, dependencies=[Depends(verify_admin_key)])
-async def get_document_content(doc_id: str):
+async def get_document_content(doc_id: str, rag=Depends(get_rag_engine)):
     chunks = rag.vector_store.get_document_chunks(doc_id)
     if not chunks:
         raise HTTPException(status_code=404, detail="Document not found")
@@ -78,13 +71,13 @@ async def get_document_content(doc_id: str):
 
 
 @router.get("", response_model=list[DocumentInfo], dependencies=[Depends(verify_admin_key)])
-async def list_documents():
+async def list_documents(rag=Depends(get_rag_engine)):
     return rag.list_documents()
 
 
 @router.delete("/{doc_id}", response_model=DeleteResponse, dependencies=[Depends(verify_admin_key)])
 @limiter.limit("10/minute")
-async def delete_document(request: Request, doc_id: str):
+async def delete_document(request: Request, doc_id: str, rag=Depends(get_rag_engine)):
     try:
         rag.delete_document(doc_id=doc_id)
     except Exception:

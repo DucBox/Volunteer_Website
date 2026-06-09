@@ -107,3 +107,14 @@
 .hero-cta .btn-primary:focus {
     animation: none;
 }
+
+@media (prefers-reduced-motion: reduce) {
+    .reveal-ready {
+        opacity: 1;
+        transform: none;
+        transition: none;
+    }
+    .hero-cta .btn-primary {
+        animation: none;
+    }
+}

@@ -14,7 +14,6 @@ export class ScrollToTop {
     init() {
         this.createButton();
         this.attachEventListeners();
-        console.log('[ScrollToTop] ✓ Initialized');
     }
     
     createButton() {

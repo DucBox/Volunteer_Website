@@ -64,7 +64,7 @@ export class ChatWidget {
                     </div>
                     
                     <!-- Messages -->
-                    <div class="chat-messages" id="chatMessages">
+                    <div class="chat-messages" id="chatMessages" aria-live="polite" aria-label="Tin nhắn hội thoại">
                         <!-- Messages will be added dynamically -->
                     </div>
                     
@@ -267,7 +267,6 @@ export class ChatWidget {
             timestamp: new Date() 
         });
         
-        console.log('[ChatWidget] Message added. Total messages:', this.messages.length);
     }
     
     showTypingIndicator() {
