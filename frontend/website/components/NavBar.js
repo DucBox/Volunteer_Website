@@ -35,7 +35,7 @@ export class Navbar {
             <nav class="navbar" id="mainNavbar">
                 <div class="nav-container">
                     <a href="#" class="logo" id="logoLink">
-                        <img src="assets/images/logo-no-bg.jpg" alt="Logo EM" class="logo-icon">
+                        <img src="assets/images/logo-transparent.png" alt="Logo EM" class="logo-icon">
                         <span class="logo-text">Educational Missions</span>
                     </a>
 
